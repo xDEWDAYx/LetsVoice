@@ -106,7 +106,7 @@ test("local notifications include only future current tasks and ignore retired r
 
   assert.deepEqual(planned.map((item) => item.itemId), ["task-1", "scheduled"]);
   assert.equal(planned[0].triggerAt.getHours(), 9);
-  assert.equal(planned[1].triggerAt.getHours(), 14);
+  assert.equal(planned[1].triggerAt.toISOString(), "2026-08-29T13:00:00.000Z");
   assert.equal(planned[0].identifier, "speakspace-task-task-1");
 });
 

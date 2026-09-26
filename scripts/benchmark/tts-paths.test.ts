@@ -45,6 +45,7 @@ describe('benchmark runtime discovery', () => {
     fs.chmodSync(executable, 0o755);
     fs.writeFileSync(model, 'fixture');
     process.env.PATH = binDir;
+    process.env.WHISPER_CLI = executable;
     process.env.WHISPER_MODELS_DIR = modelsDir;
 
     expect(resolveWhisper()).toEqual({ binary: executable, models: [model] });

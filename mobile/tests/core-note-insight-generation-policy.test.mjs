@@ -644,10 +644,9 @@ test("an explicit actionable date wins over next-month context", () => {
 
 test("traditional Chinese relative hours support compound numerals", () => {
   const reference = new Date("2026-08-26T10:00:00+01:00");
-  assert.match(
-    resolveCoreNoteTime("二十小時後", reference)?.normalized ?? "",
-    /^2026-08-27T06:00:00/u,
-  );
+  const normalized = resolveCoreNoteTime("二十小時後", reference)?.normalized;
+  assert.ok(normalized);
+  assert.equal(new Date(normalized).getTime(), reference.getTime() + 20 * 60 * 60 * 1000);
 });
 
 test("grounded task recovery restores an explicit date omitted by the local model", () => {
