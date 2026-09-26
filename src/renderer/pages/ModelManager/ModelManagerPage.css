@@ -1,0 +1,62 @@
+.model-manager-page {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding-bottom: 1rem;
+}
+
+.model-manager-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 0.9rem;
+}
+
+.model-manager-header h1 {
+  margin: 0;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* 四个模块按 2×2 排列，窄窗口时退回单列。 */
+.model-module-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .model-module-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* 音色下拉是次要选择，宽度收窄，让模型下拉保持主导。 */
+.model-select-compact {
+  display: flex;
+  flex: 0 1 11rem;
+  min-width: 7rem;
+}
+
+.model-icon-button.is-warning {
+  color: var(--warning);
+}
+
+.model-icon-button.is-warning:hover:not(:disabled) {
+  color: var(--warm-strong);
+  border-color: color-mix(in srgb, var(--warning) 40%, transparent);
+}
+
+.model-manager-note {
+  margin: 0.7rem 0 0;
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 720px) {
+  .model-select-compact {
+    flex: 1 1 auto;
+  }
+}

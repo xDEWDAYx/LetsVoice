@@ -1,0 +1,378 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081303
+日期：2026-08-13
+分支：claude/dashboard-chinese-settings-6077a3（基线 592cf98，尚未提交）
+========================================================================
+
+本次会话从「仪表板变成繁体中文了」开始，先把仪表板整页接入 i18n，
+再修掉它的横向溢出，然后重构工作空间详情页的排版并精简文案、图标化，
+最后把全应用散落的 49 种字号收敛成 7 级刻度。
+下面按「问题 / 原来 / 现在」记录。
+
+
+------------------------------------------------------------------------
+1. 【仪表板】整页硬编码繁体，设置里的语言开关完全管不到
+------------------------------------------------------------------------
+问题：
+  - 设置里选的是「简体中文」，其它页面都是简体，唯独仪表板整页繁体：
+    儀表板 / 筆記總數 / 轉錄總字數 / 待辦事項 / 沒有找到合乎篩選條件…
+
+原来：
+  - Dashboard 的四个组件里所有中文都是 JSX 里写死的繁体字符串，
+    从未调用 t()，所以 AppSettingsProvider 里的 i18n.changeLanguage
+    对这一页没有任何作用。
+  - zh.json 里 sidebar.dashBoard 的值本身就是繁体「儀表板」，
+    侧边栏那一项因此也是繁体（这一条是简繁混排的直接来源）。
+
+现在：
+  - zh.json 的 sidebar.dashBoard 改为「仪表板」。
+  - 新增 50 个 dashboard.* 键，zh.json 为简体、en.json 为英文；
+    两个语言文件各 126 个键，已用脚本校验键集完全一致、无遗漏。
+  - 四个组件全部接入 useTranslation()，覆盖标题、按钮、卡片标签、
+    tooltip、星期栏、表头、搜索占位符、空状态、排序项。
+  - 词汇与全应用统一：置顶（其它页面已在用）而不是「钉选」，
+    笔记（而不是「筆記」）。
+
+  涉及文件：
+    src/i18n/locales/zh.json、en.json
+    src/renderer/pages/Dashboard/DashboardPage.tsx
+    src/renderer/pages/Dashboard/components/HeaderBar.tsx
+    src/renderer/pages/Dashboard/components/MetricCardsGrid.tsx
+    src/renderer/pages/Dashboard/components/CalendarWidget.tsx
+    src/renderer/pages/Dashboard/components/NoteListTable.tsx
+
+
+------------------------------------------------------------------------
+2. 【仪表板】笔记分类改用语言无关的 key
+------------------------------------------------------------------------
+问题：
+  - 顺带发现的隐患：分类筛选直接拿繁体字符串当筛选值。
+
+原来：
+  - NoteListTable 里 categories = ["全部","需求評審","項目討論",…]，
+    筛选逻辑是 selectedCategory === '全部' || note.getTypeCategory() === selectedCategory。
+    一旦文案换语言（或后端存的是简体），比较就永远不成立，筛选静默失效。
+  - 后端 DashboardService 固定返回 typeCategory: "未分類"（繁体），
+    与前端列表里的任何一项都对不上。
+
+现在：
+  - 新增 DashboardCategory.ts：界面逻辑一律用 review / discussion /
+    brainstorm / general / uncategorized 这些 key，显示文案交给 i18n。
+  - 简繁两种历史写法（需求評審 / 需求评审 …）都归一到同一个 key，
+    未知值归为 uncategorized。
+  - 筛选下拉补上「未分类」一项——后端目前所有笔记都是这个值，
+    不补的话这批笔记根本筛不出来。
+  - matchesSearch 增加 categoryLabel 参数：搜索匹配的是用户当前
+    语言下实际看到的分类文字，而不是库里那份原始字符串。
+
+  涉及文件：
+    src/renderer/pages/Dashboard/models/DashboardCategory.ts（新增）
+    src/renderer/pages/Dashboard/models/DashboardNoteItem.ts
+    src/renderer/pages/Dashboard/components/NoteListTable.tsx
+    src/renderer/pages/Dashboard/DashboardPage.tsx
+
+
+------------------------------------------------------------------------
+3. 【仪表板】相对时间与年月标题跟随界面语言
+------------------------------------------------------------------------
+问题：
+  - 「今天 / 昨天」和「2026 年 8 月」写死在工具类里，切英文不会变。
+
+原来：
+  - DashboardTimeUtil.formatRelativeUpdatedTime 直接返回拼好的
+    `今天 ${hh}:${mm}`；formatYearMonthDisplay 返回 `${year} 年 ${month} 月`。
+
+现在：
+  - 改为 describeRelativeUpdatedTime，只返回「是今天/昨天/绝对日期」
+    的描述符（labelKey + time + absoluteText），文案由组件 t() 渲染，
+    模型层保持无语言依赖。
+  - formatYearMonthDisplay 接收 locale，改用 Intl.DateTimeFormat：
+    zh 得到「2026年8月」，en 得到「August 2026」。
+
+  涉及文件：
+    src/renderer/pages/Dashboard/models/DashboardTimeUtil.ts
+    src/renderer/pages/Dashboard/models/DashboardNoteItem.ts
+    src/renderer/pages/Dashboard/components/NoteListTable.tsx、CalendarWidget.tsx
+
+
+------------------------------------------------------------------------
+4. 【侧边栏】折叠按钮与导航说明文字仍是繁体
+------------------------------------------------------------------------
+问题：
+  - 侧边栏每一页都在，里面「展開側邊欄 / 收起側邊欄 / 主要導覽」是繁体。
+
+原来：
+  - Sidebar.jsx 里 aria-label、title、nav 的 aria-label 三处硬编码繁体。
+
+现在：
+  - 改为 t('sidebar.expand') / t('sidebar.collapse') / t('sidebar.nav')，
+    zh.json 与 en.json 各补三个键。
+
+  涉及文件：
+    src/renderer/layout/Sidebar.jsx、src/i18n/locales/zh.json、en.json
+
+
+------------------------------------------------------------------------
+5. 【仪表板】整页横向溢出，只能靠左右滚动才能看全
+------------------------------------------------------------------------
+问题：
+  - 用户反馈：笔记列表水平上太长，页面溢出，只能横向滚动，很难用。
+
+原来：
+  - .dashboard-page-container 上写着 min-width: max-content。
+    这一句决定了整页宽度 = 表格最宽那一行的宽度，于是溢出的不是表格
+    而是整个页面，横向滚动条出现在 .content-area 上。
+  - .dashboard-main-content 是 460px 1fr 的网格，grid 子项默认
+    min-width: auto，右列不允许收缩到内容宽度以下，表格会一直把它顶宽。
+  - .td-title 又写了 min-width: 240px，表格最小宽度被进一步抬高。
+  - .table-responsive 虽有 overflow-x: auto，但外层先被撑开了，
+    它永远轮不到生效。
+
+现在：
+  - 去掉 min-width: max-content，改为 max-width: 100% + min-width: 0。
+  - 网格改为 minmax(320px, 420px) minmax(0, 1fr)，两列都写 minmax(0,…)，
+    左右列都补 min-width: 0，右列可以正常收缩。
+  - 表格改 table-layout: fixed，各列给定像素宽度（合计约 400px），
+    标题列吃掉剩余宽度；标题与转录摘要加省略号，不再靠撑宽来显示。
+  - 窄屏按重要性依次隐藏次要列（创建时间 → 录音时长 → 类型），
+    两栏布局与单栏布局用不同断点，宁可少一列也不出现横向滚动条。
+  - 搜索框由固定 240px、聚焦跳到 280px，改为可伸缩（上限 280px），
+    避免它在窄窗口把整行控件顶出容器。
+
+  实机确认：页面不再横向滚动，右上角「设置 / 新建笔记」两个按钮回到可见区。
+
+  涉及文件：
+    src/renderer/pages/Dashboard/DashboardPage.css
+
+
+------------------------------------------------------------------------
+6. 【工作空间详情】排版重构：一屏先看到笔记，而不是先看到装饰
+------------------------------------------------------------------------
+问题：
+  - 用户反馈：样式太丑，例如搜索框为什么这么长；要求彻底重构排版，
+    简约高效一点。
+
+原来：
+  - 顶部是一整块渐变 hero（圆角 26px、内边距 1.8rem、标题
+    clamp 到 3.2rem），四条元信息各自是一个圆角胶囊，一屏先被标题吃掉。
+  - 关键词搜索独占一张卡片：卡片里一行说明文字 + 一个 width:100% 的
+    输入框——用户抱怨的「搜索框这么长」就是这里。
+  - 语义搜索又是另一张整宽卡片，里面大半是空的。
+  - 笔记卡片是卡中卡中卡：article(圆角22) → section(圆角16) →
+    item(圆角12)，每层都有自己的背景和边框；录音单独占半格大盒子。
+  - 按钮全部继承全局 button 样式（大号渐变胶囊 + 重阴影）；
+    「匯出 Word / 匯出 PDF」用的是 .btn-secondary / .btn-sm，
+    而这两个类只定义在 DashboardPage.css 里——没进过仪表板页
+    这两个按钮就没有样式，属于跨页面的隐式依赖。
+  - 多选浮条整块用内联 style 写死。
+
+现在：
+  - WorkspacePage.css 整份重写，统一一套间距 / 圆角 / 字号刻度：
+      · 顶部改成一行：左标题 + 元信息，右操作；元信息用 · 分隔。
+      · 关键词搜索与语义查找合并成一条工具条，搜索框 max-width 380px，
+        语义查找按钮就在旁边，语义结果整行铺在下一行。
+      · 笔记卡片去掉两层嵌套：区块之间只用细线分隔，不再各自套
+        背景 + 边框 + 圆角；只有列表项保留浅底。
+      · 录音从半格大盒子压成标题下面的一条细行。
+      · 页面自带 .ws-btn / .ws-btn-primary / .ws-btn-quiet /
+        .ws-btn-danger / .ws-btn-icon，不再依赖仪表板的 CSS。
+      · 多选浮条内联 style 全部搬进 .workspace-select-bar。
+  - 多笔记分析弹窗的内联 style 一并搬进 CSS，并顺手把里面的繁体
+    （多筆記關聯分析 / 關閉 / 正在分析關聯性 / 分析失敗提示 / 发给模型的
+    提问文案）改成简体——这些文案会出现在对话记录里，用户看得见。
+
+  涉及文件：
+    src/renderer/pages/Workspace/WorkspacePage.css（重写）
+    src/renderer/pages/Workspace/WorkspacePage.tsx
+    src/renderer/pages/Workspace/components/WorkspaceDetailHeader.tsx
+    src/renderer/pages/Workspace/components/WorkspaceSemanticSearch.tsx
+    src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+    src/renderer/pages/Workspace/components/WorkspaceAudioPlayer.tsx
+    src/renderer/pages/Workspace/components/KnowledgeOutputPanel.tsx
+    src/renderer/pages/Workspace/components/WorkspaceMultiNoteModal.tsx
+
+
+------------------------------------------------------------------------
+7. 【工作空间详情】文案精简，能用图标就用图标
+------------------------------------------------------------------------
+问题：
+  - 用户反馈：文本太多，能精简就精简，能用 icon 表示就用 icon。
+
+原来 -> 现在（完整含义都保留在 title / aria-label 里，没有信息丢失）：
+  - ← 返回最近使用                      -> ← 返回
+  - 1 篇笔记 · 0 篇置顶 · 最近打开 2026年8月13日 · 内容更新 2026年8月13日
+                                        -> 📄 1 · 📌 0 · 🕘 8月13日 · ✏️ 8月13日
+                                           （日期由 long 改 short）
+  - 重命名 / 删除 两个文字按钮          -> ✏️ / 🗑 两个方形图标按钮
+  - 占位符「输入标题或内容关键词」+ 上方一行说明
+                                        -> 占位符「搜索笔记…」，说明进 title
+  - 语义查找 + 「按含义查找相似笔记」说明 -> ✨ 语义查找（说明进 title）
+  - 「工作笔记」眉标（每条都一样，等于没信息）-> 不再显示；
+     只有置顶才显示 📌 置顶
+  - 导出 Word / 导出 PDF                -> ⬇ Word / ⬇ PDF
+  - 录音标签 + 加载录音 + 一长串文件路径 -> 🎙 + ▶ 播放录音，
+     路径进 title，出错时才显示错误文字
+  - 完整转录 / 子笔记 / AI 知识输出 / 关联 AI 对话
+                                        -> 📝 转录 / 🧩 子笔记 / ✨ AI 输出 / 💬 AI 对话
+  - 暂无子笔记 / 暂无 AI 输出 / 没有关联录音 -> 暂无 / 暂无 / 无录音
+  - 会话标题 · N 条消息                  -> 会话标题 …… 💬 N（右对齐）
+  - 生成内容                             -> 生成
+
+
+------------------------------------------------------------------------
+8. 【工作空间详情】笔记标题旁边多出一个「0」（本次引入并当场修掉）
+------------------------------------------------------------------------
+问题：
+  - 第 7 项改完后截图检查，发现笔记标题上方多了一个孤零零的 0。
+
+原因：
+  - 改成 {note.is_pinned && (<span>📌 置顶</span>)} 时想当然当作布尔值，
+    但 is_pinned 来自 sqlite，类型是 number（0 / 1）。
+    React 里 0 && jsx 的结果是 0，而 0 是会被渲染出来的。
+
+现在：
+  - 改为三元 {note.is_pinned ? (…) : null}，并在注释里写明原因。
+
+  涉及文件：
+    src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+
+
+------------------------------------------------------------------------
+9. 【全局】字号统一：49 种散号收敛为 7 级刻度
+------------------------------------------------------------------------
+问题：
+  - 用户反馈：设置里有统一字号，但对话工作台、工作空间详情、模型管理
+    的字明显偏小；希望统一管理，允许有层级差别，但不能差太多。
+
+原来：
+  - 全应用共有 49 种不同的 font-size 取值，从 0.62rem（约 10px）
+    到 clamp(…, 3.4rem)，同一层级的文字在不同页面各写各的
+    （0.62 / 0.64 / 0.65 / 0.66 / 0.68 / 0.7 / 0.72 / 0.74 / 0.75 / 0.76 / 0.78 …）。
+  - 仪表板整页用 px 写死（30 处，11px～36px）。px 不跟随 html 字号，
+    所以「设置 → 输出文字字号」对仪表板完全无效——用户说的
+    「设置里有统一字体大小」在这一页其实一直没生效。
+
+现在：
+  - 在 App.css 的 :root 定义 7 级刻度（括号为 medium/16px 下的实际值）：
+      --fs-xs   0.8rem    12.8px  角标、时间戳、次要计数
+      --fs-sm   0.875rem  14.0px  说明文字、小控件
+      --fs-md   0.95rem   15.2px  正文
+      --fs-lg   1.05rem   16.8px  强调正文、卡片标题
+      --fs-xl   1.25rem   20.0px  区块标题
+      --fs-2xl  1.6rem    25.6px  页面标题
+      --fs-3xl  2.1rem    33.6px  首屏大标题
+  - 用一次性 codemod 把 186 处 font-size 按就近原则映射到这 7 个变量
+    （rem 与 px 各一张映射表），全部改为 rem，因此仪表板也开始跟随设置。
+  - 最小字号由 0.62rem 抬到 0.8rem，最大由 3.4rem 压到 2.1rem：
+    极差从约 5.5 倍收敛到 2.6 倍，既保留层级又不再「差太多」。
+  - 图标字号刻意不动（12 处）：.card-icon-wrapper / .star-icon /
+    .empty-icon / .settings-*-glyph / .workspace-home-card-arrow 等，
+    这些 font-size 控制的是图标大小而不是正文，按选择器名自动排除，
+    并逐条人工复核过。
+
+  涉及文件：
+    src/renderer/App.css（新增刻度定义）
+    另 17 个 CSS 文件由 codemod 批量替换
+
+
+------------------------------------------------------------------------
+10. 【全局】codemod 把字号刻度的锚点也改坏了（自查发现并修复）
+------------------------------------------------------------------------
+问题：
+  - 第 9 项的 codemod 是无差别扫全部 CSS 的，它把 AppSettings.css 里
+    定义 html 根字号的三行也一起替换了。
+
+原来（被误改后的状态）：
+    html[data-font-size='small']  { font-size: var(--fs-md); }
+    html[data-font-size='medium'] { font-size: var(--fs-lg); }
+    html[data-font-size='large']  { font-size: var(--fs-lg); }
+  后果有两个：
+    · --fs-* 全是 rem，而 rem 相对的正是 html 自身，形成自我引用；
+    · small 与 large 塌缩成同一个值，「输出文字字号」三档形同虚设。
+  截图里字号整体偏大就是这一处造成的。
+
+现在：
+  - 三行恢复为 14px / 16px / 18px，并加注释写明「这是整套 rem 刻度的
+    锚点，必须保持 px」，避免以后再被同类批量替换误伤。
+  - 恢复后重新截图确认：对话工作台的笔记库列表、时间戳等文字大小
+    正常且明显比改动前易读。
+
+  涉及文件：
+    src/renderer/settings/AppSettings.css
+
+
+------------------------------------------------------------------------
+11. 【环境】worktree 里把应用跑起来
+------------------------------------------------------------------------
+问题：
+  - 本 worktree 没有 node_modules，直接 npm start 起不来；
+    起来之后主进程又报 Cannot find module 'better-sqlite3'。
+
+现在：
+  - 用目录联接把主仓库依赖指过来（三处，都在 .gitignore 内，不进版本库）：
+      <worktree>/node_modules        -> 主仓库 node_modules
+      <worktree>/.erb/node_modules   -> 主仓库 release/app/node_modules
+      <worktree>/src/node_modules    -> 主仓库 release/app/node_modules
+    后两处是关键：ERB 把原生依赖装在 release/app/node_modules，
+    主进程 bundle 位于 .erb/dll/，靠 .erb/node_modules 这个软链才能解析到
+    better-sqlite3；主仓库本来就有这两个链接，worktree 里缺失。
+  - 另从主仓库拷入 .erb/dll/renderer.dev.dll.js 与 renderer.json，
+    避免 webpack 因缺 DLL 而触发 npm run postinstall
+    （那会对共享的 node_modules 重建原生依赖，影响主仓库）。
+  - 启动前先清理占用 1212 端口的残留 dev server（当时没有 electron 窗口
+    在跑，只剩一个孤儿 node 进程）。
+
+
+------------------------------------------------------------------------
+验证结果
+------------------------------------------------------------------------
+- npx tsc --noEmit 每一步都跑过，全部通过（仅余两处既有报错，见下）。
+- 语言文件用脚本校验：zh.json 与 en.json 各 126 个键，键集完全一致，
+  无一边多一边少的情况；并确认文件是合法 UTF-8 JSON
+  （注：Windows PowerShell 5.1 的 Get-Content 会按 ANSI 读出乱码，
+   校验须用 node，不能以 PowerShell 的报错为准）。
+- 实机确认（真实 Electron 窗口，非浏览器）：
+    · 仪表板：仪表板 / 笔记总数 / 置顶笔记 / 转录总字数 / 待办事项 /
+      近一周新增 / 日历与待办 / 2026年8月 / 笔记列表 / 置顶 /
+      笔记标题与概览，全部为简体，侧边栏「仪表板」同步。
+    · 仪表板：横向滚动条消失，右上角两个按钮回到可见区。
+    · 工作空间详情：新排版与图标化文案逐项核对过。
+    · 模型管理、对话工作台：字号明显变大且与其它页面一致。
+- 全应用 font-size 现在只剩 7 个变量 + 12 处刻意保留的图标字号。
+
+未执行/受限项（如实记录）：
+- 未执行 npm run build，也未执行 npm test；本次只做 dev 构建 + 类型检查
+  + 实机截图。
+- 未跑 ESLint。
+- 仪表板笔记表格右侧四列（类型 / 录音时长 / 创建时间 / 最新更新）
+  没能在窗口里亲眼确认：这台机器显示缩放较高，1700 物理像素折算成
+  CSS 像素后不足 1200，仪表板按断点退成单栏，右侧列走的是
+  「窄屏隐藏」分支。列宽与省略号逻辑仅经代码与类型检查确认。
+- 多笔记分析弹窗未实际打开验证：当前工作空间只有 1 篇笔记，
+  「分析选中笔记」按钮按设计处于禁用状态，凑不满 2 篇。
+- 本次改动尚未 commit，仍是 worktree 里的未提交状态
+  （36 个文件修改 + 1 个新文件 + 本日志）。
+
+已知项目既有问题（不由本次修改引入，与 2026081302 记录一致）：
+- src/main/Recording/TranscriptionService.ts 仍有两处接口不匹配：
+  STTModelManager 缺少 getModelPath，以及一次调用参数数量不匹配。
+
+本次新发现、未处理的问题：
+- 模型管理页在当前窗口宽度下同样存在横向溢出（右侧 TTS / LLM 两块被切掉）。
+  改字号之前的截图里就已经如此，属既有问题，不是本次引入；
+  成因与仪表板那条同类，尚未排查具体是哪个容器撑开的。
+- src/renderer/AppRoute.jsx 里的中文注释是乱码（编码损坏），
+  只影响注释可读性，不影响运行。
+- 工作空间详情页里 🎙 图标在当前字号下略偏小，视觉上不够醒目。
+
+遗留待办：
+- 除设置页 / 侧边栏 / 仪表板外，其余页面的中文仍是硬编码简体、
+  没有接 i18n；切到 English 时这些页面依旧显示中文。
+  要做到全应用真正跟随语言设置，还需要一次范围更大的改造。
+- 工作空间首页（WorkspaceHomePage）本次只被字号 codemod 扫到，
+  排版未做重构。
+
+========================================================================
+以上。
+========================================================================

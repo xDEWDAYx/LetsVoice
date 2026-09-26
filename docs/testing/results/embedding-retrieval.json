@@ -1,0 +1,1386 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-01T05:22:37.616Z",
+  "embedding_model": "bge-m3",
+  "note": "直接调用生产环境的 createAgentSearchNotesTool（关键词匹配 + bge-m3 语义向量，RRF k=60 融合），跳过 AgentOrchestrator 和 LLM，用任务自带的 instruction 原文当查询词。测的是检索算法本身，不测 LLM 会不会用检索、会不会拼查询词。",
+  "dataset": {
+    "note_count": 80,
+    "gold_task_count": 24,
+    "unanswerable_task_count": 13,
+    "dataset_hash": "bae36c616c88addafc106e769c9426fb05a1bf43db935dfb9af9d37e1f8d7ef1"
+  },
+  "overall": {
+    "case_count": 24,
+    "recall_at_1": 0.75,
+    "recall_at_3": 0.9583333333333334,
+    "recall_at_5": 0.9722222222222222,
+    "recall_at_8": 0.9861111111111112,
+    "mrr": 0.938888888888889,
+    "ndcg_at_8": 0.9520292603126482
+  },
+  "by_split": {
+    "dev": {
+      "case_count": 12,
+      "recall_at_1": 0.6666666666666666,
+      "recall_at_3": 0.9166666666666666,
+      "recall_at_5": 0.9444444444444445,
+      "recall_at_8": 0.9722222222222222,
+      "mrr": 0.8777777777777777,
+      "ndcg_at_8": 0.9040585206252962
+    },
+    "holdout": {
+      "case_count": 12,
+      "recall_at_1": 0.8333333333333334,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1
+    }
+  },
+  "by_scenario": {
+    "retrieval": {
+      "case_count": 16,
+      "recall_at_1": 0.90625,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 0.9583333333333334,
+      "ndcg_at_8": 0.96875
+    },
+    "ambiguous": {
+      "case_count": 8,
+      "recall_at_1": 0.4375,
+      "recall_at_3": 0.875,
+      "recall_at_5": 0.9166666666666666,
+      "recall_at_8": 0.9583333333333334,
+      "mrr": 0.9,
+      "ndcg_at_8": 0.9185877809379444
+    }
+  },
+  "unanswerable_top_score": {
+    "case_count": 13,
+    "mean_top_score": 0.0164,
+    "note": "这 13 条任务的语料库里本来就没有对应笔记；不算 Recall/MRR，只看返回结果的最高置信度分数是否比有金标的任务明显更低（分数越低说明检索至少知道自己不确定）。"
+  },
+  "tasks": [
+    {
+      "id": "retrieval-01",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "Search my notes: what value must protocol revision 4 clients put in the compatibility header?",
+      "gold_note_keys": [
+        "p-api-zq"
+      ],
+      "ranked_note_ids": [
+        8,
+        60,
+        72,
+        74,
+        48,
+        62,
+        61,
+        45
+      ],
+      "ranked_note_names": [
+        "Legacy API compatibility header",
+        "Archive 40: translation glossary",
+        "Archive 52: translation glossary",
+        "Archive 54: reading list",
+        "Archive 28: translation glossary",
+        "Archive 42: reading list",
+        "Archive 41: release archive",
+        "Archive 25: expense policy"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-02",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "帮我在笔记里找 Orchid 会议室 replacement projector 的新序列号。",
+      "gold_note_keys": [
+        "c-room-projector"
+      ],
+      "ranked_note_ids": [
+        20,
+        58,
+        34,
+        46,
+        61,
+        70,
+        55,
+        64
+      ],
+      "ranked_note_names": [
+        "Orchid room projector replacement",
+        "Archive 38: garden watering",
+        "Archive 14: garden watering",
+        "Archive 26: garden watering",
+        "Archive 41: release archive",
+        "Archive 50: garden watering",
+        "Archive 35: design tokens",
+        "Archive 44: onboarding checklist"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-03",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "Find my Ethiopian natural coffee recipe: water temperature and bloom time?",
+      "gold_note_keys": [
+        "l-coffee"
+      ],
+      "ranked_note_ids": [
+        24,
+        46,
+        7,
+        34,
+        70,
+        58,
+        22,
+        26
+      ],
+      "ranked_note_names": [
+        "Ethiopian natural coffee recipe",
+        "Archive 26: garden watering",
+        "EMBER-42 remediation",
+        "Archive 14: garden watering",
+        "Archive 50: garden watering",
+        "Archive 38: garden watering",
+        "京都酒店确认单",
+        "Battery cycle experiment method"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-04",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "查一下 EMBER-42 的 root cause 和最终 remediation。",
+      "gold_note_keys": [
+        "p-incident-ember",
+        "p-incident-ember-followup"
+      ],
+      "ranked_note_ids": [
+        6,
+        7,
+        61,
+        63,
+        58,
+        46,
+        52,
+        34
+      ],
+      "ranked_note_names": [
+        "Incident EMBER-42 root cause",
+        "EMBER-42 remediation",
+        "Archive 41: release archive",
+        "Archive 43: printer maintenance",
+        "Archive 38: garden watering",
+        "Archive 26: garden watering",
+        "Archive 32: onboarding checklist",
+        "Archive 14: garden watering"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-05",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "What is the Helios recovery code for the Product workspace deployment?",
+      "gold_note_keys": [
+        "p-helios-scope"
+      ],
+      "ranked_note_ids": [
+        5,
+        7,
+        67,
+        55,
+        43,
+        79,
+        71,
+        35
+      ],
+      "ranked_note_names": [
+        "Helios access code — product copy",
+        "EMBER-42 remediation",
+        "Archive 47: design tokens",
+        "Archive 35: design tokens",
+        "Archive 23: design tokens",
+        "Archive 59: design tokens",
+        "Archive 51: keyboard firmware",
+        "Archive 15: keyboard firmware"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-06",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "查一下 Atlas 的发布日期和负责人。",
+      "gold_note_keys": [
+        "p-atlas-kickoff"
+      ],
+      "ranked_note_ids": [
+        1,
+        3,
+        2,
+        4,
+        63,
+        51,
+        67,
+        55
+      ],
+      "ranked_note_names": [
+        "Atlas 发布启动会",
+        "Atlas mobile beta",
+        "Atlas payment risk review",
+        "Phoenix 发布启动会",
+        "Archive 43: printer maintenance",
+        "Archive 31: printer maintenance",
+        "Archive 47: design tokens",
+        "Archive 35: design tokens"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-07",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "Find the Sev-1 ticket number for Northwind and who owns it technically.",
+      "gold_note_keys": [
+        "c-northwind-support"
+      ],
+      "ranked_note_ids": [
+        16,
+        15,
+        17,
+        32,
+        68,
+        56,
+        44,
+        80
+      ],
+      "ranked_note_names": [
+        "Northwind support escalation",
+        "Northwind renewal commercial terms",
+        "Cedar renewal terms",
+        "Archive 12: meeting room booking",
+        "Archive 48: meeting room booking",
+        "Archive 36: meeting room booking",
+        "Archive 24: meeting room booking",
+        "Archive 60: meeting room booking"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-08",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "搜一下电池实验用了多少个电芯，充放电倍率是多少。",
+      "gold_note_keys": [
+        "r-battery-method"
+      ],
+      "ranked_note_ids": [
+        26,
+        28,
+        27,
+        78,
+        66,
+        42,
+        54,
+        74
+      ],
+      "ranked_note_names": [
+        "Battery cycle experiment method",
+        "Battery pilot — superseded",
+        "LFP 600-cycle results",
+        "Archive 58: backup drill",
+        "Archive 46: backup drill",
+        "Archive 22: backup drill",
+        "Archive 34: backup drill",
+        "Archive 54: reading list"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-09",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "Look up the flight number and departure time for the Kyoto trip.",
+      "gold_note_keys": [
+        "l-kyoto-flight"
+      ],
+      "ranked_note_ids": [
+        21,
+        22,
+        23,
+        77,
+        41,
+        53,
+        65,
+        24
+      ],
+      "ranked_note_names": [
+        "Kyoto trip flight",
+        "京都酒店确认单",
+        "京都旧行程草稿",
+        "Archive 57: museum tickets",
+        "Archive 21: museum tickets",
+        "Archive 33: museum tickets",
+        "Archive 45: museum tickets",
+        "Ethiopian natural coffee recipe"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-10",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "找一下 Phoenix 项目的负责人是谁。",
+      "gold_note_keys": [
+        "p-phoenix-kickoff"
+      ],
+      "ranked_note_ids": [
+        4,
+        1,
+        9,
+        79,
+        55,
+        43,
+        31,
+        67
+      ],
+      "ranked_note_names": [
+        "Phoenix 发布启动会",
+        "Atlas 发布启动会",
+        "秋季招聘计划",
+        "Archive 59: design tokens",
+        "Archive 35: design tokens",
+        "Archive 23: design tokens",
+        "Archive 11: design tokens",
+        "Archive 47: design tokens"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-11",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "What was the go/no-go review date for the Atlas payment risk?",
+      "gold_note_keys": [
+        "p-atlas-risk"
+      ],
+      "ranked_note_ids": [
+        2,
+        1,
+        3,
+        4,
+        11,
+        51,
+        63,
+        39
+      ],
+      "ranked_note_names": [
+        "Atlas payment risk review",
+        "Atlas 发布启动会",
+        "Atlas mobile beta",
+        "Phoenix 发布启动会",
+        "供应商跟进待办",
+        "Archive 31: printer maintenance",
+        "Archive 43: printer maintenance",
+        "Archive 19: printer maintenance"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-12",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "搜一下 Cedar Labs 的 renewal 金额是多少。",
+      "gold_note_keys": [
+        "c-cedar-renewal"
+      ],
+      "ranked_note_ids": [
+        17,
+        15,
+        19,
+        18,
+        16,
+        60,
+        72,
+        52
+      ],
+      "ranked_note_names": [
+        "Cedar renewal terms",
+        "Northwind renewal commercial terms",
+        "Lumen trial draft — obsolete",
+        "Lumen 许可范围（已签版）",
+        "Northwind support escalation",
+        "Archive 40: translation glossary",
+        "Archive 52: translation glossary",
+        "Archive 32: onboarding checklist"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-13",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "Find the review date recorded for archive item DS-104.",
+      "gold_note_keys": [
+        "d-product-15"
+      ],
+      "ranked_note_ids": [
+        71,
+        39,
+        35,
+        75,
+        63,
+        51,
+        47,
+        59
+      ],
+      "ranked_note_names": [
+        "Archive 51: keyboard firmware",
+        "Archive 19: printer maintenance",
+        "Archive 15: keyboard firmware",
+        "Archive 55: printer maintenance",
+        "Archive 43: printer maintenance",
+        "Archive 31: printer maintenance",
+        "Archive 27: keyboard firmware",
+        "Archive 39: keyboard firmware"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 0.3333333333333333,
+      "ndcg_at_8": 0.5,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-14",
+      "scenario": "retrieval",
+      "split": "holdout",
+      "instruction": "查一下京都酒店的取消政策是怎样的。",
+      "gold_note_keys": [
+        "l-kyoto-hotel"
+      ],
+      "ranked_note_ids": [
+        22,
+        23,
+        21,
+        77,
+        65,
+        41,
+        53,
+        69
+      ],
+      "ranked_note_names": [
+        "京都酒店确认单",
+        "京都旧行程草稿",
+        "Kyoto trip flight",
+        "Archive 57: museum tickets",
+        "Archive 45: museum tickets",
+        "Archive 21: museum tickets",
+        "Archive 33: museum tickets",
+        "Archive 49: expense policy"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-04",
+      "scenario": "ambiguous",
+      "split": "dev",
+      "instruction": "那个项目的预算是多少？",
+      "gold_note_keys": [
+        "p-atlas-kickoff",
+        "p-phoenix-kickoff"
+      ],
+      "ranked_note_ids": [
+        4,
+        1,
+        9,
+        11,
+        79,
+        67,
+        55,
+        31
+      ],
+      "ranked_note_names": [
+        "Phoenix 发布启动会",
+        "Atlas 发布启动会",
+        "秋季招聘计划",
+        "供应商跟进待办",
+        "Archive 59: design tokens",
+        "Archive 47: design tokens",
+        "Archive 35: design tokens",
+        "Archive 11: design tokens"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-05",
+      "scenario": "ambiguous",
+      "split": "holdout",
+      "instruction": "What is the renewal value for that client?",
+      "gold_note_keys": [
+        "c-northwind-renewal",
+        "c-cedar-renewal"
+      ],
+      "ranked_note_ids": [
+        15,
+        17,
+        16,
+        19,
+        18,
+        44,
+        80,
+        56
+      ],
+      "ranked_note_names": [
+        "Northwind renewal commercial terms",
+        "Cedar renewal terms",
+        "Northwind support escalation",
+        "Lumen trial draft — obsolete",
+        "Lumen 许可范围（已签版）",
+        "Archive 24: meeting room booking",
+        "Archive 60: meeting room booking",
+        "Archive 36: meeting room booking"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-06",
+      "scenario": "ambiguous",
+      "split": "dev",
+      "instruction": "What is the Helios code?",
+      "gold_note_keys": [
+        "p-helios-scope",
+        "l-helios-code-conflict"
+      ],
+      "ranked_note_ids": [
+        5,
+        25,
+        71,
+        35,
+        47,
+        59,
+        67,
+        40
+      ],
+      "ranked_note_names": [
+        "Helios access code — product copy",
+        "Helios access code — personal draft",
+        "Archive 51: keyboard firmware",
+        "Archive 15: keyboard firmware",
+        "Archive 27: keyboard firmware",
+        "Archive 39: keyboard firmware",
+        "Archive 47: design tokens",
+        "Archive 20: onboarding checklist"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-07",
+      "scenario": "ambiguous",
+      "split": "holdout",
+      "instruction": "那批电池的目标是多少？",
+      "gold_note_keys": [
+        "r-battery-method",
+        "r-battery-draft"
+      ],
+      "ranked_note_ids": [
+        28,
+        26,
+        27,
+        78,
+        66,
+        54,
+        42,
+        46
+      ],
+      "ranked_note_names": [
+        "Battery pilot — superseded",
+        "Battery cycle experiment method",
+        "LFP 600-cycle results",
+        "Archive 58: backup drill",
+        "Archive 46: backup drill",
+        "Archive 34: backup drill",
+        "Archive 22: backup drill",
+        "Archive 26: garden watering"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-08",
+      "scenario": "ambiguous",
+      "split": "dev",
+      "instruction": "酒店那个订单几号入住？",
+      "gold_note_keys": [
+        "l-kyoto-hotel",
+        "l-kyoto-draft"
+      ],
+      "ranked_note_ids": [
+        22,
+        23,
+        21,
+        41,
+        65,
+        77,
+        53,
+        49
+      ],
+      "ranked_note_names": [
+        "京都酒店确认单",
+        "京都旧行程草稿",
+        "Kyoto trip flight",
+        "Archive 21: museum tickets",
+        "Archive 45: museum tickets",
+        "Archive 57: museum tickets",
+        "Archive 33: museum tickets",
+        "Archive 29: release archive"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-09",
+      "scenario": "ambiguous",
+      "split": "holdout",
+      "instruction": "What is the user cap in the agreement?",
+      "gold_note_keys": [
+        "c-lumen-scope",
+        "c-lumen-draft"
+      ],
+      "ranked_note_ids": [
+        18,
+        19,
+        15,
+        16,
+        80,
+        68,
+        56,
+        32
+      ],
+      "ranked_note_names": [
+        "Lumen 许可范围（已签版）",
+        "Lumen trial draft — obsolete",
+        "Northwind renewal commercial terms",
+        "Northwind support escalation",
+        "Archive 60: meeting room booking",
+        "Archive 48: meeting room booking",
+        "Archive 36: meeting room booking",
+        "Archive 12: meeting room booking"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-15",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "查一下 Orchid 会议室旧投影仪的序列号。",
+      "gold_note_keys": [
+        "c-room-projector"
+      ],
+      "ranked_note_ids": [
+        20,
+        68,
+        56,
+        80,
+        44,
+        32,
+        76,
+        52
+      ],
+      "ranked_note_names": [
+        "Orchid room projector replacement",
+        "Archive 48: meeting room booking",
+        "Archive 36: meeting room booking",
+        "Archive 60: meeting room booking",
+        "Archive 24: meeting room booking",
+        "Archive 12: meeting room booking",
+        "Archive 56: onboarding checklist",
+        "Archive 32: onboarding checklist"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "retrieval-16",
+      "scenario": "retrieval",
+      "split": "dev",
+      "instruction": "How many results does the Agent search tool return at most?",
+      "gold_note_keys": [
+        "r-retrieval-rrf"
+      ],
+      "ranked_note_ids": [
+        29,
+        30,
+        58,
+        70,
+        34,
+        46,
+        74,
+        78
+      ],
+      "ranked_note_names": [
+        "混合检索参数记录",
+        "Graph retrieval baseline",
+        "Archive 38: garden watering",
+        "Archive 50: garden watering",
+        "Archive 14: garden watering",
+        "Archive 26: garden watering",
+        "Archive 54: reading list",
+        "Archive 58: backup drill"
+      ],
+      "recall_at_1": 1,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-10",
+      "scenario": "ambiguous",
+      "split": "dev",
+      "instruction": "When is the deadline?",
+      "gold_note_keys": [
+        "p-atlas-kickoff",
+        "p-atlas-mobile",
+        "p-phoenix-kickoff"
+      ],
+      "ranked_note_ids": [
+        11,
+        12,
+        14,
+        13,
+        3,
+        1,
+        2,
+        51
+      ],
+      "ranked_note_names": [
+        "供应商跟进待办",
+        "Legal and accessibility actions",
+        "迁移收尾",
+        "Release checklist actions",
+        "Atlas mobile beta",
+        "Atlas 发布启动会",
+        "Atlas payment risk review",
+        "Archive 31: printer maintenance"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0.3333333333333333,
+      "recall_at_8": 0.6666666666666666,
+      "mrr": 0.2,
+      "ndcg_at_8": 0.34870224750355494,
+      "top_score": 0.0164
+    },
+    {
+      "id": "ambiguous-11",
+      "scenario": "ambiguous",
+      "split": "dev",
+      "instruction": "他负责哪个项目？",
+      "gold_note_keys": [
+        "p-atlas-kickoff",
+        "p-phoenix-kickoff"
+      ],
+      "ranked_note_ids": [
+        1,
+        4,
+        79,
+        9,
+        43,
+        55,
+        67,
+        31
+      ],
+      "ranked_note_names": [
+        "Atlas 发布启动会",
+        "Phoenix 发布启动会",
+        "Archive 59: design tokens",
+        "秋季招聘计划",
+        "Archive 23: design tokens",
+        "Archive 35: design tokens",
+        "Archive 47: design tokens",
+        "Archive 11: design tokens"
+      ],
+      "recall_at_1": 0.5,
+      "recall_at_3": 1,
+      "recall_at_5": 1,
+      "recall_at_8": 1,
+      "mrr": 1,
+      "ndcg_at_8": 1,
+      "top_score": 0.0164
+    }
+  ],
+  "unanswerable_tasks": [
+    {
+      "id": "scope-02",
+      "scenario": "scope",
+      "split": "holdout",
+      "instruction": "What cancellation clause did Northwind sign? Answer only from this workspace.",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        71,
+        35,
+        47,
+        59,
+        51,
+        2,
+        63,
+        75
+      ],
+      "ranked_note_names": [
+        "Archive 51: keyboard firmware",
+        "Archive 15: keyboard firmware",
+        "Archive 27: keyboard firmware",
+        "Archive 39: keyboard firmware",
+        "Archive 31: printer maintenance",
+        "Atlas payment risk review",
+        "Archive 43: printer maintenance",
+        "Archive 55: printer maintenance"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-01",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "搜索所有笔记：火星办公室 Wi-Fi 密码是什么？",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        59,
+        71,
+        35,
+        64,
+        61,
+        47,
+        49,
+        40
+      ],
+      "ranked_note_names": [
+        "Archive 39: keyboard firmware",
+        "Archive 51: keyboard firmware",
+        "Archive 15: keyboard firmware",
+        "Archive 44: onboarding checklist",
+        "Archive 41: release archive",
+        "Archive 27: keyboard firmware",
+        "Archive 29: release archive",
+        "Archive 20: onboarding checklist"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-02",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "Search my notes and tell me the CEO’s middle name.",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        69,
+        33,
+        73,
+        68,
+        78,
+        76,
+        32,
+        54
+      ],
+      "ranked_note_names": [
+        "Archive 49: expense policy",
+        "Archive 13: expense policy",
+        "Archive 53: release archive",
+        "Archive 48: meeting room booking",
+        "Archive 58: backup drill",
+        "Archive 56: onboarding checklist",
+        "Archive 12: meeting room booking",
+        "Archive 34: backup drill"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-03",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "仓库 B 的 humidity limit 是多少？请从 notes 里找。",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        78,
+        48,
+        68,
+        38,
+        80,
+        65,
+        62,
+        27
+      ],
+      "ranked_note_names": [
+        "Archive 58: backup drill",
+        "Archive 28: translation glossary",
+        "Archive 48: meeting room booking",
+        "Archive 18: reading list",
+        "Archive 60: meeting room booking",
+        "Archive 45: museum tickets",
+        "Archive 42: reading list",
+        "LFP 600-cycle results"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-04",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "What GBP/USD exchange rate did we approve for Q4?",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        8,
+        15,
+        1,
+        60,
+        45,
+        69,
+        23,
+        14
+      ],
+      "ranked_note_names": [
+        "Legacy API compatibility header",
+        "Northwind renewal commercial terms",
+        "Atlas 发布启动会",
+        "Archive 40: translation glossary",
+        "Archive 25: expense policy",
+        "Archive 49: expense policy",
+        "京都旧行程草稿",
+        "迁移收尾"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-05",
+      "scenario": "unanswerable",
+      "split": "dev",
+      "instruction": "What is the Atlas marketing budget for the Japanese market?",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        1,
+        4,
+        3,
+        2,
+        51,
+        63,
+        75,
+        39
+      ],
+      "ranked_note_names": [
+        "Atlas 发布启动会",
+        "Phoenix 发布启动会",
+        "Atlas mobile beta",
+        "Atlas payment risk review",
+        "Archive 31: printer maintenance",
+        "Archive 43: printer maintenance",
+        "Archive 55: printer maintenance",
+        "Archive 19: printer maintenance"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-06",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "Northwind 的合同违约金条款是怎么写的？",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        15,
+        16,
+        52,
+        76,
+        64,
+        68,
+        17,
+        40
+      ],
+      "ranked_note_names": [
+        "Northwind renewal commercial terms",
+        "Northwind support escalation",
+        "Archive 32: onboarding checklist",
+        "Archive 56: onboarding checklist",
+        "Archive 44: onboarding checklist",
+        "Archive 48: meeting room booking",
+        "Cedar renewal terms",
+        "Archive 20: onboarding checklist"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-07",
+      "scenario": "unanswerable",
+      "split": "dev",
+      "instruction": "How many cycles did the NMC cells reach before failure in the final report?",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        28,
+        26,
+        27,
+        58,
+        70,
+        34,
+        46,
+        78
+      ],
+      "ranked_note_names": [
+        "Battery pilot — superseded",
+        "Battery cycle experiment method",
+        "LFP 600-cycle results",
+        "Archive 38: garden watering",
+        "Archive 50: garden watering",
+        "Archive 14: garden watering",
+        "Archive 26: garden watering",
+        "Archive 58: backup drill"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-08",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "京都那趟行程的返程航班是哪一班？",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        21,
+        23,
+        22,
+        73,
+        61,
+        37,
+        49,
+        65
+      ],
+      "ranked_note_names": [
+        "Kyoto trip flight",
+        "京都旧行程草稿",
+        "京都酒店确认单",
+        "Archive 53: release archive",
+        "Archive 41: release archive",
+        "Archive 17: release archive",
+        "Archive 29: release archive",
+        "Archive 45: museum tickets"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-09",
+      "scenario": "unanswerable",
+      "split": "dev",
+      "instruction": "What salary band was approved for the local inference engineer role?",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        10,
+        9,
+        1,
+        11,
+        71,
+        4,
+        35,
+        47
+      ],
+      "ranked_note_names": [
+        "Hiring interview notes",
+        "秋季招聘计划",
+        "Atlas 发布启动会",
+        "供应商跟进待办",
+        "Archive 51: keyboard firmware",
+        "Phoenix 发布启动会",
+        "Archive 15: keyboard firmware",
+        "Archive 27: keyboard firmware"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-10",
+      "scenario": "unanswerable",
+      "split": "holdout",
+      "instruction": "EMBER-42 这次事故的 customer impact 有多少个账号受影响？",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        6,
+        7,
+        5,
+        9,
+        1,
+        4,
+        2,
+        3
+      ],
+      "ranked_note_names": [
+        "Incident EMBER-42 root cause",
+        "EMBER-42 remediation",
+        "Helios access code — product copy",
+        "秋季招聘计划",
+        "Atlas 发布启动会",
+        "Phoenix 发布启动会",
+        "Atlas payment risk review",
+        "Atlas mobile beta"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-11",
+      "scenario": "unanswerable",
+      "split": "dev",
+      "instruction": "What is the Orchid room projector warranty period?",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        20,
+        19,
+        17,
+        18,
+        15,
+        68,
+        80,
+        56
+      ],
+      "ranked_note_names": [
+        "Orchid room projector replacement",
+        "Lumen trial draft — obsolete",
+        "Cedar renewal terms",
+        "Lumen 许可范围（已签版）",
+        "Northwind renewal commercial terms",
+        "Archive 48: meeting room booking",
+        "Archive 60: meeting room booking",
+        "Archive 36: meeting room booking"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    },
+    {
+      "id": "unknown-12",
+      "scenario": "unanswerable",
+      "split": "dev",
+      "instruction": "咖啡那条笔记里写了用哪个牌子的磨豆机吗？",
+      "gold_note_keys": [],
+      "ranked_note_ids": [
+        24,
+        41,
+        33,
+        53,
+        69,
+        65,
+        77,
+        45
+      ],
+      "ranked_note_names": [
+        "Ethiopian natural coffee recipe",
+        "Archive 21: museum tickets",
+        "Archive 13: expense policy",
+        "Archive 33: museum tickets",
+        "Archive 49: expense policy",
+        "Archive 45: museum tickets",
+        "Archive 57: museum tickets",
+        "Archive 25: expense policy"
+      ],
+      "recall_at_1": 0,
+      "recall_at_3": 0,
+      "recall_at_5": 0,
+      "recall_at_8": 0,
+      "mrr": 0,
+      "ndcg_at_8": 0,
+      "top_score": 0.0164
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="331" viewBox="0 0 860 331" role="img">
+<rect width="860" height="331" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="330" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Todo extraction: failure types (round 1, all 54 cases)</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Occurrences by problem type; one case may contain multiple failure types</text>
+<text x="217" y="91" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Complete miss</text>
+<rect x="227" y="78" width="541.0" height="18" fill="#2E86AB" rx="2"/>
+<text x="776" y="91" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">9</text>
+<text x="217" y="129" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Merged into another task</text>
+<rect x="227" y="116" width="180.3" height="18" fill="#2E86AB" rx="2"/>
+<text x="415.3333333333333" y="129" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">3</text>
+<text x="217" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Incorrect date</text>
+<rect x="227" y="154" width="300.6" height="18" fill="#2E86AB" rx="2"/>
+<text x="535.5555555555555" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">5</text>
+<text x="217" y="205" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Over-extraction (false positive)</text>
+<rect x="227" y="192" width="180.3" height="18" fill="#2E86AB" rx="2"/>
+<text x="415.3333333333333" y="205" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">3</text>
+<text x="217" y="243" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Incorrect recurrence</text>
+<rect x="227" y="230" width="60.1" height="18" fill="#2E86AB" rx="2"/>
+<text x="295.1111111111111" y="243" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">1</text>
+<text x="24" y="302" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">A merge compresses parallel clauses into one task: the content remains visible but loses a separate item and date, unlike a</text><text x="24" y="317" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">complete miss.</text>
+</svg>

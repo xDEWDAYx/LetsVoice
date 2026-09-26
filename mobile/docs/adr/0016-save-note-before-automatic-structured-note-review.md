@@ -1,0 +1,3 @@
+# Save a Note before automatic Structured Note review
+
+For a newly recorded or imported Note, SpeakSpace persists the raw Note before starting foreground Structured Note generation, automatically starts generation when an Active model is available, and opens the completed result for review. Failure, timeout, missing models, or backgrounding leave the Note intact with a retry path; later transcript edits mark the existing result stale but do not regenerate it automatically. This deliberately differs from a save-blocking desktop review flow to protect captured content and keep expensive local inference predictable on iPhone.

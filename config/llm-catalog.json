@@ -1,0 +1,64 @@
+{
+    "llm": [
+        {
+            "id": "qwen2.5-3b-instruct",
+            "name": "Qwen2.5-3B-Instruct",
+            "language": "multilingual",
+            "engine": "ollama",
+            "format": "gguf",
+            "quantization": "Q4_K_M",
+            "size": "1.9 GB",
+            "modelName": "qwen2.5:3b-instruct",
+            "downloaded": false,
+            "activated": false
+        },
+        {
+            "id": "qwen2.5-1.5b-instruct",
+            "name": "Qwen2.5-1.5B-Instruct",
+            "language": "multilingual",
+            "engine": "ollama",
+            "format": "gguf",
+            "quantization": "Q4_K_M",
+            "size": "986 MB",
+            "modelName": "qwen2.5:1.5b-instruct",
+            "downloaded": false,
+            "activated": false
+        },
+        {
+            "id": "phi-4-mini-instruct",
+            "name": "Phi-4-mini-instruct",
+            "language": "en",
+            "engine": "ollama",
+            "format": "gguf",
+            "quantization": null,
+            "size": "2.5 GB",
+            "modelName": "phi4-mini:latest",
+            "downloaded": false,
+            "activated": false
+        },
+        {
+            "id": "ministral-3-3b-instruct",
+            "name": "Ministral-3-3B-Instruct",
+            "language": "multilingual",
+            "engine": "ollama",
+            "format": "gguf",
+            "quantization": "Q4_K_M",
+            "size": "3.0 GB",
+            "modelName": "ministral-3:3b-instruct-2512-q4_K_M",
+            "downloaded": false,
+            "activated": false
+        },
+        {
+            "id": "granite-4-micro-h",
+            "name": "Granite-4.0-Micro-H",
+            "language": "en",
+            "engine": "ollama",
+            "format": "gguf",
+            "quantization": null,
+            "size": "1.9 GB",
+            "modelName": "granite4:micro-h",
+            "downloaded": false,
+            "activated": false
+        }
+    ]
+}

@@ -1,0 +1,772 @@
+.recording-shell {
+  position: relative;
+}
+
+/* 悬浮的 AI 对话开关，收起时贴在右上角 */
+.recording-aichat-toggle {
+  position: absolute;
+  top: clamp(1.25rem, 3vw, 2.5rem);
+  right: clamp(1.25rem, 3vw, 2.5rem);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: var(--accent-contrast);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 40%, transparent);
+  font-size: var(--fs-md);
+  font-weight: 600;
+}
+
+.recording-aichat-toggle:hover {
+  filter: brightness(1.08);
+}
+
+/* 从右侧滑出的可折叠 AI 对话侧栏 */
+.recording-aichat-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 94vw);
+  height: 100vh;
+  border-left: 1px solid var(--border);
+  background: var(--surface, var(--surface-strong));
+  box-shadow: -24px 0 60px var(--surface-sunken);
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+}
+
+.recording-aichat-drawer.is-open {
+  transform: translateX(0);
+}
+
+.recording-aichat-drawer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.recording-aichat-drawer__bar strong {
+  font-size: var(--fs-lg);
+}
+
+.recording-aichat-drawer__close {
+  min-width: auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-soft);
+  box-shadow: none;
+  font-size: var(--fs-lg);
+}
+
+.recording-aichat-drawer__body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 嵌入模式下让问答面板铺满抽屉高度 */
+.ask-ai-page.ask-ai-page--embedded {
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.recording-page {
+  /* 这三个别名保留给页面里既有的引用，值统一走全局令牌，
+     这样浅色主题下不用再写一份覆盖。 */
+  --recording-text: var(--text);
+  --recording-muted: var(--muted);
+  --recording-subtle: var(--faint);
+  min-height: calc(100vh - 5rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--highlight);
+  color: var(--recording-text);
+}
+
+.recording-page h1,
+.recording-page h2,
+.recording-page h3,
+.recording-page strong {
+  color: var(--recording-text);
+}
+
+.recording-page .recording-panel__status,
+.recording-page .recording-panel__content > p {
+  color: var(--recording-muted);
+}
+
+.recording-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.recording-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.recording-panel__eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--accent-strong);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.recording-state {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--recording-muted);
+  background: var(--surface-soft);
+  font-size: var(--fs-md);
+  text-transform: uppercase;
+}
+
+.recording-state--recording {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 42%, transparent);
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+.recording-state--saved {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 40%, transparent);
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+}
+
+.recording-panel__status {
+  margin: 0;
+}
+
+.recording-panel__error {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--danger) 42%, transparent);
+  border-radius: 14px;
+  color: var(--danger) !important;
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+.recording-panel__content {
+  min-height: 220px;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface-sunken);
+}
+
+.recording-panel__saved {
+  display: grid;
+  gap: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.recording-panel__saved span {
+  color: var(--recording-muted);
+}
+
+.transcription-result {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.transcription-result header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.transcription-result header span,
+.transcription-segments time {
+  color: var(--recording-muted);
+  font-size: var(--fs-md);
+}
+
+.transcription-result__text {
+  margin: 0;
+  color: var(--recording-text) !important;
+  white-space: pre-wrap;
+}
+
+.transcription-segments {
+  display: grid;
+  gap: 0.6rem;
+  max-height: 260px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.transcription-segments li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.recording-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.recording-language-select {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 190px;
+  color: var(--recording-muted);
+  font-size: var(--fs-sm);
+}
+
+.recording-language-select select {
+  min-height: 42px;
+  padding: 0.62rem 2.1rem 0.62rem 0.8rem;
+  color: var(--recording-text);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--surface-soft);
+  font: inherit;
+}
+
+.recording-language-select select:disabled {
+  opacity: 0.55;
+}
+
+.recording-controls button {
+  min-width: 150px;
+  padding: 0.7rem 1.2rem;
+}
+
+.recording-controls button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.recording-controls .recording-button--secondary {
+  color: var(--recording-text);
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .recording-panel__header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .recording-state {
+    width: fit-content;
+  }
+
+  .recording-language-select,
+  .recording-controls button {
+    width: 100%;
+  }
+}
+
+.live-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.live-transcription,
+.live-summary {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  min-width: 0;
+  min-height: 270px;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.live-summary {
+  border-color: color-mix(in srgb, var(--info) 32%, transparent);
+  background: color-mix(in srgb, var(--info) 9%, transparent);
+}
+
+.live-transcription header,
+.live-summary header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.live-transcription header > div,
+.live-summary header > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.live-transcription header span,
+.live-transcription__status,
+.live-summary header span,
+.live-summary__status,
+.live-summary__segments li > span:first-child {
+  color: var(--recording-subtle);
+  font-size: var(--fs-md);
+}
+
+.live-transcription__text {
+  min-height: 10rem;
+  max-height: 330px;
+  margin: 0;
+  overflow-y: auto;
+  color: var(--recording-text) !important;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+.live-summary__segments {
+  display: grid;
+  gap: 0.6rem;
+  max-height: 330px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.live-summary__segments li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.live-summary__result {
+  padding: 0.7rem 0.75rem;
+  border-radius: 12px;
+  background: var(--surface-soft);
+  color: var(--recording-text);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+/* 整理结果那一列现在是富文本容器，不再是 span。 */
+.live-summary__segments li > span:last-child,
+.live-summary__segments li > .markdown-body {
+  color: var(--recording-text);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.live-summary__empty,
+.live-summary__notice {
+  margin: 0;
+  color: var(--recording-muted) !important;
+  line-height: 1.6;
+}
+
+.live-summary__notice {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-sunken);
+  font-size: var(--fs-md);
+}
+
+@media (max-width: 980px) {
+  .live-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .live-transcription,
+  .live-summary {
+    min-height: auto;
+  }
+}
+
+.recording-state--processing {
+  color: var(--info);
+  border-color: color-mix(in srgb, var(--info) 42%, transparent);
+  background: color-mix(in srgb, var(--info) 26%, transparent);
+}
+
+.recording-state--completed {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 40%, transparent);
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+}
+
+.recording-state--failed,
+.recording-state--cancelled {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 42%, transparent);
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+.recording-input-guide {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 16px;
+  background: var(--surface-sunken);
+}
+
+.recording-input-guide p {
+  margin: 0;
+  color: var(--recording-muted) !important;
+  line-height: 1.6;
+}
+
+.recording-input-guide__formats {
+  color: var(--recording-subtle);
+  font-size: var(--fs-md);
+}
+
+.recording-uploaded-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--info) 32%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--info) 14%, transparent);
+}
+
+.recording-uploaded-file > div {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.recording-uploaded-file span {
+  color: var(--recording-subtle);
+  font-size: var(--fs-md);
+}
+
+.recording-uploaded-file strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recording-uploaded-file__status {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.recording-processing-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid color-mix(in srgb, var(--info) 30%, transparent);
+  border-top-color: var(--info);
+  border-radius: 50%;
+  animation: recording-processing-spin 0.75s linear infinite;
+}
+
+.recording-upload-progress {
+  display: grid;
+  gap: 0.45rem;
+  margin: -0.45rem 0 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--info) 30%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--info) 9%, transparent);
+}
+
+.recording-upload-progress > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--recording-muted);
+  font-size: var(--fs-md);
+}
+
+.recording-upload-progress strong {
+  color: var(--info);
+  font-variant-numeric: tabular-nums;
+}
+
+.recording-upload-progress progress {
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  accent-color: var(--info);
+}
+
+@keyframes recording-processing-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recording-processing-spinner {
+    animation-duration: 1.5s;
+  }
+}
+
+@media (max-width: 640px) {
+  .recording-uploaded-file {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.recording-uploaded-file__language {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.recording-uploaded-file__language strong {
+  color: var(--recording-text);
+  font-size: inherit;
+}
+
+.recording-language-warning {
+  display: grid;
+  gap: 0.25rem;
+  margin: -0.35rem 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
+  border-radius: 12px;
+  color: var(--warning) !important;
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  line-height: 1.55;
+}
+
+.recording-language-warning span {
+  color: var(--recording-muted);
+  font-size: var(--fs-md);
+}
+
+.workspace-save-feedback {
+  align-self: center;
+  color: var(--success);
+  font-size: var(--fs-md);
+}
+
+.workspace-save-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: var(--bg-veil);
+  backdrop-filter: blur(8px);
+}
+
+.workspace-save-dialog {
+  display: grid;
+  gap: 1rem;
+  width: min(560px, 100%);
+  max-height: min(760px, calc(100vh - 2.5rem));
+  padding: 1.2rem;
+  overflow-y: auto;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface-strong);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.workspace-save-dialog header,
+.workspace-save-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.workspace-save-dialog header > div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.workspace-save-dialog header span {
+  color: var(--faint);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.workspace-save-dialog h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--fs-xl);
+}
+
+/* grid + place-items 居中里面的图标；不要靠字号和行高去凑 */
+.workspace-save-dialog__close {
+  display: grid;
+  place-items: center;
+  min-width: auto !important;
+  width: 32px;
+  height: 32px;
+  padding: 0 !important;
+  line-height: 1;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.workspace-save-dialog__hint {
+  margin: 0;
+  color: var(--muted) !important;
+  line-height: 1.65;
+}
+
+.workspace-save-dialog label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: var(--fs-md);
+}
+
+.workspace-save-dialog select,
+.workspace-save-dialog input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.7rem 0.8rem;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  outline: none;
+  background: var(--surface-sunken);
+  font: inherit;
+}
+
+.workspace-save-dialog select:focus,
+.workspace-save-dialog input:focus {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.workspace-save-dialog__error {
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  color: var(--danger) !important;
+  border: 1px solid color-mix(in srgb, var(--danger) 42%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+.workspace-save-dialog footer {
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+.workspace-save-dialog footer button {
+  min-width: 140px;
+}
+
+@media (max-width: 640px) {
+  .workspace-save-dialog footer {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .workspace-save-dialog footer button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   录制态的动效
+   录音是这个产品的核心动作，界面必须持续告诉用户「还在录」。
+   静态的红点不够 —— 停止响应和正在录制看起来会一模一样。
+   ========================================================= */
+
+/* 状态徽章现在装着一排声波条，需要自己排版 */
+.recording-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* 录制中：徽章外圈缓缓扩散一层红光。
+   这里不用通用的 .anim-breathe —— 它会把透明度压到 0.55，
+   徽章上的文字会跟着一起变淡，不适合承载文字的元素。 */
+.recording-state--recording {
+  animation: recording-pulse 2.6s var(--ease-smooth) infinite;
+}
+
+@keyframes recording-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--danger) 32%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--danger) 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recording-state--recording {
+    animation: none;
+  }
+}
+
+/* 录制中把主面板的第一屏微微提亮，余光里也能看出在工作 */
+.recording-panel.is-live .recording-panel__content {
+  border-color: color-mix(in srgb, var(--danger) 32%, var(--border));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--danger) 18%, transparent);
+}
+
+/* 实时转写与实时纪要：新内容淡入而不是整块突然刷新 */
+.live-transcription__text,
+.live-summary__segments {
+  animation: anim-fade var(--dur-base) var(--ease-out) backwards;
+}
+
+/* 等待模型返回时状态行用微光扫过，表示还在跑 */
+.live-transcription__status,
+.live-summary__status {
+  color: var(--muted);
+}

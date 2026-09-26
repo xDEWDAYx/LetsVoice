@@ -1,0 +1,391 @@
+/* =========================================================
+   SpeakSpace · 特效层（Effects）
+   ---------------------------------------------------------
+   这里只放「表面质感」相关的可复用类：毛玻璃、渐变描边、
+   扫光、聚光、辉光环、噪点、环境极光。
+   动作时序在 motion.css，颜色在 tokens.css，三层不要互相混写。
+   ========================================================= */
+
+/* 锥形渐变辉光环需要一个可动画的角度变量。
+   @property 让 --spin 参与插值，否则 conic-gradient 不会动。 */
+@property --spin {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ---------------------------------------------------------
+   1. 毛玻璃
+   backdrop-filter 除了模糊还要提饱和度，否则玻璃背后的
+   颜色会被均匀模糊成灰，看着发脏。
+   --------------------------------------------------------- */
+.fx-glass {
+  position: relative;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--border);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 var(--highlight);
+}
+
+/* 更厚的一层：弹层、抽屉、模态用，模糊半径加大 */
+.fx-glass-strong {
+  position: relative;
+  background: var(--surface-raised);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.6)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.6)) saturate(var(--glass-saturate));
+  border: 1px solid var(--border);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--highlight);
+}
+
+/* ---------------------------------------------------------
+   2. 渐变描边
+   单色 1px 边框是「工程感」的主要来源之一。改成从高光到
+   主色的渐变细边，用 mask 掏空中间只留一圈。
+   --------------------------------------------------------- */
+.fx-edge {
+  position: relative;
+}
+
+.fx-edge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    150deg,
+    var(--highlight) 0%,
+    transparent 30%,
+    transparent 62%,
+    color-mix(in srgb, var(--accent) 42%, transparent) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   3. 镜面扫光
+   悬停时一道斜向高光从左扫到右。宽度用百分比，
+   因此在窄按钮和宽卡片上速度观感一致。
+   --------------------------------------------------------- */
+.fx-sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fx-sheen::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    var(--sheen) 48%,
+    transparent 58%
+  );
+  transform: translateX(-130%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fx-sheen:hover::after,
+.fx-sheen:focus-visible::after {
+  animation: fx-sheen-sweep var(--dur-slower) var(--ease-out);
+}
+
+@keyframes fx-sheen-sweep {
+  0% { transform: translateX(-130%); opacity: 0; }
+  18% { opacity: 1; }
+  100% { transform: translateX(130%); opacity: 0; }
+}
+
+/* ---------------------------------------------------------
+   4. 光标聚光
+   --mx / --my 由 useSpotlight 钩子在 pointermove 时写入。
+   钩子没挂上时默认在中心，不会出现视觉错误。
+   --------------------------------------------------------- */
+.fx-spotlight {
+  position: relative;
+  --mx: 50%;
+  --my: 50%;
+}
+
+.fx-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx) var(--my),
+    var(--spotlight),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+
+.fx-spotlight:hover::before,
+.fx-spotlight:focus-within::before {
+  opacity: 1;
+}
+
+/* 聚光层在 z-index:0，内容要抬到它上面 */
+.fx-spotlight > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------
+   5. 辉光环
+   主行动按钮 / 录制中的容器用。一圈缓慢旋转的锥形渐变，
+   比静态外发光更有生命感，但只在 hover / is-live 时开。
+   --------------------------------------------------------- */
+.fx-halo {
+  position: relative;
+}
+
+.fx-halo::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--spin),
+    transparent 0deg,
+    var(--accent) 60deg,
+    var(--warm) 130deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+  filter: blur(7px);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+
+.fx-halo:hover::after,
+.fx-halo.is-live::after {
+  opacity: 0.75;
+  animation: fx-halo-spin 4.5s linear infinite;
+}
+
+@keyframes fx-halo-spin {
+  to { --spin: 360deg; }
+}
+
+/* ---------------------------------------------------------
+   6. 悬停抬升
+   位移 + 阴影 + 边框提亮一起做，只做其中一项会显得很平。
+   --------------------------------------------------------- */
+.fx-lift {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+  will-change: transform;
+}
+
+.fx-lift:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--border));
+  box-shadow: var(--shadow-lg);
+}
+
+.fx-lift:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: var(--dur-instant);
+}
+
+/* ---------------------------------------------------------
+   7. 胶片噪点
+   纯渐变背景是「AI 味」最大来源。铺一层极淡的噪点，
+   立刻从「渲染图」变成「有材质的界面」。
+   --------------------------------------------------------- */
+.fx-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   8. 环境极光背景
+   固定在最底层，三团缓慢漂移的大光斑 + 一层噪点。
+   全部走 transform，不动 background-position，避免重绘。
+   --------------------------------------------------------- */
+.fx-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-ambient__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.fx-ambient__blob--a {
+  top: -18vh;
+  left: -10vw;
+  width: 60vw;
+  height: 60vw;
+  background: var(--aurora-1);
+  animation: fx-drift-a 26s var(--ease-smooth) infinite;
+}
+
+.fx-ambient__blob--b {
+  right: -16vw;
+  bottom: -22vh;
+  width: 54vw;
+  height: 54vw;
+  background: var(--aurora-2);
+  animation: fx-drift-b 32s var(--ease-smooth) infinite;
+}
+
+.fx-ambient__blob--c {
+  top: 34%;
+  right: 18%;
+  width: 28vw;
+  height: 28vw;
+  background: var(--aurora-3);
+  animation: fx-drift-c 22s var(--ease-smooth) infinite;
+}
+
+@keyframes fx-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(6vw, 5vh, 0) scale(1.12); }
+  66% { transform: translate3d(-3vw, 9vh, 0) scale(0.94); }
+}
+
+@keyframes fx-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  40% { transform: translate3d(-7vw, -6vh, 0) scale(0.9); }
+  70% { transform: translate3d(2vw, -10vh, 0) scale(1.15); }
+}
+
+@keyframes fx-drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.7; }
+  50% { transform: translate3d(-10vw, 6vh, 0) scale(1.25); opacity: 1; }
+}
+
+/* 极细的扫描光带，缓慢从上往下走一遍，给静止画面一点呼吸 */
+.fx-ambient__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40vh;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 7%, transparent),
+    transparent
+  );
+  animation: fx-scan 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes fx-scan {
+  0% { transform: translateY(-45vh); }
+  100% { transform: translateY(145vh); }
+}
+
+.fx-ambient__grain {
+  position: absolute;
+  inset: 0;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------
+   9. 文字渐变 / 微光
+   标题用，注意 -webkit-text-fill-color 必须一起写，
+   否则 background-clip 在 Chromium 下不生效。
+   --------------------------------------------------------- */
+.fx-text-gradient {
+  background: linear-gradient(
+    120deg,
+    var(--text-strong) 0%,
+    var(--text-strong) 40%,
+    var(--accent-strong) 78%,
+    var(--warm) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 加载中的文字：一道高光反复扫过 */
+.fx-text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 0%,
+    var(--muted) 38%,
+    var(--text) 50%,
+    var(--muted) 62%,
+    var(--muted) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: fx-shimmer 2.2s linear infinite;
+}
+
+@keyframes fx-shimmer {
+  0% { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+
+/* ---------------------------------------------------------
+   10. 降级
+   系统开启「减弱动态效果」时，保留质感（玻璃、噪点、渐变），
+   只把持续播放的位移动画停掉。
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-ambient__blob,
+  .fx-ambient__scan,
+  .fx-halo::after,
+  .fx-text-shimmer {
+    animation: none !important;
+  }
+
+  .fx-sheen:hover::after,
+  .fx-sheen:focus-visible::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .fx-lift:hover {
+    transform: none;
+  }
+}

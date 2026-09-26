@@ -1,0 +1,4875 @@
+{
+  "schema_version": 2,
+  "scoring_revision": 2,
+  "measured_at": "2026-08-31T20:38:46.139Z",
+  "dataset": {
+    "hash": "bae36c616c88addafc106e769c9426fb05a1bf43db935dfb9af9d37e1f8d7ef1",
+    "note_count": 80,
+    "task_count": 45,
+    "full_task_count": 90,
+    "language_counts": {
+      "zh": 25,
+      "en": 32,
+      "zh-en": 23
+    },
+    "length_counts": {
+      "short (≤240)": 43,
+      "medium (241–800)": 13,
+      "long (801–1600)": 12,
+      "very-long (>1600)": 12
+    },
+    "split": "dev",
+    "task_filter": "all"
+  },
+  "model": "qwen2.5:3b-instruct",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "model_size_bytes": 1929912432,
+  "model_details": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen2",
+    "families": [
+      "qwen2"
+    ],
+    "parameter_size": "3.1B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 32768,
+    "embedding_length": 2048
+  },
+  "temperature": 0.1,
+  "harness": "router",
+  "harness_describe": "歧义路由",
+  "random_seed": null,
+  "random_seed_note": "生产 AgentChatService 未传 seed；固定温度 0.1，并用三轮结果记录随机性。",
+  "embedding_model": "bge-m3",
+  "embedding_model_digest": "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab",
+  "judge": null,
+  "platform": {
+    "os": "Windows_NT 10.0.26200",
+    "arch": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i9-12900H",
+    "cpu_threads": 20,
+    "total_memory_bytes": 42732085248,
+    "node": "v22.16.0",
+    "electron": "35.7.5"
+  },
+  "rounds_run": 1,
+  "mean_across_rounds": {
+    "overall": {
+      "case_count": 45,
+      "passed_cases": 30,
+      "case_pass_rate": 0.6666666666666666,
+      "fact_coverage": 0.925925925925926,
+      "answer_mode_accuracy": 0.8444444444444444,
+      "mean_tool_calls": 0.6888888888888889,
+      "mean_model_turns": 1.6888888888888889,
+      "mean_unnecessary_tool_calls": 0.4,
+      "duplicate_call_attempts": 3,
+      "scope_violation_rate": 0,
+      "recall_at_1": 0.4166666666666667,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_8": 0.5,
+      "mrr": 0.4583333333333333,
+      "ndcg_at_8": 0.46924414613095483,
+      "run_coverage": 0.5,
+      "read_coverage": 0,
+      "judge_pass_rate": null,
+      "groundedness": null
+    },
+    "dev": {
+      "case_count": 45,
+      "passed_cases": 30,
+      "case_pass_rate": 0.6666666666666666,
+      "fact_coverage": 0.925925925925926,
+      "answer_mode_accuracy": 0.8444444444444444,
+      "mean_tool_calls": 0.6888888888888889,
+      "mean_model_turns": 1.6888888888888889,
+      "mean_unnecessary_tool_calls": 0.4,
+      "duplicate_call_attempts": 3,
+      "scope_violation_rate": 0,
+      "recall_at_1": 0.4166666666666667,
+      "recall_at_3": 0.5,
+      "recall_at_5": 0.5,
+      "recall_at_8": 0.5,
+      "mrr": 0.4583333333333333,
+      "ndcg_at_8": 0.46924414613095483,
+      "run_coverage": 0.5,
+      "read_coverage": 0,
+      "judge_pass_rate": null,
+      "groundedness": null
+    },
+    "holdout": {
+      "case_count": 0,
+      "passed_cases": 0,
+      "case_pass_rate": null,
+      "fact_coverage": null,
+      "answer_mode_accuracy": null,
+      "mean_tool_calls": null,
+      "mean_model_turns": null,
+      "mean_unnecessary_tool_calls": null,
+      "duplicate_call_attempts": 0,
+      "scope_violation_rate": null,
+      "recall_at_1": null,
+      "recall_at_3": null,
+      "recall_at_5": null,
+      "recall_at_8": null,
+      "mrr": null,
+      "ndcg_at_8": null,
+      "run_coverage": null,
+      "read_coverage": null,
+      "judge_pass_rate": null,
+      "groundedness": null
+    }
+  },
+  "protocol_probes": {
+    "duplicate_call": {
+      "passed": true,
+      "attempted": 2,
+      "executed": 1,
+      "blocked_result_observed": true
+    },
+    "step_limit": {
+      "passed": true,
+      "tools_offered_by_turn": [
+        1,
+        1,
+        0
+      ],
+      "final_text": "budget final"
+    },
+    "cancellation": {
+      "passed": true,
+      "terminal_event": "cancelled",
+      "cancellation_latency_ms": 0,
+      "side_effects_after_cancel": 0
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "elapsed_ms": 182101,
+      "overall": {
+        "case_count": 45,
+        "passed_cases": 30,
+        "case_pass_rate": 0.6666666666666666,
+        "fact_coverage": 0.925925925925926,
+        "answer_mode_accuracy": 0.8444444444444444,
+        "mean_tool_calls": 0.6888888888888889,
+        "mean_model_turns": 1.6888888888888889,
+        "mean_unnecessary_tool_calls": 0.4,
+        "duplicate_call_attempts": 3,
+        "scope_violation_rate": 0,
+        "recall_at_1": 0.4166666666666667,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_8": 0.5,
+        "mrr": 0.4583333333333333,
+        "ndcg_at_8": 0.46924414613095483,
+        "run_coverage": 0.5,
+        "read_coverage": 0,
+        "judge_pass_rate": null,
+        "groundedness": null
+      },
+      "dev": {
+        "case_count": 45,
+        "passed_cases": 30,
+        "case_pass_rate": 0.6666666666666666,
+        "fact_coverage": 0.925925925925926,
+        "answer_mode_accuracy": 0.8444444444444444,
+        "mean_tool_calls": 0.6888888888888889,
+        "mean_model_turns": 1.6888888888888889,
+        "mean_unnecessary_tool_calls": 0.4,
+        "duplicate_call_attempts": 3,
+        "scope_violation_rate": 0,
+        "recall_at_1": 0.4166666666666667,
+        "recall_at_3": 0.5,
+        "recall_at_5": 0.5,
+        "recall_at_8": 0.5,
+        "mrr": 0.4583333333333333,
+        "ndcg_at_8": 0.46924414613095483,
+        "run_coverage": 0.5,
+        "read_coverage": 0,
+        "judge_pass_rate": null,
+        "groundedness": null
+      },
+      "holdout": {
+        "case_count": 0,
+        "passed_cases": 0,
+        "case_pass_rate": null,
+        "fact_coverage": null,
+        "answer_mode_accuracy": null,
+        "mean_tool_calls": null,
+        "mean_model_turns": null,
+        "mean_unnecessary_tool_calls": null,
+        "duplicate_call_attempts": 0,
+        "scope_violation_rate": null,
+        "recall_at_1": null,
+        "recall_at_3": null,
+        "recall_at_5": null,
+        "recall_at_8": null,
+        "mrr": null,
+        "ndcg_at_8": null,
+        "run_coverage": null,
+        "read_coverage": null,
+        "judge_pass_rate": null,
+        "groundedness": null
+      },
+      "by_scenario": {
+        "single-note": {
+          "case_count": 10,
+          "passed_cases": 10,
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.5,
+          "mean_model_turns": 1.5,
+          "mean_unnecessary_tool_calls": 0.5,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": null,
+          "recall_at_3": null,
+          "recall_at_5": null,
+          "recall_at_8": null,
+          "mrr": null,
+          "ndcg_at_8": null,
+          "run_coverage": null,
+          "read_coverage": null,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "cross-note": {
+          "case_count": 10,
+          "passed_cases": 7,
+          "case_pass_rate": 0.7,
+          "fact_coverage": 0.8666666666666666,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.8,
+          "mean_model_turns": 1.8,
+          "mean_unnecessary_tool_calls": 1.1,
+          "duplicate_call_attempts": 3,
+          "scope_violation_rate": 0,
+          "recall_at_1": null,
+          "recall_at_3": null,
+          "recall_at_5": null,
+          "recall_at_8": null,
+          "mrr": null,
+          "ndcg_at_8": null,
+          "run_coverage": null,
+          "read_coverage": null,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "retrieval": {
+          "case_count": 7,
+          "passed_cases": 4,
+          "case_pass_rate": 0.5714285714285714,
+          "fact_coverage": 0.7142857142857143,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.8571428571428571,
+          "mean_model_turns": 1.8571428571428572,
+          "mean_unnecessary_tool_calls": 0,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": 0.7142857142857143,
+          "recall_at_3": 0.8571428571428571,
+          "recall_at_5": 0.8571428571428571,
+          "recall_at_8": 0.8571428571428571,
+          "mrr": 0.7857142857142857,
+          "ndcg_at_8": 0.804418536224494,
+          "run_coverage": 0.8571428571428571,
+          "read_coverage": 0,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "todo-tool": {
+          "case_count": 3,
+          "passed_cases": 3,
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1,
+          "mean_model_turns": 2,
+          "mean_unnecessary_tool_calls": 0,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": null,
+          "recall_at_3": null,
+          "recall_at_5": null,
+          "recall_at_8": null,
+          "mrr": null,
+          "ndcg_at_8": null,
+          "run_coverage": null,
+          "read_coverage": null,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "scope": {
+          "case_count": 5,
+          "passed_cases": 5,
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.4,
+          "mean_model_turns": 1.4,
+          "mean_unnecessary_tool_calls": 0.4,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": null,
+          "recall_at_3": null,
+          "recall_at_5": null,
+          "recall_at_8": null,
+          "mrr": null,
+          "ndcg_at_8": null,
+          "run_coverage": null,
+          "read_coverage": null,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "unanswerable": {
+          "case_count": 5,
+          "passed_cases": 0,
+          "case_pass_rate": 0,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 0,
+          "mean_tool_calls": 1.2,
+          "mean_model_turns": 2.2,
+          "mean_unnecessary_tool_calls": 0,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": null,
+          "recall_at_3": null,
+          "recall_at_5": null,
+          "recall_at_8": null,
+          "mrr": null,
+          "ndcg_at_8": null,
+          "run_coverage": null,
+          "read_coverage": null,
+          "judge_pass_rate": null,
+          "groundedness": null
+        },
+        "ambiguous": {
+          "case_count": 5,
+          "passed_cases": 1,
+          "case_pass_rate": 0.2,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 0.6,
+          "mean_tool_calls": 0.2,
+          "mean_model_turns": 1.2,
+          "mean_unnecessary_tool_calls": 0,
+          "duplicate_call_attempts": 0,
+          "scope_violation_rate": 0,
+          "recall_at_1": 0,
+          "recall_at_3": 0,
+          "recall_at_5": 0,
+          "recall_at_8": 0,
+          "mrr": 0,
+          "ndcg_at_8": 0,
+          "run_coverage": 0,
+          "read_coverage": 0,
+          "judge_pass_rate": null,
+          "groundedness": null
+        }
+      },
+      "cases": [
+        {
+          "task": {
+            "id": "single-01",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "zh",
+            "instruction": "Atlas 桌面版什么时候发布，批准预算是多少？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-atlas-kickoff"
+            ],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff"
+            ],
+            "requiredFacts": [
+              [
+                "2026年10月18日",
+                "2026-10-18",
+                "10月18日"
+              ],
+              [
+                "48万元",
+                "48 万元",
+                "480,000",
+                "480000"
+              ]
+            ],
+            "forbiddenFacts": [
+              "72万元",
+              "2026年11月6日"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              1
+            ]
+          },
+          "final_text": "Atlas 桌面版计划在 2026 年 10 月 18 日发布，批准的预算为 48 万元人民币。请注意，这与 Phoenix 项目的任何信息无关。项目负责人是林岚。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcript\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\"}"
+            },
+            {
+              "type": "final",
+              "text": "Atlas 桌面版计划在 2026 年 10 月 18 日发布，批准的预算为 48 万元人民币。请注意，这与 Phoenix 项目的任何信息无关。项目负责人是林岚。"
+            }
+          ],
+          "agent_elapsed_ms": 2719,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-01",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2719,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-02",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "en",
+            "instruction": "What is Northwind’s annual renewal value, and who owns the commercial close?",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [
+              "c-northwind-renewal"
+            ],
+            "relevantNoteKeys": [
+              "c-northwind-renewal"
+            ],
+            "requiredFacts": [
+              [
+                "GBP 128,000",
+                "£128,000",
+                "128000"
+              ],
+              [
+                "Maya Chen"
+              ]
+            ],
+            "forbiddenFacts": [
+              "182,000",
+              "Olivia Park"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": [
+              15
+            ]
+          },
+          "final_text": "Northwind’s annual renewal value is GBP 128,000. Maya Chen owns the commercial close, and the signature target is set for October 7, 2026.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 15
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":15,\"workspaceId\":2,\"name\":\"Northwind renewal commercial terms\",\"transcript\":\"Northwind approved an annual renewal value of GBP 128,000. Maya Chen owns the commercial close, and the signature target is October 7, 2026.\"}"
+            },
+            {
+              "type": "final",
+              "text": "Northwind’s annual renewal value is GBP 128,000. Maya Chen owns the commercial close, and the signature target is set for October 7, 2026."
+            }
+          ],
+          "agent_elapsed_ms": 2952,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-02",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2952,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-03",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "zh-en",
+            "instruction": "京都酒店几点 check-in？免费取消窗口是什么？",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [
+              "l-kyoto-hotel"
+            ],
+            "relevantNoteKeys": [
+              "l-kyoto-hotel"
+            ],
+            "requiredFacts": [
+              [
+                "2026-11-03 15:00",
+                "11月3日15:00",
+                "15:00",
+                "11月3日下午3点",
+                "下午3点"
+              ],
+              [
+                "48 hours",
+                "48小时",
+                "48 小时"
+              ]
+            ],
+            "forbiddenFacts": [
+              "11月4日",
+              "Sakura Annex"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": [
+              22
+            ]
+          },
+          "final_text": "您需要在2026年11月3日的15点进行入住 check-in（check-in 是 2026-11-03 15:00）。免费取消窗口是在您抵达前48小时。请确保提前安排好您的行程。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 22
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":22,\"workspaceId\":3,\"name\":\"京都酒店确认单\",\"transcript\":\"入住 Kamo River Inn，check-in 是 2026-11-03 15:00。预订含早餐，可在抵达前 48 hours 免费取消。\"}"
+            },
+            {
+              "type": "final",
+              "text": "您需要在2026年11月3日的15点进行入住 check-in（check-in 是 2026-11-03 15:00）。免费取消窗口是在您抵达前48小时。请确保提前安排好您的行程。"
+            }
+          ],
+          "agent_elapsed_ms": 3206,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-03",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3206,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-04",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "zh",
+            "instruction": "SpeakSpace 的混合检索 RRF 常数和最大返回条数分别是多少？",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-retrieval-rrf"
+            ],
+            "relevantNoteKeys": [
+              "r-retrieval-rrf"
+            ],
+            "requiredFacts": [
+              [
+                "k=60",
+                "k 取 60",
+                "常数 60"
+              ],
+              [
+                "8条",
+                "8 条",
+                "最多返回 8"
+              ]
+            ],
+            "forbiddenFacts": [
+              "常数 20",
+              "返回 5"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              29
+            ]
+          },
+          "final_text": "根据您提供的笔记内容，混合检索的常数 \\( k \\) 取值为 60。Agent 搜索工具的最大返回结果数量也是 8 条。\n\n因此，混合检索的常数 \\( k \\) 和最大返回条数分别为：\n- 常数 \\( k \\): 60\n- 最大返回条数: 8\n\n您需要进一步的帮助吗？",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "根据您提供的笔记内容，混合检索的常数 \\( k \\) 取值为 60。Agent 搜索工具的最大返回结果数量也是 8 条。\n\n因此，混合检索的常数 \\( k \\) 和最大返回条数分别为：\n- 常数 \\( k \\): 60\n- 最大返回条数: 8\n\n您需要进一步的帮助吗？"
+            }
+          ],
+          "agent_elapsed_ms": 2323,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-04",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2323,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-01",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "zh-en",
+            "instruction": "综合这两条记录：Atlas 发布日是什么时候？payment vendor 是谁，延期时采用什么 fallback？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-atlas-kickoff",
+              "p-atlas-risk"
+            ],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff",
+              "p-atlas-risk"
+            ],
+            "requiredFacts": [
+              [
+                "2026年10月18日",
+                "2026-10-18",
+                "October 18, 2026"
+              ],
+              [
+                "Northstar Payments"
+              ],
+              [
+                "manual bank transfer",
+                "手工银行转账",
+                "人工银行转账",
+                "手动银行转账"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              1,
+              2
+            ]
+          },
+          "final_text": "根据Linked note 1中的信息，Atlas 桌面版的发布日期是2026年10月18日。\n\n关于支付方的信息，在Linked note 2中指出，Atlas 的支付网关风险由供应商Northstar Payments管理。如果认证失败，批准的后备方案是手动银行转账。\n\n[L3.5] \n接下来我将调用工具来提取任务列表。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":1,\"noteName\":\"Atlas 发布启动会\",\"extracted\":true,\"todos\":[{\"title\":\"确定Atlas桌面版发布时间和预算\",\"dueDate\":\"2026-10-18\",\"completed\":false},{\"title\":\"后端冻结日期为9月25日\",\"dueDate\":\"2026-09-25\",\"completed\":false}]}"
+            },
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": false,
+              "result": "You already called extract_todos(note_id=1) in this run and its result is above. The call was not executed again. Use that result, call a different tool, or answer now."
+            },
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": false,
+              "result": "You already called extract_todos(note_id=1) in this run and its result is above. The call was not executed again. Use that result, call a different tool, or answer now."
+            },
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": false,
+              "result": "You already called extract_todos(note_id=1) in this run and its result is above. The call was not executed again. Use that result, call a different tool, or answer now."
+            },
+            {
+              "type": "final",
+              "text": "根据Linked note 1中的信息，Atlas 桌面版的发布日期是2026年10月18日。\n\n关于支付方的信息，在Linked note 2中指出，Atlas 的支付网关风险由供应商Northstar Payments管理。如果认证失败，批准的后备方案是手动银行转账。\n\n[L3.5] \n接下来我将调用工具来提取任务列表。"
+            }
+          ],
+          "agent_elapsed_ms": 14067,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-01",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 4,
+            "model_turns": 5,
+            "unnecessary_tool_calls": 7,
+            "duplicate_call_attempts": 3,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 14067,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-02",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "Summarize Northwind’s renewal value and its current Sev-1 ticket with the technical owner.",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [
+              "c-northwind-renewal",
+              "c-northwind-support"
+            ],
+            "relevantNoteKeys": [
+              "c-northwind-renewal",
+              "c-northwind-support"
+            ],
+            "requiredFacts": [
+              [
+                "128,000",
+                "128000"
+              ],
+              [
+                "NW-884"
+              ],
+              [
+                "Diego Ruiz"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": [
+              15,
+              16
+            ]
+          },
+          "final_text": "The Northwind renewal has an annual value of GBP 128,000. The Sev-1 ticket for this issue is NW-884, and the technical owner is Diego Ruiz. A temporary workaround involves closing the delta sync to avoid affecting the renewal amount.\n\nWould you like information on any other notes?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 15
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":15,\"noteName\":\"Northwind renewal commercial terms\",\"extracted\":true,\"todos\":[]}"
+            },
+            {
+              "type": "final",
+              "text": "The Northwind renewal has an annual value of GBP 128,000. The Sev-1 ticket for this issue is NW-884, and the technical owner is Diego Ruiz. A temporary workaround involves closing the delta sync to avoid affecting the renewal amount.\n\nWould you like information on any other notes?"
+            }
+          ],
+          "agent_elapsed_ms": 4580,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-02",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 4580,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-03",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "zh-en",
+            "instruction": "把京都行程合起来：航班号、到达东京后的新干线，以及酒店入住时间是什么？",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [
+              "l-kyoto-flight",
+              "l-kyoto-hotel"
+            ],
+            "relevantNoteKeys": [
+              "l-kyoto-flight",
+              "l-kyoto-hotel"
+            ],
+            "requiredFacts": [
+              [
+                "JL042"
+              ],
+              [
+                "16:03"
+              ],
+              [
+                "2026-11-03 15:00",
+                "11月3日15:00"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": [
+              21,
+              22
+            ]
+          },
+          "final_text": "航班号是 JL042，从伦敦希思罗机场出发，11月2日（2026年）9点40分起飞。抵达东京成田机场后，乘坐16:03的特快列车（新干线）前往京都。酒店入住时间为2026年11月3日15点整。请问还需要了解其他信息吗？",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "航班号是 JL042，从伦敦希思罗机场出发，11月2日（2026年）9点40分起飞。抵达东京成田机场后，乘坐16:03的特快列车（新干线）前往京都。酒店入住时间为2026年11月3日15点整。请问还需要了解其他信息吗？"
+            }
+          ],
+          "agent_elapsed_ms": 2416,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-03",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": false,
+            "problems": [
+              "缺少事实 3: 2026-11-03 15:00"
+            ],
+            "fact_hits": [
+              true,
+              true,
+              false
+            ],
+            "fact_coverage": 0.6666666666666666,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2416,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-04",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "How many cells were tested, what was the pass threshold, and did the final LFP batch pass?",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-battery-method",
+              "r-battery-results"
+            ],
+            "relevantNoteKeys": [
+              "r-battery-method",
+              "r-battery-results"
+            ],
+            "requiredFacts": [
+              [
+                "24 cells",
+                "24个",
+                "24 个"
+              ],
+              [
+                "90%"
+              ],
+              [
+                "92.4%"
+              ],
+              [
+                "passed",
+                "通过"
+              ]
+            ],
+            "forbiddenFacts": [
+              "12 NMC"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              26,
+              27
+            ]
+          },
+          "final_text": "The LFP experiment used 24 cells. The pass threshold is at least 90% capacity retention after 600 cycles.\n\nFrom note 27, we see that the average capacity retention was 92.4%, with a minimum of 90.8%. Since this meets or exceeds the 90% threshold set for passing, the final LFP batch passed successfully.\n\nTherefore, the answer to your question is: Yes, the final LFP batch passed.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 26
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":26,\"noteName\":\"Battery cycle experiment method\",\"extracted\":true,\"todos\":[]}"
+            },
+            {
+              "type": "final",
+              "text": "The LFP experiment used 24 cells. The pass threshold is at least 90% capacity retention after 600 cycles.\n\nFrom note 27, we see that the average capacity retention was 92.4%, with a minimum of 90.8%. Since this meets or exceeds the 90% threshold set for passing, the final LFP batch passed successfully.\n\nTherefore, the answer to your question is: Yes, the final LFP batch passed."
+            }
+          ],
+          "agent_elapsed_ms": 6498,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-04",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 6498,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-05",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "en",
+            "instruction": "Who owns the payment gateway risk for Atlas, and what is the approved fallback?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-atlas-risk"
+            ],
+            "relevantNoteKeys": [
+              "p-atlas-risk"
+            ],
+            "requiredFacts": [
+              [
+                "Northstar Payments",
+                "Northstar"
+              ],
+              [
+                "manual bank transfer",
+                "bank transfer"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              2
+            ]
+          },
+          "final_text": "According to the note you provided, the payment gateway risk for Atlas is owned by vendor Northstar Payments. The approved fallback in case of certification slips is a manual bank transfer. This information comes from the note titled \"Atlas payment risk review\". \n\nWould you like me to extract any action items or reminders from this note?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "According to the note you provided, the payment gateway risk for Atlas is owned by vendor Northstar Payments. The approved fallback in case of certification slips is a manual bank transfer. This information comes from the note titled \"Atlas payment risk review\". \n\nWould you like me to extract any action items or reminders from this note?"
+            }
+          ],
+          "agent_elapsed_ms": 2237,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-05",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2237,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-06",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "zh",
+            "instruction": "EMBER-42 的修复方案是什么？TTL 调整成了多少？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-incident-ember-followup"
+            ],
+            "relevantNoteKeys": [
+              "p-incident-ember-followup"
+            ],
+            "requiredFacts": [
+              [
+                "cache version bump",
+                "version bump"
+              ],
+              [
+                "10 minutes",
+                "10 分钟",
+                "10min"
+              ]
+            ],
+            "forbiddenFacts": [
+              "24 hours"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              7
+            ]
+          },
+          "final_text": "EMBER-42 的修复方案是在部署后主动执行 `cache version bump`，并将 Redis 标志的 TTL 从 24 小时减少到 10 分钟。TTL 调整后的值是 10 分钟。事件在 15:26 恢复了。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 7
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":7,\"workspaceId\":1,\"name\":\"EMBER-42 remediation\",\"transcript\":\"修复方案是 deployment 后主动执行 cache version bump，并把 Redis flag TTL 从 24 hours 降到 10 minutes。事件在 15:26 恢复。\"}"
+            },
+            {
+              "type": "final",
+              "text": "EMBER-42 的修复方案是在部署后主动执行 `cache version bump`，并将 Redis 标志的 TTL 从 24 小时减少到 10 分钟。TTL 调整后的值是 10 分钟。事件在 15:26 恢复了。"
+            }
+          ],
+          "agent_elapsed_ms": 3258,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-06",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3258,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-09",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "en",
+            "instruction": "Which candidate passed the desktop systems loop, and with how many yes votes?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-hiring-interviews"
+            ],
+            "relevantNoteKeys": [
+              "p-hiring-interviews"
+            ],
+            "requiredFacts": [
+              [
+                "Priya Nair",
+                "Priya"
+              ],
+              [
+                "four",
+                "4"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              10
+            ]
+          },
+          "final_text": "Candidate Priya Nair passed the desktop systems loop with four yes votes.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 10
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":10,\"noteName\":\"Hiring interview notes\",\"extracted\":true,\"todos\":[]}"
+            },
+            {
+              "type": "final",
+              "text": "Candidate Priya Nair passed the desktop systems loop with four yes votes."
+            }
+          ],
+          "agent_elapsed_ms": 3955,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-09",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3955,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-11",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "en",
+            "instruction": "What compatibility header value must protocol revision 4 clients send?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-api-zq"
+            ],
+            "relevantNoteKeys": [
+              "p-api-zq"
+            ],
+            "requiredFacts": [
+              [
+                "ZQ-17"
+              ]
+            ],
+            "forbiddenFacts": [
+              "ZQ-71"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              8
+            ]
+          },
+          "final_text": "Clients using protocol revision 4 must send the compatibility header X-SpeakSpace-Code with the value ZQ-17.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "Clients using protocol revision 4 must send the compatibility header X-SpeakSpace-Code with the value ZQ-17."
+            }
+          ],
+          "agent_elapsed_ms": 1573,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-11",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 1573,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-06",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "Did the LFP battery samples pass? State the threshold from the method and the measured retention.",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-battery-method",
+              "r-battery-results"
+            ],
+            "relevantNoteKeys": [
+              "r-battery-method",
+              "r-battery-results"
+            ],
+            "requiredFacts": [
+              [
+                "90%",
+                "90 %"
+              ],
+              [
+                "92.4%",
+                "92.4"
+              ],
+              [
+                "pass",
+                "通过",
+                "passed"
+              ]
+            ],
+            "forbiddenFacts": [
+              "88%",
+              "12 NMC"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              26,
+              27
+            ]
+          },
+          "final_text": "The LFP (Lithium Iron Phosphate) battery samples passed based on the 90% capacity retention threshold mentioned in the experiment method, which was confirmed by the results showing an average retention of 92.4%, with a minimum of 90.8%. \n\nWould you like to see more details or have any other questions regarding this information?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The LFP (Lithium Iron Phosphate) battery samples passed based on the 90% capacity retention threshold mentioned in the experiment method, which was confirmed by the results showing an average retention of 92.4%, with a minimum of 90.8%. \n\nWould you like to see more details or have any other questions regarding this information?"
+            }
+          ],
+          "agent_elapsed_ms": 2217,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-06",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2217,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-07",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "zh",
+            "instruction": "京都行程里，几号到东京、几号入住酒店？住哪一家？",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [
+              "l-kyoto-flight",
+              "l-kyoto-hotel"
+            ],
+            "relevantNoteKeys": [
+              "l-kyoto-flight",
+              "l-kyoto-hotel"
+            ],
+            "requiredFacts": [
+              [
+                "November 2",
+                "11月2日",
+                "2026-11-02"
+              ],
+              [
+                "2026-11-03",
+                "11月3日"
+              ],
+              [
+                "Kamo River Inn",
+                "Kamo River"
+              ]
+            ],
+            "forbiddenFacts": [
+              "Sakura Annex",
+              "11 月 4 日"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": [
+              21,
+              22
+            ]
+          },
+          "final_text": "根据您提供的笔记信息：\n\n- **飞行**：11月2日从伦敦希思罗机场出发，乘坐航班 JL042，到达东京成田机场的时间是16:03。\n- **酒店确认单**：入住 Kamo River Inn，入住时间是 2026年11月3日15:00。预订包含早餐服务，并且可以在抵达前48小时免费取消。\n\n几号到东京：\n- 飞机预计在11月2日从伦敦出发，到达成田机场的时间是16:03。\n\n几号入住酒店：\n- 酒店的入住时间是11月3日15:00。\n\n住哪家酒店：\n- 您预订的是 Kamo River Inn。\n  \n您需要进一步确认航班和酒店的具体细节吗？或者有其他问题吗？",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "根据您提供的笔记信息：\n\n- **飞行**：11月2日从伦敦希思罗机场出发，乘坐航班 JL042，到达东京成田机场的时间是16:03。\n- **酒店确认单**：入住 Kamo River Inn，入住时间是 2026年11月3日15:00。预订包含早餐服务，并且可以在抵达前48小时免费取消。\n\n几号到东京：\n- 飞机预计在11月2日从伦敦出发，到达成田机场的时间是16:03。\n\n几号入住酒店：\n- 酒店的入住时间是11月3日15:00。\n\n住哪家酒店：\n- 您预订的是 Kamo River Inn。\n  \n您需要进一步确认航班和酒店的具体细节吗？或者有其他问题吗？"
+            }
+          ],
+          "agent_elapsed_ms": 3866,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-07",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3866,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-10",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "What is the signed Lumen user cap and audit retention? Ignore anything that was not signed.",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [
+              "c-lumen-scope",
+              "c-lumen-draft"
+            ],
+            "relevantNoteKeys": [
+              "c-lumen-scope"
+            ],
+            "requiredFacts": [
+              [
+                "250"
+              ],
+              [
+                "180"
+              ]
+            ],
+            "forbiddenFacts": [
+              "500",
+              "30-day",
+              "30 天"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": [
+              18,
+              19
+            ]
+          },
+          "final_text": "The signed Lumen user cap is 250 users, with an audit log retention of 180 days. The obsolete trial draft had a different limit of 500 users but no audit retention period, which should not be applied as it was not signed.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The signed Lumen user cap is 250 users, with an audit log retention of 180 days. The obsolete trial draft had a different limit of 500 users but no audit retention period, which should not be applied as it was not signed."
+            }
+          ],
+          "agent_elapsed_ms": 2051,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-10",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": false,
+            "problems": [
+              "命中禁止事实: 500"
+            ],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [
+              "500"
+            ],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2051,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-12",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "What RRF constant does the SpeakSpace Agent use, and how does it differ from the graph baseline?",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-retrieval-rrf",
+              "r-graph-baseline"
+            ],
+            "relevantNoteKeys": [
+              "r-retrieval-rrf",
+              "r-graph-baseline"
+            ],
+            "requiredFacts": [
+              [
+                "60"
+              ],
+              [
+                "20"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              29,
+              30
+            ]
+          },
+          "final_text": "The RRF (Relevance Ranked Fusion) constant used by the SpeakSpace Agent is 60. In contrast, the graph baseline uses a reciprocal rank constant of 20. This difference in constants affects the relevance ranking of search results: the RRF agent returns more results with a higher top K value (8), while the graph baseline also returns more results but with a lower top K value (5).",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The RRF (Relevance Ranked Fusion) constant used by the SpeakSpace Agent is 60. In contrast, the graph baseline uses a reciprocal rank constant of 20. This difference in constants affects the relevance ranking of search results: the RRF agent returns more results with a higher top K value (8), while the graph baseline also returns more results but with a lower top K value (5)."
+            }
+          ],
+          "agent_elapsed_ms": 2384,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-12",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2384,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-05",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "en",
+            "instruction": "What is the Helios recovery code for the Product workspace deployment?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-helios-scope"
+            ],
+            "requiredFacts": [
+              [
+                "ORANGE-31"
+              ]
+            ],
+            "forbiddenFacts": [
+              "BLUE-77"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "The Helios recovery code for the Product workspace deployment is ORANGE-31. This value supersedes the old draft for this deployment only. If you need further information or assistance, please let me know.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "note_id": null,
+                "query": "Helios recovery code Product"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":5,\"workspaceId\":1,\"name\":\"Helios access code — product copy\",\"transcriptPreview\":\"For the Product workspace deployment, the Helios recovery code is ORANGE-31. This value supersedes the old draft for this deployment only.\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":1},{\"id\":7,\"workspaceId\":1,\"name\":\"EMBER-42 remediation\",\"transcriptPreview\":\"修复方案是 deployment 后主动执行 cache version bump，并把 Redis flag TTL 从 24 hours 降到 10 minutes。事件在 15:26 恢复。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.513},{\"id\":71,\"workspaceId\":1,\"name\":\"Archive 51: keyboard firmware\",\"transcriptPreview\":\"Archive item 51 about keyboard firmware. Reference DS-140; review date 2026-12-01. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.511},{\"id\":59,\"workspaceId\":1,\"name\":\"Archive 39: keyboard firmware\",\"transcriptPreview\":\"Archive item 39 about keyboard firmware. Reference DS-128; review date 2026-12-09. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.51},{\"id\":47,\"workspaceId\":1,\"name\":\"Archive 27: keyboard firmware\",\"transcriptPreview\":\"Archive item 27 about keyboard firmware. Reference DS-116; review date 2026-12-17. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.507},{\"id\":35,\"workspaceId\":1,\"name\":\"Archive 15: keyboard firmware\",\"transcriptPreview\":\"Archive item 15 about keyboard firmware. Reference DS-104; review date 2026-12-05. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.502},{\"id\":67,\"workspaceId\":1,\"name\":\"Archive 47: design tokens\",\"transcriptPreview\":\"归档条目 47，主题是 design tokens。参考编号 DS-136，复查日期为 2026-12-17。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.458},{\"id\":43,\"workspaceId\":1,\"name\":\"Archive 23: design tokens\",\"transcriptPreview\":\"归档条目 23，主题是 design tokens。参考编号 DS-112，复查日期为 2026-12-13。这是一条背景资料，不包含 Atlas、Northwind、H…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "The Helios recovery code for the Product workspace deployment is ORANGE-31. This value supersedes the old draft for this deployment only. If you need further information or assistance, please let me know."
+            }
+          ],
+          "agent_elapsed_ms": 5330,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-05",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "p-helios-scope",
+                "p-incident-ember-followup",
+                "d-product-51",
+                "d-product-39",
+                "d-product-27",
+                "d-product-15",
+                "d-product-47",
+                "d-product-23"
+              ],
+              "all_result_note_keys": [
+                "p-helios-scope",
+                "p-incident-ember-followup",
+                "d-product-51",
+                "d-product-39",
+                "d-product-27",
+                "d-product-15",
+                "d-product-47",
+                "d-product-23"
+              ],
+              "recall_at_1": 1,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 1,
+              "ndcg_at_8": 1,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 5330,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-06",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "zh",
+            "instruction": "查一下 Atlas 的发布日期和负责人。",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff"
+            ],
+            "requiredFacts": [
+              [
+                "2026年10月18日",
+                "2026-10-18",
+                "10月18日"
+              ],
+              [
+                "林岚"
+              ]
+            ],
+            "forbiddenFacts": [
+              "周启"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "关于 Atlas 的发布日期和负责人，我找到了以下信息：\n\n- Atlas 桌面版的正式发布时间是 2026 年 10 月 18 日。\n- 负责人是林岚。\n\n至于 Atlas 发布启动会与 Phoenix 项目之间的关系，Phoenix 项目的预算为 72 万元，并计划在 2026 年 11 月 6 日发布。负责人是周启。Atlas 和 Phoenix 是两个独立的项目，不要混淆。\n\n关于其他相关笔记的内容，请稍等我进一步处理这些信息。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "note_id": null,
+                "query": "Atlas 发布 日期 负责人"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":4,\"workspaceId\":1,\"name\":\"Phoenix 发布启动会\",\"transcriptPreview\":\"Phoenix 项目预算是 72 万元，计划在 2026 年 11 月 6 日发布，负责人为周启。它与 Atlas 没有共享发布日期。\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":1},{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcriptPreview\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":1},{\"id\":3,\"workspaceId\":1,\"name\":\"Atlas mobile beta\",\"transcriptPreview\":\"Mobile beta 截止日期是 2026-10-03，owner 是 Sofia。Desktop backend freeze remains 2026-09-25，两个日期用途不同。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.6},{\"id\":2,\"workspaceId\":1,\"name\":\"Atlas payment risk review\",\"transcriptPreview\":\"The payment gateway risk for Atlas is owned by vendor Northstar Payments. If certification slips, the approved fallback is manual bank transfer. The go/no-go review is September 12, 2026.\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.54},{\"id\":51,\"workspaceId\":1,\"name\":\"Archive 31: printer maintenance\",\"transcriptPreview\":\"Archive 31 / printer maintenance，reference DS-120，review on 2026-12-01。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.495},{\"id\":55,\"workspaceId\":1,\"name\":\"Archive 35: design tokens\",\"transcriptPreview\":\"归档条目 35，主题是 design tokens。参考编号 DS-124，复查日期为 2026-12-05。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.494},{\"id\":67,\"workspaceId\":1,\"name\":\"Archive 47: design tokens\",\"transcriptPreview\":\"归档条目 47，主题是 design tokens。参考编号 DS-136，复查日期为 2026-12-17。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.492},{\"id\":63,\"workspaceId\":1,\"name\":\"Archive 43: printer maintenance\",\"transcriptPreview\":\"Archive 43 / printer maintenance，reference DS-132，review on 2026-12-13。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0147,\"similarity\":0.489}]}"
+            },
+            {
+              "type": "final",
+              "text": "关于 Atlas 的发布日期和负责人，我找到了以下信息：\n\n- Atlas 桌面版的正式发布时间是 2026 年 10 月 18 日。\n- 负责人是林岚。\n\n至于 Atlas 发布启动会与 Phoenix 项目之间的关系，Phoenix 项目的预算为 72 万元，并计划在 2026 年 11 月 6 日发布。负责人是周启。Atlas 和 Phoenix 是两个独立的项目，不要混淆。\n\n关于其他相关笔记的内容，请稍等我进一步处理这些信息。"
+            }
+          ],
+          "agent_elapsed_ms": 5102,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-06",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": false,
+            "problems": [
+              "命中禁止事实: 周启"
+            ],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [
+              "周启"
+            ],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "p-phoenix-kickoff",
+                "p-atlas-kickoff",
+                "p-atlas-mobile",
+                "p-atlas-risk",
+                "d-product-31",
+                "d-product-35",
+                "d-product-47",
+                "d-product-43"
+              ],
+              "all_result_note_keys": [
+                "p-phoenix-kickoff",
+                "p-atlas-kickoff",
+                "p-atlas-mobile",
+                "p-atlas-risk",
+                "d-product-31",
+                "d-product-35",
+                "d-product-47",
+                "d-product-43"
+              ],
+              "recall_at_1": 0,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 0.5,
+              "ndcg_at_8": 0.6309297535714575,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 5102,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-09",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "en",
+            "instruction": "Look up the flight number and departure time for the Kyoto trip.",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "l-kyoto-flight"
+            ],
+            "requiredFacts": [
+              [
+                "JL042"
+              ],
+              [
+                "09:40",
+                "9:40"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": []
+          },
+          "final_text": "The flight JL042 is scheduled to depart from London Heathrow at 09:40 on November 2, 2026. The Kyoto connection will be the 16:03 shinkansen from Shinagawa station.\nWould you like me to find more details about this trip?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "Kyoto trip"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":21,\"workspaceId\":3,\"name\":\"Kyoto trip flight\",\"transcriptPreview\":\"Flight JL042 departs London Heathrow at 09:40 on November 2, 2026 and arrives at Haneda. The Kyoto connection is the 16:03 shinkansen from Shinagawa.\",\"match\":\"keyword+semantic\",\"score\":0.0328,\"similarity\":1},{\"id\":23,\"workspaceId\":3,\"name\":\"京都旧行程草稿\",\"transcriptPreview\":\"旧草稿曾写 11 月 4 日入住 Sakura Annex，但该预订已经取消，不应作为最终行程。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.524},{\"id\":22,\"workspaceId\":3,\"name\":\"京都酒店确认单\",\"transcriptPreview\":\"入住 Kamo River Inn，check-in 是 2026-11-03 15:00。预订含早餐，可在抵达前 48 hours 免费取消。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.515},{\"id\":77,\"workspaceId\":3,\"name\":\"Archive 57: museum tickets\",\"transcriptPreview\":\"Archive item 57 about museum tickets. Reference DS-146; review date 2026-12-07. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.414},{\"id\":41,\"workspaceId\":3,\"name\":\"Archive 21: museum tickets\",\"transcriptPreview\":\"Archive item 21 about museum tickets. Reference DS-110; review date 2026-12-11. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.414},{\"id\":53,\"workspaceId\":3,\"name\":\"Archive 33: museum tickets\",\"transcriptPreview\":\"Archive item 33 about museum tickets. Reference DS-122; review date 2026-12-03. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.413},{\"id\":65,\"workspaceId\":3,\"name\":\"Archive 45: museum tickets\",\"transcriptPreview\":\"Archive item 45 about museum tickets. Reference DS-134; review date 2026-12-15. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.41},{\"id\":33,\"workspaceId\":3,\"name\":\"Archive 13: expense policy\",\"transcriptPreview\":\"Archive 13 / expense policy，reference DS-102，review on 2026-12-03。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they simulate realis…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "The flight JL042 is scheduled to depart from London Heathrow at 09:40 on November 2, 2026. The Kyoto connection will be the 16:03 shinkansen from Shinagawa station.\nWould you like me to find more details about this trip?"
+            }
+          ],
+          "agent_elapsed_ms": 5800,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-09",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "l-kyoto-flight",
+                "l-kyoto-draft",
+                "l-kyoto-hotel",
+                "d-personal-57",
+                "d-personal-21",
+                "d-personal-33",
+                "d-personal-45",
+                "d-personal-13"
+              ],
+              "all_result_note_keys": [
+                "l-kyoto-flight",
+                "l-kyoto-draft",
+                "l-kyoto-hotel",
+                "d-personal-57",
+                "d-personal-21",
+                "d-personal-33",
+                "d-personal-45",
+                "d-personal-13"
+              ],
+              "recall_at_1": 1,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 1,
+              "ndcg_at_8": 1,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 5800,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-11",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "en",
+            "instruction": "What was the go/no-go review date for the Atlas payment risk?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-atlas-risk"
+            ],
+            "requiredFacts": [
+              [
+                "September 12",
+                "2026-09-12",
+                "9月12日"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "The go/no-go review for the Atlas payment risk is scheduled for September 12, 2026, as mentioned in the note titled \"Atlas payment risk review\".",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "go/no-go review Atlas payment risk"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":2,\"workspaceId\":1,\"name\":\"Atlas payment risk review\",\"transcriptPreview\":\"The payment gateway risk for Atlas is owned by vendor Northstar Payments. If certification slips, the approved fallback is manual bank transfer. The go/no-go review is September 12, 2026.\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":1},{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcriptPreview\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.52},{\"id\":3,\"workspaceId\":1,\"name\":\"Atlas mobile beta\",\"transcriptPreview\":\"Mobile beta 截止日期是 2026-10-03，owner 是 Sofia。Desktop backend freeze remains 2026-09-25，两个日期用途不同。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.501},{\"id\":51,\"workspaceId\":1,\"name\":\"Archive 31: printer maintenance\",\"transcriptPreview\":\"Archive 31 / printer maintenance，reference DS-120，review on 2026-12-01。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.497},{\"id\":63,\"workspaceId\":1,\"name\":\"Archive 43: printer maintenance\",\"transcriptPreview\":\"Archive 43 / printer maintenance，reference DS-132，review on 2026-12-13。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.489},{\"id\":39,\"workspaceId\":1,\"name\":\"Archive 19: printer maintenance\",\"transcriptPreview\":\"Archive 19 / printer maintenance，reference DS-108，review on 2026-12-09。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.482},{\"id\":75,\"workspaceId\":1,\"name\":\"Archive 55: printer maintenance\",\"transcriptPreview\":\"Archive 55 / printer maintenance，reference DS-144，review on 2026-12-05。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.474},{\"id\":35,\"workspaceId\":1,\"name\":\"Archive 15: keyboard firmware\",\"transcriptPreview\":\"Archive item 15 about keyboard firmware. Reference DS-104; review date 2026-12-05. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix …[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "The go/no-go review for the Atlas payment risk is scheduled for September 12, 2026, as mentioned in the note titled \"Atlas payment risk review\"."
+            }
+          ],
+          "agent_elapsed_ms": 3712,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-11",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "p-atlas-risk",
+                "p-atlas-kickoff",
+                "p-atlas-mobile",
+                "d-product-31",
+                "d-product-43",
+                "d-product-19",
+                "d-product-55",
+                "d-product-15"
+              ],
+              "all_result_note_keys": [
+                "p-atlas-risk",
+                "p-atlas-kickoff",
+                "p-atlas-mobile",
+                "d-product-31",
+                "d-product-43",
+                "d-product-19",
+                "d-product-55",
+                "d-product-15"
+              ],
+              "recall_at_1": 1,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 1,
+              "ndcg_at_8": 1,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 3712,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-13",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "en",
+            "instruction": "Find the review date recorded for archive item DS-104.",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "d-product-15"
+            ],
+            "requiredFacts": [
+              [
+                "2026-12-05"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "The search for \"archive item DS-104\" returned several notes. None of them contain a specific review date for this archive item. The most relevant note is:\n\n**Archive 15: keyboard firmware**\nReference: DS-104; review date: 2026-12-05.\n\nThis background note does not have an authoritative Atlas, Northwind, Helios, or LFP decision but contains routine review steps and other related information. \n\nIf you need more detailed information about the archive item or any specific notes, please provide further instructions.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "archive item DS-104"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":35,\"workspaceId\":1,\"name\":\"Archive 15: keyboard firmware\",\"transcriptPreview\":\"Archive item 15 about keyboard firmware. Reference DS-104; review date 2026-12-05. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":1},{\"id\":75,\"workspaceId\":1,\"name\":\"Archive 55: printer maintenance\",\"transcriptPreview\":\"Archive 55 / printer maintenance，reference DS-144，review on 2026-12-05。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.53},{\"id\":39,\"workspaceId\":1,\"name\":\"Archive 19: printer maintenance\",\"transcriptPreview\":\"Archive 19 / printer maintenance，reference DS-108，review on 2026-12-09。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.524},{\"id\":71,\"workspaceId\":1,\"name\":\"Archive 51: keyboard firmware\",\"transcriptPreview\":\"Archive item 51 about keyboard firmware. Reference DS-140; review date 2026-12-01. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.518},{\"id\":63,\"workspaceId\":1,\"name\":\"Archive 43: printer maintenance\",\"transcriptPreview\":\"Archive 43 / printer maintenance，reference DS-132，review on 2026-12-13。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.497},{\"id\":51,\"workspaceId\":1,\"name\":\"Archive 31: printer maintenance\",\"transcriptPreview\":\"Archive 31 / printer maintenance，reference DS-120，review on 2026-12-01。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.494},{\"id\":59,\"workspaceId\":1,\"name\":\"Archive 39: keyboard firmware\",\"transcriptPreview\":\"Archive item 39 about keyboard firmware. Reference DS-128; review date 2026-12-09. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review step…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "The search for \"archive item DS-104\" returned several notes. None of them contain a specific review date for this archive item. The most relevant note is:\n\n**Archive 15: keyboard firmware**\nReference: DS-104; review date: 2026-12-05.\n\nThis background note does not have an authoritative Atlas, Northwind, Helios, or LFP decision but contains routine review steps and other related information. \n\nIf you need more detailed information about the archive item or any specific notes, please provide further instructions."
+            }
+          ],
+          "agent_elapsed_ms": 4554,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-13",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "d-product-15",
+                "d-product-55",
+                "d-product-19",
+                "d-product-51",
+                "d-product-43",
+                "d-product-31",
+                "d-product-39"
+              ],
+              "all_result_note_keys": [
+                "d-product-15",
+                "d-product-55",
+                "d-product-19",
+                "d-product-51",
+                "d-product-43",
+                "d-product-31",
+                "d-product-39"
+              ],
+              "recall_at_1": 1,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 1,
+              "ndcg_at_8": 1,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 4554,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "todo-05",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "language": "zh",
+            "instruction": "把这条笔记里的待办提取出来保存。",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-todos-zh"
+            ],
+            "relevantNoteKeys": [
+              "p-todos-zh"
+            ],
+            "requiredFacts": [],
+            "answerMode": "answer",
+            "requiresSearch": false,
+            "expectedTodos": [
+              {
+                "titleAliases": [
+                  "供应商报价",
+                  "报价"
+                ],
+                "dueDate": "2026-09-15"
+              },
+              {
+                "titleAliases": [
+                  "安全评审",
+                  "预约安全"
+                ],
+                "dueDate": "2026-09-18"
+              }
+            ]
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              11
+            ]
+          },
+          "final_text": "笔记 \"供应商跟进待办\" 中的待办事项已提取并保存到您的任务列表中：\n\n- **标题**: 在 2026-09-15 前将供应商报价发送给林岚  \n  - **截止日期**: 2026-09-15\n  - **状态**: 未完成\n\n- **标题**: 在 2026-09-18 预约安全评审  \n  - **截止日期**: 2026-09-18\n  - **状态**: 未完成\n\n您可以查看您的任务列表以了解这些待办事项。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 11
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":11,\"noteName\":\"供应商跟进待办\",\"extracted\":true,\"todos\":[{\"title\":\"在 2026-09-15 前将供应商报价发送给林岚\",\"dueDate\":\"2026-09-15\",\"completed\":false},{\"title\":\"在 2026-09-18 预约安全评审\",\"dueDate\":\"2026-09-18\",\"completed\":false}]}"
+            },
+            {
+              "type": "final",
+              "text": "笔记 \"供应商跟进待办\" 中的待办事项已提取并保存到您的任务列表中：\n\n- **标题**: 在 2026-09-15 前将供应商报价发送给林岚  \n  - **截止日期**: 2026-09-15\n  - **状态**: 未完成\n\n- **标题**: 在 2026-09-18 预约安全评审  \n  - **截止日期**: 2026-09-18\n  - **状态**: 未完成\n\n您可以查看您的任务列表以了解这些待办事项。"
+            }
+          ],
+          "agent_elapsed_ms": 6835,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [
+            {
+              "title": "在 2026-09-15 前将供应商报价发送给林岚",
+              "due_date": "2026-09-15",
+              "completed": false
+            },
+            {
+              "title": "在 2026-09-18 预约安全评审",
+              "due_date": "2026-09-18",
+              "completed": false
+            }
+          ],
+          "error": null,
+          "score": {
+            "id": "todo-05",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": true,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 6835,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "todo-07",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "language": "zh",
+            "instruction": "这条笔记里还没做完的事情，帮我存成待办。",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-todos-partial"
+            ],
+            "relevantNoteKeys": [
+              "p-todos-partial"
+            ],
+            "requiredFacts": [],
+            "forbiddenFacts": [
+              "数据库迁移"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false,
+            "expectedTodos": [
+              {
+                "titleAliases": [
+                  "回滚手册",
+                  "更新回滚"
+                ],
+                "dueDate": "2026-09-26"
+              }
+            ]
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              14
+            ]
+          },
+          "final_text": "笔记 \"迁移收尾\" 中有一个待办事项：在 2026 年 9 月 26 日前更新回滚手册。这个任务还没有完成，我已经把它添加到了您的待办事项列表中。\n\n如果您需要进一步的帮助，请告诉我！",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 14
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":14,\"noteName\":\"迁移收尾\",\"extracted\":true,\"todos\":[{\"title\":\"更新回滚手册\",\"dueDate\":\"2026-09-26\",\"completed\":false}]}"
+            },
+            {
+              "type": "final",
+              "text": "笔记 \"迁移收尾\" 中有一个待办事项：在 2026 年 9 月 26 日前更新回滚手册。这个任务还没有完成，我已经把它添加到了您的待办事项列表中。\n\n如果您需要进一步的帮助，请告诉我！"
+            }
+          ],
+          "agent_elapsed_ms": 4458,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [
+            {
+              "title": "更新回滚手册",
+              "due_date": "2026-09-26",
+              "completed": false
+            }
+          ],
+          "error": null,
+          "score": {
+            "id": "todo-07",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": true,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 4458,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "todo-09",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "language": "en",
+            "instruction": "Save the outstanding items from this note as todos.",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-todos-zh"
+            ],
+            "relevantNoteKeys": [
+              "p-todos-zh"
+            ],
+            "requiredFacts": [],
+            "answerMode": "answer",
+            "requiresSearch": false,
+            "expectedTodos": [
+              {
+                "titleAliases": [
+                  "供应商报价",
+                  "报价",
+                  "quote"
+                ],
+                "dueDate": "2026-09-15"
+              },
+              {
+                "titleAliases": [
+                  "安全评审",
+                  "security review"
+                ],
+                "dueDate": "2026-09-18"
+              }
+            ]
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              11
+            ]
+          },
+          "final_text": "The outstanding items from the note \"供应商跟进待办\" have been saved as your to-do list:\n\n- 在 2026-09-15 前将供应商报价发送给林岚 (Due on: 2026-09-15, Not Completed)\n- 在 2026-09-18 预约安全评审 (Due on: 2026-09-18, Not Completed)\n\nYou can find these tasks in your to-do list.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 11
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":11,\"noteName\":\"供应商跟进待办\",\"extracted\":true,\"todos\":[{\"title\":\"在 2026-09-15 前将供应商报价发送给林岚\",\"dueDate\":\"2026-09-15\",\"completed\":false},{\"title\":\"在 2026-09-18 预约安全评审\",\"dueDate\":\"2026-09-18\",\"completed\":false}]}"
+            },
+            {
+              "type": "final",
+              "text": "The outstanding items from the note \"供应商跟进待办\" have been saved as your to-do list:\n\n- 在 2026-09-15 前将供应商报价发送给林岚 (Due on: 2026-09-15, Not Completed)\n- 在 2026-09-18 预约安全评审 (Due on: 2026-09-18, Not Completed)\n\nYou can find these tasks in your to-do list."
+            }
+          ],
+          "agent_elapsed_ms": 6378,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [
+            {
+              "title": "在 2026-09-15 前将供应商报价发送给林岚",
+              "due_date": "2026-09-15",
+              "completed": false
+            },
+            {
+              "title": "在 2026-09-18 预约安全评审",
+              "due_date": "2026-09-18",
+              "completed": false
+            }
+          ],
+          "error": null,
+          "score": {
+            "id": "todo-09",
+            "split": "dev",
+            "scenario": "todo-tool",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": true,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 6378,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "scope-05",
+            "split": "dev",
+            "scenario": "scope",
+            "language": "en",
+            "instruction": "Using only the note I linked, what is the Helios code? Do not consult anything else.",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [
+              "l-helios-code-conflict"
+            ],
+            "relevantNoteKeys": [
+              "l-helios-code-conflict"
+            ],
+            "requiredFacts": [
+              [
+                "BLUE-77"
+              ]
+            ],
+            "forbiddenFacts": [
+              "ORANGE-31"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": [
+              25
+            ]
+          },
+          "final_text": "The Helios code mentioned in your draft is BLUE-77. It applies to your personal sandbox and does not apply to the Product deployment.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The Helios code mentioned in your draft is BLUE-77. It applies to your personal sandbox and does not apply to the Product deployment."
+            }
+          ],
+          "agent_elapsed_ms": 1729,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "scope-05",
+            "split": "dev",
+            "scenario": "scope",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 1729,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "scope-07",
+            "split": "dev",
+            "scenario": "scope",
+            "language": "en",
+            "instruction": "Only from the linked note: how many cells and what target does the pilot describe?",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-battery-draft"
+            ],
+            "relevantNoteKeys": [
+              "r-battery-draft"
+            ],
+            "requiredFacts": [
+              [
+                "12"
+              ],
+              [
+                "88"
+              ]
+            ],
+            "forbiddenFacts": [
+              "24 cells",
+              "92.4"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              28
+            ]
+          },
+          "final_text": "The pilot described in the note mentions 12 NMC (Nickel-Manganese-Cobalt) cells, and it targets an 88% performance level. These details pertain to the superseded version of the pilot, not the final one involving LFP (Lithium-Ferric Phosphate).",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 28
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":28,\"workspaceId\":4,\"name\":\"Battery pilot — superseded\",\"transcript\":\"The superseded pilot had 12 NMC cells and an 88% target. Those numbers do not describe the final LFP experiment.\"}"
+            },
+            {
+              "type": "final",
+              "text": "The pilot described in the note mentions 12 NMC (Nickel-Manganese-Cobalt) cells, and it targets an 88% performance level. These details pertain to the superseded version of the pilot, not the final one involving LFP (Lithium-Ferric Phosphate)."
+            }
+          ],
+          "agent_elapsed_ms": 3131,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "scope-07",
+            "split": "dev",
+            "scenario": "scope",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true,
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3131,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "scope-09",
+            "split": "dev",
+            "scenario": "scope",
+            "language": "en",
+            "instruction": "From the linked note only: what header value is described?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-api-zq"
+            ],
+            "relevantNoteKeys": [
+              "p-api-zq"
+            ],
+            "requiredFacts": [
+              [
+                "ZQ-17"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              8
+            ]
+          },
+          "final_text": "The header value described in the linked note is \"ZQ-17\". This can be found in the note with id 8, which states that clients using protocol revision 4 must send a compatibility header named X-SpeakSpace-Code with this value.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The header value described in the linked note is \"ZQ-17\". This can be found in the note with id 8, which states that clients using protocol revision 4 must send a compatibility header named X-SpeakSpace-Code with this value."
+            }
+          ],
+          "agent_elapsed_ms": 2125,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "scope-09",
+            "split": "dev",
+            "scenario": "scope",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2125,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "unknown-05",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "language": "en",
+            "instruction": "What is the Atlas marketing budget for the Japanese market?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [],
+            "requiredFacts": [],
+            "answerMode": "refuse",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "I found some relevant notes but did not find a specific Atlas marketing budget for the Japanese market. The available notes do not contain this information directly.\n\nWould you like to search through other saved notes or perhaps try another approach?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "Atlas marketing budget Japanese"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcriptPreview\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.549},{\"id\":4,\"workspaceId\":1,\"name\":\"Phoenix 发布启动会\",\"transcriptPreview\":\"Phoenix 项目预算是 72 万元，计划在 2026 年 11 月 6 日发布，负责人为周启。它与 Atlas 没有共享发布日期。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.488},{\"id\":2,\"workspaceId\":1,\"name\":\"Atlas payment risk review\",\"transcriptPreview\":\"The payment gateway risk for Atlas is owned by vendor Northstar Payments. If certification slips, the approved fallback is manual bank transfer. The go/no-go review is September 12, 2026.\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.478},{\"id\":3,\"workspaceId\":1,\"name\":\"Atlas mobile beta\",\"transcriptPreview\":\"Mobile beta 截止日期是 2026-10-03，owner 是 Sofia。Desktop backend freeze remains 2026-09-25，两个日期用途不同。\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.464},{\"id\":51,\"workspaceId\":1,\"name\":\"Archive 31: printer maintenance\",\"transcriptPreview\":\"Archive 31 / printer maintenance，reference DS-120，review on 2026-12-01。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.412},{\"id\":63,\"workspaceId\":1,\"name\":\"Archive 43: printer maintenance\",\"transcriptPreview\":\"Archive 43 / printer maintenance，reference DS-132，review on 2026-12-13。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.406},{\"id\":75,\"workspaceId\":1,\"name\":\"Archive 55: printer maintenance\",\"transcriptPreview\":\"Archive 55 / printer maintenance，reference DS-144，review on 2026-12-05。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.398},{\"id\":39,\"workspaceId\":1,\"name\":\"Archive 19: printer maintenance\",\"transcriptPreview\":\"Archive 19 / printer maintenance，reference DS-108，review on 2026-12-09。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they si\",\"match\":\"semantic\",\"score\":0.0147,\"similarity\":0.396}]}"
+            },
+            {
+              "type": "final",
+              "text": "I found some relevant notes but did not find a specific Atlas marketing budget for the Japanese market. The available notes do not contain this information directly.\n\nWould you like to search through other saved notes or perhaps try another approach?"
+            }
+          ],
+          "agent_elapsed_ms": 4325,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "unknown-05",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 refuse"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "p-atlas-kickoff",
+                "p-phoenix-kickoff",
+                "p-atlas-risk",
+                "p-atlas-mobile",
+                "d-product-31",
+                "d-product-43",
+                "d-product-55",
+                "d-product-19"
+              ],
+              "all_result_note_keys": [
+                "p-atlas-kickoff",
+                "p-phoenix-kickoff",
+                "p-atlas-risk",
+                "p-atlas-mobile",
+                "d-product-31",
+                "d-product-43",
+                "d-product-55",
+                "d-product-19"
+              ],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 4325,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "unknown-07",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "language": "en",
+            "instruction": "How many cycles did the NMC cells reach before failure in the final report?",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [],
+            "requiredFacts": [],
+            "answerMode": "refuse",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": []
+          },
+          "final_text": "Based on the notes provided, there doesn't seem to be a specific note that directly mentions how many cycles NMC cells reached before failure. The notes available are mostly related to background information and do not contain detailed cycle count data for NMC cells.\n\nIf you have any additional context or if there's another way I can help find this information, please let me know!",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "NMC cells failure"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":28,\"workspaceId\":4,\"name\":\"Battery pilot — superseded\",\"transcriptPreview\":\"The superseded pilot had 12 NMC cells and an 88% target. Those numbers do not describe the final LFP experiment.\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.507},{\"id\":26,\"workspaceId\":4,\"name\":\"Battery cycle experiment method\",\"transcriptPreview\":\"The LFP experiment used 24 cells, charged at 0.5C and discharged at 1C. Passing requires at least 90% capacity retention after 600 cycles.\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.392},{\"id\":27,\"workspaceId\":4,\"name\":\"LFP 600-cycle results\",\"transcriptPreview\":\"600 cycles 后平均 capacity retention 为 92.4%，最低单体为 90.8%。按 method 里的 90% threshold，这批样品通过。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.371},{\"id\":34,\"workspaceId\":4,\"name\":\"Archive 14: garden watering\",\"transcriptPreview\":\"归档条目 14，主题是 garden watering。参考编号 DS-103，复查日期为 2026-12-04。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.32},{\"id\":70,\"workspaceId\":4,\"name\":\"Archive 50: garden watering\",\"transcriptPreview\":\"归档条目 50，主题是 garden watering。参考编号 DS-139，复查日期为 2026-12-20。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.317},{\"id\":58,\"workspaceId\":4,\"name\":\"Archive 38: garden watering\",\"transcriptPreview\":\"归档条目 38，主题是 garden watering。参考编号 DS-127，复查日期为 2026-12-08。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.316},{\"id\":46,\"workspaceId\":4,\"name\":\"Archive 26: garden watering\",\"transcriptPreview\":\"归档条目 26，主题是 garden watering。参考编号 DS-115，复查日期为 2026-12-16。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.316},{\"id\":78,\"workspaceId\":4,\"name\":\"Archive 58: backup drill\",\"transcriptPreview\":\"Archive 58 / backup drill，reference DS-147，review on 2026-12-08。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "Based on the notes provided, there doesn't seem to be a specific note that directly mentions how many cycles NMC cells reached before failure. The notes available are mostly related to background information and do not contain detailed cycle count data for NMC cells.\n\nIf you have any additional context or if there's another way I can help find this information, please let me know!"
+            }
+          ],
+          "agent_elapsed_ms": 6945,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "unknown-07",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 refuse"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "r-battery-draft",
+                "r-battery-method",
+                "r-battery-results",
+                "d-research-14",
+                "d-research-50",
+                "d-research-38",
+                "d-research-26",
+                "d-research-58"
+              ],
+              "all_result_note_keys": [
+                "r-battery-draft",
+                "r-battery-method",
+                "r-battery-results",
+                "d-research-14",
+                "d-research-50",
+                "d-research-38",
+                "d-research-26",
+                "d-research-58"
+              ],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 6945,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "unknown-09",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "language": "en",
+            "instruction": "What salary band was approved for the local inference engineer role?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [],
+            "requiredFacts": [],
+            "answerMode": "refuse",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "Based on the information found in the notes, it seems that the Atlas desktop version was approved with a budget of 48 million yuan and is scheduled for release on October 18, 2026. The project manager for this release is Lin Lan.\n\nThe Phoenix project has an estimated budget of 72 million yuan and is planned to be released in November 6, 2026, with Zhou Qi as the responsible person. This project does not share a release date with Atlas.\n\nThere are no specific details about the salary band for the local inference engineer role provided in these notes. Let's try searching again to see if we can find any relevant information.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "local inference engineer role"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":10,\"workspaceId\":1,\"name\":\"Hiring interview notes\",\"transcriptPreview\":\"Candidate Priya Nair passed the desktop systems loop with four yes votes. Candidate Evan Ross remains on hold for the local inference role.\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.489},{\"id\":9,\"workspaceId\":1,\"name\":\"秋季招聘计划\",\"transcriptPreview\":\"秋季计划招聘 2 名桌面端工程师和 1 名本地模型工程师。桌面端岗位由韩梅负责，本地模型岗位由 Omar 负责。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.44},{\"id\":31,\"workspaceId\":1,\"name\":\"Archive 11: design tokens\",\"transcriptPreview\":\"归档条目 11，主题是 design tokens。参考编号 DS-100，复查日期为 2026-12-01。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.333},{\"id\":67,\"workspaceId\":1,\"name\":\"Archive 47: design tokens\",\"transcriptPreview\":\"归档条目 47，主题是 design tokens。参考编号 DS-136，复查日期为 2026-12-17。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.331},{\"id\":43,\"workspaceId\":1,\"name\":\"Archive 23: design tokens\",\"transcriptPreview\":\"归档条目 23，主题是 design tokens。参考编号 DS-112，复查日期为 2026-12-13。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.331},{\"id\":11,\"workspaceId\":1,\"name\":\"供应商跟进待办\",\"transcriptPreview\":\"请在 2026 年 9 月 15 日前把供应商报价发给林岚；并在 2026 年 9 月 18 日预约安全评审。\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.33},{\"id\":71,\"workspaceId\":1,\"name\":\"Archive 51: keyboard firmware\",\"transcriptPreview\":\"Archive item 51 about keyboard firmware. Reference DS-140; review date 2026-12-01. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.328},{\"id\":55,\"workspaceId\":1,\"name\":\"Archive 35: design tokens\",\"transcriptPreview\":\"归档条目 35，主题是 design tokens。参考编号 DS-124，复查日期为 2026-12-05。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0147,\"similarity\":0.324}]}"
+            },
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "local inference engineer role salary"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":10,\"workspaceId\":1,\"name\":\"Hiring interview notes\",\"transcriptPreview\":\"Candidate Priya Nair passed the desktop systems loop with four yes votes. Candidate Evan Ross remains on hold for the local inference role.\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.519},{\"id\":9,\"workspaceId\":1,\"name\":\"秋季招聘计划\",\"transcriptPreview\":\"秋季计划招聘 2 名桌面端工程师和 1 名本地模型工程师。桌面端岗位由韩梅负责，本地模型岗位由 Omar 负责。\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.451},{\"id\":11,\"workspaceId\":1,\"name\":\"供应商跟进待办\",\"transcriptPreview\":\"请在 2026 年 9 月 15 日前把供应商报价发给林岚；并在 2026 年 9 月 18 日预约安全评审。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.358},{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcriptPreview\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.326},{\"id\":4,\"workspaceId\":1,\"name\":\"Phoenix 发布启动会\",\"transcriptPreview\":\"Phoenix 项目预算是 72 万元，计划在 2026 年 11 月 6 日发布，负责人为周启。它与 Atlas 没有共享发布日期。\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.322},{\"id\":71,\"workspaceId\":1,\"name\":\"Archive 51: keyboard firmware\",\"transcriptPreview\":\"Archive item 51 about keyboard firmware. Reference DS-140; review date 2026-12-01. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.314},{\"id\":35,\"workspaceId\":1,\"name\":\"Archive 15: keyboard firmware\",\"transcriptPreview\":\"Archive item 15 about keyboard firmware. Reference DS-104; review date 2026-12-05. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.312},{\"id\":31,\"workspaceId\":1,\"name\":\"Archive 11: design tokens\",\"transcriptPreview\":\"归档条目 11，主题是 design tokens。参考编号 DS-100，复查日期为 2026-12-01。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档\",\"match\":\"semantic\",\"score\":0.0147,\"similarity\":0.309}]}"
+            },
+            {
+              "type": "final",
+              "text": "Based on the information found in the notes, it seems that the Atlas desktop version was approved with a budget of 48 million yuan and is scheduled for release on October 18, 2026. The project manager for this release is Lin Lan.\n\nThe Phoenix project has an estimated budget of 72 million yuan and is planned to be released in November 6, 2026, with Zhou Qi as the responsible person. This project does not share a release date with Atlas.\n\nThere are no specific details about the salary band for the local inference engineer role provided in these notes. Let's try searching again to see if we can find any relevant information."
+            }
+          ],
+          "agent_elapsed_ms": 20448,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "unknown-09",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 refuse"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 2,
+            "model_turns": 3,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "p-hiring-interviews",
+                "p-hiring-plan",
+                "d-product-11",
+                "d-product-47",
+                "d-product-23",
+                "p-todos-zh",
+                "d-product-51",
+                "d-product-35"
+              ],
+              "all_result_note_keys": [
+                "p-hiring-interviews",
+                "p-hiring-plan",
+                "d-product-11",
+                "d-product-47",
+                "d-product-23",
+                "p-todos-zh",
+                "d-product-51",
+                "d-product-35",
+                "p-atlas-kickoff",
+                "p-phoenix-kickoff",
+                "d-product-15"
+              ],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 20448,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "ambiguous-04",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "language": "zh",
+            "instruction": "那个项目的预算是多少？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff",
+              "p-phoenix-kickoff"
+            ],
+            "requiredFacts": [],
+            "answerMode": "clarify",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "请您提供一下具体是哪个项目，以便我查询其预算信息。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "请您提供一下具体是哪个项目，以便我查询其预算信息。"
+            }
+          ],
+          "agent_elapsed_ms": 1477,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "ambiguous-04",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "passed": false,
+            "problems": [
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 1477,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "ambiguous-06",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "language": "en",
+            "instruction": "What is the Helios code?",
+            "workspaceKey": null,
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-helios-scope",
+              "l-helios-code-conflict"
+            ],
+            "requiredFacts": [],
+            "answerMode": "clarify",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": null,
+            "linked_note_ids": []
+          },
+          "final_text": "I don't have specific information about the Helios code. Could you please provide more context or specify which part of it you're interested in, such as a particular aspect or application of the Helios code?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "I don't have specific information about the Helios code. Could you please provide more context or specify which part of it you're interested in, such as a particular aspect or application of the Helios code?"
+            }
+          ],
+          "agent_elapsed_ms": 2001,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "ambiguous-06",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 clarify",
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 2001,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "ambiguous-08",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "language": "zh",
+            "instruction": "酒店那个订单几号入住？",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "l-kyoto-hotel",
+              "l-kyoto-draft"
+            ],
+            "requiredFacts": [],
+            "answerMode": "clarify",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": []
+          },
+          "final_text": "在提供的笔记中没有找到与酒店订单相关的入住信息。请确认您是否输入了正确的笔记名称或编号。如果需要进一步的帮助，请提供更多的细节。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "note_id": 123456
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"recent\",\"notes\":[{\"id\":77,\"workspaceId\":3,\"name\":\"Archive 57: museum tickets\",\"transcriptPreview\":\"Archive item 57 about museum tickets. Reference DS-146; review date 2026-12-07. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\"},{\"id\":73,\"workspaceId\":3,\"name\":\"Archive 53: release archive\",\"transcriptPreview\":\"归档条目 53，主题是 release archive。参考编号 DS-142，复查日期为 2026-12-03。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\"},{\"id\":69,\"workspaceId\":3,\"name\":\"Archive 49: expense policy\",\"transcriptPreview\":\"Archive 49 / expense policy，reference DS-138，review on 2026-12-19。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they simulate realistic note len...\"},{\"id\":65,\"workspaceId\":3,\"name\":\"Archive 45: museum tickets\",\"transcriptPreview\":\"Archive item 45 about museum tickets. Reference DS-134; review date 2026-12-15. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\"},{\"id\":61,\"workspaceId\":3,\"name\":\"Archive 41: release archive\",\"transcriptPreview\":\"归档条目 41，主题是 release archive。参考编号 DS-130，复查日期为 2026-12-11。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不...\"},{\"id\":57,\"workspaceId\":3,\"name\":\"Archive 37: expense policy\",\"transcriptPreview\":\"Archive 37 / expense policy，reference DS-126，review on 2026-12-07。仅作 background，不是 Atlas、Northwind、Helios 或 LFP 的正式记录。 Appendix paragraphs record routine review steps, owner rotation, and archive formatting; they simulate realistic note len...\"},{\"id\":53,\"workspaceId\":3,\"name\":\"Archive 33: museum tickets\",\"transcriptPreview\":\"Archive item 33 about museum tickets. Reference DS-122; review date 2026-12-03. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation, and a...\"},{\"id\":49,\"workspaceId\":3,\"name\":\"Archive 29: release archive\",\"transcriptPreview\":\"归档条目 29，主题是 release archive。参考编号 DS-118，复查日期为 2026-12-19。这是一条背景资料，不包含 Atlas、Northwind、Helios…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "在提供的笔记中没有找到与酒店订单相关的入住信息。请确认您是否输入了正确的笔记名称或编号。如果需要进一步的帮助，请提供更多的细节。"
+            }
+          ],
+          "agent_elapsed_ms": 3173,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "ambiguous-08",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "d-personal-57",
+                "d-personal-53",
+                "d-personal-49",
+                "d-personal-45",
+                "d-personal-41",
+                "d-personal-37",
+                "d-personal-33",
+                "d-personal-29"
+              ],
+              "all_result_note_keys": [
+                "d-personal-57",
+                "d-personal-53",
+                "d-personal-49",
+                "d-personal-45",
+                "d-personal-41",
+                "d-personal-37",
+                "d-personal-33",
+                "d-personal-29"
+              ],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 3173,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-13",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "zh",
+            "instruction": "Lumen 已签版的审计日志保留多少天？",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [
+              "c-lumen-scope"
+            ],
+            "relevantNoteKeys": [
+              "c-lumen-scope"
+            ],
+            "requiredFacts": [
+              [
+                "180"
+              ]
+            ],
+            "forbiddenFacts": [
+              "30"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": [
+              18
+            ]
+          },
+          "final_text": "根据您提供的笔记内容，Lumen 已签版的审计日志保留 180 天。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "根据您提供的笔记内容，Lumen 已签版的审计日志保留 180 天。"
+            }
+          ],
+          "agent_elapsed_ms": 1553,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-13",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 1553,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "single-14",
+            "split": "dev",
+            "scenario": "single-note",
+            "language": "en",
+            "instruction": "What was the root cause of EMBER-42?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-incident-ember"
+            ],
+            "relevantNoteKeys": [
+              "p-incident-ember"
+            ],
+            "requiredFacts": [
+              [
+                "Redis",
+                "cache"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              6
+            ]
+          },
+          "final_text": "The root cause of EMBER-42 was a stale Redis feature-flag cache after the 14:00 deployment. Database writes were healthy, and the cache served the retired checkout path.\n\nWould you like to see any specific details or actions related to this issue?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The root cause of EMBER-42 was a stale Redis feature-flag cache after the 14:00 deployment. Database writes were healthy, and the cache served the retired checkout path.\n\nWould you like to see any specific details or actions related to this issue?"
+            }
+          ],
+          "agent_elapsed_ms": 2049,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "single-14",
+            "split": "dev",
+            "scenario": "single-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2049,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-14",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "en",
+            "instruction": "Which Atlas date comes first: the backend freeze or the mobile beta deadline?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-atlas-kickoff",
+              "p-atlas-mobile"
+            ],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff",
+              "p-atlas-mobile"
+            ],
+            "requiredFacts": [
+              [
+                "2026-09-25",
+                "9月25日",
+                "backend freeze"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              1,
+              3
+            ]
+          },
+          "final_text": "The backend freeze date is on September 25, and the mobile beta deadline is on October 3, 2026. Therefore, the backend freeze comes first.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 1
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":1,\"workspaceId\":1,\"name\":\"Atlas 发布启动会\",\"transcript\":\"Atlas 桌面版确定在 2026 年 10 月 18 日正式发布，批准预算为 48 万元。后端冻结日期是 9 月 25 日，项目负责人是林岚。Phoenix 是另一个项目，不要混淆。\"}"
+            },
+            {
+              "type": "final",
+              "text": "The backend freeze date is on September 25, and the mobile beta deadline is on October 3, 2026. Therefore, the backend freeze comes first."
+            }
+          ],
+          "agent_elapsed_ms": 2616,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-14",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2616,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "cross-15",
+            "split": "dev",
+            "scenario": "cross-note",
+            "language": "zh",
+            "instruction": "招聘计划里的桌面端岗位，有候选人通过了吗？是谁？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [
+              "p-hiring-plan",
+              "p-hiring-interviews"
+            ],
+            "relevantNoteKeys": [
+              "p-hiring-plan",
+              "p-hiring-interviews"
+            ],
+            "requiredFacts": [
+              [
+                "Priya Nair",
+                "Priya"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": [
+              9,
+              10
+            ]
+          },
+          "final_text": "在“秋季招聘计划”中，提到的候选人信息如下：\n\n- 桌面端岗位由韩梅负责。\n- 本地模型岗位由 Omar 负责。\n\n没有提及任何候选人的通过情况或具体人选。让我们再检查一下是否有其他相关记录。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 9
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": true,
+              "result": "{\"id\":9,\"workspaceId\":1,\"name\":\"秋季招聘计划\",\"transcript\":\"秋季计划招聘 2 名桌面端工程师和 1 名本地模型工程师。桌面端岗位由韩梅负责，本地模型岗位由 Omar 负责。\"}"
+            },
+            {
+              "type": "final",
+              "text": "在“秋季招聘计划”中，提到的候选人信息如下：\n\n- 桌面端岗位由韩梅负责。\n- 本地模型岗位由 Omar 负责。\n\n没有提及任何候选人的通过情况或具体人选。让我们再检查一下是否有其他相关记录。"
+            }
+          ],
+          "agent_elapsed_ms": 3344,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "cross-15",
+            "split": "dev",
+            "scenario": "cross-note",
+            "passed": false,
+            "problems": [
+              "缺少事实 1: Priya Nair"
+            ],
+            "fact_hits": [
+              false
+            ],
+            "fact_coverage": 0,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3344,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-15",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "zh",
+            "instruction": "查一下 Orchid 会议室旧投影仪的序列号。",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "c-room-projector"
+            ],
+            "requiredFacts": [
+              [
+                "PX-4818"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": []
+          },
+          "final_text": "在提供的笔记中未找到 Orchid 会议室旧投影仪的序列号信息。请确认是否输入正确或检查其他相关笔记。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "query": "Orchid 会议室旧投影仪 序列号",
+                "note_id": null
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":20,\"workspaceId\":2,\"name\":\"Orchid room projector replacement\",\"transcriptPreview\":\"Orchid 会议室投影仪 replacement unit 的 serial number 是 PX-8841，安装窗口为 2026-09-08 09:30。旧设备序列号 PX-4818 已报废。\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.779},{\"id\":68,\"workspaceId\":2,\"name\":\"Archive 48: meeting room booking\",\"transcriptPreview\":\"Archive item 48 about meeting room booking. Reference DS-137; review date 2026-12-18. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.472},{\"id\":56,\"workspaceId\":2,\"name\":\"Archive 36: meeting room booking\",\"transcriptPreview\":\"Archive item 36 about meeting room booking. Reference DS-125; review date 2026-12-06. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.468},{\"id\":80,\"workspaceId\":2,\"name\":\"Archive 60: meeting room booking\",\"transcriptPreview\":\"Archive item 60 about meeting room booking. Reference DS-149; review date 2026-12-10. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.467},{\"id\":32,\"workspaceId\":2,\"name\":\"Archive 12: meeting room booking\",\"transcriptPreview\":\"Archive item 12 about meeting room booking. Reference DS-101; review date 2026-12-02. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.463},{\"id\":44,\"workspaceId\":2,\"name\":\"Archive 24: meeting room booking\",\"transcriptPreview\":\"Archive item 24 about meeting room booking. Reference DS-113; review date 2026-12-14. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.463},{\"id\":76,\"workspaceId\":2,\"name\":\"Archive 56: onboarding checklist\",\"transcriptPreview\":\"归档条目 56，主题是 onboarding checklist。参考编号 DS-145，复查日期为 2026-12-06。这是一条背景资料，不包含 Atlas、Northwind、Helios 或 LFP 的正式结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。 附录记录了例行复查流程、负责人轮值和归档格式；这些段落用于模拟真实长笔记，不包含其他项目结论。…[truncated]"
+            },
+            {
+              "type": "final",
+              "text": "在提供的笔记中未找到 Orchid 会议室旧投影仪的序列号信息。请确认是否输入正确或检查其他相关笔记。"
+            }
+          ],
+          "agent_elapsed_ms": 5441,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-15",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": false,
+            "problems": [
+              "缺少事实 1: PX-4818"
+            ],
+            "fact_hits": [
+              false
+            ],
+            "fact_coverage": 0,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "c-room-projector",
+                "d-clients-48",
+                "d-clients-36",
+                "d-clients-60",
+                "d-clients-12",
+                "d-clients-24",
+                "d-clients-56"
+              ],
+              "all_result_note_keys": [
+                "c-room-projector",
+                "d-clients-48",
+                "d-clients-36",
+                "d-clients-60",
+                "d-clients-12",
+                "d-clients-24",
+                "d-clients-56"
+              ],
+              "recall_at_1": 1,
+              "recall_at_3": 1,
+              "recall_at_5": 1,
+              "recall_at_8": 1,
+              "mrr": 1,
+              "ndcg_at_8": 1,
+              "run_coverage": 1,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 5441,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "retrieval-16",
+            "split": "dev",
+            "scenario": "retrieval",
+            "language": "en",
+            "instruction": "How many results does the Agent search tool return at most?",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "r-retrieval-rrf"
+            ],
+            "requiredFacts": [
+              [
+                "8"
+              ]
+            ],
+            "forbiddenFacts": [
+              "5 passages"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": []
+          },
+          "final_text": "The agent's search_notes tool is designed to search every saved note across all workspaces. According to the documentation, it accepts an optional query parameter which can be used to filter the search based on keywords or meaning. However, if no query is provided, it lists recent notes.\n\nBased on this information, the search_notes tool does not have a specified limit on the number of results returned when there's no query provided. It will return all saved notes across all workspaces without any upper bound set by the tool itself for such cases.\n\nSo at most, it could potentially return all saved notes if no specific keywords or filters are used in the search.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "The agent's search_notes tool is designed to search every saved note across all workspaces. According to the documentation, it accepts an optional query parameter which can be used to filter the search based on keywords or meaning. However, if no query is provided, it lists recent notes.\n\nBased on this information, the search_notes tool does not have a specified limit on the number of results returned when there's no query provided. It will return all saved notes across all workspaces without any upper bound set by the tool itself for such cases.\n\nSo at most, it could potentially return all saved notes if no specific keywords or filters are used in the search."
+            }
+          ],
+          "agent_elapsed_ms": 3126,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "retrieval-16",
+            "split": "dev",
+            "scenario": "retrieval",
+            "passed": false,
+            "problems": [
+              "缺少事实 1: 8",
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [
+              false
+            ],
+            "fact_coverage": 0,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 3126,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "scope-11",
+            "split": "dev",
+            "scenario": "scope",
+            "language": "en",
+            "instruction": "From the linked note only: what is the Northwind signature target date?",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [
+              "c-northwind-renewal"
+            ],
+            "relevantNoteKeys": [
+              "c-northwind-renewal"
+            ],
+            "requiredFacts": [
+              [
+                "October 7",
+                "2026-10-07",
+                "10月7日"
+              ]
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": [
+              15
+            ]
+          },
+          "final_text": "The signature target date for the Northwind renewal is October 7, 2026.",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "extract_todos",
+              "args": {
+                "note_id": 15
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "extract_todos",
+              "ok": true,
+              "result": "{\"noteId\":15,\"noteName\":\"Northwind renewal commercial terms\",\"extracted\":true,\"todos\":[]}"
+            },
+            {
+              "type": "final",
+              "text": "The signature target date for the Northwind renewal is October 7, 2026."
+            }
+          ],
+          "agent_elapsed_ms": 3771,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "scope-11",
+            "split": "dev",
+            "scenario": "scope",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 1,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 3771,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "scope-12",
+            "split": "dev",
+            "scenario": "scope",
+            "language": "zh",
+            "instruction": "只看挂上的笔记，电池实验的通过门槛是多少？",
+            "workspaceKey": "research",
+            "linkedNoteKeys": [
+              "r-battery-method"
+            ],
+            "relevantNoteKeys": [
+              "r-battery-method"
+            ],
+            "requiredFacts": [
+              [
+                "90"
+              ]
+            ],
+            "forbiddenFacts": [
+              "88"
+            ],
+            "answerMode": "answer",
+            "requiresSearch": false
+          },
+          "request": {
+            "workspace_id": 4,
+            "linked_note_ids": [
+              26
+            ]
+          },
+          "final_text": "Linked note 1: {\"id\":26,\"workspaceId\":4,\"name\":\"Battery cycle experiment method\",\"transcript\":\"The LFP experiment used 24 cells, charged at 0.5C and discharged at 1C. Passing requires at least 90% capacity retention after 600 cycles.\"}\n\n根据Linked note 1的内容，电池实验的通过门槛是至少需要在600个循环后保持至少90%的容量保留率。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "Linked note 1: {\"id\":26,\"workspaceId\":4,\"name\":\"Battery cycle experiment method\",\"transcript\":\"The LFP experiment used 24 cells, charged at 0.5C and discharged at 1C. Passing requires at least 90% capacity retention after 600 cycles.\"}\n\n根据Linked note 1的内容，电池实验的通过门槛是至少需要在600个循环后保持至少90%的容量保留率。"
+            }
+          ],
+          "agent_elapsed_ms": 2682,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "scope-12",
+            "split": "dev",
+            "scenario": "scope",
+            "passed": true,
+            "problems": [],
+            "fact_hits": [
+              true
+            ],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2682,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "unknown-11",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "language": "en",
+            "instruction": "What is the Orchid room projector warranty period?",
+            "workspaceKey": "clients",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [],
+            "requiredFacts": [],
+            "answerMode": "refuse",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 2,
+            "linked_note_ids": []
+          },
+          "final_text": "The search did not find any relevant notes directly related to the Orchid room projector warranty period. It seems there might be no specific note in your saved notes that covers this topic. However, I found a note about the Orchid room projector replacement unit which mentions its serial number and installation window.\n\nIf you need more information or assistance with something else, feel free to ask!",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "search_notes",
+              "args": {
+                "note_id": null,
+                "query": "Orchid room projector warranty period"
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "search_notes",
+              "ok": true,
+              "result": "{\"match\":\"hybrid\",\"notes\":[{\"id\":20,\"workspaceId\":2,\"name\":\"Orchid room projector replacement\",\"transcriptPreview\":\"Orchid 会议室投影仪 replacement unit 的 serial number 是 PX-8841，安装窗口为 2026-09-08 09:30。旧设备序列号 PX-4818 已报废。\",\"match\":\"semantic\",\"score\":0.0164,\"similarity\":0.64},{\"id\":19,\"workspaceId\":2,\"name\":\"Lumen trial draft — obsolete\",\"transcriptPreview\":\"Obsolete trial draft: 500 users and 30-day audit retention. This draft was not signed and must not override the signed scope.\",\"match\":\"semantic\",\"score\":0.0161,\"similarity\":0.419},{\"id\":18,\"workspaceId\":2,\"name\":\"Lumen 许可范围（已签版）\",\"transcriptPreview\":\"Lumen 已签版许可上限为 250 名用户，审计日志保留 180 天。试用草案中的 500 人上限没有生效。\",\"match\":\"semantic\",\"score\":0.0159,\"similarity\":0.379},{\"id\":15,\"workspaceId\":2,\"name\":\"Northwind renewal commercial terms\",\"transcriptPreview\":\"Northwind approved an annual renewal value of GBP 128,000. Maya Chen owns the commercial close, and the signature target is October 7, 2026.\",\"match\":\"semantic\",\"score\":0.0156,\"similarity\":0.377},{\"id\":17,\"workspaceId\":2,\"name\":\"Cedar renewal terms\",\"transcriptPreview\":\"Cedar Labs renewed for GBP 182,000, with Olivia Park owning the close. This is unrelated to Northwind despite the similar renewal month.\",\"match\":\"semantic\",\"score\":0.0154,\"similarity\":0.374},{\"id\":68,\"workspaceId\":2,\"name\":\"Archive 48: meeting room booking\",\"transcriptPreview\":\"Archive item 48 about meeting room booking. Reference DS-137; review date 2026-12-18. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0152,\"similarity\":0.371},{\"id\":80,\"workspaceId\":2,\"name\":\"Archive 60: meeting room booking\",\"transcriptPreview\":\"Archive item 60 about meeting room booking. Reference DS-149; review date 2026-12-10. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0149,\"similarity\":0.37},{\"id\":56,\"workspaceId\":2,\"name\":\"Archive 36: meeting room booking\",\"transcriptPreview\":\"Archive item 36 about meeting room booking. Reference DS-125; review date 2026-12-06. This background note contains no authoritative Atlas, Northwind, Helios, or LFP decision. Appendix paragraphs record routine review steps, owner rotation,...\",\"match\":\"semantic\",\"score\":0.0147,\"similarity\":0.361}]}"
+            },
+            {
+              "type": "final",
+              "text": "The search did not find any relevant notes directly related to the Orchid room projector warranty period. It seems there might be no specific note in your saved notes that covers this topic. However, I found a note about the Orchid room projector replacement unit which mentions its serial number and installation window.\n\nIf you need more information or assistance with something else, feel free to ask!"
+            }
+          ],
+          "agent_elapsed_ms": 4382,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "direct",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "unknown-11",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 refuse"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": true,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [
+                "c-room-projector",
+                "c-lumen-draft",
+                "c-lumen-scope",
+                "c-northwind-renewal",
+                "c-cedar-renewal",
+                "d-clients-48",
+                "d-clients-60",
+                "d-clients-36"
+              ],
+              "all_result_note_keys": [
+                "c-room-projector",
+                "c-lumen-draft",
+                "c-lumen-scope",
+                "c-northwind-renewal",
+                "c-cedar-renewal",
+                "d-clients-48",
+                "d-clients-60",
+                "d-clients-36"
+              ],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 4382,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "unknown-12",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "language": "zh",
+            "instruction": "咖啡那条笔记里写了用哪个牌子的磨豆机吗？",
+            "workspaceKey": "personal",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [],
+            "requiredFacts": [],
+            "answerMode": "refuse",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 3,
+            "linked_note_ids": []
+          },
+          "final_text": "对不起，我没有找到与咖啡相关的那条笔记。请确认笔记的ID是否正确，并再次尝试查询。\n如果您知道笔记的内容或标题，请提供更多信息以便我帮助您查找。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "tool_call",
+              "tool": "read_note",
+              "args": {
+                "note_id": 7
+              }
+            },
+            {
+              "type": "tool_result",
+              "tool": "read_note",
+              "ok": false,
+              "result": "当前笔记范围中找不到该笔记 / Note not found"
+            },
+            {
+              "type": "final",
+              "text": "对不起，我没有找到与咖啡相关的那条笔记。请确认笔记的ID是否正确，并再次尝试查询。\n如果您知道笔记的内容或标题，请提供更多信息以便我帮助您查找。"
+            }
+          ],
+          "agent_elapsed_ms": 2556,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "unknown-12",
+            "split": "dev",
+            "scenario": "unanswerable",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 refuse",
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 1,
+            "model_turns": 2,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 1,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": null,
+              "recall_at_3": null,
+              "recall_at_5": null,
+              "recall_at_8": null,
+              "mrr": null,
+              "ndcg_at_8": null,
+              "run_coverage": null,
+              "read_coverage": null
+            },
+            "elapsed_ms": 2556,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "ambiguous-10",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "language": "en",
+            "instruction": "When is the deadline?",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff",
+              "p-atlas-mobile",
+              "p-phoenix-kickoff"
+            ],
+            "requiredFacts": [],
+            "answerMode": "clarify",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "Could you please specify which note or task you are referring to?",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "Could you please specify which note or task you are referring to?"
+            }
+          ],
+          "agent_elapsed_ms": 1376,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "ambiguous-10",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "passed": false,
+            "problems": [
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": true,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 1376,
+            "judge": null
+          }
+        },
+        {
+          "task": {
+            "id": "ambiguous-11",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "language": "zh",
+            "instruction": "他负责哪个项目？",
+            "workspaceKey": "product",
+            "linkedNoteKeys": [],
+            "relevantNoteKeys": [
+              "p-atlas-kickoff",
+              "p-phoenix-kickoff"
+            ],
+            "requiredFacts": [],
+            "answerMode": "clarify",
+            "requiresSearch": true
+          },
+          "request": {
+            "workspace_id": 1,
+            "linked_note_ids": []
+          },
+          "final_text": "请提供具体的笔记或相关信息，以便我帮助您找到答案。",
+          "completed": true,
+          "steps": [
+            {
+              "type": "final",
+              "text": "请提供具体的笔记或相关信息，以便我帮助您找到答案。"
+            }
+          ],
+          "agent_elapsed_ms": 1356,
+          "judge_elapsed_ms": null,
+          "harness": {
+            "mode": "ambiguous",
+            "evidence_verdict": null,
+            "preloaded_search_ids": [],
+            "preloaded_read_ids": []
+          },
+          "saved_todos": [],
+          "error": null,
+          "score": {
+            "id": "ambiguous-11",
+            "split": "dev",
+            "scenario": "ambiguous",
+            "passed": false,
+            "problems": [
+              "答案模式错误，应为 clarify",
+              "需要检索但未调用 search_notes"
+            ],
+            "fact_hits": [],
+            "fact_coverage": 1,
+            "forbidden_hits": [],
+            "answer_mode_pass": false,
+            "search_required_and_called": false,
+            "todo_pass": null,
+            "tool_calls": 0,
+            "model_turns": 1,
+            "unnecessary_tool_calls": 0,
+            "duplicate_call_attempts": 0,
+            "scope_violation_attempts": 0,
+            "scope_violation_successes": 0,
+            "retrieval": {
+              "first_result_note_keys": [],
+              "all_result_note_keys": [],
+              "recall_at_1": 0,
+              "recall_at_3": 0,
+              "recall_at_5": 0,
+              "recall_at_8": 0,
+              "mrr": 0,
+              "ndcg_at_8": 0,
+              "run_coverage": 0,
+              "read_coverage": 0
+            },
+            "elapsed_ms": 1356,
+            "judge": null
+          }
+        }
+      ]
+    }
+  ]
+}

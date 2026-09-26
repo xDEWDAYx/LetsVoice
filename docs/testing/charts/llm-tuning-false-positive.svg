@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" role="img">
+<rect width="860" height="420" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="419" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Effect of tuning on invented tasks</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Zero-task false-positive rate: items produced from text with no todo · lower is better</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Before tuning</text><rect x="147.8" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="163.79999999999998" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">After tuning</text>
+<line x1="64" y1="331" x2="836" y2="331" stroke="#E3E8EF"/>
+<text x="56" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="64" y1="271.25" x2="836" y2="271.25" stroke="#E3E8EF"/>
+<text x="56" y="275.25" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="64" y1="211.5" x2="836" y2="211.5" stroke="#E3E8EF"/>
+<text x="56" y="215.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<line x1="64" y1="151.75000000000003" x2="836" y2="151.75000000000003" stroke="#E3E8EF"/>
+<text x="56" y="155.75000000000003" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">60%</text>
+<line x1="64" y1="92" x2="836" y2="92" stroke="#E3E8EF"/>
+<text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">80%</text>
+<text x="18" y="211.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 211.5)">False-positive rate</text>
+<rect x="107.2" y="312.9" width="31.0" height="18.1" fill="#2E86AB" rx="2"/>
+<text x="122.69999999999999" y="307.8939393939394" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">6%</text>
+<rect x="141.2" y="331.0" width="31.0" height="0.0" fill="#E8871A" rx="2"/>
+<text x="156.7" y="326" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0%</text>
+<text x="141.2" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Ministral-3 3B</text>
+<rect x="261.6" y="303.8" width="31.0" height="27.2" fill="#2E86AB" rx="2"/>
+<text x="277.1" y="298.8409090909091" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">9%</text>
+<rect x="295.6" y="303.8" width="31.0" height="27.2" fill="#E8871A" rx="2"/>
+<text x="311.1" y="298.8409090909091" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">9%</text>
+<text x="295.6" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Phi-4 Mini</text>
+<rect x="416.0" y="168.0" width="31.0" height="163.0" fill="#2E86AB" rx="2"/>
+<text x="431.5" y="163.04545454545456" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">55%</text>
+<rect x="450.0" y="303.8" width="31.0" height="27.2" fill="#E8871A" rx="2"/>
+<text x="465.5" y="298.8409090909091" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">9%</text>
+<text x="450" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Granite-4 Micro-H</text>
+<rect x="570.4" y="113.7" width="31.0" height="217.3" fill="#2E86AB" rx="2"/>
+<text x="585.9" y="108.72727272727275" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">73%</text>
+<rect x="604.4" y="140.9" width="31.0" height="190.1" fill="#E8871A" rx="2"/>
+<text x="619.9" y="135.88636363636365" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">64%</text>
+<text x="604.4" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Qwen2.5 1.5B</text>
+<rect x="724.8" y="331.0" width="31.0" height="0.0" fill="#2E86AB" rx="2"/>
+<text x="740.3000000000001" y="326" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0%</text>
+<rect x="758.8" y="331.0" width="31.0" height="0.0" fill="#E8871A" rx="2"/>
+<text x="774.3000000000001" y="326" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0%</text>
+<text x="758.8000000000001" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Qwen2.5 3B</text>
+<line x1="64" y1="331.0" x2="836" y2="331.0" stroke="#6B7280"/>
+<text x="24" y="391" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">The largest gain is Granite-4, from 54.5% to 9.1%. Qwen2.5-1.5B remains high across all six variants, suggesting a capability</text><text x="24" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">limit.</text>
+</svg>

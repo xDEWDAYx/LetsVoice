@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-02T02:28:33.240Z",
+  "model_id": "kokoro-multi-lang-v1_0",
+  "model_name": "Kokoro Multi-Lang v1.0",
+  "engine": "sherpa-kokoro",
+  "gc_exposed": true,
+  "iterations_per_phase": 8,
+  "baseline_rss_bytes": 99336192,
+  "final_rss_bytes": 795897856,
+  "after_dispose_rss_bytes": 789168128,
+  "growth_per_iteration_bytes": 10054041.6,
+  "second_half_growth_per_iteration_bytes": 37302.857142857145,
+  "per_phase_analysis": [
+    {
+      "phase": "short",
+      "slope": 37302.857142857145,
+      "range": 290816,
+      "drift": 223817.14285714287,
+      "oscillating": false
+    },
+    {
+      "phase": "long",
+      "slope": -29988.571428571428,
+      "range": 3215360,
+      "drift": 179931.42857142858,
+      "oscillating": true
+    }
+  ],
+  "verdict": "stable",
+  "verdict_note": "趋势在同一段文本内部用最小二乘斜率计算，并丢弃每段第一次；震荡幅度超过整体漂移两倍时判为 oscillating。",
+  "phases": [
+    {
+      "phase": "short",
+      "case_id": "zh_short",
+      "text_length": 24,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 645087232,
+          "synthesis_ms": 6624
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 744443904,
+          "synthesis_ms": 4605
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 744656896,
+          "synthesis_ms": 4265
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 744710144,
+          "synthesis_ms": 4254
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 744710144,
+          "synthesis_ms": 4280
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 744726528,
+          "synthesis_ms": 4326
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 744734720,
+          "synthesis_ms": 4303
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 744734720,
+          "synthesis_ms": 4259
+        }
+      ]
+    },
+    {
+      "phase": "long",
+      "case_id": "zh_long_01",
+      "text_length": 315,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 743780352,
+          "synthesis_ms": 55441
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 796397568,
+          "synthesis_ms": 55593
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 796934144,
+          "synthesis_ms": 55273
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 793718784,
+          "synthesis_ms": 55446
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 796401664,
+          "synthesis_ms": 55372
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 795860992,
+          "synthesis_ms": 55394
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 796192768,
+          "synthesis_ms": 55136
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 795897856,
+          "synthesis_ms": 55118
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-01T16:04:14.062Z",
+  "model_id": "moss-tts-nano-100m-onnx",
+  "model_name": "MOSS-TTS-Nano 100M",
+  "engine": "moss-onnx",
+  "gc_exposed": true,
+  "iterations_per_phase": 8,
+  "baseline_rss_bytes": 180731904,
+  "final_rss_bytes": 5413322752,
+  "after_dispose_rss_bytes": 4382031872,
+  "growth_per_iteration_bytes": 258208563.2,
+  "second_half_growth_per_iteration_bytes": 4251062.857142857,
+  "per_phase_analysis": [
+    {
+      "phase": "short",
+      "slope": 4251062.857142857,
+      "range": 25526272,
+      "drift": 25506377.14285714,
+      "oscillating": false
+    },
+    {
+      "phase": "long",
+      "slope": -63136329.14285714,
+      "range": 469843968,
+      "drift": 378817974.85714287,
+      "oscillating": false
+    }
+  ],
+  "verdict": "slow-growth",
+  "verdict_note": "趋势在同一段文本内部用最小二乘斜率计算，并丢弃每段第一次；震荡幅度超过整体漂移两倍时判为 oscillating。",
+  "phases": [
+    {
+      "phase": "short",
+      "case_id": "zh_short",
+      "text_length": 24,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 1540194304,
+          "synthesis_ms": 3683
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 1697660928,
+          "synthesis_ms": 1306
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 1704296448,
+          "synthesis_ms": 1307
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 1715568640,
+          "synthesis_ms": 1287
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 1721516032,
+          "synthesis_ms": 1333
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 1722793984,
+          "synthesis_ms": 1475
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 1723187200,
+          "synthesis_ms": 1294
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 1722335232,
+          "synthesis_ms": 1351
+        }
+      ]
+    },
+    {
+      "phase": "long",
+      "case_id": "zh_long_01",
+      "text_length": 315,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 4500619264,
+          "synthesis_ms": 21423
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 5877415936,
+          "synthesis_ms": 22294
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 5568200704,
+          "synthesis_ms": 22000
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 5555699712,
+          "synthesis_ms": 21614
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 5422530560,
+          "synthesis_ms": 21147
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 5407571968,
+          "synthesis_ms": 21329
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 5454495744,
+          "synthesis_ms": 21208
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 5413322752,
+          "synthesis_ms": 21052
+        }
+      ]
+    }
+  ]
+}

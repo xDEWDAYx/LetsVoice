@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1360" role="img" aria-labelledby="title desc">
+  <title id="title">SpeakSpace Local 技术实现概览</title>
+  <desc id="desc">从 React Renderer 经 preload 与 IPC 受控桥接，到领域服务、本地 AI 运行时和本地持久化的纵向技术实现图。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#526078"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .canvas { fill: #ffffff; }
+      .boundary { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; }
+      .boundary-tag { fill: #e2e8f0; stroke: #cbd5e1; stroke-width: 1.5; }
+      .renderer { fill: #f5f3ff; stroke: #7657d5; stroke-width: 2; }
+      .bridge { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; }
+      .main { fill: #eef2ff; stroke: #4f46e5; stroke-width: 2; }
+      .runtime { fill: #ecfdf5; stroke: #059669; stroke-width: 2; }
+      .store { fill: #fff7ed; stroke: #d97706; stroke-width: 2; }
+      .inner { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .flow { fill: #172033; }
+      .heading { fill: #172033; font: 700 30px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .boundary-title { fill: #334155; font: 700 18px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .eyebrow { fill: #526078; font: 700 14px "Microsoft YaHei", "PingFang SC", sans-serif; letter-spacing: 1.2px; text-anchor: middle; }
+      .card-title { fill: #172033; font: 700 23px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .body { fill: #334155; font: 17px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .small { fill: #526078; font: 15px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .flow-text { fill: #ffffff; font: 600 16px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .arrow { fill: none; stroke: #526078; stroke-width: 2.5; marker-end: url(#arrow); }
+      .card { filter: url(#shadow); }
+    </style>
+  </defs>
+
+  <rect class="canvas" width="1100" height="1360"/>
+  <text class="heading" x="550" y="50">技术实现总览</text>
+
+  <rect class="boundary" x="40" y="90" width="1020" height="1215" rx="22"/>
+  <rect class="boundary-tag" x="70" y="112" width="250" height="44" rx="10"/>
+  <text class="boundary-title" x="195" y="141">本地设备边界</text>
+
+  <g class="card">
+    <rect class="renderer" x="220" y="190" width="660" height="165" rx="18"/>
+    <text class="eyebrow" x="550" y="222">交互层</text>
+    <text class="card-title" x="550" y="256">React Renderer</text>
+    <rect class="inner" x="252" y="282" width="180" height="46" rx="9"/>
+    <rect class="inner" x="460" y="282" width="180" height="46" rx="9"/>
+    <rect class="inner" x="668" y="282" width="180" height="46" rx="9"/>
+    <text class="small" x="342" y="311">Conversation Studio</text>
+    <text class="small" x="550" y="311">Workspace / Dashboard</text>
+    <text class="small" x="758" y="311">Search / Agent UI</text>
+  </g>
+
+  <path class="arrow" d="M 550 355 L 550 405"/>
+
+  <g class="card">
+    <rect class="bridge" x="180" y="405" width="740" height="190" rx="18"/>
+    <text class="eyebrow" x="550" y="437">受控进程桥接</text>
+    <rect class="inner" x="215" y="462" width="300" height="100" rx="12"/>
+    <rect class="inner" x="585" y="462" width="300" height="100" rx="12"/>
+    <text class="card-title" x="365" y="497">Preload API</text>
+    <text class="body" x="365" y="527">contextBridge</text>
+    <text class="small" x="365" y="550">类型化 window.electron API</text>
+    <text class="card-title" x="735" y="497">18 个 IPC 模块</text>
+    <text class="body" x="735" y="527">校验每一个请求</text>
+    <text class="small" x="735" y="550">调用主进程领域服务</text>
+    <path class="arrow" d="M 515 512 L 585 512"/>
+  </g>
+
+  <path class="arrow" d="M 735 595 C 735 630, 340 625, 340 680"/>
+
+  <g class="card">
+    <rect class="main" x="90" y="680" width="500" height="280" rx="18"/>
+    <text class="eyebrow" x="340" y="714">ELECTRON 主进程</text>
+    <text class="card-title" x="340" y="752">领域服务</text>
+    <text class="body" x="340" y="795">Workspace 与 Knowledge · 笔记、输出、导出</text>
+    <text class="body" x="340" y="835">AgentOrchestrator · 有界工具与证据</text>
+    <text class="body" x="340" y="875">模型生命周期 · 下载、激活、取消</text>
+    <text class="body" x="340" y="915">后台服务 · 托盘、快捷键、HUD、单实例</text>
+  </g>
+
+  <g class="card">
+    <rect class="runtime" x="650" y="680" width="360" height="280" rx="18"/>
+    <text class="eyebrow" x="830" y="714">本地 AI 运行时</text>
+    <text class="card-title" x="830" y="752">端侧模型</text>
+    <text class="body" x="830" y="798">STT · Whisper / Parakeet</text>
+    <text class="body" x="830" y="838">LLM · Ollama / Qwen</text>
+    <text class="body" x="830" y="878">向量 · BGE-M3</text>
+    <text class="body" x="830" y="918">TTS · Melo / Kokoro / MOSS</text>
+  </g>
+
+  <path class="arrow" d="M 590 820 L 650 820"/>
+
+  <g class="card">
+    <rect class="store" x="300" y="1035" width="500" height="170" rx="18"/>
+    <text class="eyebrow" x="550" y="1068">本机 USERDATA</text>
+    <text class="card-title" x="550" y="1105">持久化</text>
+    <text class="body" x="550" y="1144">通过 10 个 Repository 访问 SQLite</text>
+    <text class="body" x="550" y="1176">录音 · 模型资源 · 设置 · 运行时状态</text>
+  </g>
+
+  <path class="arrow" d="M 340 960 C 340 1000, 470 1000, 470 1035"/>
+  <path class="arrow" d="M 830 960 C 830 1000, 630 1000, 630 1035"/>
+
+  <rect class="flow" x="85" y="1240" width="930" height="46" rx="12"/>
+  <text class="flow-text" x="550" y="1269">核心流程 · 采集 → 转写 → 结构化笔记 → 向量检索 / Agent → 操作或 TTS 反馈</text>
+</svg>

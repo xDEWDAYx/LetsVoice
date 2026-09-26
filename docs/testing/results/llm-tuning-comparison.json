@@ -1,0 +1,549 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-31T16:17:15.833Z",
+  "design": "变体在开发集 22 条上选择；对照臂与实验臂都在冻结的保留集 32 条上评估",
+  "selection_rule": "score = dev F1 − 0.5 × zero_task_false_positive_rate；相对 baseline 提升需大于 0.01 才采纳",
+  "summary": {
+    "model_count": 5,
+    "holdout_f1_improved": 2,
+    "holdout_f1_regressed": 1,
+    "overfitted_to_dev": 2
+  },
+  "models": [
+    {
+      "model": "ministral-3:3b-instruct-2512-q4_K_M",
+      "chosen_variant": "strict-empty",
+      "variant_describe": "强化「没有待办就返回空数组」，并给出一个反例",
+      "selection_reason": "相对 baseline 提升 0.0913",
+      "dev_trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.9166666666666666,
+          "dev_precision": 0.9166666666666666,
+          "dev_recall": 0.9166666666666666,
+          "dev_case_pass_rate": 0.8409090909090909,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8333333333333333
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.9246068455134134,
+          "dev_precision": 0.9555335968379447,
+          "dev_recall": 0.8958333333333333,
+          "dev_case_pass_rate": 0.8863636363636364,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.9246068455134134
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.9387755102040817,
+          "dev_precision": 0.92,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8863636363636364,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8554421768707483
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.8811285846438482,
+          "dev_precision": 0.9100790513833992,
+          "dev_recall": 0.8541666666666666,
+          "dev_case_pass_rate": 0.8181818181818181,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.08333333333333333,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.8394619179771816
+        }
+      ],
+      "before": {
+        "holdout_f1": 0.9574979951884522,
+        "holdout_case_pass_rate": 0.7916666666666666,
+        "holdout_precision": 0.976375046142488,
+        "holdout_recall": 0.9393939393939393,
+        "dev_f1": 0.907467365607976,
+        "date_accuracy": 0.9038461538461539,
+        "zero_task_false_positive_rate": 0.06060606060606061,
+        "parse_failure_rate": 0.006172839506172839
+      },
+      "after": {
+        "holdout_f1": 0.9411764705882352,
+        "holdout_case_pass_rate": 0.71875,
+        "holdout_precision": 0.975609756097561,
+        "holdout_recall": 0.9090909090909091,
+        "dev_f1": 0.9361702127659574,
+        "date_accuracy": 0.8823529411764706,
+        "zero_task_false_positive_rate": 0,
+        "parse_failure_rate": 0
+      },
+      "delta": {
+        "holdout_f1": -0.016321524600217074,
+        "holdout_case_pass_rate": -0.07291666666666663,
+        "zero_task_false_positive_rate": -0.06060606060606061,
+        "dev_f1": 0.028702847157981326
+      },
+      "overfitted": true
+    },
+    {
+      "model": "phi4-mini:latest",
+      "chosen_variant": "recall-boost",
+      "variant_describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+      "selection_reason": "相对 baseline 提升 0.1714",
+      "dev_trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.6292929292929293,
+          "dev_precision": 0.6833333333333333,
+          "dev_recall": 0.5833333333333334,
+          "dev_case_pass_rate": 0.34090909090909094,
+          "date_accuracy": 0.5727272727272728,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.6292929292929293
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.5071301247771837,
+          "dev_precision": 0.8944444444444444,
+          "dev_recall": 0.35416666666666663,
+          "dev_case_pass_rate": 0.2727272727272727,
+          "date_accuracy": 0.6333333333333333,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.5071301247771837
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.8006535947712419,
+          "dev_precision": 0.7388888888888889,
+          "dev_recall": 0.875,
+          "dev_case_pass_rate": 0.4545454545454546,
+          "date_accuracy": 0.7647058823529411,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.8006535947712419
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.6742424242424242,
+          "dev_precision": 0.7321428571428572,
+          "dev_recall": 0.625,
+          "dev_case_pass_rate": 0.38636363636363635,
+          "date_accuracy": 0.6666666666666666,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.045454545454545456,
+          "score": 0.6742424242424242
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.6897463002114165,
+          "dev_precision": 0.7697368421052632,
+          "dev_recall": 0.625,
+          "dev_case_pass_rate": 0.38636363636363635,
+          "date_accuracy": 0.6666666666666666,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.6897463002114165
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.7375565610859729,
+          "dev_precision": 0.6904761904761905,
+          "dev_recall": 0.7916666666666667,
+          "dev_case_pass_rate": 0.40909090909090906,
+          "date_accuracy": 0.717948717948718,
+          "zero_task_false_positive_rate": 0.25,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.6125565610859729
+        }
+      ],
+      "before": {
+        "holdout_f1": 0.633596722270998,
+        "holdout_case_pass_rate": 0.25,
+        "holdout_precision": 0.9142512077294686,
+        "holdout_recall": 0.48484848484848486,
+        "dev_f1": 0.6820530890298332,
+        "date_accuracy": 0.6344086021505376,
+        "zero_task_false_positive_rate": 0.0909090909090909,
+        "parse_failure_rate": 0
+      },
+      "after": {
+        "holdout_f1": 0.7011856951615988,
+        "holdout_case_pass_rate": 0.1875,
+        "holdout_precision": 0.7494398244398245,
+        "holdout_recall": 0.6590909090909091,
+        "dev_f1": 0.7332639722555689,
+        "date_accuracy": 0.6301571057668619,
+        "zero_task_false_positive_rate": 0.0909090909090909,
+        "parse_failure_rate": 0
+      },
+      "delta": {
+        "holdout_f1": 0.06758897289060084,
+        "holdout_case_pass_rate": -0.0625,
+        "zero_task_false_positive_rate": 0,
+        "dev_f1": 0.05121088322573575
+      },
+      "overfitted": false
+    },
+    {
+      "model": "granite4:micro-h",
+      "chosen_variant": "strict-empty",
+      "variant_describe": "强化「没有待办就返回空数组」，并给出一个反例",
+      "selection_reason": "相对 baseline 提升 0.3105",
+      "dev_trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.8067796610169492,
+          "dev_precision": 0.6761904761904762,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7727272727272727,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.5,
+          "parse_failure_rate": 0,
+          "score": 0.5567796610169492
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.9505882352941177,
+          "dev_precision": 0.905982905982906,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.9090909090909091,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8672549019607844
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.8278322925958965,
+          "dev_precision": 0.7064935064935065,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.41666666666666663,
+          "parse_failure_rate": 0,
+          "score": 0.6194989592625633
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.9411764705882353,
+          "dev_precision": 0.8888888888888888,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8578431372549019
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.923076923076923,
+          "dev_precision": 0.8571428571428571,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.8636363636363636,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8397435897435896
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.820572764465225,
+          "dev_precision": 0.6957983193277311,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.5,
+          "parse_failure_rate": 0,
+          "score": 0.570572764465225
+        }
+      ],
+      "before": {
+        "holdout_f1": 0.9416308329351807,
+        "holdout_case_pass_rate": 0.7916666666666666,
+        "holdout_precision": 0.9085401891252954,
+        "holdout_recall": 0.9772727272727272,
+        "dev_f1": 0.8090395480225988,
+        "date_accuracy": 0.9523809523809524,
+        "zero_task_false_positive_rate": 0.5454545454545454,
+        "parse_failure_rate": 0
+      },
+      "after": {
+        "holdout_f1": 0.9647058823529412,
+        "holdout_case_pass_rate": 0.84375,
+        "holdout_precision": 1,
+        "holdout_recall": 0.9318181818181818,
+        "dev_f1": 0.9403921568627451,
+        "date_accuracy": 0.9636363636363635,
+        "zero_task_false_positive_rate": 0.0909090909090909,
+        "parse_failure_rate": 0
+      },
+      "delta": {
+        "holdout_f1": 0.023075049417760507,
+        "holdout_case_pass_rate": 0.05208333333333337,
+        "zero_task_false_positive_rate": -0.45454545454545453,
+        "dev_f1": 0.13135260884014632
+      },
+      "overfitted": false
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct",
+      "chosen_variant": "json-only",
+      "variant_describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+      "selection_reason": "相对 baseline 提升 0.0629",
+      "dev_trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.7719298245614035,
+          "dev_precision": 0.6666666666666666,
+          "dev_recall": 0.9166666666666666,
+          "dev_case_pass_rate": 0.5681818181818181,
+          "date_accuracy": 0.78125,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.43859649122807015
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.8135593220338984,
+          "dev_precision": 0.6857142857142857,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.6590909090909091,
+          "date_accuracy": 0.9722222222222222,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.48022598870056504
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.7666666666666666,
+          "dev_precision": 0.6388888888888888,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.4318181818181818,
+          "date_accuracy": 0.9117647058823529,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.4333333333333333
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.834841628959276,
+          "dev_precision": 0.7817460317460317,
+          "dev_recall": 0.8958333333333333,
+          "dev_case_pass_rate": 0.6590909090909091,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.5015082956259427
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.7863822326125073,
+          "dev_precision": 0.6668067226890757,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.5681818181818181,
+          "date_accuracy": 0.8529411764705882,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.45304889927917397
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.8070175438596493,
+          "dev_precision": 0.696969696969697,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.6590909090909092,
+          "date_accuracy": 0.8823529411764706,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.473684210526316
+        }
+      ],
+      "before": {
+        "holdout_f1": 0.8873228221054309,
+        "holdout_case_pass_rate": 0.6145833333333334,
+        "holdout_precision": 0.8532801418439716,
+        "holdout_recall": 0.9242424242424242,
+        "dev_f1": 0.7967111861520589,
+        "date_accuracy": 0.8216796152423234,
+        "zero_task_false_positive_rate": 0.7272727272727272,
+        "parse_failure_rate": 0
+      },
+      "after": {
+        "holdout_f1": 0.8838951310861423,
+        "holdout_case_pass_rate": 0.65625,
+        "holdout_precision": 0.8740740740740741,
+        "holdout_recall": 0.8939393939393939,
+        "dev_f1": 0.8204701329007654,
+        "date_accuracy": 0.9194344404428438,
+        "zero_task_false_positive_rate": 0.6363636363636364,
+        "parse_failure_rate": 0
+      },
+      "delta": {
+        "holdout_f1": -0.0034276910192886367,
+        "holdout_case_pass_rate": 0.04166666666666663,
+        "zero_task_false_positive_rate": -0.09090909090909083,
+        "dev_f1": 0.02375894674870649
+      },
+      "overfitted": true
+    },
+    {
+      "model": "qwen2.5:3b-instruct",
+      "chosen_variant": "baseline",
+      "variant_describe": "不追加任何规则，与线上提示词完全一致",
+      "selection_reason": "最佳变体相对 baseline 提升不足 0.01，保持不变",
+      "dev_trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.9090909090909091,
+          "date_accuracy": 0.9705882352941176,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 0.8823529411764706,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.547979797979798,
+          "dev_precision": 0.9027777777777777,
+          "dev_recall": 0.3958333333333333,
+          "dev_case_pass_rate": 0.5,
+          "date_accuracy": 0.7375,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.547979797979798
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.15384615384615385,
+          "dev_precision": 1,
+          "dev_recall": 0.041666666666666664,
+          "dev_case_pass_rate": 0.2954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.15384615384615385
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8181818181818181,
+          "date_accuracy": 0.8235294117647058,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        }
+      ],
+      "before": {
+        "holdout_f1": 0.8607594936708862,
+        "holdout_case_pass_rate": 0.59375,
+        "holdout_precision": 0.9714285714285714,
+        "holdout_recall": 0.7727272727272728,
+        "dev_f1": 0.9583333333333334,
+        "date_accuracy": 0.9148936170212766,
+        "zero_task_false_positive_rate": 0,
+        "parse_failure_rate": 0
+      },
+      "after": {
+        "holdout_f1": 0.8607594936708862,
+        "holdout_case_pass_rate": 0.59375,
+        "holdout_precision": 0.9714285714285714,
+        "holdout_recall": 0.7727272727272728,
+        "dev_f1": 0.9583333333333334,
+        "date_accuracy": 0.9148936170212766,
+        "zero_task_false_positive_rate": 0,
+        "parse_failure_rate": 0
+      },
+      "delta": {
+        "holdout_f1": 0,
+        "holdout_case_pass_rate": 0,
+        "zero_task_false_positive_rate": 0,
+        "dev_f1": 0
+      },
+      "overfitted": false
+    }
+  ]
+}

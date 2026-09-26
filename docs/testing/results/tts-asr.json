@@ -1,0 +1,1048 @@
+{
+  "schema_version": 2,
+  "measured_at": "2026-08-31T05:30:42.143Z",
+  "whisper_binary": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\runtimes\\stt\\whisper\\bin\\whisper-cli.exe",
+  "whisper_model": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\models\\stt\\ggml-large-v1.bin",
+  "thread_count": 8,
+  "note": "ASR 回转录仅为低置信度可懂度代理，不等同于 MOS 或人工听测。",
+  "models": {
+    "kokoro-multi-lang-v1_0": {
+      "scored_count": 36,
+      "failed_count": 0,
+      "mean_cer": 0.10310501099079727,
+      "mean_cer_by_language": {
+        "zh": 0.12967639074945012,
+        "en": 0.01875676530251887,
+        "zh-en": 0.16088187692042288
+      },
+      "mean_cer_by_category": {
+        "basic": 0.10709146820257931,
+        "numeric": 0.07071308321308321,
+        "datetime": 0.02810859728506787,
+        "proper-noun": 0.2027777777777778,
+        "acronym": 0.21153846153846154,
+        "technical": 0.1622743557944054,
+        "punctuation": 0.049085229808121376,
+        "long": 0.04794462186364867
+      },
+      "entries": [
+        {
+          "id": "zh_short",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录,整理和解所知识的方式。",
+          "cer": 0.09090909090909091,
+          "reference_used": "人工智能正在改变我们记录、整理和检索知识的方式。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_02",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的會議紀要我已經整理好了,稍後發到群裡,大家有問題隨時提。",
+          "cer": 0.39285714285714285,
+          "reference_used": "今天的会议纪要我已经整理好了，稍后发到群里，大家有问题随时提。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_03",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印机的墨盒换一下,另外会异式的白板笔也快没水了。",
+          "cer": 0.07407407407407407,
+          "reference_used": "麻烦你把打印机的墨盒换一下，另外会议室的白板笔也快没水了。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_01",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本季度营收同比增长12.5%,达到3480万元,环比增长3.7%。",
+          "cer": 0,
+          "reference_used": "本季度营收同比增长12.5%，达到3480万元，环比增长3.7%。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_02",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "会议室改道301,参会12人,\r\n预算控制在4200元以内,\r\n联系电话尾号3378。",
+          "cer": 0.02857142857142857,
+          "reference_used": "会议室改到301，参会12人，预算控制在4200元以内，联系电话尾号3378。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_01",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把材料交给我,最迟不能晚于16号上午10点。",
+          "cer": 0.02564102564102564,
+          "reference_used": "请在2026年9月15号下午三点半之前把材料交给我，最迟不能晚于16号上午10点。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_02",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下周一到周五每天早上9点15分开晨会, 周五下午4点做双周复盘。",
+          "cer": 0,
+          "reference_used": "下周一到周五每天早上9点15分开晨会，周五下午4点做双周复盘。",
+          "error": null
+        },
+        {
+          "id": "zh_proper_01",
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "張偉和李孟齊負責對接深圳分公司,王建國那邊由陳曉雲跟進。",
+          "cer": 0.5,
+          "reference_used": "张伟和李梦琪负责对接深圳分公司，王建国那边由陈晓芸跟进。",
+          "error": null
+        },
+        {
+          "id": "zh_acronym_01",
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次 Agar 评审要同时看 KBI 和 Roy 数据从 CRM 系统导出作为 BI,接扣同步。",
+          "cer": 0.25,
+          "reference_used": "这次 OKR 评审要同时看 KPI 和 ROI，数据从 CRM 系统导出，走 API 接口同步。",
+          "error": null
+        },
+        {
+          "id": "zh_technical_01",
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我們用向量減所加上倒數排名融合來做混合召回,嵌入模型跑在本地的中央處理器上。",
+          "cer": 0.16666666666666666,
+          "reference_used": "我们用向量检索加上倒数排名融合来做混合召回，嵌入模型跑在本地的中央处理器上。",
+          "error": null
+        },
+        {
+          "id": "zh_punct_01",
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗?这也太快了吧不过,我还是有点担心, 万一线上出问题怎么办呢?",
+          "cer": 0,
+          "reference_used": "真的吗？这也太快了吧！不过……我还是有点担心，万一线上出问题怎么办呢？",
+          "error": null
+        },
+        {
+          "id": "zh_long_01",
+          "language": "zh",
+          "category": "long",
+          "transcript": "这次评审我先把背景交代一下\r\n上半年我们把语音笔记的转写链路整个重写了一遍\r\n主要解决三个问题\r\n一是场录音的内存占用过高\r\n二是中盈混合场景下的断句不稳定\r\n三是任务题曲会把别人的事情算到用户头上\r\n中卸之后\r\n转写的峰值内存下降了大约四成\r\n断句错误明显减少\r\n任务归属也加了一道复合\r\n下半年的重点会转到检索这一侧\r\n我们打算把关键词检索和项量检索合并成一路混合召回\r\n再用倒数排名融合来排序\r\n这块的难点不在算法本身\r\n而在于本地设备的算力有限\r\n嵌入模型必须足够小\r\n同时又不能牺牲中文的召回质量\r\n另外还有一个容易被忽略的问题\r\n就是用户的笔记数量增长以后\r\n全库检索的延迟会明显上升\r\n所以我们需要提前设计增量索引和缓存策略\r\n以上是背景\r\n接下来说具体方案",
+          "cer": 0.0273972602739726,
+          "reference_used": "这次评审我先把背景交代一下。上半年我们把语音笔记的转写链路整个重写了一遍，主要解决三个问题：一是长录音的内存占用过高，二是中英混合场景下的断句不稳定，三是任务提取会把别人的事情算到用户头上。重写之后，转写的峰值内存下降了大约四成，断句错误明显减少，任务归属也加了一道复核。下半年的重点会转到检索这一侧，我们打算把关键词检索和向量检索合并成一路混合召回，再用倒数排名融合来排序。这块的难点不在算法本身，而在于本地设备的算力有限，嵌入模型必须足够小，同时又不能牺牲中文的召回质量。另外还有一个容易被忽略的问题，就是用户的笔记数量增长以后，全库检索的延迟会明显上升，所以我们需要提前设计增量索引和缓存策略。以上是背景，接下来说具体方案。",
+          "error": null
+        },
+        {
+          "id": "en_short",
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local Speech Synthesis keeps private notes on the user's own computer.",
+          "cer": 0,
+          "reference_used": "Local speech synthesis keeps private notes on the user's own computer.",
+          "error": null
+        },
+        {
+          "id": "en_basic_02",
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call. So please review it before tomorrow morning.",
+          "cer": 0,
+          "reference_used": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "error": null
+        },
+        {
+          "id": "en_basic_03",
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridge and grab some new whiteboard markers as well?",
+          "cer": 0,
+          "reference_used": "Could you replace the printer cartridge, and grab some new whiteboard markers as well?",
+          "error": null
+        },
+        {
+          "id": "en_numeric_01",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue grew 12.5% to $34.8 million, while costs dropped 3.7%.",
+          "cer": 0,
+          "reference_used": "Revenue grew 12.5% to $34.8 million, while costs dropped 3.7%.",
+          "error": null
+        },
+        {
+          "id": "en_numeric_02",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Room 301, 12 attendees, budget capped at $4,200, extension 3378.",
+          "cer": 0.125,
+          "reference_used": "Room 301, 12 attendees, budget capped at 4200 dollars, extension 3378.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_01",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30 p.m. on September 15, 2026 and no later than the 16th.",
+          "cer": 0.02666666666666667,
+          "reference_used": "Please submit the documents before 3:30 PM on September 15th, 2026, and no later than the 16th.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_02",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Stand Up runs Monday through Friday at 9.15 in the morning, with a retrospective every\r\nother Friday at 4.",
+          "cer": 0,
+          "reference_used": "Stand up runs Monday through Friday at 9:15 in the morning, with a retrospective every other Friday at 4.",
+          "error": null
+        },
+        {
+          "id": "en_proper_01",
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Catherine Nguyen and Rajesh Patel will work with the Shenzhen office alongside Bjorn Anderson.",
+          "cer": 0.025,
+          "reference_used": "Katherine Nguyen and Rajesh Patel will work with the Shenzhen office alongside Bjorn Andersen.",
+          "error": null
+        },
+        {
+          "id": "en_acronym_01",
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers KPI and ROI.\r\nExport the data from the CRM and sync it through the REST API over HTTPS.",
+          "cer": 0,
+          "reference_used": "The OKR review covers KPI and ROI. Export the data from the CRM and sync it through the REST API over HTTPS.",
+          "error": null
+        },
+        {
+          "id": "en_technical_01",
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine keyword retrieval with vector retrieval and merge both rankings using reciprocal rank fusion on the local processor.",
+          "cer": 0,
+          "reference_used": "We combine keyword retrieval with vector retrieval and merge both rankings using reciprocal rank fusion on the local processor.",
+          "error": null
+        },
+        {
+          "id": "en_punct_01",
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Riley, that was fast. But honestly, I am still a little worried.\r\nWhat if something breaks in production?",
+          "cer": 0.03614457831325301,
+          "reference_used": "Really? That was fast! But, honestly, I am still a little worried. What if something breaks in production?",
+          "error": null
+        },
+        {
+          "id": "en_long_01",
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the context before we go into the details.\r\nIn the first half of the year,\r\nwe rewrote the entire transcription pipeline\r\nfor voice notes, mainly to solve three problems,\r\nmemory pressure on long recordings,\r\nunstable sentence segmentation\r\nwhen Chinese and English are mixed in one utterance,\r\nand task extraction that assigned\r\nother people's action items to the user.\r\nAfter the rewrite peak memory\r\nduring transcription dropped by roughly 40%,\r\nsegmentation errors became far less frequent,\r\nand task ownership now goes through a second review pass.\r\nFor the second half of the year,\r\nwe will shift our attention to retrieval.\r\nThe plan is to merge keyword search and vector search\r\ninto a single hybrid recall path,\r\nand then order the results with reciprocal rank fusion.\r\nThe hard part is not the algorithm itself,\r\nbut the limited compute budget on a local device.\r\nThe embedding model has to stay small\r\nwithout sacrificing recall quality in Chinese.\r\nThere is also a problem that is easy to overlook,\r\nwhich is that latency for a full library search\r\ngrows noticeably once a user accumulates thousands of notes,\r\nSo we need incremental indexing\r\nand a caching strategy well before that point.",
+          "cer": 0.012269938650306749,
+          "reference_used": "Let me set the context before we go into the details. In the first half of the year we rewrote the entire transcription pipeline for voice notes, mainly to solve three problems: memory pressure on long recordings, unstable sentence segmentation when Chinese and English are mixed in one utterance, and task extraction that assigned other people's action items to the user. After the rewrite, peak memory during transcription dropped by roughly forty percent, segmentation errors became far less frequent, and task ownership now goes through a second review pass. For the second half of the year we will shift our attention to retrieval. The plan is to merge keyword search and vector search into a single hybrid recall path, and then order the results with reciprocal rank fusion. The hard part is not the algorithm itself, but the limited compute budget on a local device: the embedding model has to stay small without sacrificing recall quality in Chinese. There is also a problem that is easy to overlook, which is that latency for a full library search grows noticeably once a user accumulates thousands of notes, so we need incremental indexing and a caching strategy well before that point.",
+          "error": null
+        },
+        {
+          "id": "zh_en_mixed",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "SpeakSpace Logo 可以在本地运行,DexterSpeaker 并保护用户的Private Nodes。",
+          "cer": 0.21153846153846154,
+          "reference_used": "SpeakSpace Local 可以在本地运行 text to speech，并保护用户的 private notes。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_02",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的 Stand Up,我可能会晚点到这个 Sprint 的 Retro,记得排一下。",
+          "cer": 0,
+          "reference_used": "明天的 standup 我可能会晚点到，这个 sprint 的 retro 记得排一下。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_03",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "这个 Feature 另外,我还要再 Polish 一下,估计要到下周才能试。",
+          "cer": 0.19444444444444445,
+          "reference_used": "这个 feature 的 UI 我还要再 polish 一下，估计要到下周才能 ship。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_01",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "折磁 A B Desk 的 Conversion Rate 提升了 12.5%, Sample Size 是 3400 人。",
+          "cer": 0.08888888888888889,
+          "reference_used": "这次 A B test 的 conversion rate 提升了12.5%，sample size 是3400人。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_02",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从 1248 MbE 降到 663 MbE,实时音资从 1.31 降到 0.64。",
+          "cer": 0.18181818181818182,
+          "reference_used": "内存占用从1248 MiB 降到663 MiB，实时因子从1.31降到0.64。",
+          "error": null
+        },
+        {
+          "id": "mixed_datetime_01",
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "Date Line 是 9 月 15 号下午 3 点半,记得提前把 Slides 发到群里。",
+          "cer": 0.08823529411764706,
+          "reference_used": "deadline 是9月15号下午3点半，记得提前把 slides 发到群里。",
+          "error": null
+        },
+        {
+          "id": "mixed_proper_01",
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kevin 和掌委负责新人的 Onboarding Sarah,那边由李孟琪对接。",
+          "cer": 0.08333333333333333,
+          "reference_used": "Kevin 和张伟负责新人的 onboarding，Sarah 那边由李梦琪对接。",
+          "error": null
+        },
+        {
+          "id": "mixed_acronym_01",
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "MAH PR Review 蚊子后塞,泡通就可以 merge 到明分子,然后触发细地部署。",
+          "cer": 0.38461538461538464,
+          "reference_used": "把 PR review 完之后，CI 跑通就可以 merge 到 main 分支，然后触发 CD 部署。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_01",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用 RRF 融合 Keyword Search 和 Semantic Search Embedding 模型跑载 CPU 上部以来 GPU",
+          "cer": 0.06779661016949153,
+          "reference_used": "我们用 RRF 融合 keyword search 和 semantic search，embedding 模型跑在 CPU 上，不依赖 GPU。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_02",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "Whisperless在中英混合樣本上明顯偏高,\r\n說明 Arthur 迴轉路只能當作敵制信度代理。",
+          "cer": 0.4146341463414634,
+          "reference_used": "Whisper 的 CER 在中英混合样本上明显偏高，说明 ASR 回转录只能当作低置信度代理。",
+          "error": null
+        },
+        {
+          "id": "mixed_punct_01",
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么这个吧?居然还在?我记得上周就fix了,要不要再roll back一次?",
+          "cer": 0.1111111111111111,
+          "reference_used": "什么？这个 bug 居然还在！我记得上周就 fix 了啊……要不要再 rollback 一次？",
+          "error": null
+        },
+        {
+          "id": "mixed_long_01",
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下这个Sprint的进展。\r\nDot Transcription By Blender发对径。\r\nMerger Long Recorded Big Memory下降了大约四成。\r\n中英混合场景下的Segmentation也稳定了很多。\r\n任务提取那块我们家路道。\r\nOwnership Review专门解决把别人的Action Item算到用户头上的问题。\r\n下一步的重点是Retrieval。\r\n我们打算把Giversearch和Vectorsearch合并成一路Hybrid Regal,然后用Reciprocal Rank Fusion做排序。\r\n难点不在算法,而在本地设备的算力预算。\r\nEmbedding Model必须足够小,同时中文的Regal不能掉。\r\n另外还有一个容易被忽略的点,就是Node。\r\n数量涨到几千条以后,Full Library Search的Latency会明显上升,所以Incremental Index和Gash策略要提前设计好这些是High Level的方向具体的Milestone。\r\n我会在Doc里写清楚。",
+          "cer": 0.10416666666666667,
+          "reference_used": "先同步一下这个 sprint 的进展。transcription pipeline 的 refactor 已经 merge 了，long recording 的 peak memory 下降了大约四成，中英混合场景下的 segmentation 也稳定了很多。任务提取那块我们加了一道 ownership review，专门解决把别人的 action item 算到用户头上的问题。下一步的重点是 retrieval：我们打算把 keyword search 和 vector search 合并成一路 hybrid recall，然后用 reciprocal rank fusion 做排序。难点不在算法，而在本地设备的算力预算，embedding model 必须足够小，同时中文的 recall 不能掉。另外还有一个容易被忽略的点，就是 note 数量涨到几千条以后，full library search 的 latency 会明显上升，所以 incremental index 和 cache 策略要提前设计好。这些是 high level 的方向，具体的 milestone 我会在 doc 里写清楚。",
+          "error": null
+        }
+      ]
+    },
+    "moss-tts-nano-100m-onnx": {
+      "scored_count": 36,
+      "failed_count": 0,
+      "mean_cer": 0.09728718374058767,
+      "mean_cer_by_language": {
+        "zh": 0.07318326577695182,
+        "en": 0.05581099085472255,
+        "zh-en": 0.16286729459008858
+      },
+      "mean_cer_by_category": {
+        "basic": 0.11939123976161012,
+        "numeric": 0.14624310874310872,
+        "datetime": 0.11098101627919073,
+        "proper-noun": 0.10744301994301995,
+        "acronym": 0.04132730015082956,
+        "technical": 0.08712182107696784,
+        "punctuation": 0.037037037037037035,
+        "long": 0.029848122417175837
+      },
+      "entries": [
+        {
+          "id": "zh_short",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "神工智能正在改变我们记录、整理和检索知识的方式",
+          "cer": 0.045454545454545456,
+          "reference_used": "人工智能正在改变我们记录、整理和检索知识的方式。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_02",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "近天的会议纪要我已经整理好了\r\n稍后发到群里\r\n大家有问题随时提",
+          "cer": 0.03571428571428571,
+          "reference_used": "今天的会议纪要我已经整理好了，稍后发到群里，大家有问题随时提。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_03",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "靠着你把打印机的墨盒换一下\r\n好意思的白板笔也快没水了",
+          "cer": 0.25925925925925924,
+          "reference_used": "麻烦你把打印机的墨盒换一下，另外会议室的白板笔也快没水了。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_01",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "任季度营收同比增长12.5%\r\n达到3480万元\r\n环比增长3.7%",
+          "cer": 0.038461538461538464,
+          "reference_used": "本季度营收同比增长12.5%，达到3480万元，环比增长3.7%。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_02",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "住一室改到301 餐会12人\r\n预算控制在4200元以内\r\n联系电话尾号3378",
+          "cer": 0.08571428571428572,
+          "reference_used": "会议室改到301，参会12人，预算控制在4200元以内，联系电话尾号3378。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_01",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "請在2026年9月15號下午三點半之前把材料交給我\r\n最遲不能晚於16號上午10點",
+          "cer": 0.20512820512820512,
+          "reference_used": "请在2026年9月15号下午三点半之前把材料交给我，最迟不能晚于16号上午10点。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_02",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下周一到周五每天早上9点15分开晨会\r\n周五下午四点做双周复盘",
+          "cer": 0.034482758620689655,
+          "reference_used": "下周一到周五每天早上9点15分开晨会，周五下午4点做双周复盘。",
+          "error": null
+        },
+        {
+          "id": "zh_proper_01",
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李孟齐负责对接深圳分公司\r\n王建国那边由陈晓云跟进",
+          "cer": 0.11538461538461539,
+          "reference_used": "张伟和李梦琪负责对接深圳分公司，王建国那边由陈晓芸跟进。",
+          "error": null
+        },
+        {
+          "id": "zh_acronym_01",
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次OKR评审要同时看KPI和ROI\r\n数据从CRM系统导出\r\n走API接口同步",
+          "cer": 0,
+          "reference_used": "这次 OKR 评审要同时看 KPI 和 ROI，数据从 CRM 系统导出，走 API 接口同步。",
+          "error": null
+        },
+        {
+          "id": "zh_technical_01",
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用项量检索加上倒数排名融合来做混合召回\r\n嵌入模型跑在本地的中央处理器上",
+          "cer": 0.027777777777777776,
+          "reference_used": "我们用向量检索加上倒数排名融合来做混合召回，嵌入模型跑在本地的中央处理器上。",
+          "error": null
+        },
+        {
+          "id": "zh_punct_01",
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗\r\n这也太快了吧\r\n不过我还是有点担心\r\n万一线上出问题怎么办呢",
+          "cer": 0,
+          "reference_used": "真的吗？这也太快了吧！不过……我还是有点担心，万一线上出问题怎么办呢？",
+          "error": null
+        },
+        {
+          "id": "zh_long_01",
+          "language": "zh",
+          "category": "long",
+          "transcript": "这次评审我先把背景交代一下\r\n上半年我们把语音笔记的专写链路整个重写了一遍\r\n主要解决三个问题\r\n一是长录音的内存占用过高\r\n二是中音或和场景下的断句不稳定\r\n三是任务提取会把别人的事情算到用户头上\r\n重写之后\r\n专写的峰值内存下降了大约四成\r\n断句错误明显减少\r\n任务归属也加了一道复合\r\n下半年的重点\r\n会转到检索这一侧\r\n我们打算把关键词检索和向量检索合并成\r\n一路混合召回\r\n再用倒数排名融合来排序\r\n这一块的难点不在算法本身\r\n而在于本地设备的算力有限\r\n嵌入模型必须足够小\r\n同时又不能牺牲中文的召回质量\r\n另外还有一个容易被忽略的问题\r\n就是用户的笔记数量增长以后\r\n带购检索的延迟会明显上升\r\n所以我们需要提前设计增量索引和缓存策略\r\n以上是背景 接下来说具体方案",
+          "cer": 0.030821917808219176,
+          "reference_used": "这次评审我先把背景交代一下。上半年我们把语音笔记的转写链路整个重写了一遍，主要解决三个问题：一是长录音的内存占用过高，二是中英混合场景下的断句不稳定，三是任务提取会把别人的事情算到用户头上。重写之后，转写的峰值内存下降了大约四成，断句错误明显减少，任务归属也加了一道复核。下半年的重点会转到检索这一侧，我们打算把关键词检索和向量检索合并成一路混合召回，再用倒数排名融合来排序。这块的难点不在算法本身，而在于本地设备的算力有限，嵌入模型必须足够小，同时又不能牺牲中文的召回质量。另外还有一个容易被忽略的问题，就是用户的笔记数量增长以后，全库检索的延迟会明显上升，所以我们需要提前设计增量索引和缓存策略。以上是背景，接下来说具体方案。",
+          "error": null
+        },
+        {
+          "id": "en_short",
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech synthesis keeps private notes on the user's own computer.",
+          "cer": 0,
+          "reference_used": "Local speech synthesis keeps private notes on the user's own computer.",
+          "error": null
+        },
+        {
+          "id": "en_basic_02",
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send that meeting summary right after this call.\r\nSo please review it before tomorrow morning.",
+          "cer": 0.024691358024691357,
+          "reference_used": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "error": null
+        },
+        {
+          "id": "en_basic_03",
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridge and grab some new white board markers as well?",
+          "cer": 0,
+          "reference_used": "Could you replace the printer cartridge, and grab some new whiteboard markers as well?",
+          "error": null
+        },
+        {
+          "id": "en_numeric_01",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "revenue\r\ngood 34.8 million dollars\r\nwhat cost drop 3.7 percent",
+          "cer": 0.3333333333333333,
+          "reference_used": "Revenue grew 12.5 percent to 34.8 million dollars, while costs dropped 3.7 percent.",
+          "error": null
+        },
+        {
+          "id": "en_numeric_02",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Room 301, 12 attendees, budget capped at $4,200, extension 3378.",
+          "cer": 0.125,
+          "reference_used": "Room 301, 12 attendees, budget capped at 4200 dollars, extension 3378.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_01",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "submit the documents before 3.30pm on September 15th, 2026 and no later than the 16th.",
+          "cer": 0.08,
+          "reference_used": "Please submit the documents before 3:30 PM on September 15th, 2026, and no later than the 16th.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_02",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Stand Up runs Monday through Friday at 9.15 in the morning, with a retrospective every\r\nother Friday at 4.",
+          "cer": 0,
+          "reference_used": "Stand up runs Monday through Friday at 9:15 in the morning, with a retrospective every other Friday at 4.",
+          "error": null
+        },
+        {
+          "id": "en_proper_01",
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Catherine Nguyen and Rajesh Patel will work with the Shenzhen office alongside Bjorn Andersen.",
+          "cer": 0.0125,
+          "reference_used": "Katherine Nguyen and Rajesh Patel will work with the Shenzhen office alongside Bjorn Andersen.",
+          "error": null
+        },
+        {
+          "id": "en_acronym_01",
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers KPI and ROI.\r\nExport the data from the CRM and sync it\r\nthrough the RCPI over HTTPS.",
+          "cer": 0.047058823529411764,
+          "reference_used": "The OKR review covers KPI and ROI. Export the data from the CRM and sync it through the REST API over HTTPS.",
+          "error": null
+        },
+        {
+          "id": "en_technical_01",
+          "language": "en",
+          "category": "technical",
+          "transcript": "we combine keyword retrieval with vector retrieval\r\nand merge both rankings using reciprocal ranked fusion\r\non the local processor.",
+          "cer": 0.018518518518518517,
+          "reference_used": "We combine keyword retrieval with vector retrieval and merge both rankings using reciprocal rank fusion on the local processor.",
+          "error": null
+        },
+        {
+          "id": "en_punct_01",
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "really that was fast but honestly i am still a little worried what if something breaks in production",
+          "cer": 0,
+          "reference_used": "Really? That was fast! But, honestly, I am still a little worried. What if something breaks in production?",
+          "error": null
+        },
+        {
+          "id": "en_long_01",
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the context before we go into the details.\r\nIn the first half of the year, we re-wrote the entire transcription pipeline for voice notes,\r\nmainly to solve three problems.\r\nMemory pressure on long recordings.\r\nUnstable sentence segmentation when Chinese and English are mixed in one utterance.\r\nExtraction that assigned other people's action items to the user.\r\nAfter the rewrite, peak memory during transcription dropped by roughly 40%.\r\nSegmentation errors became far less frequent, and task ownership now goes through a second\r\nreview pass.\r\nFor the second half of the year, we shift our attention to retrieval.\r\nThe plan is to merge keyword search and vector search into a single hybrid recall path, and\r\nthen order the results with reciprocal ranked fusion.\r\nThe hard part is not the algorithm itself, but the limited compute budget on a local\r\ndevice the embedding model has to stay small without sacrificing recall quality in Chinese.\r\nThere is also a problem that is easy to overlook, which is that latency for a full library search\r\ngrows noticeably once the user accumulates thousands of notes, so we need incremental\r\nindexing and a caching strategy well before that point.",
+          "cer": 0.028629856850715747,
+          "reference_used": "Let me set the context before we go into the details. In the first half of the year we rewrote the entire transcription pipeline for voice notes, mainly to solve three problems: memory pressure on long recordings, unstable sentence segmentation when Chinese and English are mixed in one utterance, and task extraction that assigned other people's action items to the user. After the rewrite, peak memory during transcription dropped by roughly forty percent, segmentation errors became far less frequent, and task ownership now goes through a second review pass. For the second half of the year we will shift our attention to retrieval. The plan is to merge keyword search and vector search into a single hybrid recall path, and then order the results with reciprocal rank fusion. The hard part is not the algorithm itself, but the limited compute budget on a local device: the embedding model has to stay small without sacrificing recall quality in Chinese. There is also a problem that is easy to overlook, which is that latency for a full library search grows noticeably once a user accumulates thousands of notes, so we need incremental indexing and a caching strategy well before that point.",
+          "error": null
+        },
+        {
+          "id": "zh_en_mixed",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Createspace Local可以在本地運行text-to-speech\r\n並保護用戶的private notes",
+          "cer": 0.15384615384615385,
+          "reference_used": "SpeakSpace Local 可以在本地运行 text to speech，并保护用户的 private notes。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_02",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的三点我可能会晚点到\r\n这个Sprint Retro\r\n记得排一下",
+          "cer": 0.2222222222222222,
+          "reference_used": "明天的 standup 我可能会晚点到，这个 sprint 的 retro 记得排一下。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_03",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "我还要再polish一下\r\n估计要到下周才能ship",
+          "cer": 0.3333333333333333,
+          "reference_used": "这个 feature 的 UI 我还要再 polish 一下，估计要到下周才能 ship。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_01",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次AV Test的conversion rate提升了12.5%\r\nsample size是3400人",
+          "cer": 0.022222222222222223,
+          "reference_used": "这次 A B test 的 conversion rate 提升了12.5%，sample size 是3400人。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_02",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "锐存占有从1248密币降到663密币\r\n实时因子从1.311降到0.64",
+          "cer": 0.2727272727272727,
+          "reference_used": "内存占用从1248 MiB 降到663 MiB，实时因子从1.31降到0.64。",
+          "error": null
+        },
+        {
+          "id": "mixed_datetime_01",
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "再赞来是9月15号下午3点半\r\n记得提前把slides发到群里",
+          "cer": 0.23529411764705882,
+          "reference_used": "deadline 是9月15号下午3点半，记得提前把 slides 发到群里。",
+          "error": null
+        },
+        {
+          "id": "mixed_proper_01",
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "那么 和张伟负责新人的onboarding\r\nSarah 那边有李孟琪对接",
+          "cer": 0.19444444444444445,
+          "reference_used": "Kevin 和张伟负责新人的 onboarding，Sarah 那边由李梦琪对接。",
+          "error": null
+        },
+        {
+          "id": "mixed_acronym_01",
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "拿prreview\r\n完之后\r\nCI跑通就可以merge\r\ndomain\r\n分支\r\n然后触发cd部署",
+          "cer": 0.07692307692307693,
+          "reference_used": "把 PR review 完之后，CI 跑通就可以 merge 到 main 分支，然后触发 CD 部署。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_01",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用rf融合keyword search和semantic search embedding\r\n模型跑在CPU上,不依赖TPU",
+          "cer": 0.03389830508474576,
+          "reference_used": "我们用 RRF 融合 keyword search 和 semantic search，embedding 模型跑在 CPU 上，不依赖 GPU。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_02",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "数试的C1R在中英混合样本上明显偏高\r\n说明ASR回转路只能当作低质心度代理",
+          "cer": 0.2682926829268293,
+          "reference_used": "Whisper 的 CER 在中英混合样本上明显偏高，说明 ASR 回转录只能当作低置信度代理。",
+          "error": null
+        },
+        {
+          "id": "mixed_punct_01",
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么这个棒居然还在\r\n我记得上周就fix了\r\n要不要再rollback一次",
+          "cer": 0.1111111111111111,
+          "reference_used": "什么？这个 bug 居然还在！我记得上周就 fix 了啊……要不要再 rollback 一次？",
+          "error": null
+        },
+        {
+          "id": "mixed_long_01",
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下这个Sprint的进展\r\nTranscription pipeline的Refactor已经merged了\r\nLong recorded peak memory下降了大约四成\r\n中阴混合场景下的segmentation也稳定了很多\r\n任务提取那块我们加了一道Ownership review\r\n专门解决把别人的\r\nBatch item算到用户头上的问题\r\n下一步的重点是Retrieval\r\n我们打算把Keyword search和Vector search\r\n合并成一路Hybrid Recall\r\n然后用Reciprocal Rank Fusion做排序\r\n难点不在算法\r\n而在本地设备的算力预算\r\nembedding model必须足够小\r\n同时中文的Recall不能掉\r\n另外还有一个容易被忽略的点\r\n就是no 数量涨到几千条以后\r\nfull library search的latency会明显上升\r\n所以incremental index和cache策略要提前设计好\r\n这些是high level的方向\r\n具体的milestone我会在doc里写清楚",
+          "cer": 0.03009259259259259,
+          "reference_used": "先同步一下这个 sprint 的进展。transcription pipeline 的 refactor 已经 merge 了，long recording 的 peak memory 下降了大约四成，中英混合场景下的 segmentation 也稳定了很多。任务提取那块我们加了一道 ownership review，专门解决把别人的 action item 算到用户头上的问题。下一步的重点是 retrieval：我们打算把 keyword search 和 vector search 合并成一路 hybrid recall，然后用 reciprocal rank fusion 做排序。难点不在算法，而在本地设备的算力预算，embedding model 必须足够小，同时中文的 recall 不能掉。另外还有一个容易被忽略的点，就是 note 数量涨到几千条以后，full library search 的 latency 会明显上升，所以 incremental index 和 cache 策略要提前设计好。这些是 high level 的方向，具体的 milestone 我会在 doc 里写清楚。",
+          "error": null
+        }
+      ]
+    },
+    "vits-melo-tts-zh_en": {
+      "scored_count": 36,
+      "failed_count": 0,
+      "mean_cer": 0.17143657732150447,
+      "mean_cer_by_language": {
+        "zh": 0.13386066615085665,
+        "en": 0.15988719424274414,
+        "zh-en": 0.22056187157091256
+      },
+      "mean_cer_by_category": {
+        "basic": 0.13007366468233844,
+        "numeric": 0.2524318274318274,
+        "datetime": 0.08815399475440044,
+        "proper-noun": 0.3459757834757835,
+        "acronym": 0.2924669012904307,
+        "technical": 0.18009048734555141,
+        "punctuation": 0.05310129406514948,
+        "long": 0.08356632573128357
+      },
+      "entries": [
+        {
+          "id": "zh_short",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改變我們記錄、整理和解鎖知識的方式",
+          "cer": 0.3181818181818182,
+          "reference_used": "人工智能正在改变我们记录、整理和检索知识的方式。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_02",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "明天的会议纪要我已经整理好了 上后发到群里来 再有问题随时提",
+          "cer": 0.14285714285714285,
+          "reference_used": "今天的会议纪要我已经整理好了，稍后发到群里，大家有问题随时提。",
+          "error": null
+        },
+        {
+          "id": "zh_basic_03",
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印机的墨盒换一下\r\n宁外会议室的白板笔也快没水了",
+          "cer": 0.037037037037037035,
+          "reference_used": "麻烦你把打印机的墨盒换一下，另外会议室的白板笔也快没水了。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_01",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本季度营售同比增长12.5%,达到3480万元,完比增长3.0%",
+          "cer": 0.11538461538461539,
+          "reference_used": "本季度营收同比增长12.5%，达到3480万元，环比增长3.7%。",
+          "error": null
+        },
+        {
+          "id": "zh_numeric_02",
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "会议室改到301\r\n餐会12人\r\n预算控制在4200元以内\r\n联系电话尾号3378",
+          "cer": 0.02857142857142857,
+          "reference_used": "会议室改到301，参会12人，预算控制在4200元以内，联系电话尾号3378。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_01",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把材料交给我\r\n最迟不能晚于16号上午10点",
+          "cer": 0.02564102564102564,
+          "reference_used": "请在2026年9月15号下午三点半之前把材料交给我，最迟不能晚于16号上午10点。",
+          "error": null
+        },
+        {
+          "id": "zh_datetime_02",
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下周一到周五每天早上9 15分开诚会\r\n周五下午4点做双周副盘",
+          "cer": 0.10344827586206896,
+          "reference_used": "下周一到周五每天早上9点15分开晨会，周五下午4点做双周复盘。",
+          "error": null
+        },
+        {
+          "id": "zh_proper_01",
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "張偉和李孟琪負責對接深圳分公司\r\n王建國那邊由陳曉雲跟進",
+          "cer": 0.46153846153846156,
+          "reference_used": "张伟和李梦琪负责对接深圳分公司，王建国那边由陈晓芸跟进。",
+          "error": null
+        },
+        {
+          "id": "zh_acronym_01",
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次OK二评审要同时看KPI和Ryzen\r\n数据从CRM系统导出\r\n和PI接口同步",
+          "cer": 0.19444444444444445,
+          "reference_used": "这次 OKR 评审要同时看 KPI 和 ROI，数据从 CRM 系统导出，走 API 接口同步。",
+          "error": null
+        },
+        {
+          "id": "zh_technical_01",
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用项量检索加上倒数排名融合来做混合召回线路模型跑在本地的中央处理器上",
+          "cer": 0.08333333333333333,
+          "reference_used": "我们用向量检索加上倒数排名融合来做混合召回，嵌入模型跑在本地的中央处理器上。",
+          "error": null
+        },
+        {
+          "id": "zh_punct_01",
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗 这也太快了吧 不过我还是有点担心 万一线上出问题怎么办呢",
+          "cer": 0,
+          "reference_used": "真的吗？这也太快了吧！不过……我还是有点担心，万一线上出问题怎么办呢？",
+          "error": null
+        },
+        {
+          "id": "zh_long_01",
+          "language": "zh",
+          "category": "long",
+          "transcript": "这次评审我先把背景交代一下\r\n上半年我们把语音笔记的转写链路整个重写了一遍\r\n主要解决三个问题\r\n一是涨录音的内存占用过高\r\n二是中音混合场景下的端句不稳定\r\n三是任务题曲会把别人的事情算到用户头上\r\n重写之后\r\n转写的峰值内存下降了大约四成\r\n端句错误明显减少\r\n任务归属也加了一道复合\r\n在半年的重点会转到解锁这一侧\r\n我们打算把关键词间锁和项量解锁合并成一路混合召回\r\n再用到数拍弥融合来排序\r\n这快的难点不在算法本身\r\n而在于本地设备的算力有限\r\n线路模型必须足够小\r\n同时又不能牺牲中文的召回质量\r\n另外还有一个容易被忽略的问题\r\n若是用户的笔记数量增长以后\r\n选库解锁的延迟会明显上升\r\n所以我们需要提前设计增量\r\n所以和换存策略\r\n以上是背景\r\n接下来说具体方案",
+          "cer": 0.0958904109589041,
+          "reference_used": "这次评审我先把背景交代一下。上半年我们把语音笔记的转写链路整个重写了一遍，主要解决三个问题：一是长录音的内存占用过高，二是中英混合场景下的断句不稳定，三是任务提取会把别人的事情算到用户头上。重写之后，转写的峰值内存下降了大约四成，断句错误明显减少，任务归属也加了一道复核。下半年的重点会转到检索这一侧，我们打算把关键词检索和向量检索合并成一路混合召回，再用倒数排名融合来排序。这块的难点不在算法本身，而在于本地设备的算力有限，嵌入模型必须足够小，同时又不能牺牲中文的召回质量。另外还有一个容易被忽略的问题，就是用户的笔记数量增长以后，全库检索的延迟会明显上升，所以我们需要提前设计增量索引和缓存策略。以上是背景，接下来说具体方案。",
+          "error": null
+        },
+        {
+          "id": "en_short",
+          "language": "en",
+          "category": "basic",
+          "transcript": "Vocal speech synthesis tips prior to notes on the user's own computer.",
+          "cer": 0.1206896551724138,
+          "reference_used": "Local speech synthesis keeps private notes on the user's own computer.",
+          "error": null
+        },
+        {
+          "id": "en_basic_02",
+          "language": "en",
+          "category": "basic",
+          "transcript": "We'll send the meeting summary right after this call.\r\nSo please review it before tomorrow morning.",
+          "cer": 0.024691358024691357,
+          "reference_used": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "error": null
+        },
+        {
+          "id": "en_basic_03",
+          "language": "en",
+          "category": "basic",
+          "transcript": "But you replace the printer cartridge and grab some new WHITBURT markers as well.",
+          "cer": 0.11267605633802817,
+          "reference_used": "Could you replace the printer cartridge, and grab some new whiteboard markers as well?",
+          "error": null
+        },
+        {
+          "id": "en_numeric_01",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Measuring grew 20.5% to $34.8 million, while costs dropped 3.7%.",
+          "cer": 0.2222222222222222,
+          "reference_used": "Revenue grew 12.5% to $34.8 million, while costs dropped 3.7%.",
+          "error": null
+        },
+        {
+          "id": "en_numeric_02",
+          "language": "en",
+          "category": "numeric",
+          "transcript": "when 301, 12 attendees, object tapped at $4,200, the station 33 said in it.",
+          "cer": 0.5178571428571429,
+          "reference_used": "Room 301, 12 attendees, budget capped at 4200 dollars, extension 3378.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_01",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30 pm on September 15, 2026 and no later than the 16th.",
+          "cer": 0.02666666666666667,
+          "reference_used": "Please submit the documents before 3:30 PM on September 15th, 2026, and no later than the 16th.",
+          "error": null
+        },
+        {
+          "id": "en_datetime_02",
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Then the prance 90 through Friday at 9.15 in the morning.\r\nBe retrospective every other Friday at 4.",
+          "cer": 0.2261904761904762,
+          "reference_used": "Stand up runs Monday through Friday at 9:15 in the morning, with a retrospective every other Friday at 4.",
+          "error": null
+        },
+        {
+          "id": "en_proper_01",
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Catherinian and R.H.A.S.H. detail will work with the Shenzhen office alongside Bjorn Anderson.",
+          "cer": 0.1875,
+          "reference_used": "Katherine Nguyen and Rajesh Patel will work with the Shenzhen office alongside Bjorn Andersen.",
+          "error": null
+        },
+        {
+          "id": "en_acronym_01",
+          "language": "en",
+          "category": "acronym",
+          "transcript": "They'll carry your car's KPI Android.\r\nExport the data from the CRM and send it through the REST API at over 80 DPS.",
+          "cer": 0.24705882352941178,
+          "reference_used": "The OKR review covers KPI and ROI. Export the data from the CRM and sync it through the REST API over HTTPS.",
+          "error": null
+        },
+        {
+          "id": "en_technical_01",
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine T-world Retrieval with Actual Retrieval and Merge Both Rantes using Reciprocal Renfusion on the local processor.",
+          "cer": 0.1388888888888889,
+          "reference_used": "We combine keyword retrieval with vector retrieval and merge both rankings using reciprocal rank fusion on the local processor.",
+          "error": null
+        },
+        {
+          "id": "en_punct_01",
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Really, that was fast, but honestly, I'm still a little worried that something breaks in production.",
+          "cer": 0.04819277108433735,
+          "reference_used": "Really? That was fast! But, honestly, I am still a little worried. What if something breaks in production?",
+          "error": null
+        },
+        {
+          "id": "en_long_01",
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the context before we go into the details.\r\nIn the first half of the year, we rewrote the entire transcription pipeline for these notes,\r\nmainly to solve three problems, memory pressure on long recordings, unstable sentence segmentation\r\nwhen Chinese and English are mixed in one utterance, and task extraction data sign\r\ndata people's action items to the user. After the rewrite, peak memory during transcription dropped\r\nby roughly 40 percent, segmentation errors became far less frequent, and task ownership now goes\r\nthrough a secondary U-pass. For the second half of the year, we will shift our attention to retrial.\r\nThe plan is to merge keyword search and actor search into a single hybrid recall path,\r\nand then order the results with reciprocal rank fusion. The hard part is not the algorithm itself,\r\nbut the limited compute budget on local SDE and BDD-NG model has to stay small without sacrificing\r\nrecall quality in Chinese. There is also a problem that is easy to overlook,\r\nwhich is that latency for full library search grows noticeably once a user accumulates thousands\r\nof notes, so we need incremental indexing and CSC-CHANG strategy well before that point.",
+          "cer": 0.046012269938650305,
+          "reference_used": "Let me set the context before we go into the details. In the first half of the year we rewrote the entire transcription pipeline for voice notes, mainly to solve three problems: memory pressure on long recordings, unstable sentence segmentation when Chinese and English are mixed in one utterance, and task extraction that assigned other people's action items to the user. After the rewrite, peak memory during transcription dropped by roughly forty percent, segmentation errors became far less frequent, and task ownership now goes through a second review pass. For the second half of the year we will shift our attention to retrieval. The plan is to merge keyword search and vector search into a single hybrid recall path, and then order the results with reciprocal rank fusion. The hard part is not the algorithm itself, but the limited compute budget on a local device: the embedding model has to stay small without sacrificing recall quality in Chinese. There is also a problem that is easy to overlook, which is that latency for a full library search grows noticeably once a user accumulates thousands of notes, so we need incremental indexing and a caching strategy well before that point.",
+          "error": null
+        },
+        {
+          "id": "zh_en_mixed",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "SPSC Local可以在本地運行Text-to-Speech\r\n並保護用戶的private notes",
+          "cer": 0.19230769230769232,
+          "reference_used": "SpeakSpace Local 可以在本地运行 text to speech，并保护用户的 private notes。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_02",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的standup我可能会晚点到\r\n这个sprint的retro记得抬一下",
+          "cer": 0.027777777777777776,
+          "reference_used": "明天的 standup 我可能会晚点到，这个 sprint 的 retro 记得排一下。",
+          "error": null
+        },
+        {
+          "id": "mixed_basic_03",
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "这个feature嘞我还要再polish一下\r\n估计要到下周才能适应",
+          "cer": 0.19444444444444445,
+          "reference_used": "这个 feature 的 UI 我还要再 polish 一下，估计要到下周才能 ship。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_01",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次BITES的conjuncture rate提升了12.5%\r\namplify是3400人",
+          "cer": 0.35555555555555557,
+          "reference_used": "这次 A B test 的 conversion rate 提升了12.5%，sample size 是3400人。",
+          "error": null
+        },
+        {
+          "id": "mixed_numeric_02",
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从一线两百四十八妹不见到六百六十三妹\r\n实时音质从一点三一降到零点六四",
+          "cer": 0.275,
+          "reference_used": "内存占用从一千二百四十八 MiB 降到六百六十三 MiB，实时因子从一点三一降到零点六四。",
+          "error": null
+        },
+        {
+          "id": "mixed_datetime_01",
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "redline是9月15号下午3点半\r\n记得提前把slides发到群里",
+          "cer": 0.058823529411764705,
+          "reference_used": "deadline 是9月15号下午3点半，记得提前把 slides 发到群里。",
+          "error": null
+        },
+        {
+          "id": "mixed_proper_01",
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "凱因和张伟负责新人的1BRDNG\r\nZARA那边有李孟琪对接",
+          "cer": 0.3888888888888889,
+          "reference_used": "Kevin 和张伟负责新人的 onboarding，Sarah 那边由李梦琪对接。",
+          "error": null
+        },
+        {
+          "id": "mixed_acronym_01",
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把p二位用完之后你也跑通就可以march到没一分之然后触发cd部署",
+          "cer": 0.4358974358974359,
+          "reference_used": "把 PR review 完之后，CI 跑通就可以 merge 到 main 分支，然后触发 CD 部署。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_01",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用rf local twersearch和semanticsearch\r\nnb dvng模型跑在cpu上\r\n无依赖gpu",
+          "cer": 0.2542372881355932,
+          "reference_used": "我们用 RRF 融合 keyword search 和 semantic search，embedding 模型跑在 CPU 上，不依赖 GPU。",
+          "error": null
+        },
+        {
+          "id": "mixed_technical_02",
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "Visper的CL在中英混合样本上明显偏高\r\n桌面S2回转路只能当作低致信度代理",
+          "cer": 0.24390243902439024,
+          "reference_used": "Whisper 的 CER 在中英混合样本上明显偏高，说明 ASR 回转录只能当作低置信度代理。",
+          "error": null
+        },
+        {
+          "id": "mixed_punct_01",
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "怎么这个buff居然还在\r\n我记得上周就fix了\r\n要不要再roll back一次",
+          "cer": 0.1111111111111111,
+          "reference_used": "什么？这个 bug 居然还在！我记得上周就 fix 了啊……要不要再 rollback 一次？",
+          "error": null
+        },
+        {
+          "id": "mixed_long_01",
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下这个sprint的进展\r\nTranscription pipeline的refctur已经merge了\r\nRerecording的peak memory下降了大约4成\r\n中英汇合场景下的segmentation也稳定了很多\r\n任务提取,那快我们加了一道ownership preview\r\n专门解决把别人的action item算到用户头上的问题\r\n下一步的重点是retrieve\r\n我们打算把t1search和beta search合并成一路hybrid recall\r\n然后用reciprocal refusion做排序\r\n难点不在算法,而在本一设备的算力预算\r\nmbdd engine model必须足够小\r\n同时中文的recall不能掉\r\n另外还有一个容易被忽略的点\r\n用时note数量涨到几千条以后\r\nflow library search的latency会明显上升\r\n所以incremental index和tash策略要提前设计好\r\n这些是highlighter的方向\r\n一体的milestone我会在doc里写清楚",
+          "cer": 0.1087962962962963,
+          "reference_used": "先同步一下这个 sprint 的进展。transcription pipeline 的 refactor 已经 merge 了，long recording 的 peak memory 下降了大约四成，中英混合场景下的 segmentation 也稳定了很多。任务提取那块我们加了一道 ownership review，专门解决把别人的 action item 算到用户头上的问题。下一步的重点是 retrieval：我们打算把 keyword search 和 vector search 合并成一路 hybrid recall，然后用 reciprocal rank fusion 做排序。难点不在算法，而在本地设备的算力预算，embedding model 必须足够小，同时中文的 recall 不能掉。另外还有一个容易被忽略的点，就是 note 数量涨到几千条以后，full library search 的 latency 会明显上升，所以 incremental index 和 cache 策略要提前设计好。这些是 high level 的方向，具体的 milestone 我会在 doc 里写清楚。",
+          "error": null
+        }
+      ]
+    }
+  }
+}

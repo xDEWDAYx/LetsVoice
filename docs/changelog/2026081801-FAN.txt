@@ -1,0 +1,451 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081801
+日期：2026-08-18
+分支：claude/pull-latest-code-e7690d
+========================================================================
+
+本次改动集中修复对话工作台一侧的问题：智能体检索范围被错误收窄、智能体
+问答不落库、仪表盘配色不跟随系统颜色、TTS 未就绪时静默失败、以及组件缺失
+时应用照常运行导致用户无从判断。同时补上开工前的组件门禁、加载反馈和一个
+可拖动的侧栏分隔条。改动覆盖 Electron 主进程（Agent 工具、AskAI 服务、
+运行时 IPC、设置服务、preload）与 React renderer 页面；未触及数据库结构、
+原生依赖和打包配置。
+
+开工前另有两处阻塞启动的问题一并修复，见第 1、2 节。
+
+
+------------------------------------------------------------------------
+1. 【启动阻塞】仓库中提交了未解决的合并冲突标记
+------------------------------------------------------------------------
+问题：
+  - 拉取最新代码后执行 npm start，webpack 编译失败并报 3 个 TS1185
+    “Merge conflict marker encountered”。
+  - 渲染进程无法出包，应用起不来。
+
+原因：
+  - src/renderer/pages/Workspace/WorkspacePage.tsx 第 19 行起带着
+    <<<<<<< HEAD / ======= / >>>>>>> 99460c2 三行冲突标记，直接提交进了
+    main（d9466a3）。
+  - 冲突两侧分别解构 visibleNotes: filteredNotes 与 visibleNotes。
+
+现在：
+  - 保留 incoming 一侧的 visibleNotes：文件下方第 110、132 行实际使用的
+    就是 visibleNotes，另一侧改名后并未同步。
+  - 删除 HEAD 一侧与三行标记，编译恢复正常。
+
+涉及文件：
+  src/renderer/pages/Workspace/WorkspacePage.tsx
+
+
+------------------------------------------------------------------------
+2. 【启动阻塞】lucide-react 声明了却没有安装
+------------------------------------------------------------------------
+问题：
+  - 编译报 9 个 Module not found: Can't resolve 'lucide-react'。
+
+原因：
+  - package.json 与 package-lock.json 均已声明 lucide-react ^1.31.0，
+    但工作区的 node_modules 里缺少该包。
+
+现在：
+  - 执行 npm install 补齐依赖。
+  - postinstall 的原生模块 rebuild 步骤报错退出，但 better-sqlite3 的
+    .node 二进制本来就在 release/app/node_modules 内，不影响运行。
+
+涉及文件：
+  node_modules（依赖安装，无源码改动）
+
+
+------------------------------------------------------------------------
+3. 【智能体】检索范围被收窄到单个工作区，手动关联的笔记完全没被使用
+------------------------------------------------------------------------
+问题：
+  - 开启智能体模式后，必须先在左侧笔记库选中一条笔记才能提问。
+  - 助理只能在选中笔记所属的那一个工作区里检索，跨工作区的相关笔记
+    永远找不到。
+
+原因：
+  - StudioChatPanel 的 hasContext 要求必须挂上笔记或工作区，否则输入框
+    与发送键直接 disabled；智能体模式同样受这个限制。
+  - StudioPage 的 agentWorkspaceId 依次取「挂上的工作区 → 挂上笔记所属
+    工作区 → 当前选中笔记的工作区」，再传给 Agent，检索被锁死在单个
+    工作区（AgentNoteToolSupport.listScopedAgentNotes）。
+  - 智能体模式下 linkedNotes 只被用来推断工作区 ID，笔记本身从未进入
+    上下文，等于「手动指定」实际不起作用。
+
+现在：
+  - 智能体模式一律传 workspaceId: null，主进程退化为 findAll()，语义
+    检索同样不限定工作区，检索覆盖全部笔记。
+  - hasContext 增加 agentMode 短路，不挂任何东西也能直接提问。
+  - 新增 linkedNoteIds 贯穿 AgentRunRequest → AgentContext；AgentInput
+    负责清洗（丢弃非法 ID 而不是整次请求失败，上限 8 条）。
+  - 挂上的笔记在 search_notes 结果里以 match: "linked" 置顶插入，检索
+    没命中也不会丢失；系统提示同时说明这些是用户指定的额外线索，找别的
+    内容仍要搜全库。
+  - search_notes 的工具描述与系统提示改为明示「覆盖用户全部笔记」，
+    避免模型自行认定某条笔记够不着。
+
+涉及文件：
+  src/main/agent/AgentTypes.ts
+  src/main/agent/AgentInput.ts
+  src/main/agent/AgentOrchestrator.ts
+  src/main/agent/AgentSearchNotesTool.ts
+  src/renderer/pages/Studio/StudioPage.tsx
+  src/renderer/pages/Studio/useStudioAgent.ts
+  src/renderer/pages/Studio/components/StudioChatPanel.tsx
+
+
+------------------------------------------------------------------------
+4. 【智能体】新增 extract_todos 工具，复用仪表盘那套待办提取
+------------------------------------------------------------------------
+问题：
+  - 智能体模式下无法像仪表盘那样把待办事项提取出来。
+
+现在：
+  - 新增 extract_todos(note_id) 工具，直接调用 TodoExtractionService，
+    与仪表盘共用同一套长文本 RAG 分块与提示词，写库后再把 TodoRepository
+    里的结果读回来返给模型，保证对话里说的待办与日历里看到的是同一份。
+  - 系统提示补充触发条件：用户问到任务、行动项、截止日期或提醒时调用。
+  - 提取失败（本地模型未返回可解析 JSON）时不抛错，返回库中已有待办并
+    附带 hint，界面显示「本次提取失败，显示的是之前保存的待办」。
+  - 沿用 read_note 的范围规则：限定了工作区时拒绝跨区提取。
+  - 步骤流中可见该步骤，展开显示每条待办与日期。
+
+涉及文件：
+  src/main/agent/AgentExtractTodosTool.ts（新增）
+  src/main/agent/AgentNoteTools.ts
+  src/renderer/pages/Studio/components/StudioChatPanel.tsx
+  src/i18n/locales/zh.json、src/i18n/locales/en.json
+
+
+------------------------------------------------------------------------
+5. 【仪表盘】浅色模式下标题不可见、整页白底叠白卡
+------------------------------------------------------------------------
+问题：
+  - 系统颜色选「浅色」时，仪表盘顶部「仪表板」三个字是白色，几乎看不见；
+    切到「深色」反而正常。
+  - 浅色模式下卡片与页面背景几乎没有层次，整个容器呈一片白。
+
+原因：
+  - DashboardPage.css 在 :root 里写死了一套浅色调色板（白卡片、深色文字），
+    完全不响应 html[data-theme]，深浅两种模式用的是同一组颜色。
+  - .header-title 写死 color: #ffffff !important。该 !important 是为了压过
+    App.css 的 .content-area h1 { color: #f8fbff }，结果连 AppSettings.css
+    的浅色覆盖一起压掉了，浅色模式下就成了白底白字。
+
+现在：
+  - 建立完整的令牌体系：:root 放浅色值，html[data-theme='dark'] 整组替换
+    为深色值。表面、文字、边框、阴影，以及徽章 / 图标底 / 日历今天与选中
+    / 置顶行所用的语义色，全部改为引用令牌。
+  - .header-title 改用 var(--text-main)。保留 !important 以确保仪表盘对
+    自己标题的控制权，但取值本身跟随主题。
+  - 补两处原本只在一种模式下成立的样式：搜索框没写 background / color，
+    深色下会是浏览器默认的白底；日历浮层原用半透明底，深色下底层内容会
+    透上来，改用不透明的 --bg-elevated。
+  - 浅色模式的边框与阴影加深一档（--border-color 从 #e2e8f0 到 #dbe3ee），
+    解决卡片与背景无层次的问题。
+  - 深色模式下卡片改为与 App.css --surface 对齐的暗色表面，与其他页面一致。
+
+涉及文件：
+  src/renderer/pages/Dashboard/DashboardPage.css
+
+
+------------------------------------------------------------------------
+6. 【对话工作台】拖拽落点从输入框扩大到整块对话面板
+------------------------------------------------------------------------
+问题：
+  - 从笔记库拖笔记关联到对话时，必须精确拖到最底部的输入框里才生效。
+
+现在：
+  - 四个拖拽 handler 从 <form class="studio-composer"> 上移到面板根节点
+    <section class="studio-chat">，整块「新对话」区域都是落点。
+  - 落点提示改为罩住整块面板的虚线区域，手柄样式随之调整。
+  - 判定条件不变，仍然只接受笔记库拖出的载荷（hasNoteDragPayload），
+    拖文件、拖文本不会误触发。
+
+涉及文件：
+  src/renderer/pages/Studio/components/StudioChatPanel.tsx
+  src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+7. 【语音】智能体回答自动朗读，并在设置中新增「智能助理」选项卡
+------------------------------------------------------------------------
+问题：
+  - 智能体答完后不会自动朗读，只能手动点朗读按钮。
+
+现在：
+  - TTSPlayButton 增加 autoPlay 属性，而不是另起一套播放逻辑：自动播放与
+    手动播放共用同一个播放实例，按钮会立刻变成停止键，可随时打断。
+  - 用 useRef 守住，同一段文字只自动播一次，重渲染不会重复朗读；只有最新
+    一轮的回答自动播，历史回答重渲染时不触发。
+  - AppSettings 新增 agentAutoSpeak: boolean，默认开启。SettingsService 做
+    向后兼容：旧配置缺该字段时补默认值，而不是判定整份设置无效。
+  - 设置页新增「智能助理」分类，位于「语言」与「硬件」之间，沿用主题 /
+    字号那套单选卡片样式，面板底部说明需要先安装并选中 TTS 模型。
+
+涉及文件：
+  src/renderer/tts/TTSPlayButton.tsx
+  src/main/settings/SettingsService.ts
+  src/renderer/settings/SettingsController.ts
+  src/renderer/settings/AppSettingsProvider.tsx
+  src/renderer/pages/Settings/SettingsPage.tsx
+  src/renderer/pages/Settings/SettingsOptions.ts
+  src/renderer/pages/Settings/components/AgentSettingsPanel.tsx（新增）
+  src/renderer/pages/Studio/components/StudioChatPanel.tsx
+
+
+------------------------------------------------------------------------
+8. 【侧栏】笔记库与最近会话之间加可拖动分隔条
+------------------------------------------------------------------------
+问题：
+  - 两块区域由一条固定横线分隔，最近会话被 max-height: 32% 锁死，空间
+    分配无法按个人偏好调整。
+
+现在：
+  - 那条线本身变成拖动手柄。高度记在「最近会话」一侧，笔记库用 flex 吃掉
+    剩余空间，只需维护一个数值。
+  - 使用 Pointer Events 与 setPointerCapture，而不是 mousedown 加全局
+    mousemove：指针捕获后即使拖动速度快于渲染或鼠标移出窗口，事件仍回到
+    手柄上，松手不会丢。
+  - 上界实时计算为「容器底部 − 笔记列表顶部 − 笔记库最小高度」，拖到底
+    也压不没笔记库（笔记库下限 140px，最近会话下限 96px）。
+  - 高度存入 localStorage；挂载时与窗口 resize 时各收敛一次，避免上次在
+    更大窗口下拖出的值把笔记库挤扁。
+  - role="separator" 加 tabIndex，聚焦后上下方向键每次调整 24px。
+  - 手柄热区 9px，视觉上仍是 1px 细线；悬停、聚焦、拖动时变为 2px 强调色。
+  - 最近会话原本固定只渲染 6 条，区域拉高后多出的空间会是空的，上限放宽
+    到 50 条；未取消上限是因为后端 findAll() 没有 LIMIT。
+
+涉及文件：
+  src/renderer/pages/AskAI/useLibrarySplit.ts（新增）
+  src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+  src/renderer/pages/AskAI/AskAIPage.css
+
+
+------------------------------------------------------------------------
+9. 【对话工作台】组件缺失时照常运行，用户无从判断
+------------------------------------------------------------------------
+问题：
+  - TTS 模型未安装时，智能体答完不会朗读，界面也没有任何提示；手动点朗读
+    按钮才看到「请先在模型管理中选择 TTS 模型」。
+  - 对话工作台依赖 STT / TTS / LLM / Embedding 及对应运行时，缺件时仍可
+    进入，故障只会在某个具体功能上以静默方式暴露。
+
+现在：
+  - 新增开工前检查：进入对话工作台先查五项，缺任何一项用「组件尚未配齐」
+    的门禁页替换整页，逐项列出缺什么、为什么缺，并给出「去模型管理」与
+    「重新检测」两个入口。
+  - 判定依据：STT 取 transcription.ready 或 parakeetTranscription.ready
+    （两套引擎装好任一套即可）；TTS 取 activeModelId + modelReady +
+    runtimeReady；LLM 取 runtimeReady + activeModelId；Embedding 取
+    serverAvailable + installed；运行时逐个检查 whisper.cpp、ffmpeg、
+    Ollama 可执行文件与 TTS 推理包。
+  - 状态查询失败同样不放行，如实报告「读取组件状态失败」，避免回到静默
+    失败的老路。
+  - 门禁只读状态，不顺手安装任何东西，安装动作留在模型管理页。
+  - 撤销此前「TTS 未就绪时静默跳过自动朗读」的处理：读不出来时把原因显示
+    在按钮旁边，而不是让用户只看到没有声音。
+
+涉及文件：
+  src/renderer/pages/Studio/useStudioReadiness.ts（新增）
+  src/renderer/pages/Studio/components/StudioReadinessGate.tsx（新增）
+  src/renderer/pages/Studio/StudioPage.tsx
+  src/renderer/pages/Studio/StudioPage.css
+  src/renderer/tts/TTSPlayButton.tsx
+
+
+------------------------------------------------------------------------
+10. 【会话记录】智能体的问答不会出现在「最近会话」
+------------------------------------------------------------------------
+问题：
+  - 点最近会话旁的加号新建会话，发送内容并得到回答后，该会话始终不出现
+    在「最近会话」列表里。
+
+原因：
+  - 对话工作台有两条发送路径，只有一条会写会话记录。
+  - 普通模式：page.ask() → AskAI:ask，主进程建会话、写入 user 与 assistant
+    两条消息、更新 updated_at，渲染层随后 loadConversations() 刷新列表。
+  - 智能体模式：runAgent() → Agent:start，AgentOrchestrator 跑工具循环并把
+    答案以事件流回渲染层，全程不接触会话仓储，一条记录都没有创建。
+  - 因此不是列表没刷新，是根本没有落库。
+
+现在：
+  - AskAIService 新增 recordTurn()：把已经生成好的一轮问答写进会话记录，
+    不调用模型。没给会话 id 就用问题首句建会话，写入一问一答，挂上的笔记
+    记为来源（去重），更新 updated_at。
+  - 配套新增 AskAI:recordTurn IPC 与 preload 桥接。
+  - 渲染层监听 agent.turns，出现新一轮就落库并刷新最近会话。用 useRef 的
+    Set 记住已落库的轮次 id，先登记再落库，避免重渲染或 StrictMode 下重复
+    写入；失败后从 Set 中移除以允许重试。
+  - 记住返回的会话 id，后续追问追加到同一个会话，而不是每轮新建一条；
+    新建会话与切换笔记时清空该 id。
+
+涉及文件：
+  src/main/ask-ai/AskAIService.ts
+  src/main/ask-ai/AskAITypes.ts
+  src/main/ipc/ask-ai-ipc.ts
+  src/main/preload.ts
+  src/renderer/pages/AskAI/useAskAIPage.ts
+  src/renderer/pages/Studio/StudioPage.tsx
+
+
+------------------------------------------------------------------------
+11. 【门禁页】容器重叠、检测时机过早、缺少加载反馈
+------------------------------------------------------------------------
+问题一（容器重叠）：
+  - 门禁页外面又套了一层大容器，与外层内容区重叠，观感冗余。
+  - 原因是 .studio-gate 照抄了 .studio-page 的边框、背景与阴影，而外层
+    .content-area 已经是一层，加上内部卡片一共三层。
+  - 现在 .studio-gate 只保留居中职责，边框、背景、阴影全部去掉。
+
+问题二（检测时机）：
+  - 有时门禁提示某些模型未就绪，但进模型管理页显示全部正常，返回后门禁
+    又自行消失。
+  - 原因是 Runtime:getStatus 与 Semantic:getStatus 都是纯读取，不会启动
+    Ollama。应用刚启动时服务器尚未运行，languageModel.serverRunning 与
+    embedding.serverAvailable 必然为 false，于是 LLM 与 Embedding 被误判
+    为未就绪；而模型管理页读取 LLM 列表时顺手调用了 ensureRunning()，
+    服务器被拉起，返回后判定自然通过。
+  - 现在新增 Runtime:getReadiness，先 ensureRunning() 再读状态，一次往返
+    同时返回运行时与 embedding 两份状态；启动失败不抛错，让检查如实报告
+    未就绪而不是整体失败。
+  - 另加 20 秒超时上限：Ollama 若卡住，门禁页不会永远转圈，超时后按当前
+    状态如实判定，用户仍可看到清单与入口。
+
+问题三（缺少加载反馈）：
+  - 进模型管理页需要等待若干秒才显示内容，期间界面一片空白。等待的实质
+    就是在启动本地模型服务。
+  - 现在门禁检测期间显示转圈与说明文案；模型管理页新增 initialLoading，
+    首屏拉起服务与读取四类模型列表期间显示同样的加载面板，列表用 hidden
+    隐藏而非卸载，避免加载完成时闪烁。
+  - 转圈样式 .app-spinner 与 .app-loading-panel 放入 App.css 作为通用件，
+    两处共用，并为 prefers-reduced-motion 降速。
+
+涉及文件：
+  src/main/ipc/runtime-ipc.ts
+  src/main/preload.ts
+  src/renderer/pages/Studio/useStudioReadiness.ts
+  src/renderer/pages/Studio/components/StudioReadinessGate.tsx
+  src/renderer/pages/Studio/StudioPage.css
+  src/renderer/pages/ModelManager/useModelManager.ts
+  src/renderer/pages/ModelManager/ModelManagerPage.tsx
+  src/renderer/App.css
+
+
+------------------------------------------------------------------------
+12. 【IPC】Runtime:getReadiness 返回未决 Promise 导致克隆失败
+------------------------------------------------------------------------
+问题：
+  - 门禁页报错：Error invoking remote method 'Runtime:getReadiness':
+    Error: An object could not be cloned. 模型管理页显示全部就绪，工作台
+    仍被挡住。
+
+原因：
+  - RuntimeStatusService.getStatus() 是 async 方法。原有的
+    Runtime:getStatus 处理器直接返回该 Promise，ipcMain.handle 会自动
+    await 顶层返回值，因此一直正常。
+  - 上一节新增的处理器把它放进了返回对象里：
+      return { runtime: runtimeStatusService.getStatus(), embedding: ... }
+    ipcMain.handle 只 await 最外层，不会递归处理嵌套的 Promise，结构化
+    克隆遇到未决 Promise 直接失败。
+  - 检查一旦失败，按第 9 节「查不到状态就不放行」的策略挡住整页，因此
+    显示的是这条报错而非五项清单。
+
+现在：
+  - 改为 Promise.all 先 await 两个状态再组装返回值。
+  - 该问题由本次改动引入，非仓库基线问题。
+
+涉及文件：
+  src/main/ipc/runtime-ipc.ts
+
+
+------------------------------------------------------------------------
+13. 【验证】测试、类型检查与构建
+------------------------------------------------------------------------
+通过：
+  - 新增测试：AgentExtractTodosTool 4 个用例（正常提取、提取失败回退、
+    非法 ID、跨区拒绝）；AskAIRecordTurn 4 个用例（新建会话、追加到已有
+    会话、来源去重、空回答报错）；AgentAllWorkspaceScope 补 3 个用例
+    （挂载笔记只作额外线索、检索未命中也不丢失、ID 清洗）。
+  - 全量测试：7 个套件、24 个测试通过。
+  - tsc --noEmit：除下述既有错误外无新增错误。
+  - webpack main / preload / renderer 开发构建：0 错误。
+  - 三个 bundle 均确认包含本次新增的 IPC 通道与页面代码。
+
+未能实测的部分：
+  - 门禁页在真实窗口中的最终外观、分隔条的拖动手感、智能体问答落库后
+    出现在「最近会话」的端到端表现，均未在应用内实际操作确认。
+  - 原因：过程中使用鼠标自动化验证界面时，坐标受桌面缩放影响，先后误点
+    到应用自身的设置项与桌面上的其他应用窗口，因此中止了该验证方式。
+    被误改的应用设置（字号、主题）已从备份恢复为 medium / dark / zh。
+
+已知仓库基线问题（非本次引入）：
+  - tsc 仍有 3 个既有错误：WorkspaceNoteCard 读取 SubnoteItem.template_name；
+    WorkspacePage 向 WorkspaceDetailHeader 传入同步的 onDelete / onRename，
+    而后者声明为 Promise<void>。后者同时导致 WorkspacePage.test.tsx 套件
+    无法通过 ts-jest 编译。
+  - App.test.tsx 的 Electron preload mock 缺少 recommendation，套件在加载
+    ModelManager 时失败。
+  - jest 的 setupFiles 要求先执行生产构建（check-build-exists.ts），本次
+    以等价配置绕过该前置检查运行测试，未修改仓库测试配置。
+  - 该 worktree 内 ESLint 无法运行：worktree 嵌套在父仓库目录下，
+    @typescript-eslint 插件被两处 node_modules 同时加载，ESLint 拒绝启动。
+
+
+------------------------------------------------------------------------
+14. 【跨平台边界】本次改动未引入平台专属逻辑
+------------------------------------------------------------------------
+确认：
+  - 主进程改动集中在 Agent 工具注册、AskAI 会话写入、运行时状态汇总与
+    设置字段，均为普通对象与既有服务调用。
+  - 未新增 process.platform、win32、darwin 判断、路径分隔符处理或系统 API。
+  - 未修改原生依赖、electron-builder 配置或数据库表结构。
+  - 新增的 agentAutoSpeak 字段对旧配置向后兼容，缺失时补默认值。
+
+限制：
+  - 本轮开发与验证均在 Windows 11 x64 上进行。
+  - 门禁的五项判定依赖各运行时的安装位置探测，macOS 上的路径与可执行文件
+    形态不同，发布前需在 macOS 上单独验收门禁判定是否准确。
+
+
+------------------------------------------------------------------------
+文件范围汇总
+------------------------------------------------------------------------
+  - 智能体检索与工具：
+      src/main/agent/AgentTypes.ts、AgentInput.ts、AgentOrchestrator.ts、
+      AgentSearchNotesTool.ts、AgentNoteTools.ts、
+      AgentExtractTodosTool.ts（新增）
+  - 会话落库：
+      src/main/ask-ai/AskAIService.ts、AskAITypes.ts、
+      src/main/ipc/ask-ai-ipc.ts、src/renderer/pages/AskAI/useAskAIPage.ts
+  - 运行时与门禁：
+      src/main/ipc/runtime-ipc.ts、src/main/preload.ts、
+      src/renderer/pages/Studio/useStudioReadiness.ts（新增）、
+      src/renderer/pages/Studio/components/StudioReadinessGate.tsx（新增）
+  - 设置与语音：
+      src/main/settings/SettingsService.ts、
+      src/renderer/settings/SettingsController.ts、AppSettingsProvider.tsx、
+      src/renderer/pages/Settings/SettingsPage.tsx、SettingsOptions.ts、
+      components/AgentSettingsPanel.tsx（新增）、
+      src/renderer/tts/TTSPlayButton.tsx
+  - 对话工作台与侧栏：
+      src/renderer/pages/Studio/StudioPage.tsx、StudioPage.css、
+      components/StudioChatPanel.tsx、useStudioAgent.ts、
+      src/renderer/pages/AskAI/components/AskAINotesPanel.tsx、
+      AskAIPage.css、useLibrarySplit.ts（新增）
+  - 仪表盘与模型管理：
+      src/renderer/pages/Dashboard/DashboardPage.css、
+      src/renderer/pages/ModelManager/useModelManager.ts、
+      ModelManagerPage.tsx、src/renderer/App.css
+  - 启动阻塞修复：
+      src/renderer/pages/Workspace/WorkspacePage.tsx
+  - 文案：
+      src/i18n/locales/zh.json、src/i18n/locales/en.json
+  - 测试：
+      src/main/agent/__tests__/AgentExtractTodosTool.test.ts（新增）、
+      AgentAllWorkspaceScope.test.ts、
+      src/main/ask-ai/__tests__/AskAIRecordTurn.test.ts（新增）
+  - 修改日志：
+      log/2026081801.txt

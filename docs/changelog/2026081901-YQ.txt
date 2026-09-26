@@ -1,0 +1,155 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081901-YQ
+日期：2026-08-19
+分支：main
+========================================================================
+
+本次改动为笔记与工作空间增加完整的回收站生命周期：普通删除改为可恢复的
+“移入回收站”，只有用户在回收站再次确认后才会彻底删除。功能覆盖工作空间、
+对话工作台、仪表盘与笔记详情，并完成中英文、深浅主题、原生 SQLite、macOS
+打包启动以及 Windows/macOS/Linux CI 门禁适配。
+
+
+------------------------------------------------------------------------
+1. 【数据生命周期】笔记和工作空间先进入回收站
+------------------------------------------------------------------------
+现在：
+  - workspaces 与 notes 增加可空的 trashed_at 字段；旧数据库启动时原地迁移，
+    NULL 表示正常内容，时间戳表示已进入回收站。
+  - 删除单篇笔记只写入回收站时间，不改正文、置顶、创建时间、更新时间、
+    子笔记、知识输出、待办或录音引用，恢复后仍是原记录。
+  - 删除工作空间前显示确认框；确认后工作空间及其全部笔记作为一个回收站
+    项目移动，恢复时一起恢复。
+  - 普通工作空间、笔记、仪表盘、待办、语义建议和 AI 上下文查询全部排除
+    回收站内容，避免已删除内容继续出现在正常工作流中。
+  - 回收站内容无限期保留，不做自动清理。
+
+涉及文件：
+  src/main/database/DatabaseManager.ts
+  src/main/database/repositories/*.ts
+  src/main/trash/TrashService.ts（新增）
+  src/main/ipc/trash-ipc.ts（新增）
+  src/shared/types/TrashTypes.ts（新增）
+
+
+------------------------------------------------------------------------
+2. 【设置】新增回收站入口、搜索、筛选、恢复与彻底删除
+------------------------------------------------------------------------
+现在：
+  - 设置左侧分类顺序为“外观、语言、智能助理、硬件、回收站、使用引导”，
+    回收站位于硬件与使用引导之间。
+  - 回收站支持按名称、笔记正文和原工作空间搜索，并可筛选全部、笔记或
+    工作空间；分类入口显示项目数量角标。
+  - 恢复立即生效，并可跳转查看恢复后的工作空间或笔记。
+  - 彻底删除必须在独立确认框再次确认；确认文案明确说明不可撤销。
+  - 彻底删除笔记会级联清理附属内容和无引用的托管录音；历史 AI 对话与
+    消息保留，只移除已失效的笔记关联，避免删除超出用户确认范围的数据。
+  - 操作成功与角标刷新分离；即使后续角标刷新失败，也不会把已经成功的
+    恢复或删除误报为失败。
+
+涉及文件：
+  src/renderer/pages/Settings/SettingsPage.tsx
+  src/renderer/pages/Settings/components/TrashSettingsPanel.tsx（新增）
+  src/renderer/pages/Settings/components/TrashSettingsPanel.css（新增）
+  src/renderer/pages/Settings/components/TrashSettingsPanel.test.tsx（新增）
+  CONTEXT.md（新增）
+  docs/adr/0001-preserve-conversations-across-note-lifecycle.md（新增）
+
+
+------------------------------------------------------------------------
+3. 【各页面入口】常驻垃圾桶、开盖动画、确认框与撤销
+------------------------------------------------------------------------
+现在：
+  - 对话工作台笔记库、仪表盘笔记列表、工作空间笔记卡片均使用统一的
+    TrashCanButton；垃圾桶常驻显示，鼠标悬浮或键盘聚焦时仅桶盖打开。
+  - 对话工作台笔记卡片的垃圾桶固定在右下角，按钮盒子与 SVG 始终居中；
+    最终将按钮下移到日期/时间所在水平线，悬浮时不再错位或消失。
+  - 删除笔记后从当前列表和已关联来源中移除，并显示 5 秒撤销入口；撤销后
+    恢复原笔记及当前页面需要的选择、预览与关联状态；撤销请求仍在执行或
+    返回错误时会暂停自动关闭，避免操作尚未结束提示就消失。
+  - 删除工作空间保留删除前确认；确认框宽度收紧为 400px、自适应高度，
+    不再继承多笔记弹窗的 70vh 固定高度。
+  - 工作空间确认框的“取消/确认”补齐正式中英文词条，不再在中文界面出现
+    英文 Cancel。
+
+涉及文件：
+  src/renderer/components/TrashCanButton.tsx（新增）
+  src/renderer/components/TrashCanButton.css（新增）
+  src/renderer/components/TrashUndoToast.tsx（新增）
+  src/renderer/components/TrashUndoToast.css（新增）
+  src/renderer/pages/AskAI/**
+  src/renderer/pages/Dashboard/**
+  src/renderer/pages/Studio/**
+  src/renderer/pages/Workspace/**
+
+
+------------------------------------------------------------------------
+4. 【中英文与主题】回收站完整适配
+------------------------------------------------------------------------
+确认：
+  - 新增回收站标题、说明、搜索、筛选、按钮、通知、错误与确认文案的中英文
+    词条；两份 locale 的键集合一致，均为 647 个键。
+  - 回收站、通知、确认框、错误提示和垃圾桶只使用项目主题 token，不写死
+    深色或浅色背景；危险、强调、边框和正文在两套主题下均保持可读。
+  - 在真实 Electron 中人工切换并检查“中文深色”和“英文浅色”，随后恢复
+    用户原有的中文深色设置；检查过程未删除或恢复任何用户数据。
+
+涉及文件：
+  src/i18n/locales/zh.json
+  src/i18n/locales/en.json
+  src/i18n/locales/TrashLocales.test.ts（新增）
+
+
+------------------------------------------------------------------------
+5. 【跨平台与 CI】真实 Electron ABI 回归进入三系统矩阵
+------------------------------------------------------------------------
+现在：
+  - 回收站实现使用 Electron、React、SQLite 参数化查询和 ISO 时间戳，没有
+    增加 darwin/win32 分支、平台路径拼接或平台专属系统 API。
+  - better-sqlite3 安装的是 Electron ABI；普通 Node Jest 无法加载时会明确
+    跳过，新增 test:trash:electron 由 Electron 的 Node 模式真实执行全部
+    回收站数据库测试，避免把“跳过”误报为“通过”。
+  - GitHub Actions 的 macOS、Windows、Ubuntu 矩阵均执行 package、lint、
+    TypeScript、test:trash:electron 与全量 Jest；推送后由真实 Windows runner
+    负责 NSIS 打包和原生 SQLite 验证。
+
+涉及文件：
+  package.json
+  .github/workflows/test.yml
+  src/main/trash/__tests__/TrashService.test.ts（新增）
+
+
+------------------------------------------------------------------------
+6. 【本地验证】测试、构建、打包与启动
+------------------------------------------------------------------------
+通过：
+  - TypeScript：npx tsc --noEmit，0 个错误。
+  - ESLint：npm run lint，0 个错误；保留项目既有的 21 个 console 警告。
+  - 全量 Jest：16 个套件、51 个测试通过；标准 Node 环境跳过 6 个原生
+    SQLite 测试，随后由 Electron ABI 命令单独实跑，6 个全部通过。
+  - 重点组件测试：垃圾桶按钮、回收站面板、工作空间确认框和中英文词条
+    全部通过。
+  - 生产 Webpack：main 与 renderer 均构建成功。
+  - macOS arm64：electron-builder 成功重建 better-sqlite3，生成 ZIP/DMG；
+    打包后的 SpeakSpace.app 已实际启动到主界面。
+  - npm ls --depth=0、Electron 二进制检查、git diff --check 均通过。
+
+构建边界：
+  - 本机没有有效的 Developer ID Application 证书，因此生成项目约定的
+    -internal-unsigned 内部包；该包不可作为正式签名发布包对外分发。
+  - 本地宿主为 macOS，不能冒充 Windows 人工点击验收；Windows 的安装包、
+    TypeScript、测试与 Electron SQLite 验证由推送后的 GitHub Actions
+    Windows runner 提供独立证据。
+
+
+------------------------------------------------------------------------
+文件范围汇总
+------------------------------------------------------------------------
+  - 数据与 IPC：src/main/database、src/main/trash、src/main/ipc、preload
+  - 页面与交互：Settings、AskAI/Studio、Dashboard、Workspace
+  - 通用组件：TrashCanButton、TrashUndoToast
+  - 文案与测试：src/i18n/locales、TrashService/组件/页面测试
+  - 设计记录：CONTEXT.md、docs/adr
+  - 跨平台门禁：package.json、.github/workflows/test.yml
+  - 修改日志：docs/changelog/2026081901-YQ.txt

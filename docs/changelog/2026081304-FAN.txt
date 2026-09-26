@@ -1,0 +1,218 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081304
+日期：2026-08-13
+分支：codex/tts-model-integration
+========================================================================
+
+本次改动把 TTS 从单一 Kokoro 安装入口扩展为三个可独立下载、选择和删除的
+本地模型，并让交互方式与现有 STT / LLM 模型管理保持一致。新增模型均为
+单一多语言模型，不需要像 Piper 那样分别下载中文包和英文包；播放方式保持为
+整段语音生成完成后再播放，不引入流式播放或声音克隆。
+
+
+------------------------------------------------------------------------
+1. 【模型目录】从固定 Kokoro 扩展为三个单一多语言模型
+------------------------------------------------------------------------
+问题：
+  - 原实现把 TTS 运行时和 Kokoro 模型绑定在一起，模型管理页只有一个固定项，
+    用户不能在多个 TTS 模型之间选择。
+
+原来：
+  - TTS 状态只描述 Kokoro 是否安装。
+  - 下载按钮调用独立的 Runtime:installTTS 流程，无法复用 STT / LLM 的
+    「模型列表、下载、激活、删除」交互。
+
+现在：
+  - 建立统一 TTS 模型目录，包含：
+      · Kokoro Multi-Lang v1.0：382 MiB，保留为现有稳定基线。
+      · MeloTTS Chinese-English：182 MiB，设为推荐候选。
+      · MOSS-TTS-Nano 100M：应用必需资产约 684 MiB，20 语言实验候选。
+  - 三个候选均共享一套权重处理中文和英文，不拆分语言包。
+  - 每个模型记录下载来源、必需文件、大小、后端与 SHA-256；安装完成后再
+    进入可选择状态。
+
+  涉及文件：
+    src/main/tts/TTSModelCatalog.ts（新增）
+    src/main/AI-module/TTSModel.ts（新增）
+    src/main/AI-module/TTSModelManager.ts（新增）
+    src/main/tts/TTSModelStorage.ts（新增）
+    src/main/tts/TTSModelInstaller.ts（新增）
+
+
+------------------------------------------------------------------------
+2. 【模型管理】TTS 与 STT / LLM 使用同一套选择、下载、删除交互
+------------------------------------------------------------------------
+问题：
+  - TTS 原来是独立安装按钮，和页面中其它模型的操作方式不同。
+  - 只有「装没装」状态，没有「已下载但未选择」和「当前使用中」的区分。
+
+现在：
+  - 模型管理 IPC 增加 tts 类型，支持 getModelList / downloadModel /
+    activateModel / deleteModel。
+  - 模型管理页的 TTS 下拉现在与 STT / LLM 一致：
+      · 未下载：点击下载；
+      · 已下载：可以显式选择为当前模型；
+      · 使用中：显示激活状态；
+      · 删除：只删除指定模型，当前激活模型禁止直接删除。
+  - 不自动下载任何新增模型，用户自己决定占用多少本地空间。
+  - 模型切换后立即释放旧推理引擎，避免多个后端同时驻留内存。
+  - 本次只在共享模型管理入口增加 TTS 分支，没有改写 STT / LLM 的业务流程。
+
+  涉及文件：
+    src/main/ipc/model-management-ipc.ts
+    src/main/runtime/RuntimeStatusService.ts
+    src/main/runtime/RuntimeUninstallService.ts
+    src/main/preload.ts
+    src/renderer/pages/ModelManager/ModelManagerPage.tsx
+    src/renderer/pages/ModelManager/useModelManager.ts
+    src/renderer/pages/ModelManager/ModelDescription.ts
+    src/renderer/pages/ModelManager/ModelRuntimes.ts
+    src/renderer/pages/ModelManager/ModelTags.ts
+
+
+------------------------------------------------------------------------
+3. 【推理后端】统一管理 Sherpa 与 MOSS ONNX 引擎
+------------------------------------------------------------------------
+问题：
+  - Kokoro 与 MeloTTS 可以使用 sherpa-onnx-node，但 MOSS 的官方 ONNX 路径
+    需要 onnxruntime-node 和 SentencePiece，不能套用原来的固定 Kokoro 配置。
+
+现在：
+  - Kokoro 使用 sherpa-kokoro，MeloTTS 使用 sherpa-vits；两者复用项目已有
+    sherpa-onnx-node 运行时。
+  - MOSS 使用 onnxruntime-node 1.27.0 与 @sctg/sentencepiece-js 1.3.3，
+    在 Electron 主进程内完成本地 CPU 推理，不依赖 Python 常驻服务。
+  - TTSRuntimeCoordinator 统一持有服务实例；切换模型或卸载时释放旧 Session。
+  - MOSS 输出在返回播放器前执行峰值归一化，避免原始波形超过安全范围。
+  - 三种引擎都只读取本地模型文件，合成过程不向云端发送文本或音频。
+
+  涉及文件：
+    src/main/tts/SherpaTTSEngine.ts（新增）
+    src/main/tts/MossOnnxRuntime.ts（新增）
+    src/main/tts/TTSEngine.ts
+    src/main/tts/TTSRuntimeCoordinator.ts（新增）
+    src/main/tts/TTSRuntimeService.ts
+    src/main/tts/TTSService.ts
+    release/app/package.json、release/app/package-lock.json
+
+
+------------------------------------------------------------------------
+4. 【音色与播放】只使用官方内置音色，生成完成后再播放
+------------------------------------------------------------------------
+问题：
+  - 原接口把 speakerId 固定成数字，并假定所有模型都是单声道；这无法表达
+    MOSS 的具名音色和双声道输出。
+
+现在：
+  - speakerId 统一改为字符串，每个模型分别保存上次选择的官方内置音色。
+  - 不提供参考音频上传、声音克隆或用户音色训练入口。
+  - 统一音频结果改为 1～2 个 Float32Array 声道；播放器按照实际声道数创建
+    AudioBuffer，Kokoro / MeloTTS 保持单声道，MOSS 保留双声道。
+  - 播放策略按需求保持非流式：等待整段合成完成并通过数据校验后再播放。
+  - 输入继续执行长度、速度、空文本和音色合法性检查。
+
+  涉及文件：
+    src/main/tts/TTSGeneratedAudio.ts（新增）
+    src/main/tts/TTSVoices.ts
+    src/main/tts/TTSInput.ts
+    src/main/ipc/tts-ipc.ts
+    src/renderer/tts/TTSAudioPlayer.ts
+    src/renderer/tts/TTSPreferences.ts
+    src/renderer/tts/useTTSPlayback.ts
+    src/renderer/tts/TTSPlayButton.tsx
+
+
+------------------------------------------------------------------------
+5. 【跨平台与打包】原生依赖进入 Electron 生产包
+------------------------------------------------------------------------
+问题：
+  - TTS 后端包含原生 Node 模块；如果用错误架构安装依赖，开发构建可能通过，
+    但最终应用启动推理时会加载失败。
+
+现在：
+  - macOS 打包按当前宿主架构生成产物，不再在同一次本地构建中强制混合
+    arm64 与 x64 原生依赖。
+  - 本机重新生成 macOS arm64 DMG / ZIP，打包后的 sherpa-onnx.node 和
+    onnxruntime_binding.node 均确认是 arm64 Mach-O。
+  - 增加 macOS / Windows 构建说明与 Windows x64 人工验收清单。
+  - 底层依赖提供 Windows x64 版本，但本轮没有 Windows 实机，因此不能把
+    Windows 标记为已测试通过。
+
+  涉及文件：
+    package.json
+    docs/testing/tts-platform-builds.md（新增）
+    docs/testing/tts-windows-manual.md（新增）
+
+
+------------------------------------------------------------------------
+6. 【测试】三个模型通过真实合成、单元测试、构建和打包检查
+------------------------------------------------------------------------
+本轮 macOS Apple Silicon 验证：
+  - TTS Jest：3 个测试套件、5 个测试全部通过。
+  - 本次新增/修改文件 ESLint：0 个错误。
+  - main / renderer 生产 Webpack 构建：通过。
+  - 全量 TypeScript `tsc --noEmit`：通过。
+  - macOS arm64 Electron 打包：通过。
+  - release/app 生产依赖 npm audit：0 个已知漏洞。
+  - Kokoro、MeloTTS、MOSS 均通过当前应用内部 TypeScript 引擎生成中英混合
+    测试文本；返回声道非空，所有样本均为有限数。
+
+新增自动化覆盖：
+  - 显式激活状态持久化。
+  - 激活模型删除保护。
+  - 音色校验。
+  - 切换模型时释放旧引擎。
+  - 音频声道与有限值冒烟检查。
+
+已知仓库基线问题（不是本次 TTS 引入）：
+  - 全量 App.test.tsx 缺少 Electron recommendation preload mock；失败代码
+    已存在于本次分支基线。
+
+变基整合说明：
+  - 本分支已基于远端 main 的 4aa9d89（ToDoList Update）。该提交在 preload
+    新增的 dashboard 方法末尾缺少一个格式化尾逗号；本分支补齐该逗号以保持
+    ESLint 通过，不改变 ToDoList 接口或运行行为。
+
+  涉及文件：
+    src/main/tts/__tests__/（新增）
+    scripts/tts-model-smoke.ts（新增）
+
+
+------------------------------------------------------------------------
+7. 【测试报告】三模型性能、内存与可懂度数据归档到 docs
+------------------------------------------------------------------------
+现在：
+  - 测试报告移动到：
+      docs/2026-08-13-tts-model-benchmark.md
+  - 报告包含模型大小、加载时间、峰值 RSS、中文 / 英文 / 混合文本 RTF、
+    音频信号检查、Whisper Tiny 回转录代理结果、端到端验证和限制说明。
+  - 原始复现脚本保留在 reports/scripts/，报告中的相对链接已随移动更新。
+
+本轮核心数据：
+  - Kokoro：峰值 RSS 779.8 MiB，平均中位 RTF 0.978。
+  - MeloTTS：峰值 RSS 663.5 MiB，平均中位 RTF 0.652。
+  - MOSS-TTS-Nano：峰值 RSS 1,248.2 MiB，平均中位 RTF 0.529。
+
+
+------------------------------------------------------------------------
+8. 【剩余发布门槛】不把运行时兼容性当作跨平台实测
+------------------------------------------------------------------------
+发布前仍需完成：
+  - 在干净 Windows 11 x64 账户执行首次下载、模型切换、三类文本合成、
+    播放、删除和重启后状态恢复。
+  - 在 macOS x64 机器重复同一套验收。
+  - 至少 3 名组员进行盲听，分别评价自然度、发音、中英切换和可接受度。
+  - 正式分发前配置有效 Apple Developer ID 并执行签名 / 公证；本轮开发包
+    未签名，仅用于本地验证。
+
+
+------------------------------------------------------------------------
+文件范围汇总
+------------------------------------------------------------------------
+  - TTS 模型、安装、运行时、推理与测试：src/main/tts/、
+    src/main/AI-module/TTSModel*.ts、scripts/、reports/scripts/。
+  - 共享接入点：模型管理 IPC、preload、运行时状态 / 卸载服务、模型管理页。
+  - 文档：docs/2026-08-13-tts-model-benchmark.md、docs/testing/。
+  - 依赖与构建：package.json、release/app/package*.json。
+  - 未修改 STT、LLM、录音、数据库、语义搜索、Agent 或 Workspace 业务文件。

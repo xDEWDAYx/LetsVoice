@@ -1,0 +1,278 @@
+.workspace-home {
+  min-height: calc(100vh - 5rem);
+}
+.workspace-home-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 20%, var(--surface-strong)),
+    var(--surface)
+  );
+  box-shadow: var(--shadow);
+}
+.workspace-home-eyebrow {
+  color: var(--accent);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+.workspace-home-header h1 {
+  margin: 0.35rem 0 0.4rem;
+  font-size: var(--fs-3xl);
+  letter-spacing: -0.04em;
+}
+.workspace-home-header p {
+  margin: 0;
+}
+.workspace-home-create {
+  min-width: min(100%, 390px);
+}
+.workspace-home-create label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: var(--fs-md);
+}
+.workspace-home-create div {
+  display: flex;
+  gap: 0.65rem;
+}
+.workspace-home-create input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  outline: none;
+  background: var(--surface-strong);
+}
+.workspace-home-create input:focus {
+  border-color: var(--accent);
+}
+.workspace-home-create button {
+  padding: 0.75rem 1.25rem;
+}
+.workspace-home-create button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.workspace-home-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.6rem 0 0.85rem;
+}
+.workspace-home-section-heading h2 {
+  margin: 0 0 0.2rem;
+}
+.workspace-home-section-heading p {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+.workspace-home-section-heading a {
+  flex: none;
+  padding: 0.55rem 0.85rem;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+}
+.workspace-home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.9rem;
+}
+.workspace-home-card {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1rem;
+  color: var(--text);
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: none;
+}
+.workspace-home-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+.workspace-home-card-index {
+  align-self: start;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.workspace-home-card-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: var(--accent-contrast);
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  font-weight: 800;
+}
+.workspace-home-card-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+.workspace-home-card-copy strong {
+  overflow: hidden;
+  font-size: var(--fs-lg);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-home-card-copy small,
+.workspace-home-card-copy time {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+.workspace-home-card-arrow {
+  color: var(--accent);
+  font-size: 1.25rem;
+}
+.workspace-home-empty,
+.workspace-home-status,
+.workspace-home-error {
+  margin: 1rem 0 0;
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 22px;
+}
+.workspace-home-empty span {
+  color: var(--accent);
+  font-size: var(--fs-3xl);
+}
+.workspace-home-empty h2 {
+  margin: 0.5rem 0 0.25rem;
+}
+.workspace-home-empty p {
+  margin: auto;
+}
+.workspace-home-error {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 38%, transparent);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+.workspace-home-restored {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.9rem;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+  border-radius: 14px;
+  background: var(--accent-soft);
+  font-size: var(--fs-sm);
+}
+.workspace-home-restored button {
+  flex: none;
+  padding: 0.4rem 0.75rem;
+  box-shadow: none;
+  font-size: var(--fs-sm);
+}
+@media (max-width: 760px) {
+  .workspace-home-header {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.4rem;
+  }
+  .workspace-home-create {
+    min-width: 0;
+  }
+  .workspace-home-create div {
+    flex-direction: column;
+  }
+  .workspace-home-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   工作空间列表的进场与悬停
+   ========================================================= */
+
+/* 卡片按顺序落进来。前 10 张各错开一点，之后统一，
+   否则条目一多，最后几张要等一秒才出现。 */
+.workspace-home-card {
+  animation: anim-rise var(--dur-slow) var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.workspace-home-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--border));
+  box-shadow: var(--shadow-md);
+}
+
+.workspace-home-card:active {
+  transform: translateY(0) scale(0.995);
+  transition-duration: var(--dur-instant);
+}
+
+/* 图标底盘跟着卡片一起动，比整卡平移多一层细节 */
+.workspace-home-card-icon {
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.workspace-home-card:hover .workspace-home-card-icon {
+  transform: rotate(-4deg) scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace-home-card {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .workspace-home-card:hover,
+  .workspace-home-card:hover .workspace-home-card-icon {
+    transform: none;
+  }
+}
+.workspace-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.workspace-new-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  color: var(--button-primary-text, #fff);
+  background: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.workspace-new-button:hover {
+  filter: brightness(1.06);
+}

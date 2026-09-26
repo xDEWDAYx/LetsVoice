@@ -1,0 +1,370 @@
+/* =========================================================
+   轻量浮窗（右下角统计 / 待办、屏幕中央录音）
+
+   浮窗和主界面共用一个渲染包，所以要先把 body 那层实心底色去掉，
+   否则无边框透明窗口会变成一块方板。
+   ========================================================= */
+
+html.is-hud,
+html.is-hud body,
+html.is-hud #root {
+  height: 100%;
+  background: transparent !important;
+  overflow: hidden;
+  /* 窗口本身不接受拖拽，整块都当作可点击区域 */
+  -webkit-app-region: no-drag;
+  /* 浮窗里的文字没有复制的必要。不禁掉的话，点一下就会选中整行，
+     再被全局的 ::selection 涂成一片强调色底——看着像整行变蓝了。 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hud {
+  display: flex;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  animation: hud-in 260ms var(--ease-out, ease-out) both;
+}
+
+/* 淡出由 HudShell 在关窗前 400ms 挂上，避免「啪」地消失 */
+html.is-hud-leaving .hud {
+  animation: hud-out 400ms ease-in both;
+}
+
+@keyframes hud-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hud-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+}
+
+/* 录音胶囊：不留内边距、圆到底，像系统级的录音指示条 */
+/* 留白只够放投影：胶囊本身要几乎占满这个小窗口 */
+.hud.hud-record {
+  padding: 4px 6px 6px;
+}
+
+.hud.hud-record > .hud-card {
+  padding: 0;
+  border-radius: 999px;
+}
+
+.hud-card {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  /* 不透明：底下是别人的窗口，半透明会让数字读不清 */
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px -18px rgb(0 0 0 / 65%);
+}
+
+.hud-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.hud-title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.hud-count {
+  font-size: var(--fs-xs);
+  color: var(--faint);
+}
+
+.hud-empty {
+  margin: auto 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+/* ---------- 统计：四个环 ---------- */
+
+.hud-rings {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  align-items: start;
+  margin: auto 0;
+}
+
+.hud-ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.hud-ring svg {
+  display: block;
+}
+
+.hud-ring-track {
+  stroke: var(--surface-soft);
+}
+
+.hud-ring-fill {
+  stroke: var(--accent);
+  transition: stroke-dasharray 600ms var(--ease-out, ease-out);
+}
+
+/* 四项各用一个色，和仪表板上那四张卡片对得上 */
+.hud-ring-pinned .hud-ring-fill { stroke: var(--accent-star, #d99b1f); }
+.hud-ring-todos .hud-ring-fill { stroke: var(--tint-orange-text, #b8412f); }
+.hud-ring-words .hud-ring-fill { stroke: var(--tint-blue-text, #1c6f92); }
+
+.hud-ring strong {
+  margin-top: -0.15rem;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-ring small {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+/* ---------- 待办列表 ---------- */
+
+.hud-todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.hud-todo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hud-todo-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* 今天的标签用强调色，明天的保持静默，一眼分得出主次 */
+.hud-todo-label.is-today {
+  color: var(--accent);
+}
+
+/* 一行：勾掉 · 标题（点开主界面） · 置顶 · 日期 */
+.hud-todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.25rem 0.4rem;
+  color: var(--text);
+  text-align: left;
+  background: var(--surface-soft);
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: var(--fs-sm);
+}
+
+.hud-todo-item:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.hud-todo-item.is-pinned {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-soft));
+}
+
+/* 两个图标按钮常亮（浮窗停留时间短，hover 才出现根本来不及找），
+   但平时压得很淡，只有悬停才提亮。 */
+.hud-todo-check,
+.hud-todo-pin {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  color: var(--faint);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 120ms ease, background 120ms ease;
+}
+
+.hud-todo-check:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.hud-todo-pin:hover {
+  color: var(--accent-star, var(--accent));
+  background: color-mix(in srgb, var(--accent-star, var(--accent)) 16%, transparent);
+}
+
+/* 已置顶：图标实心且常亮，一眼看出状态 */
+.hud-todo-item.is-pinned .hud-todo-pin {
+  color: var(--accent-star, var(--accent));
+}
+
+.hud-todo-open {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hud-todo-title {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-todo-date {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 录音状态：屏幕下方居中的一条小胶囊 ---------- */
+
+/* 左取消 · 中波纹 · 右完成，一行三件，没有别的。
+   注意类名：外层窗口壳是 .hud.hud-record，这一行必须用别的名字，
+   否则这些 flex 规则会连外壳一起套上，卡片就不撑满窗口了。 */
+.hud-record-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 100%;
+  /* 圆按钮和胶囊边缘之间要有呼吸，别贴着 */
+  padding: 0 8px;
+}
+
+/* 圆圈收小、图标放大：让符号几乎撑满圆，读起来更像图标而不是小按钮 */
+.hud-record-btn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.hud-record-btn:active {
+  transform: scale(0.92);
+}
+
+/* 取消是次要操作：同色系的深色圆，只有图标是亮的 */
+.hud-record-btn.is-cancel {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 16%, transparent);
+}
+
+.hud-record-btn.is-cancel:hover {
+  color: var(--danger-contrast, #fff);
+  background: var(--danger);
+}
+
+/* 完成是主操作：实心圆，最显眼的那个 */
+.hud-record-btn.is-done {
+  color: var(--accent-contrast, #08120f);
+  background: var(--accent);
+}
+
+.hud-record-btn.is-done:hover {
+  background: var(--accent-strong, var(--accent));
+}
+
+/* 波纹占中间那段，只改 transform，不触发重排 */
+.hud-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5px;
+  flex: 1 1 auto;
+  height: 16px;
+}
+
+.hud-wave-bar {
+  width: 2.5px;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--text);
+  transform-origin: center;
+  animation: hud-wave 820ms ease-in-out infinite alternate;
+}
+
+/* 录音出错时波纹转红——胶囊上没有地方写字 */
+.hud-wave.has-error .hud-wave-bar {
+  background: var(--danger);
+  animation-play-state: paused;
+}
+
+@keyframes hud-wave {
+  from { transform: scaleY(0.2); }
+  to { transform: scaleY(1); }
+}
+
+/* 只给读屏软件的报错文字 */
+.hud .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* 系统开了「减少动态效果」就别再闪和跳 */
+@media (prefers-reduced-motion: reduce) {
+  .hud,
+  .hud-record-dot,
+  .hud-wave-bar {
+    animation: none;
+  }
+
+  .hud-wave-bar {
+    transform: scaleY(0.55);
+  }
+}

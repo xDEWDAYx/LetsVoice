@@ -1,0 +1,76 @@
+.ask-ai-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: var(--bg-veil);
+  backdrop-filter: blur(8px);
+}
+
+.ask-ai-dialog {
+  display: grid;
+  gap: 0.9rem;
+  width: min(600px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+}
+
+.ask-ai-dialog header,
+.ask-ai-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.ask-ai-dialog header span {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ask-ai-dialog header h2 {
+  margin: 0.1rem 0 0;
+}
+
+.ask-ai-dialog header > button {
+  width: 36px;
+  padding: 0;
+  font-size: var(--fs-lg);
+}
+
+.ask-ai-dialog label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+.ask-ai-dialog input,
+.ask-ai-dialog textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.7rem 0.8rem;
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.ask-ai-dialog textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.ask-ai-dialog footer {
+  justify-content: flex-end;
+}

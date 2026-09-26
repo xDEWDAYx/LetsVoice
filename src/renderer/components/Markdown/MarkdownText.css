@@ -1,0 +1,222 @@
+/**
+ * 模型输出的富文本排版。
+ *
+ * 只使用 tokens.css 里的语义变量，明暗主题自动跟随，
+ * 不在这里写死任何颜色。
+ */
+
+/* ---------- 与宿主页面通用规则的隔离层 ----------
+ *
+ * 各页面都有 `.content-area p`、`.ask-ai-messages article p`、
+ * `.workspace-content-item p` 这类后代选择器，权重和本文件的
+ * `.markdown-body p` 相同甚至更高，谁生效要看打包顺序 —— 富文本会在
+ * 某些页面被改成灰色、或者被塞进额外的段落间距。
+ *
+ * 这里把宿主最常覆盖的几个属性用重复类名（权重 0,3,x）重新钉死，
+ * 保证同一段回答在所有页面看起来一致。改动只留在本文件内，
+ * 不去动各页面既有的排版规则。
+ */
+.markdown-body.markdown-body.markdown-body p,
+.markdown-body.markdown-body.markdown-body ul,
+.markdown-body.markdown-body.markdown-body ol,
+.markdown-body.markdown-body.markdown-body li,
+.markdown-body.markdown-body.markdown-body blockquote,
+.markdown-body.markdown-body.markdown-body table {
+  max-width: none;
+  /* 换行已经在解析阶段变成 <br>，宿主的 pre-wrap 只会多出缩进空白。 */
+  white-space: normal;
+}
+
+/* 颜色单独一组：引用块要保留自己的弱化色，不能一起 inherit。 */
+.markdown-body.markdown-body.markdown-body p,
+.markdown-body.markdown-body.markdown-body ul,
+.markdown-body.markdown-body.markdown-body ol,
+.markdown-body.markdown-body.markdown-body li,
+.markdown-body.markdown-body.markdown-body table {
+  color: inherit;
+}
+
+.markdown-body.markdown-body.markdown-body > p,
+.markdown-body.markdown-body.markdown-body > ul,
+.markdown-body.markdown-body.markdown-body > ol,
+.markdown-body.markdown-body.markdown-body > blockquote,
+.markdown-body.markdown-body.markdown-body > pre,
+.markdown-body.markdown-body.markdown-body > hr {
+  /* 块间距统一交给容器的 gap，宿主给的 margin 一律清掉。 */
+  margin: 0;
+}
+
+.markdown-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  min-width: 0;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+/* 首尾块贴边，避免气泡内出现多余空隙。 */
+.markdown-body > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body p {
+  margin: 0;
+}
+
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin: 0.2em 0 0;
+  color: var(--text-strong);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.markdown-body h3 {
+  font-size: var(--fs-lg);
+}
+
+.markdown-body h4 {
+  font-size: var(--fs-md);
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  text-transform: none;
+}
+
+.markdown-body strong {
+  color: var(--text-strong);
+  font-weight: 650;
+}
+
+.markdown-body em {
+  font-style: italic;
+}
+
+.markdown-body del {
+  opacity: 0.65;
+}
+
+.markdown-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-body a:hover {
+  color: var(--accent-strong);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0;
+  padding-left: 1.35em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.markdown-body li {
+  margin: 0;
+}
+
+/* 列表项里的段落不再另起间距，否则每条都被撑开一行。 */
+.markdown-body li > p {
+  display: inline;
+}
+
+.markdown-body li > ul,
+.markdown-body li > ol {
+  margin-top: 0.3em;
+}
+
+.markdown-body .markdown-task-item {
+  list-style: none;
+  margin-left: -1.15em;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
+}
+
+.markdown-body .markdown-task-item > input[type='checkbox'] {
+  margin-top: 0.35em;
+  accent-color: var(--accent);
+  pointer-events: none;
+}
+
+.markdown-body .markdown-inline-code {
+  padding: 0.12em 0.36em;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-xs);
+  background: var(--surface-sunken);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  white-space: break-spaces;
+}
+
+.markdown-body .markdown-code-block {
+  margin: 0;
+  padding: 0.7em 0.85em;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  overflow-x: auto;
+}
+
+.markdown-body .markdown-code-block code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+  padding: 0.15em 0 0.15em 0.85em;
+  border-left: 3px solid var(--accent-soft);
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.markdown-body hr {
+  margin: 0.25em 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* 宽表在自己的容器里横向滚动，不把聊天气泡撑破。 */
+.markdown-body .markdown-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.markdown-body th,
+.markdown-body td {
+  padding: 0.34em 0.7em;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-body th {
+  background: var(--surface-soft);
+  color: var(--text-strong);
+  font-weight: 600;
+  white-space: nowrap;
+}

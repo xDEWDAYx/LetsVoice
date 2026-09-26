@@ -1,0 +1,11 @@
+.workspace-suggestion { display: flex; align-items: center; gap: 0.8rem; margin-top: 1rem; padding: 0.85rem 1rem; border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--border)); border-radius: 17px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, var(--surface-strong)), var(--surface)); }
+.workspace-suggestion-icon { display: grid; width: 36px; height: 36px; place-items: center; flex: none; color: var(--accent-contrast); border-radius: 11px; background: linear-gradient(135deg, var(--accent), var(--accent-strong)); }
+.workspace-suggestion-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; }
+.workspace-suggestion-copy > span { color: var(--accent); font-size: var(--fs-xs); font-weight: 800; }
+.workspace-suggestion-copy strong { margin: 0.08rem 0; font-size: var(--fs-md); }
+.workspace-suggestion-copy small { color: var(--muted); font-size: var(--fs-xs); }
+.workspace-suggestion-actions { display: flex; flex: none; gap: 0.4rem; }
+.workspace-suggestion-actions button { min-height: 30px; padding: 0.35rem 0.65rem; color: var(--text); border: 1px solid var(--border); border-radius: 9px; background: var(--surface-soft); box-shadow: none; font-size: var(--fs-xs); font-weight: 700; }
+.workspace-suggestion-actions button.is-primary { color: var(--accent-contrast); border-color: transparent; background: linear-gradient(135deg, var(--accent), var(--accent-strong)); }
+.workspace-suggestion-actions button:disabled { cursor: wait; opacity: 0.55; }
+@media (max-width: 760px) { .workspace-suggestion { align-items: flex-start; flex-wrap: wrap; } .workspace-suggestion-copy { flex-basis: calc(100% - 52px); } .workspace-suggestion-actions { width: 100%; justify-content: flex-end; } }

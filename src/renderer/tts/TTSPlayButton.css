@@ -1,0 +1,7 @@
+.tts-play-control { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.tts-play-control .tts-play-button { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; min-height: 28px; padding: 0; color: var(--muted); border: 0; border-radius: 8px; background: transparent; box-shadow: none; }
+.tts-play-control .tts-play-button:hover:not(:disabled) { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); transform: none; }
+.tts-play-control .tts-play-button:disabled { opacity: 0.4; }
+.tts-play-control small { color: var(--danger); font-size: var(--fs-xs); }
+.tts-play-spinner { width: 13px; height: 13px; border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent); border-top-color: var(--accent); border-radius: 50%; animation: tts-spin 0.7s linear infinite; }
+@keyframes tts-spin { to { transform: rotate(360deg); } }

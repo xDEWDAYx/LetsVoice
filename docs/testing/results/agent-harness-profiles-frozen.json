@@ -1,0 +1,374 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-31T18:20:06.216Z",
+  "tuned_on": "dev split only (8 tasks)；保留集 20 个任务在消融期间未被读取",
+  "caveat": "开发集仅 8 条，一条任务即 12.5 个百分点；这里的选择噪声很大，必须以保留集结果为准",
+  "selection_rule": "严格完成率最高者；相对 off 提升需大于 0.1 才采纳",
+  "combos": [
+    "off",
+    "router",
+    "preload2",
+    "preload2,evidence",
+    "preload2,router",
+    "preload2,router,evidence"
+  ],
+  "chosen": {
+    "ministral-3:3b-instruct-2512-q4_K_M": "router",
+    "phi4-mini:latest": "preload2,evidence",
+    "granite4:micro-h": "preload2,router,evidence",
+    "qwen2.5:1.5b-instruct": "off",
+    "qwen2.5:3b-instruct": "off"
+  },
+  "per_model": [
+    {
+      "model": "ministral-3:3b-instruct-2512-q4_K_M",
+      "trials": [
+        {
+          "harness": "off",
+          "describe": "无（对照组）",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.8333333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.75,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 26683
+        },
+        {
+          "harness": "router",
+          "describe": "歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.875,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.625,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 24351
+        },
+        {
+          "harness": "preload2",
+          "describe": "强制检索并读取前 2 条",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 26979
+        },
+        {
+          "harness": "preload2,evidence",
+          "describe": "强制检索并读取前 2 条 + 证据核查",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 34590
+        },
+        {
+          "harness": "preload2,router",
+          "describe": "强制检索并读取前 2 条 + 歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 34764
+        },
+        {
+          "harness": "preload2,router,evidence",
+          "describe": "强制检索并读取前 2 条 + 歧义路由 + 证据核查",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 41967
+        }
+      ],
+      "chosen": "router",
+      "off_pass_rate": 0.75,
+      "best_pass_rate": 0.875,
+      "improvement": 0.125,
+      "reason": "相对 off 提升 0.125"
+    },
+    {
+      "model": "phi4-mini:latest",
+      "trials": [
+        {
+          "harness": "off",
+          "describe": "无（对照组）",
+          "case_pass_rate": 0.625,
+          "fact_coverage": 0.7916666666666666,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 23979
+        },
+        {
+          "harness": "router",
+          "describe": "歧义路由",
+          "case_pass_rate": 0.5,
+          "fact_coverage": 0.6249999999999999,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 24482
+        },
+        {
+          "harness": "preload2",
+          "describe": "强制检索并读取前 2 条",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 31747
+        },
+        {
+          "harness": "preload2,evidence",
+          "describe": "强制检索并读取前 2 条 + 证据核查",
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 39979
+        },
+        {
+          "harness": "preload2,router",
+          "describe": "强制检索并读取前 2 条 + 歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.875,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 47670
+        },
+        {
+          "harness": "preload2,router,evidence",
+          "describe": "强制检索并读取前 2 条 + 歧义路由 + 证据核查",
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 55572
+        }
+      ],
+      "chosen": "preload2,evidence",
+      "off_pass_rate": 0.625,
+      "best_pass_rate": 1,
+      "improvement": 0.375,
+      "reason": "相对 off 提升 0.375"
+    },
+    {
+      "model": "granite4:micro-h",
+      "trials": [
+        {
+          "harness": "off",
+          "describe": "无（对照组）",
+          "case_pass_rate": 0.5,
+          "fact_coverage": 0.7083333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.625,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 72831
+        },
+        {
+          "harness": "router",
+          "describe": "歧义路由",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.90625,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 81981
+        },
+        {
+          "harness": "preload2",
+          "describe": "强制检索并读取前 2 条",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.375,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 85879
+        },
+        {
+          "harness": "preload2,evidence",
+          "describe": "强制检索并读取前 2 条 + 证据核查",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 98292
+        },
+        {
+          "harness": "preload2,router",
+          "describe": "强制检索并读取前 2 条 + 歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9375,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 93766
+        },
+        {
+          "harness": "preload2,router,evidence",
+          "describe": "强制检索并读取前 2 条 + 歧义路由 + 证据核查",
+          "case_pass_rate": 1,
+          "fact_coverage": 1,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 1.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 96250
+        }
+      ],
+      "chosen": "preload2,router,evidence",
+      "off_pass_rate": 0.5,
+      "best_pass_rate": 1,
+      "improvement": 0.5,
+      "reason": "相对 off 提升 0.500"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct",
+      "trials": [
+        {
+          "harness": "off",
+          "describe": "无（对照组）",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 12847
+        },
+        {
+          "harness": "router",
+          "describe": "歧义路由",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.9166666666666667,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 15388
+        },
+        {
+          "harness": "preload2",
+          "describe": "强制检索并读取前 2 条",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 24327
+        },
+        {
+          "harness": "preload2,evidence",
+          "describe": "强制检索并读取前 2 条 + 证据核查",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9166666666666666,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 28380
+        },
+        {
+          "harness": "preload2,router",
+          "describe": "强制检索并读取前 2 条 + 歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 29542
+        },
+        {
+          "harness": "preload2,router,evidence",
+          "describe": "强制检索并读取前 2 条 + 歧义路由 + 证据核查",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 32831
+        }
+      ],
+      "chosen": "off",
+      "off_pass_rate": 0.875,
+      "best_pass_rate": 0.875,
+      "improvement": 0,
+      "reason": "最佳组合相对 off 提升 0.000，未达门槛 0.1"
+    },
+    {
+      "model": "qwen2.5:3b-instruct",
+      "trials": [
+        {
+          "harness": "off",
+          "describe": "无（对照组）",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.75,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 38446
+        },
+        {
+          "harness": "router",
+          "describe": "歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.625,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 39670
+        },
+        {
+          "harness": "preload2",
+          "describe": "强制检索并读取前 2 条",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.8958333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 40977
+        },
+        {
+          "harness": "preload2,evidence",
+          "describe": "强制检索并读取前 2 条 + 证据核查",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.8958333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.375,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 43765
+        },
+        {
+          "harness": "preload2,router",
+          "describe": "强制检索并读取前 2 条 + 歧义路由",
+          "case_pass_rate": 0.875,
+          "fact_coverage": 0.9583333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.625,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 47960
+        },
+        {
+          "harness": "preload2,router,evidence",
+          "describe": "强制检索并读取前 2 条 + 歧义路由 + 证据核查",
+          "case_pass_rate": 0.75,
+          "fact_coverage": 0.8958333333333334,
+          "answer_mode_accuracy": 1,
+          "mean_tool_calls": 0.5,
+          "scope_violation_rate": 0,
+          "elapsed_ms": 45747
+        }
+      ],
+      "chosen": "off",
+      "off_pass_rate": 0.875,
+      "best_pass_rate": 0.875,
+      "improvement": 0,
+      "reason": "最佳组合相对 off 提升 0.000，未达门槛 0.1"
+    }
+  ]
+}

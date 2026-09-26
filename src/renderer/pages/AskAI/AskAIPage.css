@@ -1,0 +1,597 @@
+.ask-ai-page {
+  display: grid;
+  grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
+  height: calc(100vh - 5rem);
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--shadow);
+}
+
+.ask-ai-page button {
+  min-height: 36px;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.ask-ai-page button.secondary {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.ask-ai-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.ask-ai-library {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 1rem;
+  border-right: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+
+.ask-ai-library-header,
+.ask-ai-toolbar,
+.ask-ai-note-preview header {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ask-ai-library-header span,
+.ask-ai-toolbar span,
+.ask-ai-note-preview header span {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ask-ai-library-header h2,
+.ask-ai-note-preview h1 {
+  margin: 0.15rem 0 0;
+  color: var(--text);
+}
+
+.ask-ai-library-header h2 {
+  font-size: var(--fs-lg);
+}
+
+.ask-ai-library-header > button {
+  width: 36px;
+  padding: 0;
+  font-size: var(--fs-xl);
+}
+
+.ask-ai-note-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* 之�?没�? flex-grow，�?表�?会�?满剩余�?度�?窗口一小就被�???*/
+  flex: 1 1 auto;
+  align-content: start;
+  gap: 0.4rem;
+  min-height: 0;
+  margin-top: 0.7rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 笔记卡片与最近会话保持紧凑，但笔记卡片要为右下角删除按钮留位。 */
+.ask-ai-note-card,
+.ask-ai-recent-open {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.15rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  line-height: 1.4;
+}
+
+.ask-ai-note-card:hover,
+.ask-ai-note-card.active,
+.ask-ai-recent-open:hover {
+  background: var(--surface-soft);
+  transform: none;
+}
+
+.ask-ai-note-card {
+  position: relative;
+  min-height: 84px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+}
+
+.ask-ai-note-card.active {
+  border-color: color-mix(in srgb, var(--accent) 36%, transparent);
+}
+
+/* 会话条留一点内边距：上面那条共用规则把 padding 清成 0，
+   底色会紧贴文字，左侧的常亮竖条也没地方放。 */
+.ask-ai-recent-open {
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+}
+
+/* 当前正在进行的会话常亮：左侧一道竖条 + 淡底，和 hover 区分开
+   （hover 只有底色，松开就没了）。 */
+.ask-ai-recent-open.active {
+  position: relative;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.ask-ai-recent-open.active strong {
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.ask-ai-note-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.15rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 82px;
+  padding: 0.5rem 2.6rem 0.5rem 0.6rem;
+  color: var(--text);
+  text-align: left;
+  line-height: 1.4;
+  border-radius: 8px;
+}
+
+.ask-ai-note-delete {
+  position: absolute;
+  right: 0.3rem;
+  /* 与左侧日期/时间的底部行对齐；悬浮动画只作用于桶盖。 */
+  bottom: 0;
+}
+
+.ask-ai-page .ask-ai-note-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  line-height: 0;
+  text-align: center;
+}
+
+/* 笔记库�?工�??��?组�?display:contents 让�??��?记�??�在外�??�格�?*/
+.ask-ai-note-group {
+  display: contents;
+}
+
+.ask-ai-note-group h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.1rem;
+  padding: 0.15rem 0.25rem;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.ask-ai-note-group h3:hover {
+  background: var(--surface-soft);
+}
+
+/* 工�??��?称可?��??�到输入框�?给个?��??��??��?示�?*/
+.ask-ai-group-name {
+  cursor: grab;
+}
+
+.ask-ai-group-name:active {
+  cursor: grabbing;
+}
+
+/*
+ * ?��??�钮默认?��?，悬?�对应那一行�??�现?? * ?�两级类?�书?��??�级容器?��???`.xxx button` 这类?�代?�择?��?
+ * 优�?�?(0,1,1) 会�?过�?个类?��??��??��?尺寸?��?边�?顶�??? */
+.ask-ai-note-group h3 .ask-ai-group-add,
+.ask-ai-recents-header .ask-ai-group-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  color: var(--muted);
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  font-size: var(--fs-md);
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.ask-ai-note-group h3:hover .ask-ai-group-add,
+.ask-ai-recents-header:hover .ask-ai-group-add,
+.ask-ai-group-add:focus-visible {
+  opacity: 1;
+}
+
+.ask-ai-note-group h3 .ask-ai-group-add:hover,
+.ask-ai-recents-header .ask-ai-group-add:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  transform: none;
+}
+
+.ask-ai-note-list strong,
+.ask-ai-recents strong,
+.ask-ai-note-list span,
+.ask-ai-note-list time,
+.ask-ai-recents time {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-ai-note-list span,
+.ask-ai-note-list time,
+.ask-ai-recents time {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* 笔记库与最近会话之间的分隔条：这条线本身就是拖动手柄，
+   所以线画在这里，.ask-ai-recents 不再重复画一条 border-top。
+   手柄有 9px 高的热区，视觉上仍然只是 1px 的细线。 */
+.ask-ai-library-splitter {
+  position: relative;
+  flex: 0 0 auto;
+  height: 9px;
+  margin-top: 0.6rem;
+  cursor: row-resize;
+  /* 拖动时别把两侧的文字选中 */
+  user-select: none;
+  touch-action: none;
+}
+
+.ask-ai-library-splitter::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--border);
+  transition:
+    background 140ms ease,
+    height 140ms ease;
+}
+
+.ask-ai-library-splitter:hover::before,
+.ask-ai-library-splitter:focus-visible::before,
+.ask-ai-library-splitter.is-dragging::before {
+  height: 2px;
+  background: var(--accent);
+}
+
+.ask-ai-library-splitter:focus-visible {
+  outline: none;
+}
+
+.ask-ai-recents {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 32%;
+  padding-top: 0.6rem;
+}
+
+.ask-ai-recents-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin: 0 0 0.15rem;
+  padding: 0.15rem 0.25rem;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+/* 中�?没�?词边?��??�收缩�? flex 项�?被�??��?个�?宽而�??��?这�?禁止?�缩?��? */
+.ask-ai-recents-header > span,
+.ask-ai-note-group h3 > span {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-ai-recents-header:hover {
+  background: var(--surface-soft);
+}
+
+/* 会话行：打开按钮铺满，删除按钮压在右下角，和笔记卡片一个样 */
+.ask-ai-recent-row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.ask-ai-recent-open {
+  flex: 1 1 auto;
+  min-width: 0;
+  /* 给删除按钮让出位置，标题长了也不会压到它底下 */
+  padding-right: 1.9rem !important;
+}
+
+/* 常亮，不做 hover 才显形：图标平时藏着的话，用户是冲着「打开会话」
+   去点的，图标却在指针到位的瞬间冒出来，很容易误点成删除。
+   默认用最淡的 --faint，悬停才转成危险色，安静但一直在那儿。 */
+.ask-ai-recent-delete {
+  position: absolute;
+  right: 0.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--faint);
+}
+
+.ask-ai-page .ask-ai-recent-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0;
+}
+
+.ask-ai-recents-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.ask-ai-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.ask-ai-toolbar {
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ask-ai-toolbar > div:last-child {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ask-ai-toolbar strong {
+  display: block;
+  color: var(--text);
+}
+
+.ask-ai-content {
+  display: grid;
+  grid-template-rows: minmax(130px, 0.38fr) minmax(300px, 1fr);
+  gap: 0.8rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0.8rem;
+}
+
+.ask-ai-note-preview {
+  min-height: 0;
+  padding: 1rem;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-strong);
+}
+
+.ask-ai-note-preview h1 {
+  font-size: var(--fs-lg);
+  overflow-wrap: anywhere;
+}
+
+.ask-ai-note-preview time {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+/* 预�??��??��?要」�??��??�转录」两段�??�自带�??��???*/
+.ask-ai-note-section {
+  margin-top: 1.1rem;
+}
+
+.ask-ai-note-section > h2 {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ask-ai-note-summary {
+  margin-top: 0.6rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.ask-ai-note-summary h3 {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+.ask-ai-note-summary p {
+  margin: 0.35rem 0 0;
+  font-size: var(--fs-md);
+  white-space: pre-wrap;
+}
+
+.ask-ai-structured-note__block {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ask-ai-structured-note__block:first-child {
+  padding-top: 0;
+}
+
+.ask-ai-structured-note__block:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.ask-ai-structured-note__block h3 {
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 750;
+}
+
+.ask-ai-structured-note__block p {
+  margin-top: 0;
+}
+
+.ask-ai-structured-note__block ul {
+  margin: 0.35rem 0 0;
+  padding-inline-start: 1.15rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.ask-ai-structured-note__block li {
+  overflow-wrap: anywhere;
+}
+
+.ask-ai-structured-note__block li + li {
+  margin-top: 0.3rem;
+}
+
+.ask-ai-structured-note__tasks > li > strong,
+.ask-ai-structured-note__tasks > li > span {
+  display: block;
+}
+
+.ask-ai-structured-note__tasks > li > span {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.ask-ai-note-empty {
+  color: var(--muted);
+  font-size: var(--fs-md);
+}
+
+.ask-ai-note-preview p {
+  max-width: none;
+  margin: 0.8rem 0 0;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.ask-ai-empty {
+  display: grid;
+  place-content: center;
+  gap: 0.35rem;
+  min-height: 100px;
+  padding: 1rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .ask-ai-page {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100vh - 2rem);
+    overflow: visible;
+  }
+
+  .ask-ai-page > .ask-ai-library {
+    max-height: 260px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ask-ai-main,
+  .ask-ai-content {
+    overflow: visible;
+  }
+
+  .ask-ai-content {
+    grid-template-rows: minmax(160px, auto) minmax(460px, auto);
+  }
+}
+
+.ask-ai-recent-open {
+  flex-shrink: 0;
+}
+
+.ask-ai-note-list > button {
+  flex-shrink: 0;
+}
+
+.ask-ai-note-list > button,
+.ask-ai-note-group > button {
+  flex-shrink: 0;
+}

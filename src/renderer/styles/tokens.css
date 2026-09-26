@@ -1,0 +1,225 @@
+/* =========================================================
+   SpeakSpace · 设计令牌（Design Tokens）
+   ---------------------------------------------------------
+   全应用唯一的颜色 / 圆角 / 阴影 / 缓动来源。
+   页面样式一律只引用这里的 var()，不要再写死颜色，
+   否则换肤和明暗主题会立刻出现「只有一种模式对」的情况。
+
+   配色主线：Studio Jade
+     · 主色 = 翡翠青（jade）——对应「声音信号」，冷静、克制
+     · 辅色 = 黄铜暖橙（brass）——对应「录制中 / 高亮」，提供温度
+     · 中性 = 带极淡青灰底的石墨，而不是常见的靛蓝黑
+   刻意避开紫色 / 靛蓝，那是被用烂的配色。
+   ========================================================= */
+
+:root {
+  /* ---------- 原始色阶：只在本文件内被语义令牌引用 ---------- */
+  --jade-50: #eafaf5;
+  --jade-100: #d0f4e8;
+  --jade-200: #a2e8d3;
+  --jade-300: #6ad7b9;
+  --jade-400: #33c39c;
+  --jade-500: #14ac86;
+  --jade-600: #0a8d6e;
+  --jade-700: #0a7059;
+  --jade-800: #0b5747;
+  --jade-900: #0a4439;
+
+  --brass-50: #fdf6e9;
+  --brass-100: #fbeacd;
+  --brass-200: #f5d39b;
+  --brass-300: #edb765;
+  --brass-400: #e09b3c;
+  --brass-500: #c87f24;
+  --brass-600: #a4631a;
+  --brass-700: #814c17;
+  --brass-800: #653c17;
+
+  /* 中性：绿灰底的石墨，避免靛蓝黑 */
+  --slate-0: #ffffff;
+  --slate-25: #fbfaf7;
+  --slate-50: #f5f5f1;
+  --slate-100: #ecece6;
+  --slate-200: #dedfd8;
+  --slate-300: #c7c9c1;
+  --slate-400: #9aa09a;
+  --slate-500: #6f7873;
+  --slate-600: #505955;
+  --slate-700: #333b38;
+  --slate-800: #202726;
+  --slate-850: #1a201f;
+  --slate-900: #141918;
+  --slate-950: #0e1312;
+  --slate-1000: #090d0c;
+
+  --coral-300: #f8a49a;
+  --coral-400: #f07a6c;
+  --coral-500: #dd5a4b;
+  --coral-600: #b8412f;
+
+  --sky-300: #7cc7e8;
+  --sky-400: #45a8d1;
+  --sky-500: #2489b4;
+
+  /* ---------- 圆角 ---------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- 缓动与时长 ----------
+     标准过渡用 --ease-out；需要一点「弹」的位移用 --ease-spring；
+     大块面板进出用 --ease-smooth。不要各写各的 cubic-bezier。 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-slow: 420ms;
+  --dur-slower: 680ms;
+
+  /* ---------- 统一字号刻度 ----------
+     全应用只用这 7 级。全部是 rem，因此跟随
+     「设置 → 输出文字字号」（html 的 14/16/18px）缩放；
+     写死 px 的字号不会跟随。括号内是 medium(16px) 下的实际值。 */
+  --fs-xs: 0.8rem;     /* 12.8px 角标、时间戳、次要计数 */
+  --fs-sm: 0.875rem;   /* 14.0px 说明文字、小控件 */
+  --fs-md: 0.95rem;    /* 15.2px 正文 */
+  --fs-lg: 1.05rem;    /* 16.8px 强调正文、卡片标题 */
+  --fs-xl: 1.25rem;    /* 20.0px 区块标题 */
+  --fs-2xl: 1.6rem;    /* 25.6px 页面标题 */
+  --fs-3xl: 2.1rem;    /* 33.6px 首屏大标题 */
+}
+
+/* =========================================================
+   深色主题（默认）
+   ========================================================= */
+:root,
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: var(--slate-950);
+  --bg-deep: var(--slate-1000);
+  --bg-veil: rgba(9, 13, 12, 0.72);
+
+  /* surface 是半透明的：毛玻璃层要能透出底下的环境光 */
+  --surface: rgba(26, 32, 31, 0.72);
+  --surface-strong: #1b2120;
+  --surface-raised: rgba(38, 45, 43, 0.78);
+  --surface-soft: rgba(255, 255, 255, 0.055);
+  --surface-sunken: rgba(0, 0, 0, 0.26);
+
+  --text: #e9efec;
+  --text-strong: #ffffff;
+  --muted: #97a5a0;
+  --faint: #6d7a76;
+
+  --accent: #1fbd9b;
+  --accent-strong: #4ad9b6;
+  --accent-soft: rgba(31, 189, 155, 0.16);
+  --accent-contrast: #04211b;
+  /* 危险色在深色主题下是亮珊瑚，压在它上面的字必须是深色 */
+  --danger-contrast: #2b0b06;
+
+  --warm: var(--brass-300);
+  --warm-strong: var(--brass-200);
+  --warm-soft: rgba(237, 183, 101, 0.15);
+
+  --success: #45cf9a;
+  --warning: var(--brass-300);
+  --danger: var(--coral-400);
+  --info: var(--sky-300);
+
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --border-hairline: rgba(255, 255, 255, 0.06);
+  --highlight: rgba(255, 255, 255, 0.1);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.36);
+  --shadow-md: 0 12px 28px -10px rgba(0, 0, 0, 0.62);
+  --shadow-lg: 0 28px 64px -20px rgba(0, 0, 0, 0.72);
+  --shadow: 0 32px 96px -32px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 0 1px rgba(31, 189, 155, 0.22), 0 18px 48px -18px rgba(31, 189, 155, 0.42);
+
+  /* 毛玻璃与光效的可调参数，明暗两套值不同 */
+  --glass-blur: 22px;
+  --glass-saturate: 1.5;
+  --glass-tint: rgba(255, 255, 255, 0.04);
+  --sheen: rgba(255, 255, 255, 0.14);
+  --noise-opacity: 0.05;
+  --aurora-1: rgba(31, 189, 155, 0.3);
+  --aurora-2: rgba(20, 120, 140, 0.22);
+  --aurora-3: rgba(224, 155, 60, 0.14);
+  --spotlight: rgba(74, 217, 182, 0.14);
+}
+
+/* =========================================================
+   浅色主题：暖纸质，不是惯常的冷灰白
+   ========================================================= */
+html[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: var(--slate-50);
+  --bg-deep: var(--slate-100);
+  --bg-veil: rgba(255, 255, 255, 0.7);
+
+  --surface: rgba(255, 255, 255, 0.76);
+  --surface-strong: #ffffff;
+  --surface-raised: rgba(255, 255, 255, 0.92);
+  --surface-soft: rgba(20, 40, 36, 0.045);
+  --surface-sunken: rgba(20, 40, 36, 0.05);
+
+  --text: #16201e;
+  --text-strong: #070d0c;
+  --muted: #5c6a66;
+  --faint: #8a938f;
+
+  --accent: #0a8d6e;
+  --accent-strong: #0a7059;
+  --accent-soft: rgba(10, 141, 110, 0.12);
+  --accent-contrast: #ffffff;
+  --danger-contrast: #ffffff;
+
+  --warm: var(--brass-600);
+  --warm-strong: var(--brass-700);
+  --warm-soft: rgba(200, 127, 36, 0.13);
+
+  --success: #0a8d6e;
+  --warning: var(--brass-600);
+  --danger: var(--coral-600);
+  --info: var(--sky-500);
+
+  --border: rgba(24, 40, 36, 0.13);
+  --border-strong: rgba(24, 40, 36, 0.26);
+  --border-hairline: rgba(24, 40, 36, 0.07);
+  --highlight: rgba(255, 255, 255, 0.9);
+
+  --shadow-xs: 0 1px 2px rgba(30, 46, 42, 0.07);
+  --shadow-sm: 0 2px 8px rgba(30, 46, 42, 0.08);
+  --shadow-md: 0 12px 28px -12px rgba(30, 46, 42, 0.18);
+  --shadow-lg: 0 26px 60px -24px rgba(30, 46, 42, 0.24);
+  --shadow: 0 30px 80px -34px rgba(30, 46, 42, 0.28);
+  --shadow-glow: 0 0 0 1px rgba(10, 141, 110, 0.2), 0 18px 44px -18px rgba(10, 141, 110, 0.3);
+
+  --glass-blur: 20px;
+  --glass-saturate: 1.7;
+  --glass-tint: rgba(255, 255, 255, 0.55);
+  --sheen: rgba(255, 255, 255, 0.8);
+  --noise-opacity: 0.035;
+  --aurora-1: rgba(20, 172, 134, 0.2);
+  --aurora-2: rgba(69, 168, 209, 0.16);
+  --aurora-3: rgba(224, 155, 60, 0.16);
+  --spotlight: rgba(10, 141, 110, 0.1);
+}
+
+/* 这三行是整套 rem 字号刻度的锚点，必须保持 px：
+   --fs-* 全部是 rem，若这里也写成 rem 就会自我引用，
+   而且三档会塌缩成同一个值，「设置 → 输出文字字号」随之失效。 */
+html[data-font-size='small'] { font-size: 14px; }
+html[data-font-size='medium'] { font-size: 16px; }
+html[data-font-size='large'] { font-size: 18px; }

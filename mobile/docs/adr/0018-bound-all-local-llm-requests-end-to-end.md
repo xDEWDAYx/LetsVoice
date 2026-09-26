@@ -1,0 +1,3 @@
+# Bound all local LLM requests end to end
+
+Ask AI, Structured Note, and Knowledge enforce respective 90-, 180-, and 120-second hard limits from request acceptance through queueing, model preparation, generation, and persistence, with manual Stop applying the same cancellation path. Timeout or cancellation must settle native work within three seconds and preserve the unanswered Ask AI question, the previous Structured Note, and all existing Knowledge snapshots while discarding partial new output; this trades occasional retries after contention for a finite, recoverable foreground experience and a coordinator that cannot remain silently occupied forever.

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1350" role="img" aria-labelledby="title desc">
+  <title id="title">SpeakSpace Local 进程边界架构</title>
+  <desc id="desc">从用户与 Electron 渲染进程，经 preload、IPC 和领域服务，到 Repository、本地模型与 userData 存储的纵向架构图。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .canvas { fill: #ffffff; }
+      .group { fill: #fffef0; stroke: #b59f27; stroke-width: 2; }
+      .group-tag { fill: #fff7cc; stroke: #d6bd3f; stroke-width: 1.5; }
+      .edge-tag { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.25; }
+      .box { fill: #f3f0ff; stroke: #7657d5; stroke-width: 2; }
+      .heading { fill: #172033; font: 700 28px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .group-title { fill: #4b3b00; font: 700 22px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .label { fill: #172033; font: 20px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .small { fill: #475569; font: 17px "Microsoft YaHei", "PingFang SC", sans-serif; text-anchor: middle; }
+      .arrow { fill: none; stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); }
+      .dashed { fill: none; stroke: #64748b; stroke-width: 2.5; stroke-dasharray: 8 7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="canvas" width="1100" height="1350"/>
+  <text class="heading" x="550" y="42">SpeakSpace Local 进程边界</text>
+
+  <rect class="box" x="450" y="70" width="200" height="64" rx="12"/>
+  <text class="label" x="550" y="110">用户</text>
+
+  <rect class="group" x="40" y="170" width="1020" height="290" rx="18"/>
+  <rect class="group-tag" x="65" y="185" width="300" height="43" rx="10"/>
+  <text class="group-title" x="215" y="214">Electron BrowserWindow</text>
+  <rect class="box" x="90" y="255" width="255" height="105" rx="12"/>
+  <text class="label" x="217" y="292">
+    <tspan x="217">托盘、快捷键、HUD</tspan>
+    <tspan x="217" dy="28">与单实例窗口事件</tspan>
+  </text>
+  <rect class="box" x="422" y="245" width="255" height="125" rx="12"/>
+  <text class="label" x="550" y="282">
+    <tspan x="550">React Renderer</tspan>
+    <tspan x="550" dy="28">页面、状态、i18n</tspan>
+    <tspan x="550" dy="28">与响应式 UI</tspan>
+  </text>
+  <rect class="box" x="755" y="255" width="255" height="105" rx="12"/>
+  <text class="label" x="882" y="292">
+    <tspan x="882">Preload / contextBridge</tspan>
+    <tspan x="882" dy="28">类型化 window.electron API</tspan>
+  </text>
+  <path class="arrow" d="M 550 134 L 550 245"/>
+  <path class="dashed" d="M 345 307 L 422 307"/>
+  <path class="arrow" d="M 677 307 L 755 307"/>
+  <text class="small" x="716" y="230">类型化 API</text>
+
+  <rect class="group" x="40" y="520" width="1020" height="495" rx="18"/>
+  <rect class="group-tag" x="65" y="535" width="250" height="43" rx="10"/>
+  <text class="group-title" x="190" y="564">Electron 主进程</text>
+  <rect class="box" x="390" y="600" width="320" height="72" rx="12"/>
+  <text class="label" x="550" y="644">18 个 IPC 能力模块</text>
+  <rect class="box" x="370" y="735" width="360" height="108" rx="12"/>
+  <text class="label" x="550" y="772">
+    <tspan x="550">领域服务</tspan>
+    <tspan x="550" dy="28">Workspace / Knowledge</tspan>
+    <tspan x="550" dy="28">Agent / Export</tspan>
+  </text>
+  <rect class="box" x="85" y="900" width="270" height="78" rx="12"/>
+  <text class="label" x="220" y="947">10 个 Repository</text>
+  <rect class="box" x="415" y="885" width="270" height="108" rx="12"/>
+  <text class="label" x="550" y="922">
+    <tspan x="550">本地模型与运行时</tspan>
+    <tspan x="550" dy="28">STT / Ollama / TTS</tspan>
+    <tspan x="550" dy="28">FFmpeg</tspan>
+  </text>
+  <rect class="box" x="745" y="900" width="270" height="78" rx="12"/>
+  <text class="label" x="880" y="936">
+    <tspan x="880">应用设置与</tspan>
+    <tspan x="880" dy="28">模型状态</tspan>
+  </text>
+  <path class="arrow" d="M 882 360 C 882 460, 550 470, 550 600"/>
+  <rect class="edge-tag" x="650" y="462" width="220" height="34" rx="9"/>
+  <text class="small" x="760" y="485">ipcRenderer.invoke</text>
+  <path class="arrow" d="M 550 672 L 550 735"/>
+  <path class="arrow" d="M 475 843 C 420 870, 320 875, 220 900"/>
+  <path class="arrow" d="M 550 843 L 550 885"/>
+  <path class="arrow" d="M 625 843 C 680 870, 780 875, 880 900"/>
+
+  <rect class="group" x="40" y="1070" width="1020" height="235" rx="18"/>
+  <rect class="group-tag" x="65" y="1085" width="260" height="43" rx="10"/>
+  <text class="group-title" x="195" y="1114">本机 userData</text>
+  <rect class="box" x="70" y="1160" width="210" height="78" rx="12"/>
+  <text class="label" x="175" y="1207">speakspace.db</text>
+  <rect class="box" x="320" y="1160" width="210" height="78" rx="12"/>
+  <text class="label" x="425" y="1207">blobs/recordings</text>
+  <rect class="box" x="570" y="1145" width="210" height="108" rx="12"/>
+  <text class="label" x="675" y="1182">
+    <tspan x="675">models / runtimes</tspan>
+    <tspan x="675" dy="28">cache / output</tspan>
+  </text>
+  <rect class="box" x="820" y="1145" width="210" height="108" rx="12"/>
+  <text class="label" x="925" y="1182">
+    <tspan x="925">app-settings.json</tspan>
+    <tspan x="925" dy="28">model-state</tspan>
+  </text>
+  <path class="arrow" d="M 220 978 C 150 1025, 25 1025, 25 1135 C 25 1150, 95 1150, 175 1160"/>
+  <path class="arrow" d="M 445 843 C 410 860, 380 870, 380 900 L 380 1110 C 380 1140, 405 1145, 425 1160"/>
+  <path class="arrow" d="M 550 993 C 550 1060, 675 1075, 675 1145"/>
+  <path class="arrow" d="M 880 978 L 925 1145"/>
+</svg>

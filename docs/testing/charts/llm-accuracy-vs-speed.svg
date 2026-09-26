@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="458" viewBox="0 0 860 458" role="img">
+<rect width="860" height="458" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="457" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Speed-accuracy Pareto frontier</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">RTX 3060 Laptop 6 GiB VRAM · i9-12900H · 40 GiB RAM · Ollama · accuracy from the same 54-case todo-extraction holdout</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Qwen2.5 3B (3.1B)</text><rect x="174.2" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="190.19999999999996" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Qwen2.5 1.5B (1.5B)</text><rect x="337.6" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="353.5999999999999" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Phi-4 Mini (3.8B)</text><rect x="487.8" y="63" width="11" height="11" rx="2" fill="#4C9F70"/><text x="503.79999999999984" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Ministral-3 3B (3.8B)</text><rect x="24.0" y="81" width="11" height="11" rx="2" fill="#6C5CE7"/><text x="40" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Granite-4 Micro-H (3.2B)</text>
+<line x1="72" y1="380" x2="832" y2="380" stroke="#E3E8EF"/>
+<text x="64" y="384" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="72" y1="326" x2="832" y2="326" stroke="#E3E8EF"/>
+<text x="64" y="330" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="72" y1="272" x2="832" y2="272" stroke="#E3E8EF"/>
+<text x="64" y="276" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<line x1="72" y1="218" x2="832" y2="218" stroke="#E3E8EF"/>
+<text x="64" y="222" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">60%</text>
+<line x1="72" y1="164" x2="832" y2="164" stroke="#E3E8EF"/>
+<text x="64" y="168" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">80%</text>
+<line x1="72" y1="110" x2="832" y2="110" stroke="#E3E8EF"/>
+<text x="64" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">100%</text>
+<text x="72" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">0</text>
+<text x="325.3333333333333" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">50</text>
+<text x="578.6666666666666" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">100</text>
+<text x="832" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">150</text>
+<text x="18" y="245" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 245)">Holdout F1 (%; higher is better)</text>
+<text x="452" y="416" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400">Generation throughput (tokens/s; right is faster)</text>
+<circle cx="448.8" cy="147.6" r="3.6" fill="#2E86AB" fill-opacity="0.75"/>
+<circle cx="738.6" cy="140.4" r="3.6" fill="#E8871A" fill-opacity="0.75"/>
+<circle cx="361.2" cy="208.9" r="3.6" fill="#B5446E" fill-opacity="0.75"/>
+<circle cx="380.2" cy="121.5" r="3.6" fill="#4C9F70" fill-opacity="0.75"/>
+<circle cx="359.6" cy="125.8" r="3.6" fill="#6C5CE7" fill-opacity="0.75"/>
+<line x1="72" y1="380" x2="832" y2="380" stroke="#6B7280"/>
+<text x="24" y="444" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">Upper-right is ideal. The frontier bend indicates the smallest model that remains competitive.</text>
+</svg>

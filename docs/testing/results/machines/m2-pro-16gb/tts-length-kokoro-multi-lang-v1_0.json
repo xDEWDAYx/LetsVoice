@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-01T16:08:03.032Z",
+  "model_id": "kokoro-multi-lang-v1_0",
+  "model_name": "Kokoro Multi-Lang v1.0",
+  "engine": "sherpa-kokoro",
+  "machine_memory_bytes": 17179869184,
+  "warm_rss_bytes": 855179264,
+  "min_text_length": 24,
+  "max_text_length": 1196,
+  "min_peak_rss_bytes": 955629568,
+  "max_peak_rss_bytes": 1136885760,
+  "peak_growth_ratio": 1.1896720215337666,
+  "samples": [
+    {
+      "id": "zh_short",
+      "language": "zh",
+      "text_length": 24,
+      "audio_seconds": 5.268958333333333,
+      "peak_rss_bytes": 955629568,
+      "settled_rss_bytes": 955645952,
+      "transient_bytes": 0,
+      "bytes_per_character": 39817898.666666664,
+      "synthesis_ms": 5204,
+      "error": null
+    },
+    {
+      "id": "mixed_datetime_01",
+      "language": "zh-en",
+      "text_length": 39,
+      "audio_seconds": 6.784875,
+      "peak_rss_bytes": 958169088,
+      "settled_rss_bytes": 941555712,
+      "transient_bytes": 16613376,
+      "bytes_per_character": 24568438.153846152,
+      "synthesis_ms": 7494,
+      "error": null
+    },
+    {
+      "id": "mixed_acronym_01",
+      "language": "zh-en",
+      "text_length": 52,
+      "audio_seconds": 8.200041666666667,
+      "peak_rss_bytes": 943472640,
+      "settled_rss_bytes": 943472640,
+      "transient_bytes": 0,
+      "bytes_per_character": 18143704.615384616,
+      "synthesis_ms": 9098,
+      "error": null
+    },
+    {
+      "id": "en_acronym_01",
+      "language": "en",
+      "text_length": 108,
+      "audio_seconds": 8.9,
+      "peak_rss_bytes": 943685632,
+      "settled_rss_bytes": 908410880,
+      "transient_bytes": 35274752,
+      "bytes_per_character": 8737829.925925925,
+      "synthesis_ms": 7077,
+      "error": null
+    },
+    {
+      "id": "zh_long_01",
+      "language": "zh",
+      "text_length": 315,
+      "audio_seconds": 70.073625,
+      "peak_rss_bytes": 919142400,
+      "settled_rss_bytes": 924368896,
+      "transient_bytes": 0,
+      "bytes_per_character": 2917912.380952381,
+      "synthesis_ms": 65326,
+      "error": null
+    },
+    {
+      "id": "mixed_long_01",
+      "language": "zh-en",
+      "text_length": 507,
+      "audio_seconds": 72.26095833333333,
+      "peak_rss_bytes": 931102720,
+      "settled_rss_bytes": 937918464,
+      "transient_bytes": 0,
+      "bytes_per_character": 1836494.516765286,
+      "synthesis_ms": 78908,
+      "error": null
+    },
+    {
+      "id": "en_long_01",
+      "language": "en",
+      "text_length": 1196,
+      "audio_seconds": 63.046458333333334,
+      "peak_rss_bytes": 1136885760,
+      "settled_rss_bytes": 1144045568,
+      "transient_bytes": 0,
+      "bytes_per_character": 950573.3779264214,
+      "synthesis_ms": 48549,
+      "error": null
+    }
+  ]
+}

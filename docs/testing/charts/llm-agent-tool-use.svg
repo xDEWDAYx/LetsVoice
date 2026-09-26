@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" role="img">
+<rect width="860" height="420" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="419" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Agent tasks: tool-use propensity and loop depth</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">90 tasks × 1 round(s) · mean tool calls and model turns per task</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Mean tool calls</text><rect x="161.0" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="176.99999999999997" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Mean model turns</text>
+<line x1="64" y1="331" x2="836" y2="331" stroke="#E3E8EF"/>
+<text x="56" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0.00</text>
+<line x1="64" y1="251.33333333333334" x2="836" y2="251.33333333333334" stroke="#E3E8EF"/>
+<text x="56" y="255.33333333333334" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">1.00</text>
+<line x1="64" y1="171.66666666666669" x2="836" y2="171.66666666666669" stroke="#E3E8EF"/>
+<text x="56" y="175.66666666666669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">2.00</text>
+<line x1="64" y1="92" x2="836" y2="92" stroke="#E3E8EF"/>
+<text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">3.00</text>
+<text x="18" y="211.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 211.5)">Count</text>
+<rect x="107.2" y="261.1" width="31.0" height="69.9" fill="#2E86AB" rx="2"/>
+<text x="122.69999999999999" y="256.07037037037037" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0.88</text>
+<rect x="141.2" y="181.4" width="31.0" height="149.6" fill="#E8871A" rx="2"/>
+<text x="156.7" y="176.4037037037037" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">1.88</text>
+<text x="141.2" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Qwen2.5 3B</text>
+<rect x="261.6" y="326.6" width="31.0" height="4.4" fill="#2E86AB" rx="2"/>
+<text x="277.1" y="321.5740740740741" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0.06</text>
+<rect x="295.6" y="246.9" width="31.0" height="84.1" fill="#E8871A" rx="2"/>
+<text x="311.1" y="241.9074074074074" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">1.06</text>
+<text x="295.6" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Qwen2.5 1.5B</text>
+<rect x="416.0" y="330.1" width="31.0" height="0.9" fill="#2E86AB" rx="2"/>
+<text x="431.5" y="325.1148148148148" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0.01</text>
+<rect x="450.0" y="251.3" width="31.0" height="79.7" fill="#E8871A" rx="2"/>
+<text x="465.5" y="246.33333333333334" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">1.00</text>
+<text x="450" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Phi-4 Mini</text>
+<rect x="570.4" y="255.8" width="31.0" height="75.2" fill="#2E86AB" rx="2"/>
+<text x="585.9" y="250.75925925925924" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">0.94</text>
+<rect x="604.4" y="176.1" width="31.0" height="154.9" fill="#E8871A" rx="2"/>
+<text x="619.9" y="171.09259259259258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">1.94</text>
+<text x="604.4" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Ministral-3 3B</text>
+<rect x="724.8" y="198.2" width="31.0" height="132.8" fill="#2E86AB" rx="2"/>
+<text x="740.3000000000001" y="193.22222222222223" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">1.67</text>
+<rect x="758.8" y="118.6" width="31.0" height="212.4" fill="#E8871A" rx="2"/>
+<text x="774.3000000000001" y="113.55555555555557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">2.67</text>
+<text x="758.8000000000001" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Granite-4 Micro-H</text>
+<line x1="64" y1="331.0" x2="836" y2="331.0" stroke="#6B7280"/>
+<text x="24" y="391" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">A model averaging 0.02 tool calls per task can only answer from context and has the lowest Agent completion; this is not</text><text x="24" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">explained by parameter count.</text>
+</svg>

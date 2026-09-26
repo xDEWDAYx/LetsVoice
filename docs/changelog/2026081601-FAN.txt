@@ -1,0 +1,99 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081601
+日期：2026-08-16
+分支：main
+========================================================================
+
+本次改动修复了新建或打开工作空间后，Workspace 详情页在加载完成时立即崩溃
+的问题，并增加页面级回归测试，锁定 WorkspacePage 与 useWorkspaceDetail 之间
+的字段契约。修改只涉及 React renderer 页面和测试，不触及 Electron 主进程、
+preload、IPC、数据库、文件系统或平台专属代码。
+
+
+------------------------------------------------------------------------
+1. 【工作空间详情】修复新建和打开工作空间时的 undefined.length 崩溃
+------------------------------------------------------------------------
+问题：
+  - 在工作空间列表中新建工作空间，跳转到详情页后显示 React 错误覆盖层。
+  - 点击打开已有工作空间时出现同样错误。
+  - 错误信息为：
+      TypeError: Cannot read properties of undefined (reading 'length')
+
+原因：
+  - useWorkspaceDetail 返回过滤后的笔记字段 visibleNotes。
+  - languageUpdate 提交在 WorkspacePage 中把调用方改成了 filteredNotes，
+    但没有同步修改 Hook 的返回字段。
+  - 页面加载完成后执行 filteredNotes.length；由于该字段不存在，实际等价于
+    undefined.length，因此空工作空间和已有工作空间都会崩溃。
+  - 同一段页面改动还解构了 Hook 未提供且未使用的 setSemanticResults 与
+    handleDeleteSelected，TypeScript 可以直接检出这些契约错误。
+
+现在：
+  - WorkspacePage 恢复读取 Hook 正式返回的 visibleNotes。
+  - 空状态判断使用 visibleNotes.length。
+  - 笔记列表使用 visibleNotes.map。
+  - 删除无效的 setSemanticResults / handleDeleteSelected 解构。
+  - 清理同批遗留的 useLocation、Trash2、MessagesSquare 无用导入。
+
+涉及文件：
+  src/renderer/pages/Workspace/WorkspacePage.tsx
+
+
+------------------------------------------------------------------------
+2. 【回归测试】覆盖空工作空间和已有笔记两种详情页状态
+------------------------------------------------------------------------
+新增：
+  - 新增 WorkspacePage 页面级测试，在 Electron API 之外隔离 Hook 契约。
+  - 测试一：Hook 返回 visibleNotes: [] 时，页面正常显示空工作空间状态。
+  - 测试二：Hook 返回一条已有笔记时，页面正常渲染对应笔记卡片。
+  - 修复前测试在编译阶段精确报告 filteredNotes、setSemanticResults 和
+    handleDeleteSelected 不存在；修复后 2 个测试全部通过。
+
+涉及文件：
+  src/renderer/pages/Workspace/WorkspacePage.test.tsx（新增）
+
+
+------------------------------------------------------------------------
+3. 【跨平台边界】本次修复对 Windows 与 macOS 使用同一逻辑
+------------------------------------------------------------------------
+确认：
+  - 修改只发生在 React renderer 的普通对象解构、数组 length 和 map 调用。
+  - 没有增加 process.platform、win32、darwin、路径分隔符或系统 API。
+  - 没有修改原生依赖、Electron 打包配置或主进程通信接口。
+  - 测试文件不属于生产入口，不会进入正式安装包。
+
+限制：
+  - 当前生产构建在 macOS 宿主完成。
+  - 本次代码是平台无关修复，但 Windows 安装、启动和真实点击流程仍应在
+    Windows 11 x64 环境执行发布前验收，不能用 macOS 构建代替 Windows 实测。
+
+
+------------------------------------------------------------------------
+4. 【验证】回归测试、相关测试与生产构建
+------------------------------------------------------------------------
+通过：
+  - WorkspacePage 回归测试：1 个套件、2 个测试全部通过。
+  - 排除已知失效 App.test.tsx 后：6 个套件、15 个测试全部通过。
+  - 新增测试文件 ESLint：0 个错误。
+  - main / renderer 生产 Webpack 构建：全部通过。
+  - git diff --check：通过。
+
+已知仓库基线问题（不是本次修复引入）：
+  - 全量 App.test.tsx 的 Electron preload mock 缺少 recommendation，测试套件
+    在加载 ModelManager 时失败。
+  - 全量 TypeScript 仍有两个既有错误：DashboardPage 调用不存在的
+    TodoItem.getNoteId，以及 WorkspaceNoteCard 读取 SubnoteItem.template_name。
+  - 全仓 ESLint 存在大量历史格式与规则问题；本次未做全仓自动格式化，避免
+    将一个小范围 Bug 修复扩大为不可审查的批量重写。
+
+
+------------------------------------------------------------------------
+文件范围汇总
+------------------------------------------------------------------------
+  - 工作空间详情修复：
+      src/renderer/pages/Workspace/WorkspacePage.tsx
+  - 回归测试：
+      src/renderer/pages/Workspace/WorkspacePage.test.tsx
+  - 修改日志：
+      log/2026081601.txt

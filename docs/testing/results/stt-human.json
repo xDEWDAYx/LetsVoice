@@ -1,0 +1,3498 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-01T03:26:53.030Z",
+  "whisper_binary": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\runtimes\\stt\\whisper\\bin\\whisper-cli.exe",
+  "recording_count": 56,
+  "thread_count": 8,
+  "note": "真人朗读录制。B 段为复述，只报内容覆盖率不报 CER。朗读者为中文母语者，英文朗读存在自然的发音与措辞偏差，这是在测真实使用场景而非朗读准确度。",
+  "models": {
+    "base": {
+      "model_path": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\models\\stt\\ggml-base.bin",
+      "scored_count": 100,
+      "failed_count": 0,
+      "mean_cer_strict_AC": 0.2705560754705254,
+      "mean_cer_by_language_AC": {
+        "zh": 0.3045800130827887,
+        "en": 0.24441273353224968,
+        "zh-en": 0.2649437423040221
+      },
+      "by_segment": {
+        "A": {
+          "mean_cer": 0.2660558558989013,
+          "mean_content_recall": 0.687980390881473,
+          "count": 35
+        },
+        "B": {
+          "mean_cer": null,
+          "mean_content_recall": 0.6151116670853513,
+          "count": 12
+        },
+        "C": {
+          "mean_cer": 0.2880569293601748,
+          "mean_content_recall": 0.6250625592730857,
+          "count": 9
+        }
+      },
+      "mean_rtf": 0.13937136715839063,
+      "entries": [
+        {
+          "file": "rec_01.wav",
+          "segment": "A",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录整理和前所支持的方式。",
+          "cer": 0.18181818181818182,
+          "content_recall": 0.8181818181818182,
+          "rtf": 0.1459756388822546,
+          "audio_seconds": 7.850625,
+          "error": null
+        },
+        {
+          "file": "rec_02.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议既要我已经整理好了,稍等发到群里,大家有问题随时提",
+          "cer": 0.07142857142857142,
+          "content_recall": 0.9285714285714286,
+          "rtf": 0.15275,
+          "audio_seconds": 8,
+          "error": null
+        },
+        {
+          "file": "rec_03.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_03",
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印记的墨河换一下,另外会议室的白班笔也快没水了,本季度营收同笔增长12.5%,达到3480万元。\r\n环比增長3.7%",
+          "cer": 0.38095238095238093,
+          "content_recall": 0.6507936507936508,
+          "rtf": 0.10650261212849554,
+          "audio_seconds": 20.074625,
+          "error": null
+        },
+        {
+          "file": "rec_04.wav",
+          "segment": "A",
+          "ids": [
+            "zh_numeric_02"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "会议是改到301,参会12人,预算控制在4200元以内,联系电话为号3378。",
+          "cer": 0.42857142857142855,
+          "content_recall": 0.5714285714285714,
+          "rtf": 0.08723958333333333,
+          "audio_seconds": 13.824,
+          "error": null
+        },
+        {
+          "file": "rec_05.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "現在2026年9月15號下午3點半之前把材料交給我\r\n最遲不能晚於16號上午10點",
+          "cer": 0.5263157894736842,
+          "content_recall": 0.5,
+          "rtf": 0.09819520446949011,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_06.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_02"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下週一到週五每天早上9點15分開始成倍\r\n週五下午4點做雙週覆盤",
+          "cer": 0.5862068965517241,
+          "content_recall": 0.4827586206896552,
+          "rtf": 0.09926487980117381,
+          "audio_seconds": 11.605313,
+          "error": null
+        },
+        {
+          "file": "rec_07.wav",
+          "segment": "A",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李梦齐负责对接深圳分公司,王剑国那边有陈小云更尽。",
+          "cer": 0.2692307692307692,
+          "content_recall": 0.7307692307692307,
+          "rtf": 0.12736430921052633,
+          "audio_seconds": 9.728,
+          "error": null
+        },
+        {
+          "file": "rec_08.wav",
+          "segment": "A",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "這次OKR評審要同時看KPI和ROI,數據從CRM系統到處,走API接口同步。",
+          "cer": 0.2777777777777778,
+          "content_recall": 0.6153846153846154,
+          "rtf": 0.10320598856587561,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_09.wav",
+          "segment": "A",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用向亮剪锁加上导树排名融合来做混合照回,\r\n签入模型跑在本地的中央处理器上。",
+          "cer": 0.19444444444444445,
+          "content_recall": 0.8055555555555556,
+          "rtf": 0.09771126760563381,
+          "audio_seconds": 13.632,
+          "error": null
+        },
+        {
+          "file": "rec_10.wav",
+          "segment": "A",
+          "ids": [
+            "zh_punct_01"
+          ],
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗?这也太快了吧,不过我还是有点担心,万一线上出什么问题怎么办呢?",
+          "cer": 0.06896551724137931,
+          "content_recall": 1,
+          "rtf": 0.1061938622754491,
+          "audio_seconds": 10.688,
+          "error": null
+        },
+        {
+          "file": "rec_11.wav",
+          "segment": "A",
+          "ids": [
+            "zh_long_01"
+          ],
+          "language": "zh",
+          "category": "long",
+          "transcript": "這次評審我先把背景交代一下\r\n上半年我們把語音筆記的轉寫\r\n列錄整個重寫了一遍\r\n主要解決了三個問題\r\n一是長錄音的內存佔用過高\r\n二是中音混合場景下的端劇不穩定\r\n三是任務提取會把別人的事情算在用戶的頭上\r\n重寫之後重寫轉寫的峰值內存下降了大約四成\r\n端劇錯誤明顯減少\r\n任務規屬也加了一道復合\r\n下半年的重點會轉到尋鎖這一次\r\n我們打算把關鍵詞尋鎖和相量尋鎖和病程一路混合趙回\r\n再用導述排名融合來排序\r\n這快的難點不再算法本身而在於本地設備的衰利有限\r\n簽入模型必須足夠小\r\n同時又不能犧牲中文的趙回治療\r\n另外還有一個容易被忽略的問題\r\n就是用戶比接數量增長以後\r\n全顧減鎖的延遲會明顯上升\r\n所以我們需要提前設計增量所引和換存策略\r\n以上是背景接下來說具體的方案",
+          "cer": 0.4143835616438356,
+          "content_recall": 0.6301369863013698,
+          "rtf": 0.078320613307576,
+          "audio_seconds": 80.106625,
+          "error": null
+        },
+        {
+          "file": "rec_12.wav",
+          "segment": "A",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local Speech Think of this gives private notes on the users on the computer.",
+          "cer": 0.27586206896551724,
+          "content_recall": 0.5833333333333334,
+          "rtf": 0.10168002910879412,
+          "audio_seconds": 9.962625,
+          "error": null
+        },
+        {
+          "file": "rec_13.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 0.1164535807104075,
+          "audio_seconds": 8.853313,
+          "error": null
+        },
+        {
+          "file": "rec_14.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_03"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridge and grab some new whiteboard markers as well?",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 0.07491028708133972,
+          "audio_seconds": 13.376,
+          "error": null
+        },
+        {
+          "file": "rec_15.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue grew 12.5% to 34.8 million dollars, while costs droopied 3.7%.",
+          "cer": 0.6018518518518519,
+          "content_recall": 0.35,
+          "rtf": 0.054526035876091346,
+          "audio_seconds": 19.605313,
+          "error": null
+        },
+        {
+          "file": "rec_16.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_02"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Room 301-12 attendees, bucket, capet, F4200, extension 3378.",
+          "cer": 0.6893203883495146,
+          "content_recall": 0.15789473684210525,
+          "rtf": 0.07138087606837606,
+          "audio_seconds": 14.976,
+          "error": null
+        },
+        {
+          "file": "rec_17.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30 p.m. on September 15, 2026, and no later than 16.",
+          "cer": 0.4519230769230769,
+          "content_recall": 0.6,
+          "rtf": 0.07200797872340425,
+          "audio_seconds": 15.04,
+          "error": null
+        },
+        {
+          "file": "rec_18.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_02"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Stand up, Rams Monday through Friday and I, 15 in the morning with a\r\nRachel Spativ, every other Friday at 4.",
+          "cer": 0.25263157894736843,
+          "content_recall": 0.75,
+          "rtf": 0.08458716578698286,
+          "audio_seconds": 13.205313,
+          "error": null
+        },
+        {
+          "file": "rec_19.wav",
+          "segment": "A",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Cathering, RAM, and red dress per towel.\r\nWe work with the Shenzhen office alongside Bonjour Angerson.",
+          "cer": 0.3125,
+          "content_recall": 0.5,
+          "rtf": 0.05828676916438522,
+          "audio_seconds": 19.541313,
+          "error": null
+        },
+        {
+          "file": "rec_20.wav",
+          "segment": "A",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR Review covers the KPI and ROI, as part of the data from the CRM and SYNC Nick through\r\nthe REST API over HTTPS.",
+          "cer": 0.12941176470588237,
+          "content_recall": 0.9090909090909091,
+          "rtf": 0.05940358231707318,
+          "audio_seconds": 20.992,
+          "error": null
+        },
+        {
+          "file": "rec_21.wav",
+          "segment": "A",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combined key words, a retrival with vector, retrival, and merge both rankings using reciprocall rank fusion on the local poor sexer.",
+          "cer": 0.1111111111111111,
+          "content_recall": 0.6842105263157895,
+          "rtf": 0.08544230034177595,
+          "audio_seconds": 14.805313,
+          "error": null
+        },
+        {
+          "file": "rec_22.wav",
+          "segment": "A",
+          "ids": [
+            "en_punct_01"
+          ],
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Really, that was fast, but honestly, I'm still a little worried what if something breaks\r\nin production.",
+          "cer": 0.012048192771084338,
+          "content_recall": 0.9444444444444444,
+          "rtf": 0.10102836652987401,
+          "audio_seconds": 11.541313,
+          "error": null
+        },
+        {
+          "file": "rec_23.wav",
+          "segment": "A",
+          "ids": [
+            "en_long_01"
+          ],
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the context before we go into the details. In the first half of the year we\r\nrewrote the entire transcription pipeline for voice notes mainly to solve three\r\nproblems. Memory, pressure on low-on-long recordings, unstable sentence, cement\r\ncementations when Chinese and English are missed in one utterance and task\r\nextraction and data assigned other people's action items to the users. After the\r\nrewite, the peak memory during transcription droopied by roughly 40% some\r\nsedimentation error become far less frequent and task ownership now goes through\r\na second review path. For the second half of the year we will shift to our\r\ntension to retrieval. The plan is to merge keyword search and vector search\r\ninto a single hybrid recall path and then alter the result with reciprocal rank\r\nfusion. The hard part is not algorithmic self but limited compute but get on\r\nlocal devices. The embedding model has to stay small without a\r\nscarefixication recall quality in Chinese. There is also a problem that is easy to\r\noverlook which is that latency for full library search grows accumulate\r\nthousands of notes so we need to incremental indexing and caching strategy well\r\nI'll be full that point.",
+          "cer": 0.10531697341513292,
+          "content_recall": 0.885,
+          "rtf": 0.054580384259062545,
+          "audio_seconds": 132.245313,
+          "error": null
+        },
+        {
+          "file": "rec_24.wav",
+          "segment": "A",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "SpeakSpace local可以在本地運行Test2Speech 並保護用戶的PrivateNose。",
+          "cer": 0.17307692307692307,
+          "content_recall": 0.55,
+          "rtf": 0.20552835209530745,
+          "audio_seconds": 8.874688,
+          "error": null
+        },
+        {
+          "file": "rec_25.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的Standup我可能會完結到這個Sprince的Ratchet 記得拍一下",
+          "cer": 0.3888888888888889,
+          "content_recall": 0.5714285714285714,
+          "rtf": 0.23368699798534315,
+          "audio_seconds": 7.274688,
+          "error": null
+        },
+        {
+          "file": "rec_26.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_03"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "這個feature的UI,我還要再polish一下,估計要到下周才能shap",
+          "cer": 0.1388888888888889,
+          "content_recall": 0.7619047619047619,
+          "rtf": 0.20830559189140496,
+          "audio_seconds": 8.170688,
+          "error": null
+        },
+        {
+          "file": "rec_27.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "這次的AB test 的conversation rate 提升了12.5%\r\nSample size 是3400人",
+          "cer": 0.30612244897959184,
+          "content_recall": 0.4230769230769231,
+          "rtf": 0.1595203488372093,
+          "audio_seconds": 11.008,
+          "error": null
+        },
+        {
+          "file": "rec_28.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_02"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从1248mib降到663mib,时时音字从1.31降到0.64",
+          "cer": 0.575,
+          "content_recall": 0.3055555555555556,
+          "rtf": 0.12632156144779239,
+          "audio_seconds": 14.122688,
+          "error": null
+        },
+        {
+          "file": "rec_29.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "Deadline是9月15号下午3点半,记得提前把slice发到群里。",
+          "cer": 0.17647058823529413,
+          "content_recall": 0.7727272727272727,
+          "rtf": 0.24488636363636362,
+          "audio_seconds": 7.04,
+          "error": null
+        },
+        {
+          "file": "rec_30.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kevin和張偉負責新人的Unboarding\r\nSara那邊有禮夢期對接",
+          "cer": 0.3333333333333333,
+          "content_recall": 0.3684210526315789,
+          "rtf": 0.19915936140863968,
+          "audio_seconds": 8.490688,
+          "error": null
+        },
+        {
+          "file": "rec_31.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PR review完之后,ci普通就可以 merge到man分支,然后触发cd部署",
+          "cer": 0.05128205128205128,
+          "content_recall": 0.9166666666666666,
+          "rtf": 0.16463248289032015,
+          "audio_seconds": 10.538625,
+          "error": null
+        },
+        {
+          "file": "rec_32.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用RF融合KeyWord Search\r\n和Shermantic Search\r\nInbiting模型跑在CPU上不依赖GPU",
+          "cer": 0.13559322033898305,
+          "content_recall": 0.8636363636363636,
+          "rtf": 0.15175189393939392,
+          "audio_seconds": 12.672,
+          "error": null
+        },
+        {
+          "file": "rec_33.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_02"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "Whisper的CER在中英混合样本上明显篇高说明\r\nASR回转路只能当作低置进度代理",
+          "cer": 0.07317073170731707,
+          "content_recall": 0.9032258064516129,
+          "rtf": 0.17799796718539154,
+          "audio_seconds": 11.050688,
+          "error": null
+        },
+        {
+          "file": "rec_34.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_punct_01"
+          ],
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么这个Bug居然还在,我记得上周就费死了呀\r\n要不要再揉败一次",
+          "cer": 0.3333333333333333,
+          "content_recall": 0.88,
+          "rtf": 0.24426500569887466,
+          "audio_seconds": 7.786625,
+          "error": null
+        },
+        {
+          "file": "rec_35.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_long_01"
+          ],
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下這個Sprint的進展\r\nTranscription,Pine Line, Refactor,以及Murderer\r\nLong Recording,Pick,Memory,下降了大約四成\r\n週一混合場景下Sagementation也穩定了很多\r\n任務提取那一塊我們加了一道Home的Shape Review\r\n專門解決別人的AXNITAN算到用戶頭上的問題\r\n下一步的重點是ReTriple\r\n我們打算把KeyWall Search and Wector Search\r\n合併成一路Hybrid Record\r\n然後用Receive Prackle Rank Fusion做排序\r\n難免不再算法而在本地設備的算力運算\r\nInbiting Models必須足夠小\r\n同時中文的Recode不能掉\r\n另外還有幾個容易被忽略點\r\n就是Note數量長到幾千條之後\r\nFull Library Search的Latincy會明顯上升\r\n所以Inquemental Indes and Cash策略\r\n要提升設計好\r\n這些是High Level的方向\r\n具體MineStone我會在DOC裡面寫清楚",
+          "cer": 0.2847222222222222,
+          "content_recall": 0.6651162790697674,
+          "rtf": 0.0908423667570009,
+          "audio_seconds": 70.848,
+          "error": null
+        },
+        {
+          "file": "rec_36.wav",
+          "segment": "B",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议记要我已经整理好的稍后发到群里\r\n大家有问题可以随时提",
+          "cer": null,
+          "content_recall": 0.9285714285714286,
+          "rtf": 0.20806149419518885,
+          "audio_seconds": 5.738688,
+          "error": null
+        },
+        {
+          "file": "rec_37.wav",
+          "segment": "B",
+          "ids": [
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本紀錄營收同筆增長12.5%,達到3,480萬元,還筆增長3.7%",
+          "cer": null,
+          "content_recall": 0.19444444444444445,
+          "rtf": 0.11132832905733392,
+          "audio_seconds": 11.093313,
+          "error": null
+        },
+        {
+          "file": "rec_38.wav",
+          "segment": "B",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把这些材料交给我\r\n最迟不能晚于16号上午10点",
+          "cer": null,
+          "content_recall": 0.7105263157894737,
+          "rtf": 0.1217040892478906,
+          "audio_seconds": 10.517313,
+          "error": null
+        },
+        {
+          "file": "rec_39.wav",
+          "segment": "B",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用相量检索加上到处排名融合来做混合照会,\r\n签入模型跑在本地的中央处理器上。",
+          "cer": null,
+          "content_recall": 0.8333333333333334,
+          "rtf": 0.16822536496350365,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_40.wav",
+          "segment": "B",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": null,
+          "content_recall": 1,
+          "rtf": 0.14132846175922528,
+          "audio_seconds": 8.533313,
+          "error": null
+        },
+        {
+          "file": "rec_41.wav",
+          "segment": "B",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue groomed 12.5% to 34.8 million dollars, while cost is 0.7%.",
+          "cer": null,
+          "content_recall": 0.25,
+          "rtf": 0.09657095937025778,
+          "audio_seconds": 12.053313,
+          "error": null
+        },
+        {
+          "file": "rec_42.wav",
+          "segment": "B",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30 p.m. on September 15th, 2026, and no later than the 16th.",
+          "cer": null,
+          "content_recall": 0.6,
+          "rtf": 0.09673178256053501,
+          "audio_seconds": 12.074625,
+          "error": null
+        },
+        {
+          "file": "rec_43.wav",
+          "segment": "B",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine keyboard retrieval with factory retrieval and merge both rankings using reciprocal ranking\r\nrefusion to on the local process.",
+          "cer": null,
+          "content_recall": 0.7368421052631579,
+          "rtf": 0.12172677865612648,
+          "audio_seconds": 16.192,
+          "error": null
+        },
+        {
+          "file": "rec_44.wav",
+          "segment": "B",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Speak space local, can you see that the test to speech?\r\nBe in the video with private notes.",
+          "cer": null,
+          "content_recall": 0.25,
+          "rtf": 0.2232531744342768,
+          "audio_seconds": 8.810625,
+          "error": null
+        },
+        {
+          "file": "rec_45.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "這次的AB Test 的 Conversion Rate 提升了11.5%\r\nSymbol Size 是3400人",
+          "cer": null,
+          "content_recall": 0.4230769230769231,
+          "rtf": 0.19924726277372262,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_46.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "deadline是9月15号下午3点半 记得提前把slice发到群里",
+          "cer": null,
+          "content_recall": 0.7727272727272727,
+          "rtf": 0.2795587236621245,
+          "audio_seconds": 5.909313,
+          "error": null
+        },
+        {
+          "file": "rec_47.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用RF融合KeyWarsage & CementiSearch\r\nInbiting模型跑在CPU上不依赖GPU",
+          "cer": null,
+          "content_recall": 0.6818181818181818,
+          "rtf": 0.20535264392968716,
+          "audio_seconds": 8.682625,
+          "error": null
+        },
+        {
+          "file": "rec_48.wav",
+          "segment": "C",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们进入整理和检测支持的方式",
+          "cer": 0.22727272727272727,
+          "content_recall": 0.7727272727272727,
+          "rtf": 0.18238272048337859,
+          "audio_seconds": 6.058688,
+          "error": null
+        },
+        {
+          "file": "rec_49.wav",
+          "segment": "C",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李梦齐负责对接深圳分公司\r\n王剑国那边有陈小云跟进",
+          "cer": 0.19230769230769232,
+          "content_recall": 0.8076923076923077,
+          "rtf": 0.16406250000000003,
+          "audio_seconds": 7.552,
+          "error": null
+        },
+        {
+          "file": "rec_50.wav",
+          "segment": "C",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "這次的OKI評審要從實看KPI和ROI數據從CRM系統到處\r\n就API接口全部",
+          "cer": 0.4444444444444444,
+          "content_recall": 0.4230769230769231,
+          "rtf": 0.12313457859839068,
+          "audio_seconds": 10.005313,
+          "error": null
+        },
+        {
+          "file": "rec_51.wav",
+          "segment": "C",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech seamlessly keeps private notes on users on computer.",
+          "cer": 0.1896551724137931,
+          "content_recall": 0.5833333333333334,
+          "rtf": 0.13062822585525688,
+          "audio_seconds": 7.402688,
+          "error": null
+        },
+        {
+          "file": "rec_52.wav",
+          "segment": "C",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Cafering, Nugent and Regid Pato will work with the Shenzhen office alongside Bung Jo and Josie.",
+          "cer": 0.2875,
+          "content_recall": 0.5714285714285714,
+          "rtf": 0.09726365211045414,
+          "audio_seconds": 11.669313,
+          "error": null
+        },
+        {
+          "file": "rec_53.wav",
+          "segment": "C",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR reveal covers a KPI and ROI.\r\nIt's put in the data from the CRM and technique\r\nit through the RAS API over HTTPS.",
+          "cer": 0.24705882352941178,
+          "content_recall": 0.8181818181818182,
+          "rtf": 0.08228272532188842,
+          "audio_seconds": 14.912,
+          "error": null
+        },
+        {
+          "file": "rec_54.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的Stand out,我可能会玩点到这个Springs\r\n的Rachel 继续拍一下",
+          "cer": 0.3611111111111111,
+          "content_recall": 0.6666666666666666,
+          "rtf": 0.24907010155153775,
+          "audio_seconds": 6.805313,
+          "error": null
+        },
+        {
+          "file": "rec_55.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kevin和張偉負責新人的Unboarding\r\nSarrah那邊有禮貌期對決",
+          "cer": 0.3611111111111111,
+          "content_recall": 0.3157894736842105,
+          "rtf": 0.26694752094971574,
+          "audio_seconds": 7.061313,
+          "error": null
+        },
+        {
+          "file": "rec_56.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PRReview完了之后, cipotong就可以merge到made分支,然后触发cd不出",
+          "cer": 0.28205128205128205,
+          "content_recall": 0.6666666666666666,
+          "rtf": 0.19202586206896555,
+          "audio_seconds": 9.28,
+          "error": null
+        }
+      ]
+    },
+    "large-v1": {
+      "model_path": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\models\\stt\\ggml-large-v1.bin",
+      "scored_count": 100,
+      "failed_count": 0,
+      "mean_cer_strict_AC": 0.1800996065366867,
+      "mean_cer_by_language_AC": {
+        "zh": 0.18776020834908608,
+        "en": 0.18408358123122712,
+        "zh-en": 0.1689657368172404
+      },
+      "by_segment": {
+        "A": {
+          "mean_cer": 0.18302159057291734,
+          "mean_content_recall": 0.7756036727203275,
+          "count": 35
+        },
+        "B": {
+          "mean_cer": null,
+          "mean_content_recall": 0.683507696007696,
+          "count": 12
+        },
+        "C": {
+          "mean_cer": 0.16873633528467877,
+          "mean_content_recall": 0.8055080884028253,
+          "count": 9
+        }
+      },
+      "mean_rtf": 2.6210230964015375,
+      "entries": [
+        {
+          "file": "rec_01.wav",
+          "segment": "A",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录整理和前所至实的方式。",
+          "cer": 0.18181818181818182,
+          "content_recall": 0.8181818181818182,
+          "rtf": 2.732903431255473,
+          "audio_seconds": 7.850625,
+          "error": null
+        },
+        {
+          "file": "rec_02.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议纪要我已经整理好了,稍等发到群里。大家有问题随时提。",
+          "cer": 0.03571428571428571,
+          "content_recall": 0.9642857142857143,
+          "rtf": 2.598625,
+          "audio_seconds": 8,
+          "error": null
+        },
+        {
+          "file": "rec_03.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_03",
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印机的墨盒换一下,另外会议室的白板笔也快没水了,本季度营收同比增长12.5%,达到3480万元,环比增长3.7%。",
+          "cer": 0.30158730158730157,
+          "content_recall": 0.6984126984126984,
+          "rtf": 1.2660759540962783,
+          "audio_seconds": 20.074625,
+          "error": null
+        },
+        {
+          "file": "rec_04.wav",
+          "segment": "A",
+          "ids": [
+            "zh_numeric_02"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "会议室改到301,餐会12人,预算控制在4200元以内,联系电话尾号3378。",
+          "cer": 0.4,
+          "content_recall": 0.6,
+          "rtf": 1.6005497685185186,
+          "audio_seconds": 13.824,
+          "error": null
+        },
+        {
+          "file": "rec_05.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把材料交给我,最迟不能晚于16号上午10点。",
+          "cer": 0.3157894736842105,
+          "content_recall": 0.7105263157894737,
+          "rtf": 1.800245415273985,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_06.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_02"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下周一到周五,每天早上九點十五分開始晨會,\r\n周五下午四點做雙周副盤。",
+          "cer": 0.27586206896551724,
+          "content_recall": 0.7586206896551724,
+          "rtf": 1.887239060247664,
+          "audio_seconds": 11.605313,
+          "error": null
+        },
+        {
+          "file": "rec_07.wav",
+          "segment": "A",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李梦琪负责对接深圳分公司,王建国那边由陈晓云跟进。",
+          "cer": 0.038461538461538464,
+          "content_recall": 0.9615384615384616,
+          "rtf": 2.2864925986842106,
+          "audio_seconds": 9.728,
+          "error": null
+        },
+        {
+          "file": "rec_08.wav",
+          "segment": "A",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次OKR评审要同时看KPI和ROI数据从CRM系统导出,走API接口同步。",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 1.814792852973169,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_09.wav",
+          "segment": "A",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用向量检索加上导数排名融合来做混合召回,嵌入模型跑在本地的中央处理器上。",
+          "cer": 0.027777777777777776,
+          "content_recall": 0.9722222222222222,
+          "rtf": 1.7043720657276997,
+          "audio_seconds": 13.632,
+          "error": null
+        },
+        {
+          "file": "rec_10.wav",
+          "segment": "A",
+          "ids": [
+            "zh_punct_01"
+          ],
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的嗎?這也太快了吧!\r\n不過我還是有點擔心,萬一線上出什麼問題怎麼辦呢?",
+          "cer": 0.4827586206896552,
+          "content_recall": 0.5862068965517241,
+          "rtf": 2.051366017964072,
+          "audio_seconds": 10.688,
+          "error": null
+        },
+        {
+          "file": "rec_11.wav",
+          "segment": "A",
+          "ids": [
+            "zh_long_01"
+          ],
+          "language": "zh",
+          "category": "long",
+          "transcript": "这次评审我先把背景交代一下\r\n上半年我们把语音笔记的转写链路整个重写了一遍\r\n主要解决了三个问题\r\n一是常录音的内存占用过高\r\n二是中音混合场景下的断句不稳定\r\n三是任务提取会把别人的事情算在用户的头上\r\n重写之后重写转写的峰值内存下降了大约四成\r\n断句错误明显减少\r\n任务归属也加了一道复合\r\n下半年的重点会转到检索这一侧\r\n我们打算把关键词检索和向量检索合并成一路混合召回\r\n再用导数排名融合来排序\r\n这块的难点不在算法本身\r\n而在于本地设备的算力有限\r\n嵌入模型必须足够小\r\n同时又不能牺牲中文的照回质量\r\n另外还有一个容易被忽略的问题\r\n就是用户笔记数量增长以后\r\n全库检索的延迟会明显上升\r\n所以我们需要提前设计增量索引和缓存策略\r\n以上是背景 接下来说具体的方案",
+          "cer": 0.0410958904109589,
+          "content_recall": 0.9897260273972602,
+          "rtf": 1.1839470206115912,
+          "audio_seconds": 80.106625,
+          "error": null
+        },
+        {
+          "file": "rec_12.wav",
+          "segment": "A",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech synthesis keeps private nodes on the user's own computer.",
+          "cer": 0.017241379310344827,
+          "content_recall": 0.9166666666666666,
+          "rtf": 1.975985244852637,
+          "audio_seconds": 9.962625,
+          "error": null
+        },
+        {
+          "file": "rec_13.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 2.2824224106840005,
+          "audio_seconds": 8.853313,
+          "error": null
+        },
+        {
+          "file": "rec_14.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_03"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridges and grab some new white ball markers as well?",
+          "cer": 0.056338028169014086,
+          "content_recall": 0.8571428571428571,
+          "rtf": 1.4814593301435406,
+          "audio_seconds": 13.376,
+          "error": null
+        },
+        {
+          "file": "rec_15.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue grew 12.5% to $34.8 million, while costs drooped 3.7%.",
+          "cer": 0.6666666666666666,
+          "content_recall": 0.3,
+          "rtf": 1.0378819251699782,
+          "audio_seconds": 19.605313,
+          "error": null
+        },
+        {
+          "file": "rec_16.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_02"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Room 301, 12 attendees, bucket cap it at $4,200, extension 3378.",
+          "cer": 0.6893203883495146,
+          "content_recall": 0.21052631578947367,
+          "rtf": 1.3386084401709402,
+          "audio_seconds": 14.976,
+          "error": null
+        },
+        {
+          "file": "rec_17.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30pm on September 15th, 2026 and no later than the 16th.",
+          "cer": 0.38461538461538464,
+          "content_recall": 0.6,
+          "rtf": 1.3886968085106384,
+          "audio_seconds": 15.04,
+          "error": null
+        },
+        {
+          "file": "rec_18.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_02"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Stand Up runs Monday through Friday at 9.15 in the morning with a retrospective every other Friday at 4.",
+          "cer": 0.15789473684210525,
+          "content_recall": 0.85,
+          "rtf": 1.5617956196873182,
+          "audio_seconds": 13.205313,
+          "error": null
+        },
+        {
+          "file": "rec_19.wav",
+          "segment": "A",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Katherine Ram and Rajesh Patel will work with the Shenzhen office alongside Bungle Anderson.",
+          "cer": 0.15,
+          "content_recall": 0.7857142857142857,
+          "rtf": 1.037033693692947,
+          "audio_seconds": 19.541313,
+          "error": null
+        },
+        {
+          "file": "rec_20.wav",
+          "segment": "A",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers the KPI and ROI, exports the data from the CRM and syncs it through\r\nthe REST API over HTTPS.",
+          "cer": 0.058823529411764705,
+          "content_recall": 0.9090909090909091,
+          "rtf": 1.0284870426829267,
+          "audio_seconds": 20.992,
+          "error": null
+        },
+        {
+          "file": "rec_21.wav",
+          "segment": "A",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combined keywords retrieval with vector retrieval and merge both rankings using reciprocal rank fusion on the local processor.",
+          "cer": 0.018518518518518517,
+          "content_recall": 0.8947368421052632,
+          "rtf": 1.3965932364955742,
+          "audio_seconds": 14.805313,
+          "error": null
+        },
+        {
+          "file": "rec_22.wav",
+          "segment": "A",
+          "ids": [
+            "en_punct_01"
+          ],
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Really, that was fast, but honestly, I'm still a little worried what if something breaks\r\nin production.",
+          "cer": 0.012048192771084338,
+          "content_recall": 0.9444444444444444,
+          "rtf": 1.7675631880012264,
+          "audio_seconds": 11.541313,
+          "error": null
+        },
+        {
+          "file": "rec_23.wav",
+          "segment": "A",
+          "ids": [
+            "en_long_01"
+          ],
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the context before we go into the details. In the first half of the\r\nyear, we rewrote the entire transcription pipeline for voice notes,\r\nmainly to solve three problems. Memory pressure on long recordings,\r\nunstable sentence cementations when Chinese and English are missed in one\r\nalterance, and task extraction that assigned other people's action items to\r\nthe users. After the rewrite, peak memory during transcription drooped by roughly\r\n40%, segmentation error become far less frequent, and task ownership now\r\ngoes through a second review path. For the second half of the year, we will shift\r\nour attention to retrieval. The plan is to merge keyword search and vector\r\nsearch into a single hybrid recall path, and then order the result with\r\nreciprocal rank fusion. The hard part is not algorithm itself but the limited\r\ncompute bucket on local devices. The embedding model has to stay small\r\nwithout scarce execution recall quality in Chinese. There is also a problem that\r\nis easy to overlook, which is that latency for full library search growth\r\naccumulates thousands of notes, so we need to incremental indexing and caching\r\nstrategy well before that point.",
+          "cer": 0.06748466257668712,
+          "content_recall": 0.915,
+          "rtf": 0.9538939198548382,
+          "audio_seconds": 132.245313,
+          "error": null
+        },
+        {
+          "file": "rec_24.wav",
+          "segment": "A",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "SpeakSpace Local可以在本地運行Test to Speech並保護用戶的Private Nodes。",
+          "cer": 0.11538461538461539,
+          "content_recall": 0.7,
+          "rtf": 4.071016355729913,
+          "audio_seconds": 8.874688,
+          "error": null
+        },
+        {
+          "file": "rec_25.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的Stand Up我可能会晚点到这个Sprints的Retro,记得排一下。",
+          "cer": 0.027777777777777776,
+          "content_recall": 0.9047619047619048,
+          "rtf": 4.8670128533347405,
+          "audio_seconds": 7.274688,
+          "error": null
+        },
+        {
+          "file": "rec_26.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_03"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "这个feature的ui我还要再polish一下,估计要到下周才能shape。",
+          "cer": 0.05555555555555555,
+          "content_recall": 0.9523809523809523,
+          "rtf": 4.34345308497889,
+          "audio_seconds": 8.170688,
+          "error": null
+        },
+        {
+          "file": "rec_27.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次AB Test的Conversation Rate提升了12.5%,Sample Size是3400人。",
+          "cer": 0.2653061224489796,
+          "content_recall": 0.46153846153846156,
+          "rtf": 3.230741279069768,
+          "audio_seconds": 11.008,
+          "error": null
+        },
+        {
+          "file": "rec_28.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_02"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从1248Mb降到663Mb,实时音质从1.31降到0.64。",
+          "cer": 0.6,
+          "content_recall": 0.3333333333333333,
+          "rtf": 2.6118965454734964,
+          "audio_seconds": 14.122688,
+          "error": null
+        },
+        {
+          "file": "rec_29.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "Deadline是9月15日下午3點半,記得提前把slides發到群裡。",
+          "cer": 0.2647058823529412,
+          "content_recall": 0.5909090909090909,
+          "rtf": 5.031392045454545,
+          "audio_seconds": 7.04,
+          "error": null
+        },
+        {
+          "file": "rec_30.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kevyn和張偉負責新人的onboarding,Sara那邊由李孟琪對接。",
+          "cer": 0.25,
+          "content_recall": 0.5263157894736842,
+          "rtf": 4.243707930382084,
+          "audio_seconds": 8.490688,
+          "error": null
+        },
+        {
+          "file": "rec_31.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PR review完之后,CI跑通就可以merge到man分支,然后触发CD部署。",
+          "cer": 0.02564102564102564,
+          "content_recall": 0.9583333333333334,
+          "rtf": 3.3973122679666465,
+          "audio_seconds": 10.538625,
+          "error": null
+        },
+        {
+          "file": "rec_32.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用RF融合keyword search and semantic search,embedding模型跑在CPU上不依赖GPU",
+          "cer": 0.06779661016949153,
+          "content_recall": 0.9090909090909091,
+          "rtf": 2.8355429292929295,
+          "audio_seconds": 12.672,
+          "error": null
+        },
+        {
+          "file": "rec_33.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_02"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "Whisper的C1R在中英混合樣本上明顯偏高,說明ASR迴轉錄只能當作低致信度代理。",
+          "cer": 0.21951219512195122,
+          "content_recall": 0.7096774193548387,
+          "rtf": 3.396078144636787,
+          "audio_seconds": 11.050688,
+          "error": null
+        },
+        {
+          "file": "rec_34.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_punct_01"
+          ],
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么?这个bug居然还在?我记得上周就fizz了呀。要不要再roll back一次?",
+          "cer": 0.08333333333333333,
+          "content_recall": 0.88,
+          "rtf": 4.591334499863548,
+          "audio_seconds": 7.786625,
+          "error": null
+        },
+        {
+          "file": "rec_35.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_long_01"
+          ],
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下这个sprint的进展,transcription pipeline的refactor已经merge了,long recording的peak memory下降了大约四成,中英混合场景下surgimentation也稳定了很多。\r\n任务提取那一块我们加了一道ownership review,专门解决别人的action item算到用户头上的问题。\r\n下一步的重点是retrieval,我们打算把keyword search and vector search合并成一路hybrid record,然后用reciprocal rank fusion做排序,难点不在算法,而在本地设备的算力运算。\r\nembedding model必须足够小,同时中文的recall不能掉,另外还有几个容易被忽略的点就是note数量涨到几千条之后,full library search的latency会明显上升,所以incremental index and cache策略要提前设计好,这些是high level的方向,具体mindstone我会在doc里面写清楚。",
+          "cer": 0.05092592592592592,
+          "content_recall": 0.9767441860465116,
+          "rtf": 1.333714430894309,
+          "audio_seconds": 70.848,
+          "error": null
+        },
+        {
+          "file": "rec_36.wav",
+          "segment": "B",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的會議紀要我已經整理好了,稍後發到群裡,大家有問題可以隨時提。",
+          "cer": null,
+          "content_recall": 0.6071428571428571,
+          "rtf": 3.7477207333801736,
+          "audio_seconds": 5.738688,
+          "error": null
+        },
+        {
+          "file": "rec_37.wav",
+          "segment": "B",
+          "ids": [
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本季度營收同比增長12.5% 達到3480萬元 環比增長3.7%",
+          "cer": null,
+          "content_recall": 0.3055555555555556,
+          "rtf": 1.98804450933639,
+          "audio_seconds": 11.093313,
+          "error": null
+        },
+        {
+          "file": "rec_38.wav",
+          "segment": "B",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把这些材料交给我,最迟不能晚于16号上午10点。",
+          "cer": null,
+          "content_recall": 0.7105263157894737,
+          "rtf": 2.090267732832521,
+          "audio_seconds": 10.517313,
+          "error": null
+        },
+        {
+          "file": "rec_39.wav",
+          "segment": "B",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用项量检索加上倒数排名融合来做混合照会,\r\n嵌入模型跑在本地的中央处理器上。",
+          "cer": null,
+          "content_recall": 0.9166666666666666,
+          "rtf": 2.632299270072992,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_40.wav",
+          "segment": "B",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow\r\nmorning.",
+          "cer": null,
+          "content_recall": 1,
+          "rtf": 2.35664624044612,
+          "audio_seconds": 8.533313,
+          "error": null
+        },
+        {
+          "file": "rec_41.wav",
+          "segment": "B",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue grew from 12.5% to $34.8 million, while costs dropped 3.7%.",
+          "cer": null,
+          "content_recall": 0.35,
+          "rtf": 1.6597926229908742,
+          "audio_seconds": 12.053313,
+          "error": null
+        },
+        {
+          "file": "rec_42.wav",
+          "segment": "B",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30pm on September 15, 2026 and no later than the 16th.",
+          "cer": null,
+          "content_recall": 0.6,
+          "rtf": 1.7269273372879077,
+          "audio_seconds": 12.074625,
+          "error": null
+        },
+        {
+          "file": "rec_43.wav",
+          "segment": "B",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine keyword retrieval with vector retrieval\r\nand merge both rankings using reciprocal ranking refutation\r\nto arm the local pro section.",
+          "cer": null,
+          "content_recall": 0.7894736842105263,
+          "rtf": 1.303236166007905,
+          "audio_seconds": 16.192,
+          "error": null
+        },
+        {
+          "file": "rec_44.wav",
+          "segment": "B",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Speak Space Local 可以運行在本地的 Test to Speech,並保護用戶的 Private Nodes",
+          "cer": null,
+          "content_recall": 0.65,
+          "rtf": 4.033425551535788,
+          "audio_seconds": 8.810625,
+          "error": null
+        },
+        {
+          "file": "rec_45.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次的AB test conversion rate提升了12.5%, sample size是3400人。",
+          "cer": null,
+          "content_recall": 0.5,
+          "rtf": 4.024863138686131,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_46.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "Deadline是9月15号下午3点半 记得提前把slides发到群里",
+          "cer": null,
+          "content_recall": 0.8181818181818182,
+          "rtf": 6.007804968191734,
+          "audio_seconds": 5.909313,
+          "error": null
+        },
+        {
+          "file": "rec_47.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用 RRF 融合 Keyword Search and Semantic Search Embedding 模型跑在 CPU 上,不依赖 GPU",
+          "cer": null,
+          "content_recall": 0.9545454545454546,
+          "rtf": 4.20978678683002,
+          "audio_seconds": 8.682625,
+          "error": null
+        },
+        {
+          "file": "rec_48.wav",
+          "segment": "C",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录整理和检索知识的方式",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 3.425824204844349,
+          "audio_seconds": 6.058688,
+          "error": null
+        },
+        {
+          "file": "rec_49.wav",
+          "segment": "C",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "張偉和李孟齊負責對接深圳分公司,王建國那邊由陳曉雲跟進。",
+          "cer": 0.5,
+          "content_recall": 0.5,
+          "rtf": 2.907044491525424,
+          "audio_seconds": 7.552,
+          "error": null
+        },
+        {
+          "file": "rec_50.wav",
+          "segment": "C",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次的OKR评审要同时看KPI和ROI数据从CRM系统导出,走API接口同步。",
+          "cer": 0.027777777777777776,
+          "content_recall": 1,
+          "rtf": 2.2450072276599444,
+          "audio_seconds": 10.005313,
+          "error": null
+        },
+        {
+          "file": "rec_51.wav",
+          "segment": "C",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech seamlessly keeps private nodes on user's own computer.",
+          "cer": 0.1896551724137931,
+          "content_recall": 0.75,
+          "rtf": 2.6541710254437305,
+          "audio_seconds": 7.402688,
+          "error": null
+        },
+        {
+          "file": "rec_52.wav",
+          "segment": "C",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Katherine Nugent and Reggie Petel will work with the Shenzhen office alongside Bonjour\r\nAnderson.",
+          "cer": 0.175,
+          "content_recall": 0.6428571428571429,
+          "rtf": 1.771398196277707,
+          "audio_seconds": 11.669313,
+          "error": null
+        },
+        {
+          "file": "rec_53.wav",
+          "segment": "C",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers AKPI and ROI, exporting the data from the CRM and Clinknik through the REST API over HTTPS.",
+          "cer": 0.11764705882352941,
+          "content_recall": 0.8181818181818182,
+          "rtf": 1.454533261802575,
+          "audio_seconds": 14.912,
+          "error": null
+        },
+        {
+          "file": "rec_54.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的Standout我可能会晚点到这个Spring的Retro,记得排一下",
+          "cer": 0.08333333333333333,
+          "content_recall": 0.9047619047619048,
+          "rtf": 5.252366790476794,
+          "audio_seconds": 6.805313,
+          "error": null
+        },
+        {
+          "file": "rec_55.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "凱文和张伟负责新人的onboarding\r\nSaraha那边有李梦琪对接",
+          "cer": 0.19444444444444445,
+          "content_recall": 0.8421052631578947,
+          "rtf": 5.218292971859483,
+          "audio_seconds": 7.061313,
+          "error": null
+        },
+        {
+          "file": "rec_56.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PR review完了之後\r\nCI跑通就可以merge到麥分支\r\n然後觸發CD部署",
+          "cer": 0.23076923076923078,
+          "content_recall": 0.7916666666666666,
+          "rtf": 3.9376077586206897,
+          "audio_seconds": 9.28,
+          "error": null
+        }
+      ]
+    },
+    "small": {
+      "model_path": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\models\\stt\\ggml-small.bin",
+      "scored_count": 100,
+      "failed_count": 0,
+      "mean_cer_strict_AC": 0.16999655043068304,
+      "mean_cer_by_language_AC": {
+        "zh": 0.1558266810565602,
+        "en": 0.2112582381875243,
+        "zh-en": 0.14196007408968986
+      },
+      "by_segment": {
+        "A": {
+          "mean_cer": 0.17272525879753958,
+          "mean_content_recall": 0.8034736856186198,
+          "count": 35
+        },
+        "B": {
+          "mean_cer": null,
+          "mean_content_recall": 0.6706575831575833,
+          "count": 12
+        },
+        "C": {
+          "mean_cer": 0.1593849067817966,
+          "mean_content_recall": 0.805962799383852,
+          "count": 9
+        }
+      },
+      "mean_rtf": 0.4499432551606746,
+      "entries": [
+        {
+          "file": "rec_01.wav",
+          "segment": "A",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录整理和前所支持的方式",
+          "cer": 0.18181818181818182,
+          "content_recall": 0.8181818181818182,
+          "rtf": 0.44748029615476476,
+          "audio_seconds": 7.850625,
+          "error": null
+        },
+        {
+          "file": "rec_02.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议记忆我已经整理好了\r\n稍等发到群里\r\n大家有问题随时提",
+          "cer": 0.10714285714285714,
+          "content_recall": 0.8928571428571429,
+          "rtf": 0.482875,
+          "audio_seconds": 8,
+          "error": null
+        },
+        {
+          "file": "rec_03.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_03",
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印机的墨盒换一下,另外会议室的白板笔也快没水了,本季度营收同比增长12.5%,达到3480万元,环比增长3.7%。",
+          "cer": 0.30158730158730157,
+          "content_recall": 0.6984126984126984,
+          "rtf": 0.23322976145258006,
+          "audio_seconds": 20.074625,
+          "error": null
+        },
+        {
+          "file": "rec_04.wav",
+          "segment": "A",
+          "ids": [
+            "zh_numeric_02"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "会议室改到301,参会12人,预算控制在4200元以内,联系电话伪好3378。",
+          "cer": 0.42857142857142855,
+          "content_recall": 0.5714285714285714,
+          "rtf": 0.29058159722222227,
+          "audio_seconds": 13.824,
+          "error": null
+        },
+        {
+          "file": "rec_05.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把材料交给我\r\n最迟不能晚于16号上午10点",
+          "cer": 0.3157894736842105,
+          "content_recall": 0.7105263157894737,
+          "rtf": 0.31010288028759964,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_06.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_02"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下周一到周五,每天早上9点15分开始成队,周五下午4点做双周复盘。",
+          "cer": 0.2413793103448276,
+          "content_recall": 0.8275862068965517,
+          "rtf": 0.3307967652401964,
+          "audio_seconds": 11.605313,
+          "error": null
+        },
+        {
+          "file": "rec_07.wav",
+          "segment": "A",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李孟奇负责对接深圳分公司,王建国那边由陈晓云跟进。",
+          "cer": 0.11538461538461539,
+          "content_recall": 0.8846153846153846,
+          "rtf": 0.3979235197368421,
+          "audio_seconds": 9.728,
+          "error": null
+        },
+        {
+          "file": "rec_08.wav",
+          "segment": "A",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次OKR评审要同时看KPI和ROI,数据从CRM系统导出,走API接口同步。",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 0.31850806651379465,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_09.wav",
+          "segment": "A",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用相量检索加上倒数排名融合来做混合召回,嵌入模型跑在本地的中央处理器上。",
+          "cer": 0.027777777777777776,
+          "content_recall": 0.9722222222222222,
+          "rtf": 0.30164319248826293,
+          "audio_seconds": 13.632,
+          "error": null
+        },
+        {
+          "file": "rec_10.wav",
+          "segment": "A",
+          "ids": [
+            "zh_punct_01"
+          ],
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗,这也太快了吧,不过我还是有点担心,万一线上出什么问题怎么办呢?",
+          "cer": 0.06896551724137931,
+          "content_recall": 1,
+          "rtf": 0.37247380239520955,
+          "audio_seconds": 10.688,
+          "error": null
+        },
+        {
+          "file": "rec_11.wav",
+          "segment": "A",
+          "ids": [
+            "zh_long_01"
+          ],
+          "language": "zh",
+          "category": "long",
+          "transcript": "这次评审,我先把背景交代一下。\r\n上半年,我们把语音笔记的转写链路整个重写了一遍,主要解决了三个问题。\r\n一是长录音的内存占用过高。\r\n二是中音混合场景下的断矩不稳定。\r\n三是任务提取会把别人的事情算在用户的头上。\r\n重写之后重写,转写的峰值内存下降了大约四成。\r\n断矩错误明显减少。\r\n任务归属也加了一道复合。\r\n下半年的重点会转到检索这一侧。\r\n我们打算把关键词检索和相量检索和并成一路混合照回。\r\n再用导数排名融合来排序。\r\n这块的难点不在算法本身而在于本地设备的酸力有限。\r\n欠入模型必须足够小,同时又不能牺牲中文的照围质量。\r\n另外还有一个容易被忽略的问题就是用户笔记数量增长以后,\r\n全库检索的延迟会明显上升,\r\n所以我们需要提前设计增量索引和缓存策略。\r\n以上是背景,接下来说具体的方案。",
+          "cer": 0.06506849315068493,
+          "content_recall": 0.9691780821917808,
+          "rtf": 0.24572249798315685,
+          "audio_seconds": 80.106625,
+          "error": null
+        },
+        {
+          "file": "rec_12.wav",
+          "segment": "A",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech think of this, keeps private notes on the users on the computer.",
+          "cer": 0.20689655172413793,
+          "content_recall": 0.6666666666666666,
+          "rtf": 0.34729802637357127,
+          "audio_seconds": 9.962625,
+          "error": null
+        },
+        {
+          "file": "rec_13.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call.\r\nSo please review it before tomorrow morning.",
+          "cer": 0,
+          "content_recall": 1,
+          "rtf": 0.43633383344743376,
+          "audio_seconds": 8.853313,
+          "error": null
+        },
+        {
+          "file": "rec_14.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_03"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridges and grab some new white ball markers as well?",
+          "cer": 0.056338028169014086,
+          "content_recall": 0.8571428571428571,
+          "rtf": 0.25979366028708134,
+          "audio_seconds": 13.376,
+          "error": null
+        },
+        {
+          "file": "rec_15.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue grew 12.5% to 34.8 million dollars, while cost droped 3.7%.",
+          "cer": 0.6111111111111112,
+          "content_recall": 0.3,
+          "rtf": 0.1857149641018228,
+          "audio_seconds": 19.605313,
+          "error": null
+        },
+        {
+          "file": "rec_16.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_02"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Rong 301, 12 attendees, Baguette Capit at $4,200, extension 3378.",
+          "cer": 0.7184466019417476,
+          "content_recall": 0.15789473684210525,
+          "rtf": 0.2439236111111111,
+          "audio_seconds": 14.976,
+          "error": null
+        },
+        {
+          "file": "rec_17.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30 p.m. on September 15th, 2026 and no letter\r\nthan the 16th.",
+          "cer": 0.40384615384615385,
+          "content_recall": 0.55,
+          "rtf": 0.24933510638297873,
+          "audio_seconds": 15.04,
+          "error": null
+        },
+        {
+          "file": "rec_18.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_02"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "stand-up runs Monday through Friday at 9.15 in the morning with a retrospective\r\nevery other Friday at 4.",
+          "cer": 0.15789473684210525,
+          "content_recall": 0.85,
+          "rtf": 0.2868542381388461,
+          "audio_seconds": 13.205313,
+          "error": null
+        },
+        {
+          "file": "rec_19.wav",
+          "segment": "A",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Katherine Ram and Rajesh Pratow.\r\nWe work with the Shenzhen office alongside Bonjour Anderson.",
+          "cer": 0.2125,
+          "content_recall": 0.6428571428571429,
+          "rtf": 0.18924009865662558,
+          "audio_seconds": 19.541313,
+          "error": null
+        },
+        {
+          "file": "rec_20.wav",
+          "segment": "A",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers the KPI and ROI.\r\nExport the data from the CRM and SyncNIC it through the REST API over HTTPS.",
+          "cer": 0.07058823529411765,
+          "content_recall": 0.9545454545454546,
+          "rtf": 0.18792873475609753,
+          "audio_seconds": 20.992,
+          "error": null
+        },
+        {
+          "file": "rec_21.wav",
+          "segment": "A",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "we combined keywords a retrieval with vector retrieval and merge both rankings\r\nusing reciprocal rank fusion on the local processor",
+          "cer": 0.027777777777777776,
+          "content_recall": 0.8947368421052632,
+          "rtf": 0.2591637204833157,
+          "audio_seconds": 14.805313,
+          "error": null
+        },
+        {
+          "file": "rec_22.wav",
+          "segment": "A",
+          "ids": [
+            "en_punct_01"
+          ],
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Really, that was fast, but honestly, I'm still a little worried what if something breaks\r\nin production.",
+          "cer": 0.012048192771084338,
+          "content_recall": 0.9444444444444444,
+          "rtf": 0.3138291111245315,
+          "audio_seconds": 11.541313,
+          "error": null
+        },
+        {
+          "file": "rec_23.wav",
+          "segment": "A",
+          "ids": [
+            "en_long_01"
+          ],
+          "language": "en",
+          "category": "long",
+          "transcript": "let me set the context before we go into the details in the first half of the\r\nyear we rewrote the entire transcription pipeline for voice\r\nnotes mainly to solve three problems memory pressure on long\r\nrecordings unstable sentence cement cementations when Chinese and English\r\nare missed in one utterance and task extraction that assigned other people's\r\naction items to the users after the rewrite the peak memory during\r\ntranscription droopy by roughly 40% some a segmentation error become far less\r\nfrequent and task ownership now goes through a second review pass for the\r\nsecond half of the year we will shift to our tension to retrieval the plan is to\r\nmerge keyword search and vector search into a single hybrid recall path and\r\nthen order the result with reciprocal rank fusion the hard part is not algorithm\r\nitself but limited compute bugget on local devices the embedding model has to\r\nstay small without scafic cication recall quality in Chinese there is also a\r\nproblem that is easy to overlook which is that latency for full library search\r\ngrows accumulate thousands of nodes so we need to incremental indexing and\r\ncaching strategy well before that point",
+          "cer": 0.08077709611451943,
+          "content_recall": 0.92,
+          "rtf": 0.17616503353884458,
+          "audio_seconds": 132.245313,
+          "error": null
+        },
+        {
+          "file": "rec_24.wav",
+          "segment": "A",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Speak Space Local 可以在本地运行 Test to Speech 并保护用户的 Private Notes",
+          "cer": 0.019230769230769232,
+          "content_recall": 0.9,
+          "rtf": 0.7202506724743449,
+          "audio_seconds": 8.874688,
+          "error": null
+        },
+        {
+          "file": "rec_25.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的stand up 我可能会晚点到这个sprints的retro 记得排一下",
+          "cer": 0.027777777777777776,
+          "content_recall": 0.9047619047619048,
+          "rtf": 0.8140555306289423,
+          "audio_seconds": 7.274688,
+          "error": null
+        },
+        {
+          "file": "rec_26.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_03"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "这个feature的UI我还要再polish一下\r\n估计要到下周才能shape",
+          "cer": 0.05555555555555555,
+          "content_recall": 0.9523809523809523,
+          "rtf": 0.7063052707434184,
+          "audio_seconds": 8.170688,
+          "error": null
+        },
+        {
+          "file": "rec_27.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次的ABTEST的conversation rate提升了百分之十二点五,sample size是三千四百人。",
+          "cer": 0.061224489795918366,
+          "content_recall": 0.8461538461538461,
+          "rtf": 0.5402434593023256,
+          "audio_seconds": 11.008,
+          "error": null
+        },
+        {
+          "file": "rec_28.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_02"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从1248MIB降到663MIB,实时因子从1.31降到0.64MIB。",
+          "cer": 0.55,
+          "content_recall": 0.3888888888888889,
+          "rtf": 0.41911284877213173,
+          "audio_seconds": 14.122688,
+          "error": null
+        },
+        {
+          "file": "rec_29.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "deadline是9月15号下午3点半\r\n记得提前把slice发到群里",
+          "cer": 0.17647058823529413,
+          "content_recall": 0.7727272727272727,
+          "rtf": 0.8455965909090909,
+          "audio_seconds": 7.04,
+          "error": null
+        },
+        {
+          "file": "rec_30.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kavin和张伟负责新人的onboarding,Sara那边由李孟起对接。",
+          "cer": 0.1111111111111111,
+          "content_recall": 0.7894736842105263,
+          "rtf": 0.6932300421355725,
+          "audio_seconds": 8.490688,
+          "error": null
+        },
+        {
+          "file": "rec_31.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把prreview完之后,ci跑通就可以merge到man分支,然后触发cd部署。",
+          "cer": 0.02564102564102564,
+          "content_recall": 0.875,
+          "rtf": 0.5610788883749066,
+          "audio_seconds": 10.538625,
+          "error": null
+        },
+        {
+          "file": "rec_32.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用RRF融合Keyword Search and Cermatic Search Embedding模型跑在CPU上,不依赖GPU。",
+          "cer": 0.1016949152542373,
+          "content_recall": 0.9090909090909091,
+          "rtf": 0.48240214646464646,
+          "audio_seconds": 12.672,
+          "error": null
+        },
+        {
+          "file": "rec_33.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_02"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "Whisper的C-1R在中音混合样本上明显偏高,说明ASR回转路只能当作低质信度代理。",
+          "cer": 0.0975609756097561,
+          "content_recall": 0.8709677419354839,
+          "rtf": 0.5592411983760649,
+          "audio_seconds": 11.050688,
+          "error": null
+        },
+        {
+          "file": "rec_34.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_punct_01"
+          ],
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么这个bug居然还在\r\n我记得上周就废死了呀\r\n要不要再揉拜一次",
+          "cer": 0.3333333333333333,
+          "content_recall": 0.88,
+          "rtf": 0.7813397974090186,
+          "audio_seconds": 7.786625,
+          "error": null
+        },
+        {
+          "file": "rec_35.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_long_01"
+          ],
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下这个Sprint的进展\r\ntranscription pipeline的refactor已经merge了\r\nlong recording的peak memory下降了大约四成\r\n中音混合场景下segmentation也稳定了很多\r\n任务提取那一块我们加了一道owner shape review\r\n专门解决别人的action item算到用户头上的问题\r\n下一步的重点是retribal\r\n我们打算把keyword search and vector search合并成一路hybrid record\r\n然后用receiptraco rankfusion做排序\r\n难典不再算法而在本地设备的算力预算\r\nembedding model必须足够小同时中文的recall不能掉\r\n另外还有几个容易被忽略的点就是note数量\r\n长到几件条之后full library search的latency会明显上升\r\n所以incremental index and cache策略要提前设计好\r\n这些是high-level的方向具体mindstone我会在doc里面写清楚",
+          "cer": 0.07407407407407407,
+          "content_recall": 0.9488372093023256,
+          "rtf": 0.24431176603432703,
+          "audio_seconds": 70.848,
+          "error": null
+        },
+        {
+          "file": "rec_36.wav",
+          "segment": "B",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议计要我已经整理好了,稍后发到群里,大家有问题可以随时提。",
+          "cer": null,
+          "content_recall": 0.9642857142857143,
+          "rtf": 0.6238359708699968,
+          "audio_seconds": 5.738688,
+          "error": null
+        },
+        {
+          "file": "rec_37.wav",
+          "segment": "B",
+          "ids": [
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本季度營收同比增長12.5% 達到3480萬元 環比增長3.7%",
+          "cer": null,
+          "content_recall": 0.3055555555555556,
+          "rtf": 0.3414669720398225,
+          "audio_seconds": 11.093313,
+          "error": null
+        },
+        {
+          "file": "rec_38.wav",
+          "segment": "B",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午3点半之前把这些材料交给我\r\n最迟不能晚于16号上午10点",
+          "cer": null,
+          "content_recall": 0.7105263157894737,
+          "rtf": 0.38070560417855775,
+          "audio_seconds": 10.517313,
+          "error": null
+        },
+        {
+          "file": "rec_39.wav",
+          "segment": "B",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用相量检索加上倒数排名融合来做混合照会\r\n签入模型跑在本地的中央处理器上",
+          "cer": null,
+          "content_recall": 0.8888888888888888,
+          "rtf": 0.4649863138686131,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_40.wav",
+          "segment": "B",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": null,
+          "content_recall": 1,
+          "rtf": 0.39984470275495576,
+          "audio_seconds": 8.533313,
+          "error": null
+        },
+        {
+          "file": "rec_41.wav",
+          "segment": "B",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue groomed 12.5% to 34.8 million dollars, while cost is 3.7%.",
+          "cer": null,
+          "content_recall": 0.25,
+          "rtf": 0.2942759389057598,
+          "audio_seconds": 12.053313,
+          "error": null
+        },
+        {
+          "file": "rec_42.wav",
+          "segment": "B",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3.30pm on September 15th, 2026 and no later than the 16th.",
+          "cer": null,
+          "content_recall": 0.6,
+          "rtf": 0.29243144197024756,
+          "audio_seconds": 12.074625,
+          "error": null
+        },
+        {
+          "file": "rec_43.wav",
+          "segment": "B",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine keyword retrieval with factory retrieval and merge both rankings using reciprocal ranking refution to on the local pro-section.",
+          "cer": null,
+          "content_recall": 0.7894736842105263,
+          "rtf": 0.2222084980237154,
+          "audio_seconds": 16.192,
+          "error": null
+        },
+        {
+          "file": "rec_44.wav",
+          "segment": "B",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Speak space local can be used in the test-to-speech, being able to use the private nodes.",
+          "cer": null,
+          "content_recall": 0.2,
+          "rtf": 0.6547776122579272,
+          "audio_seconds": 8.810625,
+          "error": null
+        },
+        {
+          "file": "rec_45.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次的abtest的conversion rate提升了百分之十二点五\r\nsample size是三千四百人",
+          "cer": null,
+          "content_recall": 0.8846153846153846,
+          "rtf": 0.7359717153284672,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_46.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "deadline是9月15号下午3点半\r\n记得提前把slice发到群里",
+          "cer": null,
+          "content_recall": 0.7727272727272727,
+          "rtf": 1.0094235996637848,
+          "audio_seconds": 5.909313,
+          "error": null
+        },
+        {
+          "file": "rec_47.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用RF融合keywallsearch and semanticsearch\r\nInvading模型跑在CPU上,不依赖GPU",
+          "cer": null,
+          "content_recall": 0.6818181818181818,
+          "rtf": 0.6979456097666316,
+          "audio_seconds": 8.682625,
+          "error": null
+        },
+        {
+          "file": "rec_48.wav",
+          "segment": "C",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改变我们记录整理和解锁知识的方式",
+          "cer": 0.09090909090909091,
+          "content_recall": 0.9090909090909091,
+          "rtf": 0.5915472128619266,
+          "audio_seconds": 6.058688,
+          "error": null
+        },
+        {
+          "file": "rec_49.wav",
+          "segment": "C",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "张伟和李孟启负责对接深圳分公司,王建国那边有陈晓云跟进。",
+          "cer": 0.15384615384615385,
+          "content_recall": 0.8461538461538461,
+          "rtf": 0.5096663135593221,
+          "audio_seconds": 7.552,
+          "error": null
+        },
+        {
+          "file": "rec_50.wav",
+          "segment": "C",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "这次的OKR评审要从实看KPI和ROI,数据从CRM系统导出,走API接口同步。",
+          "cer": 0.08333333333333333,
+          "content_recall": 0.9615384615384616,
+          "rtf": 0.3876940181681473,
+          "audio_seconds": 10.005313,
+          "error": null
+        },
+        {
+          "file": "rec_51.wav",
+          "segment": "C",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech think as it keeps private notes on users' own computer.",
+          "cer": 0.1724137931034483,
+          "content_recall": 0.6666666666666666,
+          "rtf": 0.44497350151728665,
+          "audio_seconds": 7.402688,
+          "error": null
+        },
+        {
+          "file": "rec_52.wav",
+          "segment": "C",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Cavalry, Nugent and Reggie Patel will work with the Shenzhen office alongside Bon Jo and Anderson.",
+          "cer": 0.25,
+          "content_recall": 0.6428571428571429,
+          "rtf": 0.3191276127394989,
+          "audio_seconds": 11.669313,
+          "error": null
+        },
+        {
+          "file": "rec_53.wav",
+          "segment": "C",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR review covers AKPI and ROI.\r\nIt spotting the data from CRM and Clinic through the REST API over HTTPS.",
+          "cer": 0.18823529411764706,
+          "content_recall": 0.8636363636363636,
+          "rtf": 0.2487258583690987,
+          "audio_seconds": 14.912,
+          "error": null
+        },
+        {
+          "file": "rec_54.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的stand up 我可能会晚点到这个springs的retro 记得拍一下",
+          "cer": 0.08333333333333333,
+          "content_recall": 0.8571428571428571,
+          "rtf": 0.8499241695422385,
+          "audio_seconds": 6.805313,
+          "error": null
+        },
+        {
+          "file": "rec_55.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "Kavin和张伟负责新人的暗Body,Saraha那边有李孟喜对截",
+          "cer": 0.3611111111111111,
+          "content_recall": 0.631578947368421,
+          "rtf": 0.8518245827652732,
+          "audio_seconds": 7.061313,
+          "error": null
+        },
+        {
+          "file": "rec_56.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把prreview完了之后,ci跑通就可以merge到man分支,然后触发cd部署",
+          "cer": 0.05128205128205128,
+          "content_recall": 0.875,
+          "rtf": 0.6413793103448276,
+          "audio_seconds": 9.28,
+          "error": null
+        }
+      ]
+    },
+    "tiny": {
+      "model_path": "C:\\Users\\lf\\AppData\\Roaming\\SpeakSpace Local\\models\\stt\\ggml-tiny.bin",
+      "scored_count": 100,
+      "failed_count": 0,
+      "mean_cer_strict_AC": 0.36469989070739606,
+      "mean_cer_by_language_AC": {
+        "zh": 0.3923337014699099,
+        "en": 0.2732325624598012,
+        "zh-en": 0.4303756622433113
+      },
+      "by_segment": {
+        "A": {
+          "mean_cer": 0.33366109505155034,
+          "mean_content_recall": 0.6463364464175485,
+          "count": 35
+        },
+        "B": {
+          "mean_cer": null,
+          "mean_content_recall": 0.5649793919530762,
+          "count": 12
+        },
+        "C": {
+          "mean_cer": 0.48540631825790714,
+          "mean_content_recall": 0.5389549534286376,
+          "count": 9
+        }
+      },
+      "mean_rtf": 0.09461719591034783,
+      "entries": [
+        {
+          "file": "rec_01.wav",
+          "segment": "A",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "連工智能正在改變我們紀錄整理和前所支持的方式",
+          "cer": 0.4090909090909091,
+          "content_recall": 0.5909090909090909,
+          "rtf": 0.08483401003104848,
+          "audio_seconds": 7.850625,
+          "error": null
+        },
+        {
+          "file": "rec_02.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议记要我已经整理好了 稍等发到群力\r\n大家有问题 随时提",
+          "cer": 0.10714285714285714,
+          "content_recall": 0.8928571428571429,
+          "rtf": 0.08675,
+          "audio_seconds": 8,
+          "error": null
+        },
+        {
+          "file": "rec_03.wav",
+          "segment": "A",
+          "ids": [
+            "zh_basic_03",
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "麻烦你把打印记的墨盒换一下,另外会议室的白般笔也快没睡了。本记度赢收同笔增长12.5%,打到3480万元,环笔增长13.7%。",
+          "cer": 0.42857142857142855,
+          "content_recall": 0.5714285714285714,
+          "rtf": 0.050511528857948775,
+          "audio_seconds": 20.074625,
+          "error": null
+        },
+        {
+          "file": "rec_04.wav",
+          "segment": "A",
+          "ids": [
+            "zh_numeric_02"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "會議是改到三零一,參會時二人,預算空日在四千兩百元以內,聯繫電話為號三三七八。",
+          "cer": 0.4857142857142857,
+          "content_recall": 0.5428571428571428,
+          "rtf": 0.057364004629629636,
+          "audio_seconds": 13.824,
+          "error": null
+        },
+        {
+          "file": "rec_05.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2020-26年9月15号下午3点半之前把材料交给我\r\n最值不能晚于16号上午10点",
+          "cer": 0.39473684210526316,
+          "content_recall": 0.6842105263157895,
+          "rtf": 0.0624731630081612,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_06.wav",
+          "segment": "A",
+          "ids": [
+            "zh_datetime_02"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "下週一到週五,每天早上9點15分開始成為,週五下午4點做雙週覆盤。",
+          "cer": 0.5862068965517241,
+          "content_recall": 0.4827586206896552,
+          "rtf": 0.06428090306569069,
+          "audio_seconds": 11.605313,
+          "error": null
+        },
+        {
+          "file": "rec_07.wav",
+          "segment": "A",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "張偉和李孟奇負責對接深震分公司\r\n王健國那邊有陳小雲根進",
+          "cer": 0.6538461538461539,
+          "content_recall": 0.34615384615384615,
+          "rtf": 0.09416118421052633,
+          "audio_seconds": 9.728,
+          "error": null
+        },
+        {
+          "file": "rec_08.wav",
+          "segment": "A",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "這次OKR平省,要同時看KPI和ROI,數據從CRM系統導出走API接口同步。",
+          "cer": 0.25,
+          "content_recall": 0.6538461538461539,
+          "rtf": 0.06360463038476438,
+          "audio_seconds": 12.373313,
+          "error": null
+        },
+        {
+          "file": "rec_09.wav",
+          "segment": "A",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我們用項量解鎖加上倒數排名融合來做混合趙回\r\n欠入模型跑在本地的中央處理器上",
+          "cer": 0.25,
+          "content_recall": 0.75,
+          "rtf": 0.060739436619718305,
+          "audio_seconds": 13.632,
+          "error": null
+        },
+        {
+          "file": "rec_10.wav",
+          "segment": "A",
+          "ids": [
+            "zh_punct_01"
+          ],
+          "language": "zh",
+          "category": "punctuation",
+          "transcript": "真的吗\r\n这也太快了吧\r\n不过我还是有点担心\r\n万一线上出什么问题怎么办呢",
+          "cer": 0.06896551724137931,
+          "content_recall": 1,
+          "rtf": 0.0683944610778443,
+          "audio_seconds": 10.688,
+          "error": null
+        },
+        {
+          "file": "rec_11.wav",
+          "segment": "A",
+          "ids": [
+            "zh_long_01"
+          ],
+          "language": "zh",
+          "category": "long",
+          "transcript": "這次評審我先把背景交代一下\r\n上半年我們把與音笔機的轉寫鏈錄整個重寫的一遍\r\n主要解決了三問題\r\n一是長錄音的內存佔用過高\r\n二是中音混合場景下的短居不穩定\r\n三是任務提取會把別人的事情算在用不得頭上\r\n重寫之後重寫轉寫的風执內存下降的大約四成\r\n短居錯誤明顯減少\r\n任務歸屬也加了一道負荷\r\n下半年的重點會轉到減左這一次\r\n我們打算把關鍵此減左和相量減左和並成一路混合照回\r\n再用導數排名融合來排徐\r\n這塊的難點不再算發本身\r\n而在於本地設備的酸力有限\r\n欠入模型必須足夠小\r\n同時又不能犧牲中文的照輝治療\r\n另外還有一個容易被孤裂的問題\r\n就是用不笔接數量增長以後\r\n全顧減左的延遲會明顯上升\r\n所以我們需要提前設計增量鎖銀和換存策略\r\n以上是背景\r\n接下來說具體的方案",
+          "cer": 0.4349315068493151,
+          "content_recall": 0.6198630136986302,
+          "rtf": 0.05367845668195358,
+          "audio_seconds": 80.106625,
+          "error": null
+        },
+        {
+          "file": "rec_12.wav",
+          "segment": "A",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech, think of these caves, private nodes on the users on the computer.",
+          "cer": 0.27586206896551724,
+          "content_recall": 0.5,
+          "rtf": 0.06373822160324212,
+          "audio_seconds": 9.962625,
+          "error": null
+        },
+        {
+          "file": "rec_13.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "And you send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": 0.07407407407407407,
+          "content_recall": 0.8823529411764706,
+          "rtf": 0.07319293918559075,
+          "audio_seconds": 8.853313,
+          "error": null
+        },
+        {
+          "file": "rec_14.wav",
+          "segment": "A",
+          "ids": [
+            "en_basic_03"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Could you replace the printer cartridge and grab some new white ball markers as well?",
+          "cer": 0.04225352112676056,
+          "content_recall": 0.9285714285714286,
+          "rtf": 0.04523026315789474,
+          "audio_seconds": 13.376,
+          "error": null
+        },
+        {
+          "file": "rec_15.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Ramanu Group 2.5% through 34.8 million dollars.\r\nWhile cause, Jupiter is 3.7%.",
+          "cer": 0.6388888888888888,
+          "content_recall": 0.15,
+          "rtf": 0.06635956283891005,
+          "audio_seconds": 19.605313,
+          "error": null
+        },
+        {
+          "file": "rec_16.wav",
+          "segment": "A",
+          "ids": [
+            "en_numeric_02"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Room 301 12 attendees, bucket, cap it at $4,200, extensions 3378.",
+          "cer": 0.6796116504854369,
+          "content_recall": 0.15789473684210525,
+          "rtf": 0.04240117521367521,
+          "audio_seconds": 14.976,
+          "error": null
+        },
+        {
+          "file": "rec_17.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please some major documents before 3, 30 p.m. on September 15, 2020, 26, and no later than the 16.",
+          "cer": 0.5,
+          "content_recall": 0.55,
+          "rtf": 0.04521276595744681,
+          "audio_seconds": 15.04,
+          "error": null
+        },
+        {
+          "file": "rec_18.wav",
+          "segment": "A",
+          "ids": [
+            "en_datetime_02"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Stand up, rams Monday through Friday and 9, 15 in the morning with a\r\nRachel Spatiff every other Friday at 4.",
+          "cer": 0.2736842105263158,
+          "content_recall": 0.75,
+          "rtf": 0.05308469401671887,
+          "audio_seconds": 13.205313,
+          "error": null
+        },
+        {
+          "file": "rec_19.wav",
+          "segment": "A",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Cathering, REM, and Rajas Pratau.\r\nWe work with the Shenzhen Office alongside Bungja Anderson.",
+          "cer": 0.25,
+          "content_recall": 0.5,
+          "rtf": 0.03751027374670269,
+          "audio_seconds": 19.541313,
+          "error": null
+        },
+        {
+          "file": "rec_20.wav",
+          "segment": "A",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR Review covers the KPI and ROI, as part the data from the CRM and\r\nSYNCNIC, S8 through the REST API over HTTPS.",
+          "cer": 0.11764705882352941,
+          "content_recall": 0.8636363636363636,
+          "rtf": 0.05311547256097561,
+          "audio_seconds": 20.992,
+          "error": null
+        },
+        {
+          "file": "rec_21.wav",
+          "segment": "A",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "Re-combined key was a retrieval with vector retrieval and merge both rankings using\r\nreciprocal rank fusion on the local Pro-Saxur.",
+          "cer": 0.09259259259259259,
+          "content_recall": 0.7894736842105263,
+          "rtf": 0.04950925387393026,
+          "audio_seconds": 14.805313,
+          "error": null
+        },
+        {
+          "file": "rec_22.wav",
+          "segment": "A",
+          "ids": [
+            "en_punct_01"
+          ],
+          "language": "en",
+          "category": "punctuation",
+          "transcript": "Really, that's was fast, but honestly, I'm still a little worried, what if something\r\nbreaks in production?",
+          "cer": 0.024096385542168676,
+          "content_recall": 0.9444444444444444,
+          "rtf": 0.05995851598513964,
+          "audio_seconds": 11.541313,
+          "error": null
+        },
+        {
+          "file": "rec_23.wav",
+          "segment": "A",
+          "ids": [
+            "en_long_01"
+          ],
+          "language": "en",
+          "category": "long",
+          "transcript": "Let me set the contest before we go into the details.\r\nIn the first half of the year, we re-world the entire transcription pipeline for voice\r\nknows mainly to solve 3 problems, memory pressure on low and long recordings, unstable sentence,\r\ncement limitations when Chinese and English are missed in one, alterance, and task is traction,\r\nand that assigned other people's action items to the users.\r\nAfter the re-wide, the peak memory duration transcription drooped by roughly 40%, some\r\nthe segmentation error becomes less frequent, and task ownership now goes through a second review pass.\r\nFor the second half of the year, we will shift to our tension to re-trible.\r\nThe plan is to merge keywords search and vector search into a single hybrid copy, and then\r\norder the result with a reciprocal rank fusion.\r\nThe hard part is not algorithmic, but limited compute, but get on low-code devices.\r\nThe embedding model has to stay small without a scared-fixification recall quality in Chinese.\r\nThere is also a problem that is easy to overlook, which is that latency for full-library\r\nsearch grows accumulates thousands of nodes, so we need to incremento indexing and cashing\r\nto share the G well before that point.",
+          "cer": 0.14826175869120656,
+          "content_recall": 0.83,
+          "rtf": 0.03789926377201738,
+          "audio_seconds": 132.245313,
+          "error": null
+        },
+        {
+          "file": "rec_24.wav",
+          "segment": "A",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "Speakspace local可以在本地運行 task to speech\r\n并保護用戶的 private notes",
+          "cer": 0.11538461538461539,
+          "content_recall": 0.8,
+          "rtf": 0.1074967367866904,
+          "audio_seconds": 8.874688,
+          "error": null
+        },
+        {
+          "file": "rec_25.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的Stand Up,我可能会完全到这个Spreads,的Rachel,记得拍一下。",
+          "cer": 0.3333333333333333,
+          "content_recall": 0.7142857142857143,
+          "rtf": 0.15670775159017128,
+          "audio_seconds": 7.274688,
+          "error": null
+        },
+        {
+          "file": "rec_26.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_basic_03"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "这个 feature的 UI 我还要在盒里实际一下\r\n估计要到下周才能睡",
+          "cer": 0.3055555555555556,
+          "content_recall": 0.8571428571428571,
+          "rtf": 0.12055288367393296,
+          "audio_seconds": 8.170688,
+          "error": null
+        },
+        {
+          "file": "rec_27.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "這次的ABTEST的 Compensation Rate提升了10%15%\r\n3%4%是3400人",
+          "cer": 0.5714285714285714,
+          "content_recall": 0.3076923076923077,
+          "rtf": 0.08739098837209303,
+          "audio_seconds": 11.008,
+          "error": null
+        },
+        {
+          "file": "rec_28.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_numeric_02"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "内存占用从1248mdb降到633mdb\r\n实时因此从1.3以降到0.64",
+          "cer": 0.575,
+          "content_recall": 0.3611111111111111,
+          "rtf": 0.0725074433422306,
+          "audio_seconds": 14.122688,
+          "error": null
+        },
+        {
+          "file": "rec_29.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "在这段是9月15号下午3点半\r\n记得提前把slides发到群里",
+          "cer": 0.35294117647058826,
+          "content_recall": 0.7727272727272727,
+          "rtf": 0.15553977272727273,
+          "audio_seconds": 7.04,
+          "error": null
+        },
+        {
+          "file": "rec_30.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "咖啡和張偉負責新人的奧包庭\r\nSara那邊有禮夢期對解",
+          "cer": 0.75,
+          "content_recall": 0.2631578947368421,
+          "rtf": 0.11918939902161049,
+          "audio_seconds": 8.490688,
+          "error": null
+        },
+        {
+          "file": "rec_31.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PR、Review完之後,CI跑通就可以 merge到慢分支,然後觸發CD部署。",
+          "cer": 0.20512820512820512,
+          "content_recall": 0.7916666666666666,
+          "rtf": 0.09194747891684162,
+          "audio_seconds": 10.538625,
+          "error": null
+        },
+        {
+          "file": "rec_32.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们用rf融合 keyword search and semantic search, imbadding模型,跑在cpu上步一来 GPU。",
+          "cer": 0.15254237288135594,
+          "content_recall": 0.7272727272727273,
+          "rtf": 0.2155145202020202,
+          "audio_seconds": 12.672,
+          "error": null
+        },
+        {
+          "file": "rec_33.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_technical_02"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "WISPER的CE2在中英混合樣本上明顯偏高說明AS2回轉錄只能當做低制性度代理",
+          "cer": 0.2926829268292683,
+          "content_recall": 0.6129032258064516,
+          "rtf": 0.0938403111190905,
+          "audio_seconds": 11.050688,
+          "error": null
+        },
+        {
+          "file": "rec_34.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_punct_01"
+          ],
+          "language": "zh-en",
+          "category": "punctuation",
+          "transcript": "什么?这个棒个居然还在,我记得上周就费死了呀,要不要在柔带一次。",
+          "cer": 0.4444444444444444,
+          "content_recall": 0.8,
+          "rtf": 0.12688424060488337,
+          "audio_seconds": 7.786625,
+          "error": null
+        },
+        {
+          "file": "rec_35.wav",
+          "segment": "A",
+          "ids": [
+            "mixed_long_01"
+          ],
+          "language": "zh-en",
+          "category": "long",
+          "transcript": "先同步一下這個Street的競戰\r\nChancecription pipeline的 refactor已經墨值了\r\nLone Recording的Pick Memory下降的大約四成\r\n終於混合場景下Segmentation也穩定了很多\r\n任務提取那一塊我們加了一刀\r\nOM的Shake Review專門解決別人的X910算到幼稚頭上的問題\r\n下一步的重點是 Retryable\r\n我們打算把 Key Wars Search and Wester Search\r\n和並成一路Hybrid Recording\r\n然後用Receive Practical Rank Fusion作牌去\r\n難免不再算法而在本地設備的算力運算\r\nInbiting Model必須足夠小同時中文的 Recording不能掉\r\n另外還有幾個容易被火力的點就是Note數量長到幾千條之後\r\nFour Library Search的LaytonC會明顯上升\r\n所以Incredemento Indance and Cash策略\r\n也要體驗設計好\r\n這些是還來我的方向\r\n具體Monstone我會在DLC裡面解清楚",
+          "cer": 0.39351851851851855,
+          "content_recall": 0.6325581395348837,
+          "rtf": 0.05345246160794941,
+          "audio_seconds": 70.848,
+          "error": null
+        },
+        {
+          "file": "rec_36.wav",
+          "segment": "B",
+          "ids": [
+            "zh_basic_02"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "今天的会议机,我已经整理好的稍后发到权利,大家有问题可以随时提",
+          "cer": null,
+          "content_recall": 0.8214285714285714,
+          "rtf": 0.12180484459165579,
+          "audio_seconds": 5.738688,
+          "error": null
+        },
+        {
+          "file": "rec_37.wav",
+          "segment": "B",
+          "ids": [
+            "zh_numeric_01"
+          ],
+          "language": "zh",
+          "category": "numeric",
+          "transcript": "本季度營收從比增長12.5% 達到3480萬元\r\n完比增長33.7%",
+          "cer": null,
+          "content_recall": 0.2777777777777778,
+          "rtf": 0.06634627545441114,
+          "audio_seconds": 11.093313,
+          "error": null
+        },
+        {
+          "file": "rec_38.wav",
+          "segment": "B",
+          "ids": [
+            "zh_datetime_01"
+          ],
+          "language": "zh",
+          "category": "datetime",
+          "transcript": "请在2026年9月15号下午三点半之前把这些材料交给我\r\n最时不能晚于16号上午10点",
+          "cer": null,
+          "content_recall": 0.7105263157894737,
+          "rtf": 0.07425851070515825,
+          "audio_seconds": 10.517313,
+          "error": null
+        },
+        {
+          "file": "rec_39.wav",
+          "segment": "B",
+          "ids": [
+            "zh_technical_01"
+          ],
+          "language": "zh",
+          "category": "technical",
+          "transcript": "我们用向量检索加上刀术排名融合来做混合照顾\r\n先入模型跑在本地的重要处理器上",
+          "cer": null,
+          "content_recall": 0.8055555555555556,
+          "rtf": 0.09568886861313868,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_40.wav",
+          "segment": "B",
+          "ids": [
+            "en_basic_02"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "I will send the meeting summary right after this call, so please review it before tomorrow morning.",
+          "cer": null,
+          "content_recall": 1,
+          "rtf": 0.08625020551806784,
+          "audio_seconds": 8.533313,
+          "error": null
+        },
+        {
+          "file": "rec_41.wav",
+          "segment": "B",
+          "ids": [
+            "en_numeric_01"
+          ],
+          "language": "en",
+          "category": "numeric",
+          "transcript": "Revenue Group 9.5% to 34.8 million dollars, while cost is Jupiter 3.7%.",
+          "cer": null,
+          "content_recall": 0.25,
+          "rtf": 0.05666491859955849,
+          "audio_seconds": 12.053313,
+          "error": null
+        },
+        {
+          "file": "rec_42.wav",
+          "segment": "B",
+          "ids": [
+            "en_datetime_01"
+          ],
+          "language": "en",
+          "category": "datetime",
+          "transcript": "Please submit the documents before 3 30 p.m. on September 15, 2020 6 and no later than the 16th.",
+          "cer": null,
+          "content_recall": 0.6,
+          "rtf": 0.057144631820864,
+          "audio_seconds": 12.074625,
+          "error": null
+        },
+        {
+          "file": "rec_43.wav",
+          "segment": "B",
+          "ids": [
+            "en_technical_01"
+          ],
+          "language": "en",
+          "category": "technical",
+          "transcript": "We combine keyword retrieval with factory retrieval and merge both rankings using\r\nreciprocal ranking refusion to om the local procedure.",
+          "cer": null,
+          "content_recall": 0.7368421052631579,
+          "rtf": 0.04261363636363636,
+          "audio_seconds": 16.192,
+          "error": null
+        },
+        {
+          "file": "rec_44.wav",
+          "segment": "B",
+          "ids": [
+            "zh_en_mixed"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "speak space local can you see that the test to speech being bought will you will apply with notes?",
+          "cer": null,
+          "content_recall": 0.2,
+          "rtf": 0.2090657586720579,
+          "audio_seconds": 8.810625,
+          "error": null
+        },
+        {
+          "file": "rec_45.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_numeric_01"
+          ],
+          "language": "zh-en",
+          "category": "numeric",
+          "transcript": "这次的ABTAS的Conversion Rate 提升了10.5\r\nSIMO-Size是3400人",
+          "cer": null,
+          "content_recall": 0.4230769230769231,
+          "rtf": 0.10983120437956204,
+          "audio_seconds": 8.768,
+          "error": null
+        },
+        {
+          "file": "rec_46.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_datetime_01"
+          ],
+          "language": "zh-en",
+          "category": "datetime",
+          "transcript": "等啦,我是9月15号下午三点半,记得提前把Slide发到群体。",
+          "cer": null,
+          "content_recall": 0.7272727272727273,
+          "rtf": 0.16211698381859277,
+          "audio_seconds": 5.909313,
+          "error": null
+        },
+        {
+          "file": "rec_47.wav",
+          "segment": "B",
+          "ids": [
+            "mixed_technical_01"
+          ],
+          "language": "zh-en",
+          "category": "technical",
+          "transcript": "我们有RF融合器和接触的机器,我们有MADMOS的机器,我们有BuyLiteGPU。",
+          "cer": null,
+          "content_recall": 0.22727272727272727,
+          "rtf": 0.47220742574970126,
+          "audio_seconds": 8.682625,
+          "error": null
+        },
+        {
+          "file": "rec_48.wav",
+          "segment": "C",
+          "ids": [
+            "zh_short"
+          ],
+          "language": "zh",
+          "category": "basic",
+          "transcript": "人工智能正在改變我們進入整理和檢測支持的方式",
+          "cer": 0.36363636363636365,
+          "content_recall": 0.6363636363636364,
+          "rtf": 0.10959468452575871,
+          "audio_seconds": 6.058688,
+          "error": null
+        },
+        {
+          "file": "rec_49.wav",
+          "segment": "C",
+          "ids": [
+            "zh_proper_01"
+          ],
+          "language": "zh",
+          "category": "proper-noun",
+          "transcript": "張偉和李孟奇負責對結深圳分公司\r\n王健我那邊有陳小雲跟近",
+          "cer": 0.6153846153846154,
+          "content_recall": 0.38461538461538464,
+          "rtf": 0.1005031779661017,
+          "audio_seconds": 7.552,
+          "error": null
+        },
+        {
+          "file": "rec_50.wav",
+          "segment": "C",
+          "ids": [
+            "zh_acronym_01"
+          ],
+          "language": "zh",
+          "category": "acronym",
+          "transcript": "這次的OKR平神要同時看KPI和ROI數據從CRM或系統到處,只有API接口塵部",
+          "cer": 0.4444444444444444,
+          "content_recall": 0.5384615384615384,
+          "rtf": 0.07526001435437353,
+          "audio_seconds": 10.005313,
+          "error": null
+        },
+        {
+          "file": "rec_51.wav",
+          "segment": "C",
+          "ids": [
+            "en_short"
+          ],
+          "language": "en",
+          "category": "basic",
+          "transcript": "Local speech, fingers, the keeps pilots notice on users all in computer.",
+          "cer": 0.3793103448275862,
+          "content_recall": 0.5,
+          "rtf": 0.08348318880925415,
+          "audio_seconds": 7.402688,
+          "error": null
+        },
+        {
+          "file": "rec_52.wav",
+          "segment": "C",
+          "ids": [
+            "en_proper_01"
+          ],
+          "language": "en",
+          "category": "proper-noun",
+          "transcript": "Katherine, New Jersey and Reggie Patel will work with the Shenzhen Office alongside Bonjour and Rusek.",
+          "cer": 0.2375,
+          "content_recall": 0.7142857142857143,
+          "rtf": 0.08595193221743215,
+          "audio_seconds": 11.669313,
+          "error": null
+        },
+        {
+          "file": "rec_53.wav",
+          "segment": "C",
+          "ids": [
+            "en_acronym_01"
+          ],
+          "language": "en",
+          "category": "acronym",
+          "transcript": "The OKR reveal covers a KPI and ROI is causing the data from the CRM and\r\nthe RAS API over H2VS.",
+          "cer": 0.36470588235294116,
+          "content_recall": 0.6818181818181818,
+          "rtf": 0.08704399141630902,
+          "audio_seconds": 14.912,
+          "error": null
+        },
+        {
+          "file": "rec_54.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_basic_02"
+          ],
+          "language": "zh-en",
+          "category": "basic",
+          "transcript": "明天的時間我可能會完結到這個Springs,到Rachel進的牌一下。",
+          "cer": 0.6388888888888888,
+          "content_recall": 0.47619047619047616,
+          "rtf": 0.17118977481270883,
+          "audio_seconds": 6.805313,
+          "error": null
+        },
+        {
+          "file": "rec_55.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_proper_01"
+          ],
+          "language": "zh-en",
+          "category": "proper-noun",
+          "transcript": "開尾和張偉作則新人的奧包庭\r\n在柔韓旁邊有理論期對誰",
+          "cer": 0.8888888888888888,
+          "content_recall": 0.21052631578947367,
+          "rtf": 0.14713977414681942,
+          "audio_seconds": 7.061313,
+          "error": null
+        },
+        {
+          "file": "rec_56.wav",
+          "segment": "C",
+          "ids": [
+            "mixed_acronym_01"
+          ],
+          "language": "zh-en",
+          "category": "acronym",
+          "transcript": "把PR review玩了之後\r\nCI跑通就可以墨石到麥芬汁\r\n然后出发CNN部署",
+          "cer": 0.4358974358974359,
+          "content_recall": 0.7083333333333334,
+          "rtf": 0.109375,
+          "audio_seconds": 9.28,
+          "error": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,502 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081802
+日期：2026-08-18
+分支：main
+========================================================================
+
+本次改动是一次整体 UI 返工，外加两处由此暴露出来的真实缺陷修复。
+
+起因是界面「AI 味」过重：紫色/靛蓝主题、纯渐变背景、几乎没有过渡动画，
+以及一个只会弹窗念稿的新手指南。改动分四条线：
+
+  一、把散落各页的颜色收进一套集中令牌，主色由紫改为翡翠青 + 黄铜暖橙，
+      中性色由靛蓝黑改为带青灰底的石墨；
+  二、新增材质层（毛玻璃、渐变描边、扫光、聚光、噪点、环境极光）与动效层
+      （入场、错位、呼吸、声波、思考点、骨架屏），页面按需套用；
+  三、修复模型管理页切换时的卡顿——根因有三个，其中一个是本次动效引入的；
+  四、把新手指南从居中弹窗改写成会自动跳页、用聚光灯指着控件讲解的
+      手把手引导，并按验收意见补齐遮挡、步骤联动与功能说明。
+
+改动主要在 React renderer；主进程只动了硬件探测的缓存与其 IPC 签名。
+未触及数据库结构、原生依赖、打包配置和 Electron 窗口行为。
+
+
+------------------------------------------------------------------------
+1. 【视觉配色】用一套集中令牌替换紫色主题
+------------------------------------------------------------------------
+问题：
+  - 主色是 #7f5af0 / #a855f7 这类紫，辅以 #6366f1、#818cf8 等靛蓝，
+    是 AI 工具最常见的配色，辨识度低。
+  - 颜色定义分散：App.css 的 :root 一套，DashboardPage.css 的 :root 又一套，
+    AppSettings.css 里还有一整块逐组件的浅色覆盖。
+  - 各页面另有大量写死的 hex 与 rgba，浅色主题下经常「深色能看清、
+    浅色看不清」。
+
+现在：
+  - 新增 src/renderer/styles/tokens.css，作为全应用唯一的颜色来源，包含
+    原始色阶、明暗两套语义令牌、圆角、阴影、缓动曲线、时长和字号刻度。
+  - 配色主线定为 Studio Jade：
+      主色  翡翠青（深色 #1fbd9b / 浅色 #0a8d6e）——对应「声音信号」
+      辅色  黄铜暖橙（brass 色阶）——对应「录制中 / 高亮」
+      中性  带极淡青灰底的石墨，而不是常见的靛蓝黑
+    刻意避开紫色与靛蓝。
+  - 浅色主题改为暖纸质白（#f5f5f1），不是惯常的冷灰白。
+  - 字号锚点 html[data-font-size] 从 AppSettings.css 迁入 tokens.css，
+    与 --fs-* 刻度放在一起，避免两处定义。
+
+结果：
+  - 全仓源码（css/tsx/jsx）中 purple / violet / indigo / #7f5af0 /
+    #a855f7 / #8b5cf6 / #7c3aed / #6366f1 等关键词命中数为 0。
+  - 编译产物 style.css 中同样为 0。
+
+涉及文件：
+  src/renderer/styles/tokens.css（新增）
+  src/renderer/settings/AppSettings.css（大幅精简，见第 6 节）
+
+
+------------------------------------------------------------------------
+2. 【材质与光效】新增特效层
+------------------------------------------------------------------------
+新增 src/renderer/styles/effects.css，提供可复用的表面质感类：
+
+  .fx-glass / .fx-glass-strong
+      毛玻璃。backdrop-filter 除了模糊还要提饱和度，否则玻璃背后的颜色
+      会被均匀模糊成灰，看着发脏。
+  .fx-edge
+      渐变描边。单色 1px 边框是「工程感」的主要来源之一，改成从高光到
+      主色的渐变细边，用 mask-composite 掏空中间只留一圈。
+  .fx-sheen
+      镜面扫光。悬停时一道斜向高光扫过，宽度用百分比，窄按钮和宽卡片上
+      速度观感一致。
+  .fx-spotlight
+      光标聚光。--mx / --my 由 useSpotlight 钩子写入。
+  .fx-halo
+      锥形渐变辉光环。用 @property 声明 --spin 让角度可插值，否则
+      conic-gradient 不会动。只在 hover / .is-live 时开。
+  .fx-lift
+      悬停抬升。位移 + 阴影 + 边框提亮一起做，只做其中一项会显得很平。
+  .fx-grain
+      胶片噪点。纯渐变背景是「AI 味」最大来源，铺一层极淡的 SVG
+      feTurbulence 噪点，画面从「渲染图」变成「有材质的界面」。
+  .fx-ambient
+      环境极光背景。三团缓慢漂移的大色斑 + 一道扫描光带 + 一层噪点，
+      全部只改 transform，不触发重排重绘。
+  .fx-text-gradient / .fx-text-shimmer
+      标题渐变与加载中的文字微光。
+
+涉及文件：
+  src/renderer/styles/effects.css（新增）
+
+
+------------------------------------------------------------------------
+3. 【动效】新增动效层，并规避两个真实陷阱
+------------------------------------------------------------------------
+新增 src/renderer/styles/motion.css，集中所有关键帧与入场工具类：
+入场（rise / fade / slide / pop / unfold）、错位延迟（.anim-stagger）、
+路由过渡、呼吸、涟漪、声波、思考三点、描边勾选、骨架屏、抖动、旋转。
+
+陷阱一：fill-mode 一律用 backwards，不能用 both
+  - both 会把终态的 transform / filter 永久留在元素上。
+  - 任何非 none 的 transform 或 filter 都会成为 position:fixed 后代的
+    包含块——录音页那个从右侧滑出的抽屉会被钉在容器里而不是视口。
+  - 入场动画的终态本来就等于元素的自然状态，backwards 足够。
+
+陷阱二：入场动画里不能用 filter: blur()
+  - 初版为了「不生硬」在 anim-rise 和 anim-page-in 里加了 blur。
+  - 逐帧模糊会强制合成器每帧重新栅格化整个子树，页面越重越卡。
+  - 这正是模型管理页切换卡顿的原因之一（见第 8 节），已全部移除，
+    柔和感改由 --ease-out 曲线和轻微 scale 承担。
+
+降级：
+  - prefers-reduced-motion 下入场类把时长压到 1ms 直接落到终态，
+    循环类放慢。不能整片写 animation:none——带 backwards 的入场动画
+    会停在 opacity:0，页面会一片空白。
+
+涉及文件：
+  src/renderer/styles/motion.css（新增）
+
+
+------------------------------------------------------------------------
+4. 【应用外壳】App.css 与侧边栏重构
+------------------------------------------------------------------------
+现在：
+  - App.css 改为 @import 四个样式层（tokens / effects / motion / components），
+    自身只保留外壳布局与基础控件。
+  - 全局 button 重做：主色渐变 + 内高光 + 悬停扫光（伪元素实现，页面里
+    改过 background 的按钮同样有效）+ 按下时的「陷进去」物理感。
+  - input / textarea / select 统一焦点光晕。
+  - 滚动条改为细圆角、悬停变主色。
+  - 侧边栏毛玻璃化，右侧加一道竖向渐变亮边代替生硬的 1px 分隔线。
+  - 侧边栏新增跟随当前页滑动的选中块：位置和高度由 Sidebar.jsx 用
+    ResizeObserver 量实际 DOM 尺寸后写入 --nav-y / --nav-h。
+    不用「第几项 × 固定行高」计算——行高会随字号档位和 i18n 文案换行变化，
+    算出来必错位。
+  - 侧边栏底部新增本地运行状态条。
+  - 内容区顶部渐隐遮罩最终放弃：sticky 伪元素会占据行高并被负 margin
+    拽偏整页内容；改用 mask-image 又可能让 Chromium 把 .content-area 变成
+    固定定位的包含块，录音页抽屉会被钉死。收益小于代价，代码里留了注释。
+
+涉及文件：
+  src/renderer/App.css、src/renderer/layout/Sidebar.jsx、
+  src/renderer/layout/MainLayout.jsx
+
+
+------------------------------------------------------------------------
+5. 【微组件】环境光、声波、思考点、光标聚光
+------------------------------------------------------------------------
+新增：
+  - AmbientBackground.tsx：全局环境光层，挂在 App.tsx 最底层（z-index:0），
+    外壳 .main-layout 压在它上面。
+  - SoundWave.tsx：声波条，本产品的主题微动画。默认静止，只有明确处于
+    「进行中」时才起伏——界面上一直在动的元素会持续抢注意力。
+    已接入品牌标（悬停才动）与对话工作台的录音按钮（录音中起伏）。
+  - ThinkingDots.tsx：AI 思考中的三点，上下浮动而非原地闪烁。
+  - useSpotlight.ts：光标聚光钩子。写的是 CSS 自定义属性而不是 React
+    state——pointermove 触发很密，走 state 会每帧重渲染整棵子树；
+    再用 rAF 合并到每帧一次。已接入工作空间卡片。
+  - styles/components.css：上述微组件与徽章、渐隐分隔线的样式。
+
+路由过渡：
+  - MainLayout 用 key={pathname} 包一层 .anim-page，切页重放进场动画。
+
+主题切换：
+  - AppSettingsProvider 在明暗切换的那一瞬间给 html 挂 .theme-transition，
+    450ms 后摘掉。常驻的全局 transition 会拖慢所有交互，也会和各组件
+    自己的 hover 过渡打架。
+
+涉及文件：
+  src/renderer/components/AmbientBackground.tsx（新增）
+  src/renderer/components/SoundWave.tsx（新增）
+  src/renderer/components/ThinkingDots.tsx（新增）
+  src/renderer/components/useSpotlight.ts（新增）
+  src/renderer/styles/components.css（新增）
+  src/renderer/App.tsx、src/renderer/settings/AppSettingsProvider.tsx
+
+
+------------------------------------------------------------------------
+6. 【浅色主题与仪表盘】令牌收敛与一处令牌名冲突修复
+------------------------------------------------------------------------
+问题（本次发现的既有缺陷）：
+  - DashboardPage.css 在 :root 上重复定义了 --shadow-sm / --shadow-md /
+    --shadow-lg / --radius-lg / --radius-md / --radius-sm / --border-strong。
+  - CSS 变量没有作用域隔离，这些名字与全局令牌重名，等于一旦仪表盘的
+    样式表被打进包（webpack 会全量打包，与当前路由无关），就把全局值
+    改掉了，影响其它页面。
+
+现在：
+  - 仪表盘只保留自己专属的令牌名（--tint-* / --bg-card 等），并全部改为
+    引用全局令牌；同名的圆角、阴影、--border-strong 一律删除，回落到
+    tokens.css。文件顶部加了注释说明不要再定义同名令牌。
+  - 四个语义色槽重排为 青 / 翡翠 / 黄铜 / 珊瑚，色相拉得足够开。
+    原来的 --tint-purple-* 整组更名为 --tint-brass-*，同步改动
+    icon-purple / badge-purple / card-purple 三处类名。
+  - 删除 DashboardPage.css 里重复声明的 body 规则——它少了中文字体回退，
+    且加载顺序在 App.css 之后，等于把全局字体悄悄改掉了。
+  - AppSettings.css 从 70 行的逐组件浅色覆盖，精简为只保留令牌表达不了的
+    差异：噪点混合模式（深色 overlay / 浅色 multiply）、浅色玻璃的底边、
+    极光模糊半径。原有针对 .workspace-header / .workspace-create 等选择器
+    的覆盖已是死代码（这些类名在现有 markup 中不存在），一并删除。
+  - 指标卡加上毛玻璃、受光高光、悬停时图标底盘轻微旋转抬起、数值放大、
+    整组错位进场。
+
+涉及文件：
+  src/renderer/pages/Dashboard/DashboardPage.css、
+  src/renderer/pages/Dashboard/components/MetricCardsGrid.tsx、
+  src/renderer/pages/Dashboard/components/NoteListTable.tsx、
+  src/renderer/settings/AppSettings.css
+
+
+------------------------------------------------------------------------
+7. 【全局清理】页面写死颜色替换为语义令牌
+------------------------------------------------------------------------
+现在：
+  - 各页面 CSS 中写死的 hex 与 rgba 统一替换为语义令牌：
+      #ef4444 / #f87171 / #fecaca / #fb7185     → var(--danger)
+      #22c55e / #4ade80 / #34d399 / #10b981     → var(--success)
+      #fbbf24 / #f59e0b / #fcd34d               → var(--warning) / --warm-strong
+      #3b82f6 / #6366f1 / #0ea5e9 / #06b6d4     → var(--accent) / var(--info)
+      rgba(15,23,52,…) / rgba(2,6,23,…)         → var(--surface) / --surface-sunken / --bg-veil
+      rgba(148,163,184,…)                       → var(--border) / --border-strong
+    带透明度的底色统一改为 color-mix(in srgb, var(--语义色) N%, transparent)。
+  - color: white 全部改为 var(--accent-contrast)。深色主题下主色是亮翡翠，
+    白字压在上面对比度不够。
+  - 新增 --danger-contrast 令牌：危险色在深色主题下是亮珊瑚，压在它上面的
+    字必须是深色。录音中的按钮用的就是这个。
+  - 所有使用 var(--surface) 的面板补上 backdrop-filter——该令牌现在是半透明的，
+    不补就会在环境光上显得发白。
+  - 设置页的主题预览色块（浅色/深色/跟随系统三个缩略图）同步换成新调色板，
+    否则预览显示的还是旧的靛蓝黑。
+  - 页面级动效接入：对话气泡按说话方分侧滑入、消息操作图标悬停浮出、
+    工作空间卡片错位进场 + 光标聚光 + 扫光、设置页分类与面板错位进场、
+    录音状态徽章外圈脉冲光环。
+
+涉及文件：
+  src/renderer/pages/Studio/StudioPage.css、
+  src/renderer/pages/Recording/RecordingPage.css、
+  src/renderer/pages/Settings/SettingsPage.css、
+  src/renderer/pages/Workspace/WorkspacePage.css、WorkspaceHomePage.css、
+  WorkspaceHomePage.tsx、WorkspaceSuggestionCard.css、
+  src/renderer/pages/AskAI/AskAIPage.css、AskAIChat.css、AskAIDialog.css、
+  src/renderer/pages/Agent/AgentPage.css、
+  src/renderer/pages/Workflow/WorkflowPage.css、
+  src/renderer/pages/ModelManager/ModelManagerPage.css、
+  components/ModelModule.css、components/ModelSelect.css、
+  src/renderer/onboarding/OnboardingGuide.css、
+  src/renderer/components/CopyButton.css、src/renderer/tts/TTSPlayButton.css
+
+
+------------------------------------------------------------------------
+8. 【性能】修复模型管理页切换时的卡顿
+------------------------------------------------------------------------
+现象：
+  - 从侧边栏点「模型管理」，页面会明显卡顿一下才出来。
+
+原因（三个，叠加）：
+  a) 首屏在等一个几秒级的硬件探测。
+     useModelManager 的 initialLoading 要等 refreshAll() 全部跑完，其中包含
+     Recommendation:getModels → SystemProfileService.detect() →
+     GpuProbeService.probe()。该探测在主进程 spawn nvidia-smi、查 WMI、
+     跑 statfs，每条命令的超时上限是 5 秒，且完全没有缓存，每次进页面
+     都重跑一遍。而它的产出只是给下拉项加一个「推荐」标签。
+  b) 页面用 hidden 把整棵模块树藏在后面。
+     hidden 只是视觉隐藏，React 该建的 DOM 一个都不少。切过去的那一帧
+     就要把 4 个模块 + 4 个下拉全部渲染完才能提交。
+  c) 本次动效引入的回归：路由过渡 .anim-page 里的 filter: blur(8px)。
+     它套的是整个页面子树，逐帧模糊会强制合成器每帧重新栅格化整层，
+     模型管理页正好是最重的那个。
+
+现在：
+  - SystemProfileService 缓存显卡探测的 Promise（不是结果）：并发调用共享
+    同一次探测，不会同时跑起好几个 nvidia-smi；失败结果不入缓存，下次
+    还能重试。内存 / CPU / 磁盘等会变的字段仍每次重读。
+    新增 invalidateGpuCache() 供强制刷新使用。
+  - preload 的 getSystemProfile 增加 forceRefresh 参数，
+    Recommendation:getSystemProfile 收到 true 时先清缓存再探测。
+    设置页「重新检测」按钮传 true，普通页面加载走缓存。
+  - useModelManager 拆成 loadEssentials（模型列表 + 运行时 + 向量状态，
+    读本地文件，很快）与 loadRecommendation（硬件探测）。必备数据到齐
+    就立刻收起加载态放行渲染，推荐留在后台跑，回来了再合并。
+    出错路径同时收起两个加载标志，否则页面会永远停在骨架上。
+  - ModelManagerPage 加载中只挂骨架，不再用 hidden 藏真实模块树；
+    数据到位后按 45ms 错位进场。
+  - 新增 ModelModuleSkeleton.tsx：形状对着真实模块量（2×2 网格、
+    2.1rem 图标方块、2.5rem 下拉条），四块高光相位错开 120ms。
+    用骨架而不是居中转圈：骨架把「马上会出现什么、在哪儿」提前画出来，
+    内容到位时是填充而不是整页跳一下。
+  - motion.css 移除 anim-page-in 与 anim-rise 中的 filter: blur()。
+
+顺带修复的一处缺陷：
+  - 设置页硬件面板原本写的是 onClick={detect}。React 会把 click 事件当作
+    第一个参数传入，加上 forceRefresh 参数后那是个真值，等于每次都强制
+    重新探测。已改为 onClick={() => detect(true)}。
+
+涉及文件：
+  src/main/recommendation/SystemProfileService.ts、
+  src/main/ipc/recommendation-ipc.ts、src/main/preload.ts、
+  src/renderer/pages/Settings/components/HardwareSettingsPanel.tsx、
+  src/renderer/pages/ModelManager/useModelManager.ts、ModelManagerPage.tsx、
+  components/ModelModuleSkeleton.tsx（新增）、components/ModelModule.css、
+  src/renderer/styles/motion.css
+
+
+------------------------------------------------------------------------
+9. 【新手引导】从弹窗改为手把手聚光灯引导
+------------------------------------------------------------------------
+问题：
+  - 原实现是一个居中弹窗，6 步纯文本，只在底部放一个「前往某页」的链接。
+    用户读完还得自己去界面上找那个功能在哪。
+
+现在：
+  - 重写为产品导览：自动跳到对应页面 → 聚光灯打到具体控件上 →
+    说明卡片贴着那个控件、箭头指着它 → 下一步时光束自己滑到下一个控件。
+  - 聚光灯的实现是一个定位到目标上的空盒子，靠一圈
+    box-shadow: 0 0 0 100vmax var(--bg-veil) 把周围压暗，盒子内部天然
+    就是透光的洞。位置和圆角都是普通 CSS 属性，因此可以直接做过渡——
+    换步骤时那束光会「走」到下一个控件上，这是手把手的关键：
+    用户的视线被带着走，而不是读一段文字自己去找。
+  - 新增 useOnboardingTour.ts 作为驱动：跳页 → 等目标出现 → 滚进可视区
+    → 持续跟住位置。位置跟踪用 rAF 轮询而不是挂 scroll / resize 监听：
+    内容区、抽屉、弹层各有各的滚动容器，逐个挂监听既漏又难维护；
+    每帧对单个元素调一次 getBoundingClientRect 的开销可以忽略。
+  - 目标元素等不到时（2.6 秒超时，例如页面还在骨架屏）降级为居中卡片
+    继续讲，绝不卡死在某一步。
+  - 动效：光束在控件间滑行（0.68s）、目标外两圈声呐涟漪、换步骤时一颗
+    光点从上一个目标飞向新目标、卡片弹性弹入、文案块重放进场、
+    操作提示行的箭头反复推动、进度条走过的点实心 / 当前的拉长发光。
+  - 交互：Esc 随时退出（引导是帮忙的，不能变成关不掉的牢笼），
+    左右方向键翻页，拦截层挡住底下的界面避免用户走丢。
+  - 锚点优先使用 data-tour 属性而非类名。类名是给样式用的，随时可能因为
+    改版被换掉；data-tour 一眼就能看出「这里被引导引用了，别乱改」。
+
+涉及文件：
+  src/renderer/onboarding/OnboardingGuide.tsx（重写）
+  src/renderer/onboarding/OnboardingGuide.css（重写）
+  src/renderer/onboarding/OnboardingSteps.ts（重写）
+  src/renderer/onboarding/useOnboardingTour.ts（新增）
+  src/renderer/layout/Sidebar.jsx（加 data-tour 锚点）
+
+
+------------------------------------------------------------------------
+10. 【引导细节】遮挡、步骤联动与功能说明补全
+------------------------------------------------------------------------
+问题 a：卡片遮挡被讲解的控件
+  - 指引「录音」和「Agent」按钮时，说明卡片盖在按钮上，用户看不见。
+  - 原因是初版判断「上方放不放得下」时写死了 200 当卡片高度，而实际卡片
+    有 260–320px（有没有那行操作提示能差几十像素）。这两个按钮都在输入框
+    那一行、贴着窗口底部，正好踩中。
+  - 现在改为用 ResizeObserver 量卡片真实高度再决定摆哪边，四个方向依次
+    退让（下 → 上 → 右 → 左 → 贴边），全程夹在视口内。
+
+问题 b：点「上一步」时页面不跟着回退
+  - 原因是部分步骤的 route 写的 null（表示「留在当前页」），往回退时不
+    重新断言路由，页面还停在后一步那一页，聚光灯自然找不到目标。
+  - 现在类型上就不允许 route 为 null，每一步都必须写明；useEffect 依赖里
+    带上 index，前进后退都重新断言一次。用 replace:true 避免引导把浏览
+    历史塞满。
+
+问题 c：功能说明缺失
+  - 步骤从 10 步扩到 19 步，补上：
+      上传按钮      已录好的音频从这里传，走同一套转写流程
+      笔记库        按工作空间分组，录音后选空间保存
+      拖拽 + 双击   拖笔记进对话挂上下文；双击看全文
+      最近对话      点一条回到当时上下文接着聊
+      拖动分隔条    上下拖调整笔记库与最近对话的高度，比例会记住
+      新建笔记      手写笔记同样能被检索、被提取待办
+      日历          转写完本地大模型通读全文，抓出「谁在什么时候做什么」
+                    连同日期写进日历；一件事一个橙点，多件事再加蓝点
+      模型绿点      亮成绿色才代表该能力可用，灰的就是没装好、功能失效
+      知识模板      一段写给模型的固定指令，存成模板后任何笔记一键套用
+      设置·智能助理 单独一步指到该分类，讲「立刻朗读」开关的作用和取舍
+  - 文案全部改写为大白话，中英双语。
+
+涉及文件：
+  src/renderer/onboarding/OnboardingGuide.tsx、OnboardingSteps.ts、
+  src/renderer/pages/Settings/SettingsPage.tsx（加 data-tour 分类锚点）、
+  src/i18n/locales/zh.json、src/i18n/locales/en.json
+
+
+------------------------------------------------------------------------
+11. 【跨平台边界】本次改动对 Windows 与 macOS 使用同一逻辑
+------------------------------------------------------------------------
+确认：
+  - renderer 侧全部是 CSS 与 React 逻辑，没有平台分支。
+  - 主进程侧只在 SystemProfileService 增加了一个进程内 Promise 缓存，
+    没有改动探测命令本身，nvidia-smi / WMI / system_profiler / lspci
+    的多路探测逻辑原样保留。
+  - 没有新增 process.platform、win32、darwin、路径分隔符或系统 API。
+  - 没有修改原生依赖、Electron 打包配置或窗口行为。
+
+限制：
+  - backdrop-filter、@property、color-mix、mask-composite 都依赖 Chromium
+    版本，在当前 Electron 内可用；若将来降级 Electron 需要复核。
+  - 本次在 Windows 11 x64 的开发环境实测启动通过；macOS 侧应在发布前
+    另行验收，特别是毛玻璃在不同合成器下的观感。
+
+
+------------------------------------------------------------------------
+12. 【验证】
+------------------------------------------------------------------------
+通过：
+  - main 生产 Webpack 构建：通过。
+  - renderer 生产 Webpack 构建：通过。
+  - 开发环境 npm start：Electron 正常启动，渲染进程加载成功，
+    编译错误 0 个。
+  - 配色审计：全仓源码与编译产物中紫色/靛蓝关键词命中数均为 0。
+  - i18n 一致性：zh.json 与 en.json 各 593 键，键集合完全一致，
+    无缺失、无孤儿键。
+  - 引导完整性：19 个步骤共引用 47 条文案键，两个语言均存在；
+    17 个锚点选择器逐个核对确认在真实 markup 中存在。
+  - 引导卡片定位回归：按真实几何跑 8 个用例（录音按钮、Agent 开关、
+    上传按钮、侧边栏、主输入框、分隔条、日历、顶部按钮），
+    全部不与目标重叠且完整落在视口内。
+  - 骨架屏几何核对：4 块 2×2 排布，图标 34×34、下拉条 450×40，
+    与真实模块一致，微光动画正常运行。
+  - 聚光灯机制核对：遮罩 box-shadow 扩散解析为 1280px（100vmax），
+    洞的位置与目标精确对齐（四周各 8px 留白），过渡属性为
+    top / left / width / height / border-radius，时长 0.68s。
+
+已知仓库基线问题（不是本次引入，改动前后一致）：
+  - TypeScript 仍有 3 个既有错误：
+      WorkspaceNoteCard 读取 SubnoteItem.template_name；
+      WorkspacePage 两处 void 与 Promise<void> 的返回类型不匹配。
+  - ESLint 在本次涉及的文件上剩余 10 个问题，全部属于仓库既有的容忍范围：
+      9 个 react/require-default-props（TTSPlayButton 等既有组件同样命中）；
+      1 个 no-nested-ternary（ModelManagerPage 中既有的 TTS 预览按钮）。
+  - 未做全仓自动格式化，避免把一次 UI 返工扩大为不可审查的批量重写。
+
+
+------------------------------------------------------------------------
+13. 【发现但未处理】pages/Recording 整个 UI 层是死代码
+------------------------------------------------------------------------
+说明：
+  - 本次为录音状态加动效时发现，src/renderer/pages/Recording/ 下的
+    RecordingPage.css、components/TranscriptionPanel.tsx、
+    components/RecordControlBar.tsx、TranscriptionChunk.tsx
+    没有任何 import，不会被打进包。
+  - 真正在用的录音界面在 StudioPage；同目录下只有 RecordingSession、
+    useRecordingSession、SaveToWorkspaceDialog 仍被引用。
+  - 这是既有状态，不是本次引入（可追溯到 06d4aad 的 UI 合并）。
+
+本次处理：
+  - 一并做了配色令牌替换，保持全仓无紫色的一致性，将来若复活可直接使用；
+    但这些文件的改动当前不产生任何视觉效果。
+  - 录音的声波与脉冲动效改接到 StudioChatPanel 中真正在用的录音按钮上。
+
+建议：
+  - 由维护者确认后整体删除，或明确恢复其入口。本次不擅自删除。
+
+涉及文件：
+  src/renderer/pages/Recording/RecordingPage.css、
+  components/TranscriptionPanel.tsx（仅令牌替换，无行为变化）
+
+
+------------------------------------------------------------------------
+文件范围汇总
+------------------------------------------------------------------------
+共 52 个文件，3965 行新增、786 行删除。
+
+  - 样式基础层（新增）：
+      src/renderer/styles/tokens.css、effects.css、motion.css、components.css
+  - 应用外壳：
+      src/renderer/App.css、App.tsx、
+      src/renderer/layout/Sidebar.jsx、MainLayout.jsx、
+      src/renderer/settings/AppSettings.css、AppSettingsProvider.tsx
+  - 通用微组件（新增）：
+      src/renderer/components/AmbientBackground.tsx、SoundWave.tsx、
+      ThinkingDots.tsx、useSpotlight.ts
+  - 新手引导：
+      src/renderer/onboarding/OnboardingGuide.tsx、OnboardingGuide.css、
+      OnboardingSteps.ts（均为重写）、useOnboardingTour.ts（新增）
+  - 模型管理与性能：
+      src/main/recommendation/SystemProfileService.ts、
+      src/main/ipc/recommendation-ipc.ts、src/main/preload.ts、
+      src/renderer/pages/ModelManager/useModelManager.ts、
+      ModelManagerPage.tsx、ModelManagerPage.css、
+      components/ModelModuleSkeleton.tsx（新增）、ModelModule.css、
+      ModelModule.tsx、ModelSelect.css、ModelSelect.tsx
+  - 仪表盘：
+      src/renderer/pages/Dashboard/DashboardPage.css、
+      components/MetricCardsGrid.tsx、components/NoteListTable.tsx
+  - 对话工作台与笔记库：
+      src/renderer/pages/Studio/StudioPage.css、
+      components/StudioChatPanel.tsx、
+      src/renderer/pages/AskAI/AskAIPage.css、AskAIChat.css、AskAIDialog.css
+  - 工作空间：
+      src/renderer/pages/Workspace/WorkspacePage.css、
+      WorkspaceHomePage.css、WorkspaceHomePage.tsx、
+      WorkspaceSuggestionCard.css
+  - 设置：
+      src/renderer/pages/Settings/SettingsPage.css、SettingsPage.tsx、
+      components/HardwareSettingsPanel.tsx
+  - 其余页面配色：
+      src/renderer/pages/Agent/AgentPage.css、
+      src/renderer/pages/Workflow/WorkflowPage.css、
+      src/renderer/pages/Recording/RecordingPage.css、
+      components/TranscriptionPanel.tsx、
+      src/renderer/components/CopyButton.css、
+      src/renderer/tts/TTSPlayButton.css
+  - 文案：
+      src/i18n/locales/zh.json、src/i18n/locales/en.json
+  - 修改日志：
+      log/2026081802.txt

@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="831" height="1751" viewBox="0 0 831 1751" role="img">
+<rect width="831" height="1751" fill="#F7F8FA" rx="10"/>
+<text x="26" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="19" fill="#1F2933" text-anchor="start" font-weight="600">Human-recorded STT evaluation overview</text>
+<text x="26" y="56" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#6B7280" text-anchor="start" font-weight="400">56 recordings · whisper.cpp tiny/base/small/large-v1</text>
+<svg x="20.0" y="74.0" width="791.2" height="386.4" viewBox="0 0 860 420">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" role="img">
+<rect width="860" height="420" fill="#FFFFFF" rx="8"/>
+
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Human-recorded STT CER: quiet speech vs background noise</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Human recordings · Chinese-native speaker · 4 whisper.cpp models · docs/testing/stt-recording-protocol.md</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny</text><rect x="88.4" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="104.4" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base</text><rect x="152.8" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="168.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small</text><rect x="223.8" y="63" width="11" height="11" rx="2" fill="#4C9F70"/><text x="239.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v1</text>
+<line x1="64" y1="331" x2="836" y2="331" stroke="#E3E8EF"/>
+<text x="56" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="64" y1="283.2" x2="836" y2="283.2" stroke="#E3E8EF"/>
+<text x="56" y="287.2" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">10%</text>
+<line x1="64" y1="235.39999999999998" x2="836" y2="235.39999999999998" stroke="#E3E8EF"/>
+<text x="56" y="239.39999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="64" y1="187.6" x2="836" y2="187.6" stroke="#E3E8EF"/>
+<text x="56" y="191.6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">30%</text>
+<line x1="64" y1="139.79999999999998" x2="836" y2="139.79999999999998" stroke="#E3E8EF"/>
+<text x="56" y="143.79999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<line x1="64" y1="92" x2="836" y2="92" stroke="#E3E8EF"/>
+<text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">50%</text>
+<text x="18" y="211.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 211.5)">CER (lower is better)</text>
+<rect x="189.0" y="171.5" width="31.0" height="159.5" fill="#2E86AB" rx="2"/>
+<text x="204.5" y="166.50999656535893" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">33%</text>
+<rect x="223.0" y="203.8" width="31.0" height="127.2" fill="#E8871A" rx="2"/>
+<text x="238.5" y="198.8253008803252" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">27%</text>
+<rect x="257.0" y="248.4" width="31.0" height="82.6" fill="#B5446E" rx="2"/>
+<text x="272.5" y="243.43732629477608" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">17%</text>
+<rect x="291.0" y="243.5" width="31.0" height="87.5" fill="#4C9F70" rx="2"/>
+<text x="306.5" y="238.51567970614553" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">18%</text>
+<text x="257" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Segment A · quiet</text>
+<rect x="575.0" y="99.0" width="31.0" height="232.0" fill="#2E86AB" rx="2"/>
+<text x="590.5" y="93.97577987272038" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">49%</text>
+<rect x="609.0" y="193.3" width="31.0" height="137.7" fill="#E8871A" rx="2"/>
+<text x="624.5" y="188.30878776583646" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">29%</text>
+<rect x="643.0" y="254.8" width="31.0" height="76.2" fill="#B5446E" rx="2"/>
+<text x="658.5" y="249.8140145583012" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">16%</text>
+<rect x="677.0" y="250.3" width="31.0" height="80.7" fill="#4C9F70" rx="2"/>
+<text x="692.5" y="245.34403173392354" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">17%</text>
+<text x="643" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Segment C · background noise</text>
+<line x1="64" y1="331.0" x2="836" y2="331.0" stroke="#6B7280"/>
+<text x="24" y="391" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">Segment C is a nine-text subset of segment A, read by the same speaker with background noise. Each text was recorded once, so</text><text x="24" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">noise and natural reading variation cannot be separated.</text>
+</svg>
+
+</svg>
+<svg x="20.0" y="474.4" width="791.2" height="386.4" viewBox="0 0 860 420">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" role="img">
+<rect width="860" height="420" fill="#FFFFFF" rx="8"/>
+
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Human-recorded STT CER by language (verbatim segments A+C)</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Human recordings · Chinese-native speaker · 4 whisper.cpp models · docs/testing/stt-recording-protocol.md</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny</text><rect x="88.4" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="104.4" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base</text><rect x="152.8" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="168.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small</text><rect x="223.8" y="63" width="11" height="11" rx="2" fill="#4C9F70"/><text x="239.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v1</text>
+<line x1="64" y1="331" x2="836" y2="331" stroke="#E3E8EF"/>
+<text x="56" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="64" y1="283.2" x2="836" y2="283.2" stroke="#E3E8EF"/>
+<text x="56" y="287.2" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">10%</text>
+<line x1="64" y1="235.39999999999998" x2="836" y2="235.39999999999998" stroke="#E3E8EF"/>
+<text x="56" y="239.39999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="64" y1="187.6" x2="836" y2="187.6" stroke="#E3E8EF"/>
+<text x="56" y="191.6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">30%</text>
+<line x1="64" y1="139.79999999999998" x2="836" y2="139.79999999999998" stroke="#E3E8EF"/>
+<text x="56" y="143.79999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<line x1="64" y1="92" x2="836" y2="92" stroke="#E3E8EF"/>
+<text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">50%</text>
+<text x="18" y="211.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 211.5)">CER (lower is better)</text>
+<rect x="124.7" y="143.5" width="31.0" height="187.5" fill="#2E86AB" rx="2"/>
+<text x="140.16666666666666" y="138.46449069738307" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">39%</text>
+<rect x="158.7" y="185.4" width="31.0" height="145.6" fill="#E8871A" rx="2"/>
+<text x="174.16666666666666" y="180.410753746427" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">30%</text>
+<rect x="192.7" y="256.5" width="31.0" height="74.5" fill="#B5446E" rx="2"/>
+<text x="208.16666666666666" y="251.51484645496424" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">16%</text>
+<rect x="226.7" y="241.3" width="31.0" height="89.7" fill="#4C9F70" rx="2"/>
+<text x="242.16666666666666" y="236.25062040913684" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">19%</text>
+<text x="192.66666666666666" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Chinese</text>
+<rect x="382.0" y="200.4" width="31.0" height="130.6" fill="#2E86AB" rx="2"/>
+<text x="397.5" y="195.39483514421502" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">27%</text>
+<rect x="416.0" y="214.2" width="31.0" height="116.8" fill="#E8871A" rx="2"/>
+<text x="431.5" y="209.17071337158467" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">24%</text>
+<rect x="450.0" y="230.0" width="31.0" height="101.0" fill="#B5446E" rx="2"/>
+<text x="465.5" y="225.0185621463634" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">21%</text>
+<rect x="484.0" y="243.0" width="31.0" height="88.0" fill="#4C9F70" rx="2"/>
+<text x="499.5" y="238.00804817147343" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">18%</text>
+<text x="450" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">English</text>
+<rect x="639.3" y="125.3" width="31.0" height="205.7" fill="#2E86AB" rx="2"/>
+<text x="654.8333333333333" y="120.28043344769719" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">43%</text>
+<rect x="673.3" y="204.4" width="31.0" height="126.6" fill="#E8871A" rx="2"/>
+<text x="688.8333333333333" y="199.35689117867742" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">26%</text>
+<rect x="707.3" y="263.1" width="31.0" height="67.9" fill="#B5446E" rx="2"/>
+<text x="722.8333333333333" y="258.14308458512824" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">14%</text>
+<rect x="741.3" y="250.2" width="31.0" height="80.8" fill="#4C9F70" rx="2"/>
+<text x="756.8333333333333" y="245.23437780135907" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">17%</text>
+<text x="707.3333333333333" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">Chinese-English</text>
+<line x1="64" y1="331.0" x2="836" y2="331.0" stroke="#6B7280"/>
+<text x="24" y="391" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">The speaker is a native Chinese speaker; natural pronunciation and wording variation in English reflect the intended real-use</text><text x="24" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">setting.</text>
+</svg>
+
+</svg>
+<svg x="20.0" y="874.8" width="791.2" height="386.4" viewBox="0 0 860 420">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420" role="img">
+<rect width="860" height="420" fill="#FFFFFF" rx="8"/>
+
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Content recall across three recording conditions</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Human recordings · Chinese-native speaker · 4 whisper.cpp models · docs/testing/stt-recording-protocol.md · recall measures source words/characters present in the transcript, ignoring order</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny</text><rect x="88.4" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="104.4" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base</text><rect x="152.8" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="168.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small</text><rect x="223.8" y="63" width="11" height="11" rx="2" fill="#4C9F70"/><text x="239.8" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v1</text>
+<line x1="64" y1="331" x2="836" y2="331" stroke="#E3E8EF"/>
+<text x="56" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="64" y1="283.2" x2="836" y2="283.2" stroke="#E3E8EF"/>
+<text x="56" y="287.2" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="64" y1="235.39999999999998" x2="836" y2="235.39999999999998" stroke="#E3E8EF"/>
+<text x="56" y="239.39999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<line x1="64" y1="187.6" x2="836" y2="187.6" stroke="#E3E8EF"/>
+<text x="56" y="191.6" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">60%</text>
+<line x1="64" y1="139.79999999999998" x2="836" y2="139.79999999999998" stroke="#E3E8EF"/>
+<text x="56" y="143.79999999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">80%</text>
+<line x1="64" y1="92" x2="836" y2="92" stroke="#E3E8EF"/>
+<text x="56" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">100%</text>
+<text x="18" y="211.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 211.5)">Content recall</text>
+<rect x="124.7" y="176.5" width="31.0" height="154.5" fill="#2E86AB" rx="2"/>
+<text x="140.16666666666666" y="171.52558930620592" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">65%</text>
+<rect x="158.7" y="166.6" width="31.0" height="164.4" fill="#E8871A" rx="2"/>
+<text x="174.16666666666666" y="161.57268657932795" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">69%</text>
+<rect x="192.7" y="139.0" width="31.0" height="192.0" fill="#B5446E" rx="2"/>
+<text x="208.16666666666666" y="133.9697891371499" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">80%</text>
+<rect x="226.7" y="145.6" width="31.0" height="185.4" fill="#4C9F70" rx="2"/>
+<text x="242.16666666666666" y="140.63072221984174" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">78%</text>
+<text x="192.66666666666666" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">A Quiet reading (verbatim)</text>
+<rect x="382.0" y="196.0" width="31.0" height="135.0" fill="#2E86AB" rx="2"/>
+<text x="397.5" y="190.9699253232148" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">56%</text>
+<rect x="416.0" y="184.0" width="31.0" height="147.0" fill="#E8871A" rx="2"/>
+<text x="431.5" y="178.98831156660106" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">62%</text>
+<rect x="450.0" y="170.7" width="31.0" height="160.3" fill="#B5446E" rx="2"/>
+<text x="465.5" y="165.71283762533758" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">67%</text>
+<rect x="484.0" y="167.6" width="31.0" height="163.4" fill="#4C9F70" rx="2"/>
+<text x="499.5" y="162.64166065416066" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">68%</text>
+<text x="450" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">B Natural paraphrase</text>
+<rect x="639.3" y="202.2" width="31.0" height="128.8" fill="#2E86AB" rx="2"/>
+<text x="654.8333333333333" y="197.1897661305556" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">54%</text>
+<rect x="673.3" y="181.6" width="31.0" height="149.4" fill="#E8871A" rx="2"/>
+<text x="688.8333333333333" y="176.61004833373252" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">63%</text>
+<rect x="707.3" y="138.4" width="31.0" height="192.6" fill="#B5446E" rx="2"/>
+<text x="722.8333333333333" y="133.3748909472594" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">81%</text>
+<rect x="741.3" y="138.5" width="31.0" height="192.5" fill="#4C9F70" rx="2"/>
+<text x="756.8333333333333" y="133.48356687172475" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10" fill="#6B7280" text-anchor="middle" font-weight="400">81%</text>
+<text x="707.3333333333333" y="349" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">C Background noise (verbatim)</text>
+<line x1="64" y1="331.0" x2="836" y2="331.0" stroke="#6B7280"/>
+<text x="24" y="391" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">Segment B is a natural paraphrase, so CER is not appropriate. Recall includes function words; relative A/B/C differences are</text><text x="24" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">more informative than the absolute values.</text>
+</svg>
+
+</svg>
+<svg x="20.0" y="1275.2" width="791.2" height="404.8" viewBox="0 0 860 440">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="440" viewBox="0 0 860 440" role="img">
+<rect width="860" height="440" fill="#FFFFFF" rx="8"/>
+
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">STT model selection: speed vs accuracy</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Hardware not recorded · whisper.cpp · 8 threads · 56 human recordings</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny (CER 36%)</text><rect x="154.4" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="170.39999999999998" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base (CER 27%)</text><rect x="284.8" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="300.79999999999995" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small (CER 17%)</text><rect x="421.8" y="63" width="11" height="11" rx="2" fill="#4C9F70"/><text x="437.79999999999995" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v1 (CER 18%)</text>
+<line x1="72" y1="362" x2="832" y2="362" stroke="#E3E8EF"/>
+<text x="64" y="366" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0%</text>
+<line x1="72" y1="294.5" x2="832" y2="294.5" stroke="#E3E8EF"/>
+<text x="64" y="298.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">10%</text>
+<line x1="72" y1="227" x2="832" y2="227" stroke="#E3E8EF"/>
+<text x="64" y="231" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20%</text>
+<line x1="72" y1="159.5" x2="832" y2="159.5" stroke="#E3E8EF"/>
+<text x="64" y="163.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">30%</text>
+<line x1="72" y1="92" x2="832" y2="92" stroke="#E3E8EF"/>
+<text x="64" y="96" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">40%</text>
+<text x="72" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">0.00</text>
+<text x="325.3333333333333" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">1.00</text>
+<text x="578.6666666666666" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">2.00</text>
+<text x="832" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">3.00</text>
+<text x="18" y="227" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 227)">CER % (lower is better)</text>
+<text x="452" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400">RTF (lower is faster, CPU inference)</text>
+<circle cx="96.0" cy="115.8" r="3.6" fill="#2E86AB" fill-opacity="0.75"/>
+<circle cx="107.3" cy="179.4" r="3.6" fill="#E8871A" fill-opacity="0.75"/>
+<circle cx="186.0" cy="247.3" r="3.6" fill="#B5446E" fill-opacity="0.75"/>
+<circle cx="736.0" cy="240.4" r="3.6" fill="#4C9F70" fill-opacity="0.75"/>
+<line x1="72" y1="362" x2="832" y2="362" stroke="#6B7280"/>
+<text x="24" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">Lower-left is better. Larger models do not produce a linear reduction in CER, so selection should use measured trade-offs.</text>
+</svg>
+
+</svg>
+<text x="26" y="1720" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">The speaker is a native Chinese speaker; segment B is a paraphrase and is not scored with CER. Chart 4 shows the</text>
+<text x="26" y="1737" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">speed-accuracy trade-off.</text>
+</svg>

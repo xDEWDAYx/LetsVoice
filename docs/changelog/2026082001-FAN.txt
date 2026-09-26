@@ -1,0 +1,778 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026082001
+日期：2026-08-20
+分支：main
+========================================================================
+
+本次改动分六段：
+
+  一、按外部测试报告核对 BUG-001 ~ BUG-005，全部修完；
+  二、模型输出的富文本渲染（此前满屏 ** 星号，无任何 Markdown 渲染）；
+  三、待办提取的日期解析重做（周五 / 下周一 / 八月三十一号 / 上旬 /
+      每天 / 提前三天 全部改成规则标注，不再让小模型自己算）；
+  四、按 22 条测试用例逐条实测并回归修复，同时留下可复跑的评测脚本；
+  五、三处显示层改动（日历悬浮、窗口最大化、笔记列表列重排）；
+  六、Agent 模式的分层提示词与有界循环重做。
+
+三个质量门禁现在全绿：
+  npm test           exit 0（25 个 suite / 246 项通过，22 项按需跳过）
+  npm run lint       exit 0（剩 26 条 no-console warning，不阻断）
+  npx tsc --noEmit   无输出
+  npm run build      exit 0
+  npm audit --omit=dev  found 0 vulnerabilities
+
+已跟踪文件 31 个变更，约 +1060 / -384 行；另新增 22 个未跟踪文件
+（6 个功能模块 + 15 个测试 + 1 个富文本组件目录）。
+
+贯穿全篇的一条经验：**提示词是软约束，代码才是硬约束**。
+本次多处失败都是「规则写得很清楚，3B 模型照样不照做」，
+最终都改成「提示词负责让模型愿意做，代码负责它不做也不出事」。
+
+文末「遗留问题」一节列了 5 项本次未能闭环的事情，
+其中第 1 项（笔记数据库定位不明）和第 2 项（旧数据滞留）请优先处理。
+
+
+========================================================================
+第一段  外部测试报告 BUG-001 ~ BUG-005
+========================================================================
+
+核对结论先行：
+
+  BUG-001  待办提取把 LLM 输出写进 console   确认未修复，已修
+  BUG-002  Studio 上传按钮 busy 判定漏项     确认未修复，已修
+  BUG-003  Agent run 页面卸载后继续跑        确认未修复，已修
+  BUG-004  npm run lint 失败 52 项           确认未修复，已修
+  BUG-005  production audit 6 个 high        确认未修复，已修
+
+
+------------------------------------------------------------------------
+1. 【BUG-001 / P1】提取失败时把私人 LLM 输出写进 console
+------------------------------------------------------------------------
+问题：
+  报告只点了两处 console.warn / console.error 带 content 的问题，
+  实测确认存在，另外还发现两处报告没覆盖的泄漏：
+
+  a. 报告指出的两处（TodoExtractionService.ts:152 / :168）
+     解析失败时把整段 LLM 输出传给 console，而 LLM 失败时输出的
+     往往正是笔记原文的复述。
+
+  b. JSON.parse 的报错信息本身带原文
+     V8 的 "Unexpected token 'I', \"I found th\"... is not valid JSON"
+     会把出错位置附近的原文一起吐出来。所以连 error.message 都不能
+     直接给 console。
+
+  c. 外层 catch 的 console.error(..., error)
+     Ollama 报错时可能回显整个 prompt，而 prompt 里内嵌笔记全文。
+
+修复：
+  - 新增静态方法 log / sensitivePreview / errorKind / errorDetail。
+  - console 只留 note id、输出长度、错误类型名。
+  - 原文一律走 debugOnly 日志，且截断到 2000 字并加
+    「[SENSITIVE — debug only]」前缀。
+  - 顺手修掉报告提到的 :55 空白与 :61 未使用的 catch 变量
+    （改成 ES2019 的可选 catch 绑定）。
+
+  另外把日志落点改成可覆盖：
+    SPEAKSPACE_LOG_DIR 优先，否则才用 app.getPath('userData')。
+    排障时能把日志导到指定目录，测试也不必再依赖 Electron 替身。
+    （这一条同时解决了一个测试偶发失败，见第四段。）
+
+测试：src/__tests__/TodoExtractionService.privacy.test.ts（4 项）
+  覆盖非 JSON 输出、JSON 解析失败、上游报错回显 prompt，
+  以及「显式打开 debug 时原文只进日志文件、仍不进 console」。
+
+
+------------------------------------------------------------------------
+2. 【BUG-002 / P1】Studio 上传按钮 busy 判定漏项
+------------------------------------------------------------------------
+问题：
+  确认属实。StudioPage 的 recording.busy 只算了
+  snapshot.busy || transcriptionSnapshot.requestPending，
+  漏掉 languageDetectionPending、job.status === 'processing'、
+  livePendingCount。独立录音页的 fileBusy 是对的，Studio 复用
+  controller 时没同步这套判定。
+
+修复：
+  抽出共用函数 isTranscriptionFileBusy(snapshot, { includeSummary })
+  放在 TranscriptionController.ts，录音页和 Studio 共用同一份口径，
+  避免再次各写各的。
+
+与报告建议的差异（重要）：
+  报告建议直接把完整公式塞进 recording.busy。照做会引入一个更严重的
+  回归：Studio 用同一个 busy 控制「停止录音」按钮，而录音期间
+  livePendingCount 常驻大于 0（每个实时分段都会 +1），
+  于是用户会停不下录音。
+
+  因此拆成两个字段：
+    busy      能不能再开一次采集（录音 / 上传）—— 用完整判定
+    stopBusy  能不能停止当前录音 —— 只看会话层 snapshot.busy
+
+测试：src/__tests__/isTranscriptionFileBusy.test.ts（8 项）
+  含报告里的复现方式 A（语言检测中）与 B（job processing）。
+
+
+------------------------------------------------------------------------
+3. 【BUG-003 / P2】Agent run 在页面卸载后继续跑
+------------------------------------------------------------------------
+问题：
+  确认属实。主进程只在 webContents 销毁时取消 run，
+  而单窗口应用切路由不会销毁 webContents；
+  renderer 的 reset() / selectWorkspace() 只把 activeRunId 置空，
+  没通知主进程。
+
+修复：
+  - 新增 src/renderer/pages/Agent/useActiveAgentRun.ts，
+    统一管理 runId 归属：卸载时自动取消，
+    reset / selectWorkspace 也都先取消再清本地状态。
+  - useStudioAgent 与 useAgentPage 一起接入，避免两处再次走偏。
+  - 顺带把 AbortSignal 接进两个耗时工具：
+    AgentSearchNotesTool 在向量检索前后各检查一次；
+    AgentExtractTodosTool 在调用提取（会写库）前后各检查一次。
+    这一条正是报告里点名的「工具层没有完整支持中途 abort」。
+
+测试：src/__tests__/useActiveAgentRun.test.ts（5 项）
+
+
+------------------------------------------------------------------------
+4. 【BUG-004 / P2】npm run lint 失败
+------------------------------------------------------------------------
+问题：
+  确认属实，且数字完全吻合：52 problems（27 errors, 25 warnings）。
+
+修复：
+  - npm run lint:fix 处理 Prettier 可自动修复项。
+  - 手工处理：
+      未使用的 catch 变量 → 可选 catch 绑定
+      WorkspaceService.ts 的 for...of → forEach（并把
+      if (count === 0) {...} 反转成 if (count > 0) return; 保持等价）
+  - 现状：0 error，26 条 no-console warning（属既有噪声，不阻断）。
+
+
+------------------------------------------------------------------------
+5. 【BUG-005 / P2】production npm audit 6 个 high
+------------------------------------------------------------------------
+问题：
+  确认属实。
+
+修复：
+  react-router-dom  ^7.3.0  → ^7.18.2   （连带 react-router / turbo-stream）
+  electron-updater  ^6.3.9  → ^6.8.9    （连带 builder-util-runtime 9.2.10 → 9.7.0）
+  js-yaml           4.1.0   → 4.3.1     （漏洞区间是 4.0.0–4.3.0，无需跨大版本）
+
+  现状：npm audit --omit=dev → found 0 vulnerabilities。
+
+  风险评估补充（报告要求的「不可利用则写明依据」）：
+    本应用用的是 HashRouter + 纯声明式路由 API
+    （Routes / Route / Link / NavLink / useNavigate / useLocation /
+      useParams / Outlet / Navigate / MemoryRouter）。
+    React Router 那几条 SSR / framework-mode 相关的 advisory
+    （single-fetch DoS、__manifest、ScrollRestoration XSS、
+      deserializeErrors 反序列化）在本应用里够不着；
+    开放重定向与路由匹配类的相对更可能。无论如何版本已升出区间。
+
+  新增门禁：
+    package.json 增加 check:audit 脚本
+      npm audit --omit=dev --audit-level=high
+    .github/workflows/test.yml 增加一个 production audit 步骤。
+    （lint / tsc / test 三项该 workflow 本来就有，此前只是分支没通过。）
+
+
+========================================================================
+第二段  模型输出的富文本渲染
+========================================================================
+
+问题：
+  维护者反馈「模型生成的文本老是带星号」。核实结论：**完全没做过**。
+  全应用没有任何 Markdown 渲染，所有 AI 输出都走 <p>{text}</p>，
+  所以 **加粗** 原样显示成星号。
+
+  佐证这不是疏忽而是缺口：
+    renderer/tts/TTSContent.ts 里有 toSpeechText()，朗读前专门去掉
+    Markdown 标记；main/workflow/StructuredNoteSupport.ts 更是直接
+    要求模型「按模板输出 Markdown」，contentType 写死 'text/markdown'。
+    也就是说全链路都知道模型在输出 Markdown，唯独没人渲染。
+
+实现选择（先试了库，实测后放弃）：
+  先装了 react-markdown ^10 + remark-gfm ^4，实测 Jest 直接崩：
+    SyntaxError: Unexpected token 'export'
+  这条依赖链是纯 ESM，ts-jest 要为几十个包
+  （unified / micromark-* / mdast-* / hast-* …）配 transformIgnorePatterns，
+  脆弱且拖慢每次测试。权衡后卸掉，自己写。
+
+新增 src/renderer/components/Markdown/
+  markdownAst.ts    纯解析，产出 AST，无任何 DOM 依赖
+  MarkdownText.tsx  只输出 React 元素，全程不碰 dangerouslySetInnerHTML
+  MarkdownText.css  只用 tokens.css 的语义变量，明暗主题自动跟随
+
+  支持：**粗** / *斜* / ***粗斜*** / ~~删除线~~ / `行内代码` /
+        围栏代码块（含语言标记）/ 标题 / 有序无序列表 / 嵌套列表 /
+        任务列表 / 引用块 / 分隔线 / GFM 表格（含列对齐）/ 链接 / \* 转义
+
+  安全性由结构保证：只产出 React 元素，笔记里混进的
+  <script> / <img onerror> 只会显示成字面量；链接只放行
+  http(s) / mailto / 相对路径，javascript: 一律降级为纯文本。
+
+接入的 8 处（只渲染模型产出，用户自己敲的内容保持纯文本）：
+  Studio 对话与智能体回答      StudioChatPanel.tsx
+  AskAI 对话                   AskAIChatPanel.tsx
+  Agent 页对话                 AgentConversation.tsx
+  知识模板产出                 KnowledgeOutputPanel.tsx
+  笔记摘要 / 子笔记            AskAINotePreview.tsx、WorkspaceNoteCard.tsx
+  多笔记问答弹窗               WorkspaceMultiNoteModal.tsx
+  实时语义整理                 TranscriptionPanel.tsx
+  录音复核弹窗                 RecordingReviewDialog.tsx
+
+  刻意不渲染：用户输入的问题、语音转写原文。
+  那两类不是模型推理产出，按 Markdown 渲染会把「星号就是星号」的
+  文本弄坏。TTS 与复制按钮继续拿原始文本（朗读自己会去标记，
+  复制应该给出 Markdown 源码）。
+
+一处必须记下的坑：
+  各页面早有 `.content-area p`、`.ask-ai-messages article p`、
+  `.workspace-content-item p` 这类后代选择器，权重和组件自身的
+  `.markdown-body p` 相同甚至更高，谁生效取决于打包顺序 ——
+  富文本段落会在某些页面变灰、或被塞进额外行距。
+  解决办法是在 MarkdownText.css 内部用重复类名把权重抬到 (0,3,x)，
+  只改组件自己这一个文件，不动各页面既有排版。
+
+  另有两处结构变动必须同步改宿主 CSS：
+    存档对话的栅格原本挂在 p 上 → 改挂 .workspace-conversation-message
+    .live-summary__segments li > span:last-child 因 span 被替换而失配
+    → 选择器补上 li > .markdown-body
+
+测试：markdownAst.test.ts（27 项）+ MarkdownText.test.tsx（9 项）
+  含 XSS 三连（script / img onerror / javascript: 链接）
+  与「纯口语转写不会凭空多出标记」。
+
+
+========================================================================
+第三段  待办提取的日期解析重做
+========================================================================
+
+这一段是本次投入最大的部分，起点是维护者实测：
+「周五之前……下周一……八月三十一号」三个日期，只有 8/31 出来了，
+反而凭空多出一个今天。
+
+------------------------------------------------------------------------
+3.1 根因（三条，互相独立）
+------------------------------------------------------------------------
+  a. 只给日期不给星期
+     prompt 里只塞了一个 `2026-08-20`。模型无从知道那天是星期四，
+     「周五」「下周一」根本没法算，只能退回它唯一见过的那个日期
+     —— 也就是今天。用户看到的「凭空多出今天」就是这么来的。
+
+  b. toISOString() 是 UTC
+     东八区用户在早上八点前，取到的是前一天，整条时间线差一天。
+
+  c. item.dueDate || today
+     模型返回 null 时静默记成今天，且不留任何日志。
+     「不知道」和「今天到期」在库里无法区分。
+
+------------------------------------------------------------------------
+3.2 DateContext.ts —— 日期基准
+------------------------------------------------------------------------
+  toLocalDateString()  本地时区取日，替换掉所有 toISOString().split()
+  buildDateReference() 预先算好 26 行对照表塞进 prompt：
+                       今天/明天/后天/大后天/昨天、本周一~本周日、
+                       下周一~下周日、本周末、一周后、两周后、
+                       本月底、下月初、一个月后
+                       并写明「查表，不要自己算」
+  normalizeDueDate()   落库前校验：必须是真实存在的日历日期
+                       （用往返比对挡掉 2026-02-31 这类会被 Date
+                        静默进位的值），年份限制在 [今年-1, 今年+5]
+
+  测试：DateContext.test.ts（19 项）
+
+------------------------------------------------------------------------
+3.3 RelativeDateRewriter.ts —— 就地标注（核心思路）
+------------------------------------------------------------------------
+  只给对照表还不够：模型在长文本里懒得回查，「周五之前」照样解析不出。
+  维护者提出「在 summary 阶段直接把词换成日期」，方向对，但两点需要调整，
+  实现时都做了修正：
+
+    其一，summary 不是被提取的对象。
+      StudioPage 保存时 transcript 与 summaries 是两个独立字段，
+      extractTodosForNote 读的是 transcript。改 summary 完全不影响提取。
+
+    其二，不能交给模型做替换。
+      模型算不对「周五」，在 summary 阶段同样算不对，
+      只是把同一个错误挪早一步，还多一个失败点。
+
+  最终做法：纯规则改写，在文本送进模型之前把答案写在词的旁边。
+    「周五之前交」→「周五(2026-08-21)之前交」
+
+  保留原词 + 补注日期，而不是直接替换：规则判错时原话还在，
+  模型还有纠正余地，待办标题也不会丢掉语气。
+  只改送进模型的副本，落库的转写原文一个字不动。
+
+  覆盖范围（分四批加进去，每批都对应一次实测反馈）：
+    第一批 相对日期  今天/明天/后天/大后天/昨天/前天
+                     周X / 星期X / 礼拜X / 周5（语音转写会出数字）
+                     本周X / 这周X / 下周X / 下下周X / 上周X
+                     月底 / 下月初 / 下个月 / 周末
+                     N天后 / N周后（中文数字与阿拉伯数字都认）
+                     today/tomorrow/next Monday/this Friday/in 3 days
+    第二批 绝对日期  八月三十一号 / 8月31号 / 9月4日 / 十二月二十五号
+                     2027年3月14日 / 二零二六年八月三十一号
+                     （维护者实测 8/31 失效就是因为这批当时没做，
+                       模型自己换算中文数字失败后回落到今天）
+    第三批 区间与周期 上旬(取10号) / 中旬(取20号) / 下旬(取月末)
+                     年底 / 年末 / 年初
+                     每天 / 每日 / 每个工作日 / 每周X / 每两周 /
+                     每月X号 —— 标成 (首次日期, REPEAT=类型)
+    第四批 相对基准  提前N天 / 提前一周 —— 基准是**同句里前一个日期**，
+                     所以必须等第一遍标完再跑第二遍扫描。
+                     「九月十号(2026-09-10)要汇报，提前三天提醒我」
+                       → 「…提前三天(2026-09-07)提醒我」
+                     找不到基准就不标，不拿今天硬凑；跨句不借用。
+
+  三条刻意的克制：
+    - 裸「三号」不匹配。必须带「月」和「号/日」才算数，
+      否则「三号楼会议室」「三号线」会被误标，代价远大于收益。
+    - 不存在的日期不标注（二月三十号 / 13月1号）。
+    - 单次扫描：全部规则合并成一条大正则，保证「下周五」被整体消费，
+      内部的「周五」不会再被裸规则匹配一次。
+
+  一处语义调整（维护者两次指出后采纳）：
+    裸「周X」原本是「本周还没过就算本周」，于是周四说「周四之前」
+    落在今天。改为「当天算已过，顺延到下周」——
+    今天已经过了大半，当截止日没有意义；口语里「周四见」在周四当天说
+    通常也是指下一个周四。
+    「本周四」写明了本周，不适用顺延，仍是今天。
+
+  测试：RelativeDateRewriter.test.ts（57 项）
+
+------------------------------------------------------------------------
+3.4 RecurrenceExpander.ts —— 重复待办逐次展开
+------------------------------------------------------------------------
+  维护者要求：「只要是重复任务，每次重复都要在日历上标出来」。
+
+  原先的 prompt 规则写的恰恰相反（「emit ONE task…not one per
+  repetition」），所以「每周五」只在第一个周五出现过一次。规则已反转。
+
+  展开放在代码里而不是让模型逐条输出：
+  「每天」半年就是 180 条 JSON，小模型必然中途跑偏或截断。
+  模型只负责给出「起点 + 周期类型」，日期推算是确定的。
+
+  展开窗口（都是命名常量，好改）：
+    daily / weekdays  90 天      weekly / biweekly  182 天
+    monthly           365 天     单条上限 120 次
+  每月按「同一号」推进，遇到 2 月没有 30 号直接跳过该月，
+  而不是滑到下月 1 号。
+
+  测试：RecurrenceExpander.test.ts（12 项）
+
+------------------------------------------------------------------------
+3.5 CompletionDetector.ts —— 已完成的事不该变成待办
+------------------------------------------------------------------------
+  「服务器的续费上周就办好了」会被抽成「续费服务器」，
+  又因为没有日期回落到今天 —— 上周就结束的事出现在今天的日历上。
+  提示词改了四版都压不住，改成规则判定。
+
+  两级处理：
+    1. 逐句标注「(已完成)」，把信号放到词的旁边；
+    2. 整段都是已完成时直接短路，连模型都不问，直接零待办。
+
+  判定收得很紧：只认明确的完成标记（已经…了 / …完了 / …好了 /
+  都结了 / 搞定了 / already / done …），不认光秃秃的「了」。
+  「把墨盒换了」是待办不是完成，误判会整条吞掉真待办。
+
+  测试：CompletionDetector.test.ts（15 项）
+
+------------------------------------------------------------------------
+3.6 落库环节的三处加固
+------------------------------------------------------------------------
+  a. 重复条目去重
+     标题 + 日期完全相同的必然是同一条（小模型会把同一件事输出好几遍）。
+
+  b. 周期必须有据可依
+     模型看到「周五」就自己脑补 weekly，把一次性任务铺成 27 条。
+     现在只认文本里真出现过的 REPEAT=xxx，没标注过就一律置空。
+     （实测日志：Dropped ungrounded repeat "weekly" for "周五负责客户接待"）
+
+  c. 日期兜底顺序 + 日志
+     模型漏抄 dueDate 时，若全文只标注了一个日期，就用那个；
+     有多个才回落今天。并且**每次兜底都写日志**：
+       No dueDate from model for "客户接待"; used 2026-08-21 (sole annotated date).
+     此前这条路径一声不吭，日历上凭空多一个点却完全查不到原因。
+
+------------------------------------------------------------------------
+3.7 TodoExtractionPrompt.ts —— 提示词单独成模块
+------------------------------------------------------------------------
+  从 TodoExtractionService 里抽出来，让评测脚本能用完全相同的提示词
+  直接打本地模型，不必把 Electron、数据库、仓储整套拉起来；
+  提示词一改，评测跑的就是新版本，两边不会不一致。
+
+
+========================================================================
+第四段  22 条用例实测与回归
+========================================================================
+
+新增 src/__tests__/todoExtraction.eval.ts —— 离线评测脚本。
+默认跳过（要连本机 Ollama，一轮几十秒，不适合进 npm test），显式打开：
+
+  TODO_EVAL=1 npx jest todoExtraction.eval
+  TODO_EVAL=1 TODO_EVAL_MODEL=qwen2.5:7b-instruct npx jest todoExtraction.eval
+
+用的是和线上完全相同的提示词、日期标注、归属复核与后处理，
+所以它的通过率就是用户实际会看到的表现。
+
+实测模型：qwen2.5:3b-instruct（本机 Ollama 当前唯一可用的 LLM）
+
+------------------------------------------------------------------------
+4.1 首轮 12/17，暴露出的最大问题：示例被照抄
+------------------------------------------------------------------------
+  模型把提示词里的示例条目原样当成答案输出：
+    #6  → Send the weekly report before leaving
+    #8  → Replace the printer toner
+    #11 → Replace the printer toner ×3
+
+  这不是评测环境特有的问题 —— 维护者本机数据库里那条
+  「Schedule follow-up meeting with design team」正是同一个 bug
+  的产物，早就进了生产数据。
+
+  修复：示例改成显式占位符
+    {"title": "<PLACEHOLDER - never output this literal text>", ...}
+  并加一条「标题必须用转录原文的语言书写」。
+  这一改同时修好 #8 / #11 / #13 / #18。
+
+------------------------------------------------------------------------
+4.2 一次失败的尝试（记下来避免再犯）
+------------------------------------------------------------------------
+  在提示词末尾加了一段「BEFORE YOU ANSWER, DELETE any entry where…」
+  收尾清单，通过率从 15/17 掉到 9/17 —— 3B 模型把删除指令执行得过于
+  彻底，几乎清空了所有结果。已回滚。
+
+  结论：这个体量的模型，末尾的强否定指令会主导整个输出，慎用。
+
+------------------------------------------------------------------------
+4.3 逐条结果（最终稳定态，连跑 3 轮一致）
+------------------------------------------------------------------------
+  #1  单条绝对日期        ✓  「三号楼」未被误标成日期
+  #2  多条混合日期        ✓  8/21 + 8/24 + 8/31 全部正确
+  #3  口语相对时间        ✓
+  #4  上旬 / 年底         ✗  年底那条时有时无（见下）
+  #5  每天 + 每周五       ✓  daily ×91、weekly ×27 均已展开
+  #6  事件日 + 提醒日     ✓  提前三天 → 2026-09-07
+  #7  截止日 + 提前量     ✗  日期对，但拆成 2 条（期望 1 条）
+  #8  同一件事反复提      ✓  去重后 1 条
+  #9  抱怨式待办          ✓
+  #10 客户在等            ✓
+  #11 心里记挂            ✓
+  #12 极度含蓄            ✓  边界用例，0 或 1 条都接受
+  #13 被动委婉            ✓  周四当天 →（顺延）2026-08-27
+  #14 纯陈述              ✓  空数组
+  #15 已完成事项          ✓  规则短路，零待办
+  #16 别人的活            ✓  归属复核筛掉两条（见 4.4）
+  #17 数字干扰            ✓  20260817 未被当成日期
+  #18 无日期任务          ✓  两条都回落到今天
+  #19 中英混杂            ✓
+  #20 强口语 / 改口       ✓  取「后天」8/22，未误取「明天」
+  #21 极短输入            ✓
+  #22 只有寒暄            ✓  空数组
+
+  稳定通过 20/22。#4 与 #7 的具体表现见「遗留问题」第 3 条。
+
+------------------------------------------------------------------------
+4.4 TodoOwnershipFilter.ts —— 归属复核（维护者提出的两步判断）
+------------------------------------------------------------------------
+  维护者的判断是对的：抽取那一步要模型同时做五件事
+  （找任务、判归属、判完成、抄日期、定周期），11 条规则，
+  3B 模型顾此失彼；而反复失手的恰恰是筛选，不是抽取。
+  拆成「只问一件事」的第二步是正确方向。
+
+  但按原样实现会出事，实测数据：
+    「这个报价我来跟，物流那块让小刘去对接」
+      → 1|OTHER_PERSON 2|MINE     判反了
+    「客户那边还等着我们的报价呢」
+      → 1|OTHER_PERSON            这明明是自己的活
+    correctDrops=2  falseDrops=2  —— 五成误删率
+
+  它还把「周五之前把季度报表发给财务」判成 ALREADY_DONE、
+  把「更换打印机墨盒」判成 NOT_A_TASK。
+  风险不对称：多留一条用户划掉就行，误删是真丢事情。
+
+  最终方案 —— 模型判断前面加一道确定性闸门：
+    只有转录里出现明确甩手表述（我就不管 / 不归我管 / 不用我管 /
+    跟我没关系 / 我不参与 …）才允许据此删除；
+    没有这句话连第二次模型调用都不发。
+
+    并且只采信 OTHER_PERSON 一类。ALREADY_DONE / NOT_A_TASK
+    照样收集、照样记日志，但绝不据此删除 —— 实测这两类误判率太高。
+    等换上更大的模型后重跑评测，可以再考虑放开。
+
+  加闸门后实测：
+    6/6 全对，falseDrops=0，且 6 条里只有 1 条需要发第二次模型调用。
+
+  四道保险（都有测试覆盖）：
+    复核报错          → 原样返回全部候选
+    某行解析不出来    → 该条保留
+    ≥4 条全被判丢     → 视为模型塌缩，整批保留
+    没有甩手表述      → 根本不跑复核
+
+  测试：TodoOwnershipFilter.test.ts（14 项）
+
+
+========================================================================
+第五段  显示层三处改动
+========================================================================
+
+1. 日历悬浮即展开（原先必须点击）
+   CalendarWidget.tsx
+   - 悬浮日期格直接开弹窗；点击则「钉住」，移开也不收，方便逐条点待办。
+   - 关键细节：关闭延迟 220ms。鼠标从日期格挪到弹窗的路上会短暂
+     脱离两者，立即关闭会导致弹窗永远点不到；弹窗自身 onMouseEnter
+     取消待关闭。
+   - 定位从鼠标坐标改成日期格的 getBoundingClientRect()：
+     悬浮时光标停在格子边缘，按坐标定位会抖。
+   - 补 onFocus / onBlur，键盘 Tab 也能看到，不做成纯鼠标功能。
+
+2. 窗口启动即最大化
+   main.ts：ready-to-show 里先 maximize() 再 show()。
+   顺序很重要，反过来会先闪一下 1024x728 再撑开。
+   原有的 width/height 保留，作为取消最大化后的还原尺寸。
+   START_MINIMIZED 仍然优先。
+
+3. 笔记列表列重排
+   去掉「录音时长 / 创建时间 / 最新更新」，新增「待办日期」。
+   - 重复待办展开后一条笔记可能有 91 个日期，列里显示
+     「最近一个未到期的日期 + N」，全部日期挂在 title 上；
+     已过期的用不同颜色。
+   - 列宽改用 rem。字号设置会改根字号（14/16/18px），
+     写死 px 在「大号字体」下会重新被截断。
+   - 列宽是量出来的，不是估的：用真实 CSS 在浏览器里逐档测
+     自然宽度与列宽的差值。第一版 11.5rem 在小号字体下差 4px 会截断
+     （emoji 不随 rem 等比缩小），最终 12.5rem，三档字号
+     slack 分别为 10 / 18 / 26 px。
+   - 「置顶」表头此前被截成「置...」：44px 减去 20px 内边距只剩 24px，
+     放不下两个汉字。改 4rem。
+
+4. 悬停待办日期 → 日历闪烁（维护者本次追加）
+   悬停笔记列表的「待办日期」格，日历里该笔记的所有日期持续闪烁。
+   - 动画只改 background / border-color / box-shadow，不碰布局属性，
+     一条「每天」点亮 91 格也不会逐帧重排。
+   - 必须压过 .is-today / .selected，否则今天那格看不出在闪。
+   - 高亮日期可能落在别的月份，那样当月一格都不会亮。
+     月份箭头同步闪烁并给出 tooltip（「2 个待办日期在更晚的月份」），
+     免得用户以为功能没生效。
+   - 尊重 prefers-reduced-motion：开了「减少动态效果」就不闪，
+     改成静态强调。持续闪烁对前庭敏感人群不友好。
+
+  测试：summarizeTodosByNote.test.ts（9 项），含 91 条展开的情形。
+
+
+========================================================================
+第六段  Agent 模式：分层提示词与有界循环
+========================================================================
+
+维护者要求把 Agent 的提示词做成有层级、作用域、优先级的结构，
+并把工具结果回灌形成完整循环。
+
+先说清楚现状核对：**工具结果回灌本来就有**。
+每轮 tool 消息都会回到上下文，模型下一轮能读到。这部分原本就是对的。
+缺的是结构与收敛。
+
+原先的问题：
+  - 系统提示词是一整段没有结构的话（约 90 词），规则平铺，
+    冲突时模型无从裁决。
+  - 循环没有自我感知：模型看不到还剩几步、已经调过什么，
+    于是可以把 search_notes("物流") 连发六次直到撞上限。
+  - 撞上限返回一句模板话「已达到 6 步安全上限」，而不是真答案。
+
+新增 src/main/agent/AgentPrompt.ts —— 六层提示词：
+
+  L0  ROLE           全程
+  L1  INVIOLABLE     不得编造 id / 内容 / 日期 / 工具结果；不泄露推理
+  L2  TOOL PROTOCOL  每轮至多一个工具；只用真实 id；不重复同一调用
+  L3  LOOP POLICY    先搜再说；每次调用必须能改变答案；预算有限
+  L4  OUTPUT         用户语言、简洁、用笔记名而非 id
+  L5  SESSION SCOPE  工作区范围、挂上的笔记（优先级最低）
+
+  文首写明裁决顺序：编号小的优先；并明确
+  「L5 是上下文不是许可，永远不能压过 L1」。
+
+AgentOrchestrator.ts 三条外部（代码级）约束：
+
+  1. 每轮回灌运行状态
+     [RUN STATE] step 2 of 6 · 4 remaining
+     Calls already made in this run:
+       - search_notes(query="物流")
+     模型这才谈得上知道自己在循环的哪个位置。
+
+  2. 重复调用短路
+     工具名 + 规范化参数（键排序后比对，所以参数顺序不同也算重复）
+     命中则**不再真正执行**，回灌一句「已经调过，用那个结果或直接作答」。
+     既省一次工具开销，也把模型从原地打转里拽出来。
+
+  3. 最后一步收走工具
+     最后一轮传空工具列表，模型没得可调，只能拿现有信息作答。
+     撞上限从「甩一句模板话」变成「给一个真答案」。
+
+  设计原则与全篇一致：提示词负责让模型愿意照做，
+  编排器负责模型不照做也不会出事。
+
+实测（真实 qwen2.5:3b-instruct，非 mock）：
+  call search_notes → result ok=true → final
+  searchCalls=1  completed=true
+  答案："在"物流对接安排"这条笔记中，对接人的名字是小刘，
+        联系人是顺丰的王经理。"
+
+  测试：AgentPrompt.test.ts（14 项）
+        AgentOrchestratorLoop.test.ts（10 项）
+        含「模型死循环发同一个调用」也能正常收敛的用例。
+
+
+========================================================================
+遗留问题
+========================================================================
+
+1. 【高】笔记数据库位置不明，无法核对实际落库结果
+   现象：
+     运行中的 Electron 进程命令行明确带
+       --user-data-dir="C:\Users\lf\AppData\Roaming\SpeakSpace"
+     提取日志也确实写在该目录下（speakspace_extraction.log，
+     记录了 note 1 ~ note 20 的完整提取过程），
+     但同目录的 speakspace.db 是**纯 schema、零行数据**
+     （16 页、freelist 0、全文搜不到任何 2026-08 字样）。
+     另一个旧目录 electron-react-boilerplate/speakspace.db 有数据，
+     但停在 8-18，也不是它。
+
+   影响：
+     本次全程无法直接读取待办表核对结果，只能靠提取日志＋离线评测
+     间接验证。维护者反馈某条待办「没有输出」时，也只能从日志的
+     annotated 长度反推，而不能直接查库。
+
+   建议：
+     在 DatabaseManager 构造时把最终 databasePath 打一条日志，
+     跑一次就能定位。这是后续任何数据类排查的前提。
+
+2. 【高】旧笔记数据滞留在改名前的目录
+   UserDataMigration 的 copyIfMissing 会跳过目标已存在的条目。
+   目标目录当时已经有一个空的 speakspace.db（早于迁移代码的某次启动
+   创建的），于是数据库被整个跳过。维护者本机的 .userdata-migrated
+   记录可以佐证：
+     "copied": ["app-settings.json","blobs","runtimes","models","output"]
+   —— speakspace.db 不在列表里。
+
+   8-18 之前的笔记（平板价格 / 太阳温度 / 布里斯托天气 / 会议记录）
+   仍在 electron-react-boilerplate/speakspace.db（114KB），应用看不见。
+   数据没丢，但合并两个库涉及主键与音频 blob 路径的重新对应，
+   属于要动用户数据的操作，本次未擅自执行。
+
+3. 【中】3B 模型能力上限，两条用例稳定不过
+   #7 截止日 + 提前量
+     日期解析正确（提前一周(2026-09-08) 与 九月八号(2026-09-08)
+     都标对了），但模型把一个承诺拆成 2 条，多出一条 9/15。
+   #15 已完成事项
+     已由 CompletionDetector 规则短路兜住，评测通过；
+     但规则之外的表述仍可能漏。
+   #4 上旬 / 年底
+     「年底之前争取把流程文档补全」时有时无。加了「争取 / 尽量 /
+     最好也是任务」的规则后连跑 3 轮通过，之后又复现，属不稳定。
+
+   这三条都不是链路缺陷 —— 确定性层有 246 项单测覆盖，
+   标注送进模型时是正确的。最有效的手段不是继续调提示词，而是换模型：
+     ollama pull qwen2.5:7b-instruct
+     TODO_EVAL=1 TODO_EVAL_MODEL=qwen2.5:7b-instruct npx jest todoExtraction.eval
+   评测脚本已经支持切模型，能直接量出差距而不是靠猜。
+
+4. 【中】Agent 工具参数的健壮性
+   实测中模型有一次把 JSON schema 原样当成参数发了过来：
+     search_notes {"query":{"type":"string"}}
+   评测里的替身工具容错通过了，但线上的 search_notes 会把它当成
+   字面量查询串，搜不到任何东西且不报错。
+   属于既有缺口（本次未引入也未修复），建议在工具入口加一层
+   参数形状校验。
+
+5. 【低】三个模型方法与一个视觉验证
+   a. DashboardNoteItem 上的 getFormattedDuration /
+      getFormattedCreatedDate / getUpdatedTimeDescriptor
+      随列删除后已无任何引用。未删除，以防后续要把列加回来。
+      排序下拉仍提供「按更新 / 按创建」，数据本身还在用。
+   b. 本次所有 UI 改动都只经过 typecheck / lint / 单测 / 构建，
+      以及用真实 CSS 在浏览器里做的量化验证（列宽、闪烁动画的
+      关键帧与 playState），**没有在运行中的应用里肉眼确认过**。
+      日历悬浮的 220ms 关闭延迟、闪烁的 1s 周期这类「手感」参数
+      尤其需要维护者亲自看一眼，都是单个常量，好调。
+
+
+========================================================================
+变更文件清单
+========================================================================
+
+新增（功能模块）：
+    src/main/dashboard/DateContext.ts
+    src/main/dashboard/RelativeDateRewriter.ts
+    src/main/dashboard/RecurrenceExpander.ts
+    src/main/dashboard/CompletionDetector.ts
+    src/main/dashboard/TodoOwnershipFilter.ts
+    src/main/dashboard/TodoExtractionPrompt.ts
+    src/main/agent/AgentPrompt.ts
+    src/renderer/pages/Agent/useActiveAgentRun.ts
+    src/renderer/components/Markdown/markdownAst.ts
+    src/renderer/components/Markdown/MarkdownText.tsx
+    src/renderer/components/Markdown/MarkdownText.css
+
+新增（测试，共 15 个文件 / 约 220 项）：
+    src/__tests__/DateContext.test.ts                    19 项
+    src/__tests__/RelativeDateRewriter.test.ts           57 项
+    src/__tests__/RecurrenceExpander.test.ts             12 项
+    src/__tests__/CompletionDetector.test.ts             15 项
+    src/__tests__/TodoOwnershipFilter.test.ts            14 项
+    src/__tests__/TodoExtractionService.privacy.test.ts   4 项
+    src/__tests__/isTranscriptionFileBusy.test.ts         8 项
+    src/__tests__/useActiveAgentRun.test.ts               5 项
+    src/__tests__/markdownAst.test.ts                    27 项
+    src/__tests__/MarkdownText.test.tsx                   9 项
+    src/__tests__/summarizeTodosByNote.test.ts            9 项
+    src/main/agent/__tests__/AgentPrompt.test.ts         14 项
+    src/main/agent/__tests__/AgentOrchestratorLoop.test.ts 10 项
+    src/__tests__/todoExtraction.eval.ts                 22 项（默认跳过）
+
+主进程：
+    src/main/main.ts                     启动即最大化
+    src/main/dashboard/TodoExtractionService.ts
+                                         隐私日志、日期标注接入、
+                                         去重、周期溯源、归属复核、
+                                         日志落点可覆盖
+    src/main/agent/AgentOrchestrator.ts  分层提示词 + 三条外部约束
+    src/main/agent/AgentSearchNotesTool.ts    AbortSignal 接入
+    src/main/agent/AgentExtractTodosTool.ts   AbortSignal 接入
+    src/main/workspace/WorkspaceService.ts    for...of → forEach
+
+渲染进程：
+    src/renderer/pages/Recording/TranscriptionController.ts
+                                         isTranscriptionFileBusy
+    src/renderer/pages/Recording/components/RecordControlBar.tsx
+    src/renderer/pages/Recording/components/TranscriptionPanel.tsx
+    src/renderer/pages/Recording/RecordingPage.css
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/renderer/pages/Studio/components/RecordingReviewDialog.tsx
+    src/renderer/pages/Studio/useStudioAgent.ts
+    src/renderer/pages/Agent/useAgentPage.ts
+    src/renderer/pages/Agent/components/AgentConversation.tsx
+    src/renderer/pages/AskAI/components/AskAIChatPanel.tsx
+    src/renderer/pages/AskAI/components/AskAINotePreview.tsx
+    src/renderer/pages/Dashboard/DashboardPage.tsx
+    src/renderer/pages/Dashboard/DashboardPage.css
+    src/renderer/pages/Dashboard/components/CalendarWidget.tsx
+    src/renderer/pages/Dashboard/components/NoteListTable.tsx
+    src/renderer/pages/Workspace/components/KnowledgeOutputPanel.tsx
+    src/renderer/pages/Workspace/components/WorkspaceMultiNoteModal.tsx
+    src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+    src/renderer/pages/Workspace/WorkspacePage.css
+
+构建与配置：
+    package.json          依赖升级、check:audit 脚本
+    package-lock.json
+    .github/workflows/test.yml    新增 production audit 步骤
+
+文案：
+    src/i18n/locales/zh.json、en.json
+    （新增 dashboard.notes.column.todo：待办日期 / Due date）
+
+其他：
+    docs/changelog/2026082001.txt（本文件）
+========================================================================

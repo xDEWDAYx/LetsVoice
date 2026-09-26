@@ -1,0 +1,251 @@
+{
+  "name": "speakspace",
+  "productName": "SpeakSpace Local",
+  "description": "SpeakSpace Local — 本地优先的语音笔记与知识工作台 / Local-first voice notes and knowledge workspace",
+  "keywords": [
+    "speakspace",
+    "electron",
+    "react",
+    "typescript",
+    "local-first",
+    "speech-to-text",
+    "whisper",
+    "ollama",
+    "notes"
+  ],
+  "homepage": "https://github.com/dhebhxh/speakspace-local-electron#readme",
+  "bugs": {
+    "url": "https://github.com/dhebhxh/speakspace-local-electron/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhebhxh/speakspace-local-electron.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "SpeakSpace Local",
+    "url": "https://github.com/dhebhxh/speakspace-local-electron"
+  },
+  "main": "./.erb/dll/main.bundle.dev.js",
+  "scripts": {
+    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
+    "clean": "ts-node ./.erb/scripts/clean.js",
+    "build:dll": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
+    "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack --config ./.erb/configs/webpack.config.main.prod.ts",
+    "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "postinstall": "node -r ts-node/register .erb/scripts/check-native-dep.js && node ./node_modules/electron-builder/cli.js install-app-deps && node .erb/scripts/check-electron-binary.js && npm run build:dll",
+    "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "package": "npm run clean && npm run build && electron-builder build --config electron-builder.js --publish never && node .erb/scripts/verify-signing.js && npm run build:dll",
+    "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
+    "prestart": "node .erb/scripts/ensure-dependencies.js && node .erb/scripts/check-electron-binary.js && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack --config ./.erb/configs/webpack.config.main.dev.ts",
+    "start": "ts-node ./.erb/scripts/start-dev.js",
+    "start:main": "concurrently -k -P \"cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --watch --config ./.erb/configs/webpack.config.main.dev.ts\" \"electronmon . -- {@}\" --",
+    "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
+    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true NODE_OPTIONS=\"-r ts-node/register --no-warnings\" webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
+    "smoke:tts": "cross-env NODE_PATH=release/app/node_modules node -r ts-node/register/transpile-only scripts/smoke/tts-model-smoke.ts",
+    "test": "jest",
+    "check:apps": "node --test scripts/integration/app-boundaries.test.mjs",
+    "mobile:install": "npm --prefix mobile ci",
+    "mobile:start": "npm --prefix mobile start",
+    "mobile:android": "npm --prefix mobile run android",
+    "mobile:ios": "npm --prefix mobile run ios",
+    "mobile:web": "npm --prefix mobile run web",
+    "mobile:test": "npm --prefix mobile test",
+    "mobile:typecheck": "npm --prefix mobile run typecheck",
+    "mobile:lint": "npm --prefix mobile run lint",
+    "test:trash:electron": "cross-env ELECTRON_RUN_AS_NODE=1 electron ./node_modules/jest/bin/jest.js --runInBand src/main/trash/__tests__/TrashService.test.ts",
+    "check:electron": "node .erb/scripts/check-electron-binary.js",
+    "check:audit": "npm audit --omit=dev --audit-level=high",
+    "package:release": "node .erb/scripts/check-release-signing.js && npm run clean && npm run build && cross-env SPEAKSPACE_RELEASE=true electron-builder build --config electron-builder.js --publish never && cross-env SPEAKSPACE_RELEASE=true node .erb/scripts/verify-signing.js && npm run build:dll",
+    "check:signing": "node .erb/scripts/check-release-signing.js",
+    "bench:tts:fetch": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/fetch-tts-models.ts",
+    "bench:stt:fetch": "cross-env ELECTRON_RUN_AS_NODE=1 NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true electron -r ./scripts/benchmark/register-shared-alias.js -r ./scripts/benchmark/register-electron-app-stub.js -r ts-node/register/transpile-only scripts/benchmark/install-whisper-runtime.ts",
+    "bench:llm:fetch": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/fetch-llm-models.ts",
+    "bench:tts": "cross-env NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tts-benchmark.ts",
+    "bench:tts:asr": "cross-env NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tts-asr-eval.ts",
+    "bench:stt": "cross-env NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/stt-human-eval.ts",
+    "bench:todo": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/todo-extraction-eval.ts",
+    "bench:report": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/make-reports.ts",
+    "test:inventory": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/test-inventory.ts",
+    "bench:tts:memory": "cross-env NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tts-memory-probe.ts",
+    "bench:tts:length": "cross-env NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tts-length-scaling.ts",
+    "bench:agent:seed": "cross-env ELECTRON_RUN_AS_NODE=1 NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true electron -r ./scripts/benchmark/register-shared-alias.js -r ts-node/register/transpile-only scripts/benchmark/agent-eval-seed.ts",
+    "bench:agent": "cross-env ELECTRON_RUN_AS_NODE=1 NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true electron -r ./scripts/benchmark/register-shared-alias.js -r ts-node/register/transpile-only scripts/benchmark/agent-eval.ts",
+    "bench:agent:rescore": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/agent-eval-rescore.ts",
+    "bench:agent:human": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/agent-eval-human-scoring.ts",
+    "bench:retrieval": "cross-env ELECTRON_RUN_AS_NODE=1 NODE_PATH=release/app/node_modules TS_NODE_TRANSPILE_ONLY=true electron -r ./scripts/benchmark/register-shared-alias.js -r ts-node/register/transpile-only scripts/benchmark/embedding-retrieval-eval.ts",
+    "bench:charts": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/make-charts.ts",
+    "bench:llm": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/llm-runtime-probe.ts",
+    "bench:sweep": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/llm-sweep.ts",
+    "bench:tune": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tune-prompts.ts",
+    "bench:tuning-diff": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tuning-comparison.ts",
+    "bench:harness": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tune-harness.ts",
+    "bench:agent:harness": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/tune-agent-harness.ts",
+    "bench": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/bench-machine.ts",
+    "bench:aggregate": "cross-env TS_NODE_TRANSPILE_ONLY=true node -r ts-node/register/transpile-only scripts/benchmark/aggregate-machines.ts"
+  },
+  "browserslist": [
+    "last 2 Electron versions"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          ".prettierrc",
+          ".eslintrc"
+        ],
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "release/app/node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+    },
+    "setupFiles": [
+      "./.erb/scripts/check-build-exists.ts",
+      "./.erb/scripts/jest-setup-electron.ts"
+    ],
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    },
+    "testPathIgnorePatterns": [
+      "release/app/dist",
+      ".erb/dll",
+      "<rootDir>/.claude/",
+      "<rootDir>/mobile/"
+    ],
+    "transform": {
+      "\\.(ts|tsx|js|jsx)$": "ts-jest"
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/.claude/",
+      "<rootDir>/release/build/",
+      "<rootDir>/mobile/"
+    ]
+  },
+  "dependencies": {
+    "@electron/notarize": "^3.0.0",
+    "bootstrap": "^5.3.8",
+    "docx": "^9.7.1",
+    "electron-debug": "^4.1.0",
+    "electron-log": "^5.3.2",
+    "electron-updater": "^6.8.9",
+    "i18next": "^26.3.1",
+    "lucide-react": "^1.31.0",
+    "ollama": "^0.6.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-i18next": "^17.0.8",
+    "react-router-dom": "^7.18.2",
+    "wavesurfer.js": "^7.12.8",
+    "whisper.cpp": "^1.0.3"
+  },
+  "devDependencies": {
+    "@electron/get": "^2.0.3",
+    "@electron/rebuild": "^3.7.2",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "@svgr/webpack": "^8.1.0",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.13.10",
+    "@types/react": "^19.0.11",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-test-renderer": "^19.0.0",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "browserslist-config-erb": "^0.0.3",
+    "chalk": "^4.1.2",
+    "concurrently": "^9.1.2",
+    "core-js": "^3.41.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "detect-port": "^2.1.0",
+    "electron": "^35.7.5",
+    "electron-builder": "^25.1.8",
+    "electron-devtools-installer": "^4.0.0",
+    "electronmon": "^2.0.3",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-erb": "^4.1.0",
+    "eslint-import-resolver-typescript": "^4.1.1",
+    "eslint-import-resolver-webpack": "^0.13.10",
+    "eslint-plugin-compat": "^6.0.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.6.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "node-abi": "^4.31.0",
+    "prettier": "^3.5.3",
+    "react-refresh": "^0.16.0",
+    "react-test-renderer": "^19.0.0",
+    "rimraf": "^6.0.1",
+    "sass": "^1.86.0",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "ts-jest": "^29.2.6",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
+    "typescript": "^5.8.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.98.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0",
+    "webpack-merge": "^6.0.1"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=14.x",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=7.x",
+      "onFail": "error"
+    }
+  },
+  "electronmon": {
+    "patterns": [
+      "!**/**",
+      "src/main/**",
+      ".erb/dll/**"
+    ],
+    "logLevel": "quiet"
+  }
+}

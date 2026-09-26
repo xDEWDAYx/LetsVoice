@@ -1,0 +1,5921 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-31T16:01:33.581Z",
+  "model": "ministral-3:3b-instruct-2512-q4_K_M",
+  "model_digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+  "model_details": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "mistral3",
+    "families": [
+      "mistral3"
+    ],
+    "parameter_size": "3.8B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 3072
+  },
+  "temperature": 0.1,
+  "prompt_variant": "baseline",
+  "prompt_variant_describe": "不追加任何规则，与线上提示词完全一致",
+  "ollama_host": "http://127.0.0.1:11434",
+  "reference_datetime": "2026-08-20T13:30:00.000Z",
+  "platform": {
+    "os": "Windows_NT 10.0.26200",
+    "arch": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i9-12900H",
+    "total_memory_bytes": 42732085248,
+    "node": "v24.14.0"
+  },
+  "rounds_run": 3,
+  "case_count": 54,
+  "mean_across_rounds": {
+    "overall": {
+      "case_pass_rate": 0.8209876543209876,
+      "precision": 0.9592074592074592,
+      "recall": 0.9215686274509803,
+      "f1": 0.9399992518609958,
+      "date_accuracy": 0.9038461538461539,
+      "repeat_accuracy": 1,
+      "zero_task_false_positive_rate": 0.06060606060606061,
+      "duplicate_rate": 0,
+      "merged_share_of_misses": 0,
+      "parse_failure_rate": 0.006172839506172839
+    },
+    "dev": {
+      "case_pass_rate": 0.8636363636363636,
+      "precision": 0.9274264382960035,
+      "recall": 0.8888888888888888,
+      "f1": 0.907467365607976,
+      "date_accuracy": 1
+    },
+    "holdout": {
+      "case_pass_rate": 0.7916666666666666,
+      "precision": 0.976375046142488,
+      "recall": 0.9393939393939393,
+      "f1": 0.9574979951884522,
+      "date_accuracy": 0.8623623623623624
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "elapsed_ms": 60063,
+      "overall": {
+        "case_count": 54,
+        "passed_cases": 44,
+        "case_pass_rate": 0.8148148148148148,
+        "true_positives": 62,
+        "false_positives": 3,
+        "false_negatives": 6,
+        "precision": 0.9538461538461539,
+        "recall": 0.9117647058823529,
+        "f1": 0.9323308270676691,
+        "date_accuracy": 0.9038461538461539,
+        "date_checked": 52,
+        "repeat_accuracy": 1,
+        "repeat_checked": 7,
+        "zero_task_case_count": 11,
+        "zero_task_false_positive_rate": 0.09090909090909091,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0.018518518518518517,
+        "prediction_total": 68
+      },
+      "dev": {
+        "case_count": 22,
+        "passed_cases": 18,
+        "case_pass_rate": 0.8181818181818182,
+        "true_positives": 20,
+        "false_positives": 2,
+        "false_negatives": 4,
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1": 0.8695652173913043,
+        "date_accuracy": 1,
+        "date_checked": 15,
+        "repeat_accuracy": 1,
+        "repeat_checked": 2,
+        "zero_task_case_count": 6,
+        "zero_task_false_positive_rate": 0.16666666666666666,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0.045454545454545456,
+        "prediction_total": 24
+      },
+      "holdout": {
+        "case_count": 32,
+        "passed_cases": 26,
+        "case_pass_rate": 0.8125,
+        "true_positives": 42,
+        "false_positives": 1,
+        "false_negatives": 2,
+        "precision": 0.9767441860465116,
+        "recall": 0.9545454545454546,
+        "f1": 0.9655172413793104,
+        "date_accuracy": 0.8648648648648649,
+        "date_checked": 37,
+        "repeat_accuracy": 1,
+        "repeat_checked": 5,
+        "zero_task_case_count": 5,
+        "zero_task_false_positive_rate": 0,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 44
+      },
+      "by_scenario": {
+        "绝对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "date_accuracy": 0.8,
+          "date_checked": 5,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "多任务": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 8,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353,
+          "date_accuracy": 1,
+          "date_checked": 8,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "相对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.7142857142857143,
+          "date_checked": 7,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "模糊时间": {
+          "case_count": 2,
+          "passed_cases": 1,
+          "case_pass_rate": 0.5,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "date_accuracy": 1,
+          "date_checked": 4,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "周期任务": {
+          "case_count": 4,
+          "passed_cases": 4,
+          "case_pass_rate": 1,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 5,
+          "repeat_accuracy": 1,
+          "repeat_checked": 6,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 7
+        },
+        "提醒日": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "去重": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "隐晦任务": {
+          "case_count": 5,
+          "passed_cases": 5,
+          "case_pass_rate": 1,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "边界": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 1,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "f1": 0.6666666666666666,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 2,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 3
+        },
+        "委婉语气": {
+          "case_count": 3,
+          "passed_cases": 1,
+          "case_pass_rate": 0.3333333333333333,
+          "true_positives": 3,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1": 0.75,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "假阳性": {
+          "case_count": 8,
+          "passed_cases": 7,
+          "case_pass_rate": 0.875,
+          "true_positives": 0,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "precision": 0,
+          "recall": null,
+          "f1": null,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 8,
+          "zero_task_false_positive_rate": 0.125,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 1
+        },
+        "任务归属": {
+          "case_count": 3,
+          "passed_cases": 3,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 1,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "无日期": {
+          "case_count": 3,
+          "passed_cases": 3,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 4,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "中英混合": {
+          "case_count": 2,
+          "passed_cases": 1,
+          "case_pass_rate": 0.5,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 2,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0.5,
+          "prediction_total": 2
+        },
+        "口语改口": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "极短输入": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "完成状态": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 1
+        },
+        "长文本": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": 1,
+          "repeat_checked": 1,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "同日多任务": {
+          "case_count": 1,
+          "passed_cases": 0,
+          "case_pass_rate": 0,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        }
+      },
+      "scores": [
+        {
+          "id": "D01",
+          "split": "dev",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加供应商评审会",
+              "dueDate": "2026-09-04",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D02",
+          "split": "dev",
+          "scenario": "多任务",
+          "truePositives": 3,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发季度报表给财务",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "交差旅报销单子",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "办服务器续费",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D03",
+          "split": "dev",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "给张经理回电话",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "提前半小时到后天(2026-08-22)下午的培训",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "跟法务确认下周三(2026-08-26)合同条款",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D04",
+          "split": "dev",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "整理新人的入职材料",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "安排团队复盘会议",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 文档/流程"
+          ]
+        },
+        {
+          "id": "D05",
+          "split": "dev",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每天早上九点半检查并回复值班群消息",
+              "dueDate": "2026-08-20",
+              "repeat": "daily"
+            },
+            {
+              "title": "每周五下班前发送周报",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D06",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备材料",
+              "dueDate": "2026-09-07",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D07",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备投标文件",
+              "dueDate": "2026-09-08",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D08",
+          "split": "dev",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "修改预算表",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D09",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成李工提供的接口文档",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D10",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供报价给客户",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D11",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "续保仓库货物并确认王姐处理",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D12",
+          "split": "dev",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D13",
+          "split": "dev",
+          "scenario": "委婉语气",
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "review the contract",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 合同",
+            "多抽 1 条: review the contract"
+          ]
+        },
+        {
+          "id": "D14",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D15",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D16",
+          "split": "dev",
+          "scenario": "任务归属",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D17",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "迁移会议室到301",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "多抽 1 条: 迁移会议室到301"
+          ]
+        },
+        {
+          "id": "D18",
+          "split": "dev",
+          "scenario": "无日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "换打印机墨盒",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "补会议室白板笔",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D19",
+          "split": "dev",
+          "scenario": "中英混合",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": true,
+          "passed": false,
+          "predicted": [],
+          "problems": [
+            "模型输出无法解析为 JSON 数组"
+          ]
+        },
+        {
+          "id": "D20",
+          "split": "dev",
+          "scenario": "口语改口",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去银行办对公账户事务",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "提前打印材料",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D21",
+          "split": "dev",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D22",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H01",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年度预算初稿",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            },
+            {
+              "title": "完成部门述职材料",
+              "dueDate": "2026-09-15",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H02",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去体检",
+              "dueDate": "2026-08-23",
+              "repeat": null
+            },
+            {
+              "title": "完成季度总结并提交",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H03",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "换家里的路由器",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "续费宽带",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 路由器 期望 2026-08-22，得到 2026-08-20",
+            "日期错误: 宽带 期望 2026-08-22，得到 2026-08-20"
+          ]
+        },
+        {
+          "id": "H04",
+          "split": "holdout",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成库存盘点",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "开始新的排班",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H05",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 4,
+          "dateCorrect": 4,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "开项目启动会",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "提交预算",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "做客户回访",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 认证/体系"
+          ]
+        },
+        {
+          "id": "H06",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交合规报告",
+              "dueDate": "2026-09-15",
+              "repeat": "monthly"
+            },
+            {
+              "title": "进行代码评审",
+              "dueDate": "2026-08-24",
+              "repeat": "biweekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H07",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每天检查备份任务的状态",
+              "dueDate": "2026-08-20",
+              "repeat": "weekdays"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H08",
+          "split": "holdout",
+          "scenario": "完成状态",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "催尾款并确认与财务沟通",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H09",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发送邀请函名单给小周",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H10",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "等待客户确认方案并提交",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H11",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H12",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H13",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H14",
+          "split": "holdout",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年假申请",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H15",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "买牛奶",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H16",
+          "split": "holdout",
+          "scenario": "长文本",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "对齐新埋点方案文档并发送给数据组",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "完成季度汇报PPT初稿",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "提交采购服务器报价单至财务",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            },
+            {
+              "title": "每周五下班前更新进度表",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H17",
+          "split": "holdout",
+          "scenario": "中英混合",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "编写本次 sprint 的release note",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            },
+            {
+              "title": "QA团队的test plan进行审核",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H18",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "更新服务条款",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            },
+            {
+              "title": "更新隐私政策",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 隐私 期望 2026-08-20，得到 2026-09-03"
+          ]
+        },
+        {
+          "id": "H19",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成三季度人力预算重新编制",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H20",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提前评审材料至下周四(2026-08-27)",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H21",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "整理工作区域",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H22",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 1,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "准备演讲稿",
+              "dueDate": "2026-12-31",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 年会/行业",
+            "日期错误: 演讲稿 期望 2027-01-10，得到 2026-12-31"
+          ]
+        },
+        {
+          "id": "H23",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "组织全员会议",
+              "dueDate": "2026-10-12",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H24",
+          "split": "holdout",
+          "scenario": "同日多任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "与设计确认一版稿子",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "将结论同步到群里",
+              "dueDate": "2026-08-17",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 结论 期望 2026-08-20，得到 2026-08-17"
+          ]
+        },
+        {
+          "id": "H25",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "审阅年度总结",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H26",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "处理服务器监控告警误报",
+              "dueDate": "2026-08-20",
+              "repeat": "daily"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H27",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供集成方案的报价",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H28",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "确认会议室安排并提前联系行政",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "多抽 1 条: 如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议"
+          ]
+        },
+        {
+          "id": "H29",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "回复王总的邮件并确认三个问题",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H30",
+          "split": "holdout",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成v2.1版本的开发和测试",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H31",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H32",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加每周一的早场站会",
+              "dueDate": "2026-08-24",
+              "repeat": "weekly"
+            },
+            {
+              "title": "提交会议室预定权限申请",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "elapsed_ms": 73892,
+      "overall": {
+        "case_count": 54,
+        "passed_cases": 45,
+        "case_pass_rate": 0.8333333333333334,
+        "true_positives": 63,
+        "false_positives": 2,
+        "false_negatives": 5,
+        "precision": 0.9692307692307692,
+        "recall": 0.9264705882352942,
+        "f1": 0.9473684210526316,
+        "date_accuracy": 0.9038461538461539,
+        "date_checked": 52,
+        "repeat_accuracy": 1,
+        "repeat_checked": 7,
+        "zero_task_case_count": 11,
+        "zero_task_false_positive_rate": 0,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 69
+      },
+      "dev": {
+        "case_count": 22,
+        "passed_cases": 20,
+        "case_pass_rate": 0.9090909090909091,
+        "true_positives": 22,
+        "false_positives": 1,
+        "false_negatives": 2,
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1": 0.9361702127659574,
+        "date_accuracy": 1,
+        "date_checked": 16,
+        "repeat_accuracy": 1,
+        "repeat_checked": 2,
+        "zero_task_case_count": 6,
+        "zero_task_false_positive_rate": 0,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 26
+      },
+      "holdout": {
+        "case_count": 32,
+        "passed_cases": 25,
+        "case_pass_rate": 0.78125,
+        "true_positives": 41,
+        "false_positives": 1,
+        "false_negatives": 3,
+        "precision": 0.9761904761904762,
+        "recall": 0.9318181818181818,
+        "f1": 0.9534883720930233,
+        "date_accuracy": 0.8611111111111112,
+        "date_checked": 36,
+        "repeat_accuracy": 1,
+        "repeat_checked": 5,
+        "zero_task_case_count": 5,
+        "zero_task_false_positive_rate": 0,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 43
+      },
+      "by_scenario": {
+        "绝对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "date_accuracy": 0.8,
+          "date_checked": 5,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "多任务": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 8,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353,
+          "date_accuracy": 1,
+          "date_checked": 8,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "相对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.7142857142857143,
+          "date_checked": 7,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "模糊时间": {
+          "case_count": 2,
+          "passed_cases": 1,
+          "case_pass_rate": 0.5,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "date_accuracy": 1,
+          "date_checked": 4,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "周期任务": {
+          "case_count": 4,
+          "passed_cases": 4,
+          "case_pass_rate": 1,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 5,
+          "repeat_accuracy": 1,
+          "repeat_checked": 6,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 7
+        },
+        "提醒日": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "去重": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "隐晦任务": {
+          "case_count": 5,
+          "passed_cases": 5,
+          "case_pass_rate": 1,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "边界": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 1,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "f1": 0.6666666666666666,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 2,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 3
+        },
+        "委婉语气": {
+          "case_count": 3,
+          "passed_cases": 1,
+          "case_pass_rate": 0.3333333333333333,
+          "true_positives": 3,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1": 0.75,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "假阳性": {
+          "case_count": 8,
+          "passed_cases": 8,
+          "case_pass_rate": 1,
+          "true_positives": 0,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 8,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 0
+        },
+        "任务归属": {
+          "case_count": 3,
+          "passed_cases": 3,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 1,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "无日期": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 3,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 3
+        },
+        "中英混合": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "口语改口": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "极短输入": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "完成状态": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 1
+        },
+        "长文本": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": 1,
+          "repeat_checked": 1,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "同日多任务": {
+          "case_count": 1,
+          "passed_cases": 0,
+          "case_pass_rate": 0,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        }
+      },
+      "scores": [
+        {
+          "id": "D01",
+          "split": "dev",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加供应商评审会",
+              "dueDate": "2026-09-04",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D02",
+          "split": "dev",
+          "scenario": "多任务",
+          "truePositives": 3,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发送季度报表给财务",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "提交差旅报销单子",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "办理服务器续费并确保不停机",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D03",
+          "split": "dev",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "给张经理回电话",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "提前半小时到后天(2026-08-22)下午的培训",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "跟法务确认合同条款下周三(2026-08-26)",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D04",
+          "split": "dev",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "整理新人的入职材料",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "安排团队复盘会议",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 文档/流程"
+          ]
+        },
+        {
+          "id": "D05",
+          "split": "dev",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每天早上九点半检查并回复值班群消息",
+              "dueDate": "2026-08-24",
+              "repeat": "daily"
+            },
+            {
+              "title": "每周五下班前发送周报",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D06",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备材料",
+              "dueDate": "2026-09-07",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D07",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备投标文件",
+              "dueDate": "2026-09-08",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D08",
+          "split": "dev",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "修改预算表",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D09",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成李工的接口文档",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D10",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供报价给客户",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D11",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "续保仓库货品并确认王姐处理",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D12",
+          "split": "dev",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D13",
+          "split": "dev",
+          "scenario": "委婉语气",
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "review the contract",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 合同",
+            "多抽 1 条: review the contract"
+          ]
+        },
+        {
+          "id": "D14",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D15",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D16",
+          "split": "dev",
+          "scenario": "任务归属",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D17",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D18",
+          "split": "dev",
+          "scenario": "无日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "换打印机墨盒",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "补会议室白板笔",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D19",
+          "split": "dev",
+          "scenario": "中英混合",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加明天的 standup 会议",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "准备并排列 sprint 的 retro 计划",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "review 下周二之前的那个 PR",
+              "dueDate": "2026-08-25",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D20",
+          "split": "dev",
+          "scenario": "口语改口",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去银行办对公账户事务",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "提前打印材料",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D21",
+          "split": "dev",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D22",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H01",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年度预算初稿",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            },
+            {
+              "title": "完成部门述职材料",
+              "dueDate": "2026-09-15",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H02",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去体检",
+              "dueDate": "2026-08-23",
+              "repeat": null
+            },
+            {
+              "title": "完成季度总结并提交",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H03",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "换家里的路由器",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "续办家里的宽带续费",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 路由器 期望 2026-08-22，得到 2026-08-20",
+            "日期错误: 宽带 期望 2026-08-22，得到 2026-08-20"
+          ]
+        },
+        {
+          "id": "H04",
+          "split": "holdout",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成库存盘点",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "开始新的排班",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H05",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 4,
+          "dateCorrect": 4,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "开项目启动会",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "提交预算",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "做客户回访",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 认证/体系"
+          ]
+        },
+        {
+          "id": "H06",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交合规报告",
+              "dueDate": "2026-09-15",
+              "repeat": "monthly"
+            },
+            {
+              "title": "进行代码评审",
+              "dueDate": "2026-08-24",
+              "repeat": "biweekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H07",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每天检查备份任务的状态",
+              "dueDate": "2026-08-20",
+              "repeat": "weekdays"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H08",
+          "split": "holdout",
+          "scenario": "完成状态",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "催尾款并确认与财务沟通",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H09",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发送邀请函名单给小周",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H10",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "等待客户确认方案并提交",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H11",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H12",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H13",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H14",
+          "split": "holdout",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年假申请",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H15",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [],
+          "problems": [
+            "漏检: 牛奶"
+          ]
+        },
+        {
+          "id": "H16",
+          "split": "holdout",
+          "scenario": "长文本",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "对齐新埋点方案文档并发送给数据组",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "完成季度汇报PPT初稿",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "提交采购服务器报价单至财务",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            },
+            {
+              "title": "每周五下班前更新进度表",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H17",
+          "split": "holdout",
+          "scenario": "中英混合",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "编写本次 sprint 的 release note",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            },
+            {
+              "title": "审阅 QA 端的 test plan",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H18",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "更新服务条款",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            },
+            {
+              "title": "更新隐私政策",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 隐私 期望 2026-08-20，得到 2026-09-03"
+          ]
+        },
+        {
+          "id": "H19",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成三季度人力预算重新编制",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H20",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提前评审材料至下周四(2026-08-27)",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H21",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "整理工作区域",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H22",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 1,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "准备演讲稿",
+              "dueDate": "2026-12-31",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 年会/行业",
+            "日期错误: 演讲稿 期望 2027-01-10，得到 2026-12-31"
+          ]
+        },
+        {
+          "id": "H23",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "组织全员会议",
+              "dueDate": "2026-10-12",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H24",
+          "split": "holdout",
+          "scenario": "同日多任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "与设计确认一版稿子",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "将结论同步到群里",
+              "dueDate": "2026-08-17",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 结论 期望 2026-08-20，得到 2026-08-17"
+          ]
+        },
+        {
+          "id": "H25",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "审阅年度总结",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H26",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "处理服务器监控告警误报",
+              "dueDate": "2026-08-20",
+              "repeat": "daily"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H27",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供集成方案的报价",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H28",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "确认会议室安排并提前联系行政部",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "多抽 1 条: 如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议"
+          ]
+        },
+        {
+          "id": "H29",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "回复王总的邮件并确认三个问题",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H30",
+          "split": "holdout",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成v2.1发布任务",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H31",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H32",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加每周一早上的开站会",
+              "dueDate": "2026-08-24",
+              "repeat": "weekly"
+            },
+            {
+              "title": "提交会议室预定权限申请",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "elapsed_ms": 82940,
+      "overall": {
+        "case_count": 54,
+        "passed_cases": 44,
+        "case_pass_rate": 0.8148148148148148,
+        "true_positives": 63,
+        "false_positives": 3,
+        "false_negatives": 5,
+        "precision": 0.9545454545454546,
+        "recall": 0.9264705882352942,
+        "f1": 0.9402985074626866,
+        "date_accuracy": 0.9038461538461539,
+        "date_checked": 52,
+        "repeat_accuracy": 1,
+        "repeat_checked": 7,
+        "zero_task_case_count": 11,
+        "zero_task_false_positive_rate": 0.09090909090909091,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 71
+      },
+      "dev": {
+        "case_count": 22,
+        "passed_cases": 19,
+        "case_pass_rate": 0.8636363636363636,
+        "true_positives": 22,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1": 0.9166666666666666,
+        "date_accuracy": 1,
+        "date_checked": 16,
+        "repeat_accuracy": 1,
+        "repeat_checked": 2,
+        "zero_task_case_count": 6,
+        "zero_task_false_positive_rate": 0.16666666666666666,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 28
+      },
+      "holdout": {
+        "case_count": 32,
+        "passed_cases": 25,
+        "case_pass_rate": 0.78125,
+        "true_positives": 41,
+        "false_positives": 1,
+        "false_negatives": 3,
+        "precision": 0.9761904761904762,
+        "recall": 0.9318181818181818,
+        "f1": 0.9534883720930233,
+        "date_accuracy": 0.8611111111111112,
+        "date_checked": 36,
+        "repeat_accuracy": 1,
+        "repeat_checked": 5,
+        "zero_task_case_count": 5,
+        "zero_task_false_positive_rate": 0,
+        "duplicate_rate": 0,
+        "merged_into_other": 0,
+        "merged_share_of_misses": 0,
+        "forbidden_date_hits": 0,
+        "parse_failure_rate": 0,
+        "prediction_total": 43
+      },
+      "by_scenario": {
+        "绝对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "date_accuracy": 0.8,
+          "date_checked": 5,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "多任务": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 8,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353,
+          "date_accuracy": 1,
+          "date_checked": 8,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "相对日期": {
+          "case_count": 4,
+          "passed_cases": 3,
+          "case_pass_rate": 0.75,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.7142857142857143,
+          "date_checked": 7,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 8
+        },
+        "模糊时间": {
+          "case_count": 2,
+          "passed_cases": 1,
+          "case_pass_rate": 0.5,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "date_accuracy": 1,
+          "date_checked": 4,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "周期任务": {
+          "case_count": 4,
+          "passed_cases": 4,
+          "case_pass_rate": 1,
+          "true_positives": 7,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 5,
+          "repeat_accuracy": 1,
+          "repeat_checked": 6,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 7
+        },
+        "提醒日": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "去重": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "隐晦任务": {
+          "case_count": 5,
+          "passed_cases": 5,
+          "case_pass_rate": 1,
+          "true_positives": 5,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "边界": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 1,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "f1": 0.6666666666666666,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 2,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "委婉语气": {
+          "case_count": 3,
+          "passed_cases": 1,
+          "case_pass_rate": 0.3333333333333333,
+          "true_positives": 3,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1": 0.75,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "假阳性": {
+          "case_count": 8,
+          "passed_cases": 7,
+          "case_pass_rate": 0.875,
+          "true_positives": 0,
+          "false_positives": 1,
+          "false_negatives": 0,
+          "precision": 0,
+          "recall": null,
+          "f1": null,
+          "date_accuracy": null,
+          "date_checked": 0,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 8,
+          "zero_task_false_positive_rate": 0.125,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 1
+        },
+        "任务归属": {
+          "case_count": 3,
+          "passed_cases": 3,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 1,
+          "zero_task_false_positive_rate": 0,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "无日期": {
+          "case_count": 3,
+          "passed_cases": 2,
+          "case_pass_rate": 0.6666666666666666,
+          "true_positives": 3,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": 0,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 3
+        },
+        "中英混合": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 5
+        },
+        "口语改口": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "极短输入": {
+          "case_count": 2,
+          "passed_cases": 2,
+          "case_pass_rate": 1,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        },
+        "完成状态": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 1,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 1
+        },
+        "长文本": {
+          "case_count": 1,
+          "passed_cases": 1,
+          "case_pass_rate": 1,
+          "true_positives": 4,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 1,
+          "date_checked": 3,
+          "repeat_accuracy": 1,
+          "repeat_checked": 1,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 4
+        },
+        "同日多任务": {
+          "case_count": 1,
+          "passed_cases": 0,
+          "case_pass_rate": 0,
+          "true_positives": 2,
+          "false_positives": 0,
+          "false_negatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "date_accuracy": 0.5,
+          "date_checked": 2,
+          "repeat_accuracy": null,
+          "repeat_checked": 0,
+          "zero_task_case_count": 0,
+          "zero_task_false_positive_rate": null,
+          "duplicate_rate": 0,
+          "merged_into_other": 0,
+          "merged_share_of_misses": null,
+          "forbidden_date_hits": 0,
+          "parse_failure_rate": 0,
+          "prediction_total": 2
+        }
+      },
+      "scores": [
+        {
+          "id": "D01",
+          "split": "dev",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加供应商评审会",
+              "dueDate": "2026-09-04",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D02",
+          "split": "dev",
+          "scenario": "多任务",
+          "truePositives": 3,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发季度报表给财务",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "交差旅报销单子",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "办服务器续费",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D03",
+          "split": "dev",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "给张经理回电话",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "提前半小时到后天(2026-08-22)下午的培训",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "跟法务确认下周三(2026-08-26)合同条款",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D04",
+          "split": "dev",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "整理新人的入职材料",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "安排团队复盘会议",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 文档/流程"
+          ]
+        },
+        {
+          "id": "D05",
+          "split": "dev",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每天早上九点半检查并回复值班群消息",
+              "dueDate": "2026-08-20",
+              "repeat": "daily"
+            },
+            {
+              "title": "每周五下班前发送周报",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D06",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备材料",
+              "dueDate": "2026-09-07",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D07",
+          "split": "dev",
+          "scenario": "提醒日",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "准备投标文件",
+              "dueDate": "2026-09-08",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D08",
+          "split": "dev",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "修改预算表",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D09",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成李工提供的接口文档",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D10",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供报价给客户",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D11",
+          "split": "dev",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "续保仓库货品并确认王姐时间",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D12",
+          "split": "dev",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "处理老陈 today(2026-08-20)提的事",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D13",
+          "split": "dev",
+          "scenario": "委婉语气",
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "review the contract",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 合同",
+            "多抽 1 条: review the contract"
+          ]
+        },
+        {
+          "id": "D14",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D15",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D16",
+          "split": "dev",
+          "scenario": "任务归属",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "D17",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "调整会议室至301",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "多抽 1 条: 调整会议室至301"
+          ]
+        },
+        {
+          "id": "D18",
+          "split": "dev",
+          "scenario": "无日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "换打印机墨盒",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "补会议室白板笔",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D19",
+          "split": "dev",
+          "scenario": "中英混合",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加明天的 standup 会议",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "准备并排列 sprint 的 retro 计划",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "review 下周二之前的那个 PR",
+              "dueDate": "2026-08-25",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D20",
+          "split": "dev",
+          "scenario": "口语改口",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去银行办对公账户事务",
+              "dueDate": "2026-08-22",
+              "repeat": null
+            },
+            {
+              "title": "提前打印材料",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D21",
+          "split": "dev",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "D22",
+          "split": "dev",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H01",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年度预算初稿",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            },
+            {
+              "title": "完成部门述职材料",
+              "dueDate": "2026-09-15",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H02",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "去体检",
+              "dueDate": "2026-08-23",
+              "repeat": null
+            },
+            {
+              "title": "完成季度总结并提交",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H03",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "换家里的路由器",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "续费宽带",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 路由器 期望 2026-08-22，得到 2026-08-20",
+            "日期错误: 宽带 期望 2026-08-22，得到 2026-08-20"
+          ]
+        },
+        {
+          "id": "H04",
+          "split": "holdout",
+          "scenario": "模糊时间",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成库存盘点",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "开始新的排班",
+              "dueDate": "2026-09-01",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H05",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 4,
+          "dateCorrect": 4,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "交周报",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "开项目启动会",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            },
+            {
+              "title": "提交预算",
+              "dueDate": "2026-08-31",
+              "repeat": null
+            },
+            {
+              "title": "做客户回访",
+              "dueDate": "2026-09-10",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 认证/体系"
+          ]
+        },
+        {
+          "id": "H06",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 2,
+          "repeatCorrect": 2,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交合规报告",
+              "dueDate": "2026-09-15",
+              "repeat": "monthly"
+            },
+            {
+              "title": "进行代码评审",
+              "dueDate": "2026-08-24",
+              "repeat": "biweekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H07",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "每日检查备份任务状态",
+              "dueDate": "2026-08-20",
+              "repeat": "weekdays"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H08",
+          "split": "holdout",
+          "scenario": "完成状态",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "催尾款并确认与财务沟通",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H09",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "发送邀请函名单给小周",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H10",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "等待客户确认方案并提交反馈",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H11",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H12",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H13",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H14",
+          "split": "holdout",
+          "scenario": "极短输入",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提交年假申请",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H15",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [],
+          "problems": [
+            "漏检: 牛奶"
+          ]
+        },
+        {
+          "id": "H16",
+          "split": "holdout",
+          "scenario": "长文本",
+          "truePositives": 4,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 3,
+          "dateCorrect": 3,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "对齐新埋点方案文档并发送给数据组",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            },
+            {
+              "title": "完成季度汇报PPT初稿",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "提交采购服务器报价单至财务",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            },
+            {
+              "title": "每周五下班前更新进度表",
+              "dueDate": "2026-08-21",
+              "repeat": "weekly"
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H17",
+          "split": "holdout",
+          "scenario": "中英混合",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "编写本次 sprint 的 release note",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            },
+            {
+              "title": "QA 团队的 test plan 需要审核和 review",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H18",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "更新服务条款",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            },
+            {
+              "title": "更新隐私政策",
+              "dueDate": "2026-09-03",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 隐私 期望 2026-08-20，得到 2026-09-03"
+          ]
+        },
+        {
+          "id": "H19",
+          "split": "holdout",
+          "scenario": "任务归属",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成三季度人力预算重新编制",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H20",
+          "split": "holdout",
+          "scenario": "相对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提前评审材料至下周四(2026-08-27)",
+              "dueDate": "2026-08-27",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H21",
+          "split": "holdout",
+          "scenario": "无日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "整理工作区域",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H22",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "dateChecked": 1,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "准备演讲稿",
+              "dueDate": "2026-12-31",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "漏检: 年会/行业",
+            "日期错误: 演讲稿 期望 2027-01-10，得到 2026-12-31"
+          ]
+        },
+        {
+          "id": "H23",
+          "split": "holdout",
+          "scenario": "绝对日期",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "组织全员会议",
+              "dueDate": "2026-10-12",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H24",
+          "split": "holdout",
+          "scenario": "同日多任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "与设计确认一版稿子",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "将结论同步到群里",
+              "dueDate": "2026-08-17",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "日期错误: 结论 期望 2026-08-20，得到 2026-08-17"
+          ]
+        },
+        {
+          "id": "H25",
+          "split": "holdout",
+          "scenario": "委婉语气",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "审阅年度总结",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H26",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "处理服务器监控告警误报",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H27",
+          "split": "holdout",
+          "scenario": "隐晦任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "提供集成方案的报价",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H28",
+          "split": "holdout",
+          "scenario": "边界",
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": false,
+          "predicted": [
+            {
+              "title": "确认会议室安排并提前联系行政部",
+              "dueDate": "2026-08-20",
+              "repeat": null
+            },
+            {
+              "title": "如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议",
+              "dueDate": "2026-08-26",
+              "repeat": null
+            }
+          ],
+          "problems": [
+            "多抽 1 条: 如果周三(2026-08-26)后仍未获取会议室信息，改为线上会议"
+          ]
+        },
+        {
+          "id": "H29",
+          "split": "holdout",
+          "scenario": "多任务",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "回复王总的邮件并确认三个问题",
+              "dueDate": "2026-08-24",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H30",
+          "split": "holdout",
+          "scenario": "去重",
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 1,
+          "dateCorrect": 1,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "完成v2.1版本开发并确保下周五前上线",
+              "dueDate": "2026-08-28",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        },
+        {
+          "id": "H31",
+          "split": "holdout",
+          "scenario": "假阳性",
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 0,
+          "dateCorrect": 0,
+          "repeatChecked": 0,
+          "repeatCorrect": 0,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [],
+          "problems": []
+        },
+        {
+          "id": "H32",
+          "split": "holdout",
+          "scenario": "周期任务",
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "dateChecked": 2,
+          "dateCorrect": 2,
+          "repeatChecked": 1,
+          "repeatCorrect": 1,
+          "duplicateCount": 0,
+          "mergedIntoOther": 0,
+          "forbiddenDateHits": 0,
+          "parseFailed": false,
+          "passed": true,
+          "predicted": [
+            {
+              "title": "参加每周一早上的开站会",
+              "dueDate": "2026-08-24",
+              "repeat": "weekly"
+            },
+            {
+              "title": "提交会议室预定权限申请",
+              "dueDate": "2026-08-21",
+              "repeat": null
+            }
+          ],
+          "problems": []
+        }
+      ]
+    }
+  ]
+}

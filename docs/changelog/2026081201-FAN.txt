@@ -1,0 +1,210 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081201
+日期：2026-08-12
+========================================================================
+
+本次会话共完成 7 项改动 + 2 项依赖修复。下面按「问题 / 原来 / 现在」记录。
+
+
+------------------------------------------------------------------------
+0. 项目拉取与运行
+------------------------------------------------------------------------
+- 从 https://github.com/dhebhxh/speakspace-local-electron 克隆到本地。
+- npm install（含 better-sqlite3 等原生模块编译）后可通过 npm start 启动。
+- 技术栈：Electron + React 19 + TypeScript + webpack（electron-react-boilerplate）。
+
+
+------------------------------------------------------------------------
+1. 语言选择（中文 / 英文）
+------------------------------------------------------------------------
+问题：界面语言写死为中文，无法切换。
+
+原来：
+  - i18n 里 lng 固定为 'zh'，没有任何切换入口。
+  - 设置里只有字号、主题两项。
+
+现在：
+  - 设置持久化新增 language 字段（主进程 SettingsService + 渲染进程
+    SettingsController 同步），旧配置缺省时安全回退。
+  - 新增「语言」设置面板，仅提供 简体中文 / English 两种。
+  - 设置页整体接入 i18n，切换语言后标题、选项等即时更新。
+  - 首次运行按【设备系统语言】自动决定默认语言（zh* → 中文，其它 → 英文），
+    用户手动选择并保存后，之后一直沿用用户的选择。
+  说明：整站全部文案的翻译量巨大，本次只打通机制并覆盖侧边栏 + 设置页 +
+        本次改动涉及的新标签，其余页面文案后续可逐步补齐。
+
+  涉及文件：
+    src/main/settings/SettingsService.ts
+    src/renderer/settings/SettingsController.ts
+    src/renderer/settings/AppSettingsProvider.tsx
+    src/i18n/locales/zh.json、en.json
+    src/renderer/pages/Settings/components/LanguageSettingsPanel.tsx（新增）
+
+
+------------------------------------------------------------------------
+2. 设置页重构（左侧分类 + 右侧内容）
+------------------------------------------------------------------------
+问题：设置项平铺在一个网格里，扩展性差、层次不清。
+
+原来：外观相关面板（字号/主题/引导）平铺展示。
+现在：设置页改为「左侧分类导航 + 右侧对应内容」结构，分为
+      外观 / 语言 / 使用引导 三个分类，左侧 sticky 导航，点击切换右侧面板。
+
+  涉及文件：
+    src/renderer/pages/Settings/SettingsPage.tsx
+    src/renderer/pages/Settings/SettingsPage.css
+    src/renderer/pages/Settings/SettingsOptions.ts（选项改为携带 i18n key）
+
+
+------------------------------------------------------------------------
+3. AI 对话与实时转录「深度融合」为一个页面（对话工作台）
+------------------------------------------------------------------------
+问题：实时转录页和 AI 对话页分成两个独立页面，彼此脱节。
+      （录音会生成笔记文件，AI 对话再去找这个文件，割裂。）
+
+原来：
+  - 侧边栏有「实时转录」和「AI 对话」两个独立入口、两个独立页面。
+  - 录音 → 转录 → 保存为工作区笔记 → 切到另一个页面才能对它提问。
+
+演进过程：
+  - 第一版先做成：转录页右侧一个「可折叠 AI 对话侧栏」（抽屉）。
+  - 按需求进一步改为【深度融合、以 AI 对话为主】的对话工作台。
+
+现在（对话工作台，路由 /Transcription）：
+  - 三栏布局：左=笔记库，中=AI 对话（主体），右=当前笔记原文预览。
+  - 录音变成【输入框里的按钮】：
+      点「● 录音」就地开始 → 按钮变红「■ 停止 00:42」，不跳页不弹窗；
+      点停止 → 弹出【复核窗】并排展示「整理文本（语义总结）」和「原始转录」，
+      窗内可选工作区 + 笔记标题，底部按钮：重新录制 / 保存为笔记并对话。
+  - 保存后：笔记进入左侧库、右侧预览显示原文、输入框上方出现
+    「已关联笔记：xxx」的 chip，可立即对它提问 —— 闭环一步到位。
+  - 「上传音频」走同一条 复核 → 保存 链路。
+  - 原有功能全部保留：语义总结、保存到工作区（含音频）、TTS 朗读、
+    按「当前笔记 / 工作区」切换问答范围。
+  - 侧边栏两项合并为一项「对话工作台 / Studio」；旧 /AIChat 路由重定向过来。
+
+  涉及文件：
+    src/renderer/pages/Studio/StudioPage.tsx（新增）
+    src/renderer/pages/Studio/StudioPage.css（新增）
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx（新增）
+    src/renderer/pages/Studio/components/RecordingReviewDialog.tsx（新增）
+    src/renderer/pages/AskAI/useAskAIPage.ts（暴露 reloadNotes）
+    src/renderer/AppRoute.jsx、layout/Sidebar.jsx
+    （移除旧的 RecordingPage.tsx、AskAIPanel.tsx 抽屉方案）
+
+
+------------------------------------------------------------------------
+4. Agent 与 Workspace 布局优化
+------------------------------------------------------------------------
+问题：两个页面展示效果不佳。
+
+原来：
+  - Workspace 卡片固定两列，宽屏下被拉得过宽。
+  - Agent 左侧任务栏与右侧对话区高度不平衡，长对话会把页面撑很长。
+现在：
+  - Workspace 卡片改为响应式自适应列数（宽屏自动 3–4 列）。
+  - Agent 左侧任务栏 sticky 常驻，右侧对话区固定高度、内部滚动，两列更平衡。
+
+  涉及文件：
+    src/renderer/pages/Workspace/WorkspaceHomePage.css
+    src/renderer/pages/Agent/AgentPage.css
+
+
+------------------------------------------------------------------------
+5. 智能启动（保证只有一个开发服务器）
+------------------------------------------------------------------------
+问题：npm start 端口 1212 被占用就直接报错退出；若改用新端口又会「这开一个
+      那开一个」，服务器散落。
+
+原来：check-port-in-use.js 检测到 1212 被占用就抛错，让用户手动改端口。
+现在：新增智能启动器 .erb/scripts/start-dev.js（package.json 的 start 指向它）：
+  1) 默认端口 1212 空闲 → 直接使用；
+  2) 被占用且占用者是本程序自己 → 回收旧实例，在同一端口 1212 原地重启，
+     始终保持单一服务；
+  3) 被【其它程序】占用（或回收失败）→ 才自动找下一个空闲端口。
+  判断「是不是自己」：向端口发带 Accept: text/html 的请求，看返回 HTML 是否
+  含本应用标识。选定端口通过 PORT 环境变量传给 renderer/preload/main/util。
+
+  涉及文件：
+    .erb/scripts/start-dev.js（新增）
+    package.json（start 脚本）
+
+  附：PowerShell 若报「禁止运行脚本」，是执行策略问题，与项目无关。可执行
+      Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+      或改用 npm.cmd start。
+
+
+------------------------------------------------------------------------
+6. 【依赖修复】解压报错：tar: Cannot connect to C: resolve failed
+------------------------------------------------------------------------
+问题：点「安装 Windows Whisper 运行时」报
+      /usr/bin/tar: Cannot connect to C: resolve failed。
+
+原因：
+  - 安装器用 tar 解压，PATH 里优先命中了 Git/MSYS 的 GNU tar；
+  - GNU tar 会把 C:\... 当成「远程主机 C : 路径」→ 试图连接主机 C；
+  - 且下载的是 .zip（whisper-bin-x64.zip），GNU tar 根本不能解压 zip。
+
+原来：Whisper / Ollama / Parakeet / TTS 四个安装器都用
+      CommandLocator.resolve(['tar.exe','tar']) 然后 tar -xf，都踩这个坑。
+现在：新增共享解压工具 ArchiveExtractor，解压优先级：
+  1) 优先用 Windows 自带 System32\tar.exe（bsdtar，zip/tar 与盘符路径都正确）；
+  2) zip 失败时退回 PowerShell 的 Expand-Archive；
+  3) 其余格式最后退回 PATH 的 GNU tar，并加 --force-local 规避冒号问题。
+  四个安装器全部改用它。
+
+  涉及文件：
+    src/main/runtime/ArchiveExtractor.ts（新增）
+    src/main/transcription/WhisperRuntimeInstaller.ts
+    src/main/llm/OllamaRuntimeInstaller.ts
+    src/main/transcription/ParakeetModelInstaller.ts
+    src/main/tts/TTSRuntimeInstaller.ts
+
+
+------------------------------------------------------------------------
+7. 【依赖修复】转写报错：ffmpeg is required for this media format
+------------------------------------------------------------------------
+问题：录音/转写报「此媒体格式需要本机 ffmpeg 转换」。
+
+原因：浏览器麦克风录音是 WebM/Opus 格式，Whisper 只能直接读 WAV，
+      WebM→WAV 转换需要 ffmpeg；而系统未安装 ffmpeg。
+
+原来：ffmpeg 只从系统 PATH 查找（where ffmpeg.exe），没装就报错，
+      且 app 内没有任何安装 ffmpeg 的途径。
+现在：给 app 加了「一键下载安装 ffmpeg 到托管目录」的能力（与 Whisper/Ollama
+      一致，从此不依赖系统 PATH）：
+  - FfmpegLocator：查找时【先看 app 托管目录】里的 ffmpeg，找不到再回退 PATH；
+    Whisper 与 Parakeet 两条转写链都改用它。
+  - FfmpegInstaller：下载官方 Windows 绿色版 → 解压（复用 ArchiveExtractor）→
+    把 ffmpeg.exe / ffprobe.exe 拷到 用户数据/runtimes/ffmpeg/bin。
+  - 在「模型管理 → Whisper 本地运行时」面板，ffmpeg 未安装时多出
+    「安装 ffmpeg」按钮（带下载进度）。
+  - 无需重启：转写时每次实时解析 ffmpeg 路径，装完立即生效。
+
+  涉及文件：
+    src/main/runtime/FfmpegLocator.ts（新增）
+    src/main/runtime/FfmpegInstaller.ts（新增）
+    src/main/transcription/WhisperRuntimeService.ts
+    src/main/transcription/ParakeetRuntimeService.ts
+    src/main/ipc/runtime-ipc.ts、src/main/preload.ts
+    src/renderer/pages/ModelManager/components/WhisperRuntimePanel.tsx
+
+  注意：下载源为 gyan.dev / GitHub，若本地网络访问较慢或不通，下载可能失败，
+        可改用 winget 安装系统级 ffmpeg 作为兜底：
+        winget install --id Gyan.FFmpeg -e --accept-source-agreements --accept-package-agreements
+        （winget 装的是系统级，需重启 app 才能被检测到。）
+
+
+------------------------------------------------------------------------
+运行环境提醒（外部依赖）
+------------------------------------------------------------------------
+- 转录：需要 Whisper 运行时 + 已激活的 STT 模型；非 WAV 格式还需 ffmpeg。
+- 语义总结 / AI 问答：需要本机 Ollama 服务在运行并已拉取模型，否则「整理文本」
+  可能为空、提问会报连接错误（不影响录音与原始转录）。
+- 本项目为 Electron 应用，只能在 Electron 窗口里验收；纯浏览器打开 localhost:1212
+  会因缺少 window.electron 而白屏，属正常现象。
+
+========================================================================
+以上。
+========================================================================

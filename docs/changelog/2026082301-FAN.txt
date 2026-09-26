@@ -1,0 +1,1116 @@
+========================================================================
+SpeakSpace Local 修改日志
+版本号：2026082301
+日期：2026-08-23
+分支：main
+========================================================================
+
+本次改动分十段：
+
+  一、仪表盘笔记列表表头固定，解决滚动后「类型」标题被推走；
+  二、录音转写直接生成结构化笔记，复核弹窗复用同一份摘要；
+  三、对话工作台笔记详情与窄屏 / 竖屏响应式布局重做；
+  四、Scenario Knowledge 与自定义模板合并，增加 AI 规范化和弹窗管理；
+  五、删除操作统一进入回收站，并清理旧工作流页面；
+  六、工作空间全文搜索与 Word / PDF 完整导出；
+  七、Agent 关联笔记上下文修复，以及 TTS 首段等待时间优化；
+  八、品牌统一为 SpeakSpace Local，更换新版图标并移除系统菜单栏；
+  九、生成 Windows x64 NSIS 安装包，模型保持按需下载；
+  十、项目目录、文档、规范、构建脚本与历史生成物整理。
+
+最终质量门禁：
+
+  npm exec tsc -- --noEmit
+      通过，无类型错误。
+
+  npm run lint
+      exit 0；0 error，29 条既有 no-console warning，不阻断。
+
+  npm run build
+      main 与 renderer 生产构建均 exit 0。
+
+  npm test -- --runInBand
+      64 个 suite 通过，3 个按环境跳过；
+      535 项测试通过，42 项按环境跳过。
+
+  npm run check:audit
+      生产依赖 0 vulnerabilities。
+
+  Windows 安装包：
+      release/installers/4.6.0/windows-x64/
+      SpeakSpace-Local-Setup-4.6.0-x64.exe
+      大小：175084026 bytes（约 166.97 MB）
+      SHA-256：
+      6966A1308EA0D4335E84103299ABD5737760506D13545259451614D659ED6C01
+
+
+贯穿本次改动的四条原则：
+
+  1. 一份内容只生成一次。
+     录音完成后不再先生成一份 summary、进入工作空间后再生成另一份
+     Structured Note。现在以结构化笔记为唯一结果，复核弹窗只读取其中
+     的 summary，保存时整份结构化结果一起落库。
+
+  2. 用户看得到的笔记内容，也必须搜得到、导得出、能作为 AI 上下文。
+     标题、转写、结构化笔记和场景知识不再各走一套残缺链路。
+
+  3. 响应式布局通过重新分配空间解决，不允许面板互相覆盖。
+     窄屏可以缩侧边栏、笔记栏、输入按钮和关联笔记标签，但当前笔记
+     面板始终保持在对话区右侧，不用重叠假装“放得下”。
+
+  4. 删除必须可恢复，清理必须有证据。
+     产品内普通删除统一进入回收站；工程文件只有在确认无引用、已合并、
+     可重新生成或明确属于旧模板时才删除。
+
+
+========================================================================
+第一段  仪表盘笔记列表表头固定
+========================================================================
+
+------------------------------------------------------------------------
+1. 【缺陷】滚动列表后「类型」表头被向上推走
+------------------------------------------------------------------------
+
+问题：
+  仪表盘的笔记列表有「置顶 / 笔记标题与概览 / 类型 / 发布日期」等列。
+  列表内部滚动时，部分表头没有处在统一的 sticky 层中，「类型」两个字
+  会先被推走，后面的单元格内容继续顶上来，视觉上像是表头错列。
+
+修复：
+  - 表头与列表继续使用同一个内部滚动容器。
+  - 表头单元格统一 sticky 定位、top、z-index 和不透明背景。
+  - 类型列不再单独脱离表头层级，也不会被正文内容覆盖。
+  - 保留原有列宽与筛选交互，不重新引入额外排序控件。
+
+涉及文件：
+  src/renderer/pages/Dashboard/DashboardPage.css
+
+
+========================================================================
+第二段  转写 → 结构化笔记 单一流水线
+========================================================================
+
+------------------------------------------------------------------------
+2. 【流程】转写完成后直接生成 Structured Note
+------------------------------------------------------------------------
+
+旧流程的问题：
+  转写完成后先做 summary，保存笔记；用户进入工作空间后，再手工触发
+  Structured Note。结构化笔记内部本来就有 summary，这等于相同内容
+  调用两次模型、存两套结果，还会出现两份摘要不一致。
+
+新流程：
+  1. 音频录制或文件转写完成；
+  2. 直接调用结构化笔记生成；
+  3. 从同一份结构化结果读取 summary，显示在录音复核弹窗左侧；
+  4. 用户确认保存时，转写、summary 和完整 Structured Note 一起落库；
+  5. 之后进入工作空间或对话工作台，只读取数据库已有结果，不再要求
+     用户手工“重新生成”。
+
+这样 summary 不再是另一条独立 AI 链路，而是 Structured Note 的一个
+视图。重新生成仍可作为用户明确触发的更新操作，但不再是首次查看的
+必要步骤。
+
+涉及文件：
+  src/renderer/pages/Recording/TranscriptionController.ts
+  src/renderer/pages/Studio/StudioPage.tsx
+  src/renderer/pages/Studio/components/RecordingReviewDialog.tsx
+  src/main/ipc/knowledge-generation-ipc.ts
+  src/main/ipc/workspace-ipc.ts
+  src/main/knowledge/KnowledgeGenerationService.ts
+  src/main/knowledge/KnowledgeRepository.ts
+  src/main/workflow/WorkflowService.ts
+  src/shared/types/KnowledgeGenerationTypes.ts
+
+测试：
+  src/__tests__/RecordingReviewDialog.test.tsx
+  src/main/ipc/__tests__/WorkspaceStructuredNoteGeneration.test.ts
+  src/main/knowledge/__tests__/KnowledgeGenerationParsing.test.ts
+
+
+------------------------------------------------------------------------
+3. 【兜底】短转写和寒暄也必须有结构化输出
+------------------------------------------------------------------------
+
+问题：
+  录音内容只有「你好 你好 你好 你好」时，转写本身已经成功，但复核弹窗
+  显示「暂无结构化摘要」。这把“内容简单”错误地处理成“没有内容”。
+
+修复：
+  - 只要存在非空转写，就生成最小可用的结构化结果。
+  - 模型没有返回受支持 summary 时，解析层根据转写生成可读兜底摘要。
+  - 关键要点、任务、提醒等字段允许为空，但整份结果不能因此消失。
+  - 真正的空转写仍按空内容处理，不凭空编造信息。
+
+结果：
+  「你好」类短音频也会得到与原文相符的摘要 / 要点，而不是错误提示。
+
+涉及文件：
+  src/main/knowledge/CoreOutputParser.ts
+  src/main/knowledge/KnowledgeGenerationService.ts
+  src/main/knowledge/__tests__/KnowledgeGenerationParsing.test.ts
+
+
+------------------------------------------------------------------------
+4. 【持久化】工作空间和对话详情读取同一份结构化结果
+------------------------------------------------------------------------
+
+现在：
+  - Workspace 笔记详情直接读取数据库已有 Structured Note。
+  - Ask AI 左侧双击笔记后，右侧当前笔记详情同步展示摘要、关键要点、
+    任务与行动计划、提醒和日程安排。
+  - 不再只显示标题、摘要占位和原始转写。
+  - 切换笔记时使用选中笔记自己的结果，不复用上一条缓存。
+
+涉及文件：
+  src/renderer/pages/AskAI/components/AskAINotePreview.tsx
+  src/renderer/pages/Workspace/components/KnowledgeOutputPanel.tsx
+  src/renderer/pages/Workspace/components/NoteInsightsPanel.tsx
+  src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+  src/renderer/pages/Workspace/useWorkspaceDetail.ts
+
+测试：
+  src/__tests__/AskAINotePreview.test.tsx
+  src/__tests__/NoteInsightsPanel.test.tsx
+  src/__tests__/WorkspaceNoteCard.test.tsx
+
+
+========================================================================
+第三段  对话工作台笔记详情与响应式布局
+========================================================================
+
+------------------------------------------------------------------------
+5. 【排版】长标题不再一个单词占一行
+------------------------------------------------------------------------
+
+问题：
+  当前笔记标题较长时，例如
+  “Next Standup Meeting Attendance Confirmation”，右侧详情面板明明仍有
+  横向空间，却被排成 Next / Standup / Meeting / Attendance / Confirmation，
+  一个单词一行。
+
+修复：
+  - 取消会导致英文按单词强制窄列换行的宽度和断词组合。
+  - 标题容器使用可用宽度，优先按自然空格换行。
+  - 只有超长、没有断点的连续字符串才允许强制断词。
+  - 日期和关闭按钮仍保持在标题区右上角，不挤压正文为极窄列。
+
+同时删除详情内重复的「结构化笔记」总标题。用户已经处在当前笔记详情，
+下面直接显示「摘要 / 关键要点 / 任务与行动计划」即可，不再重复说明一次。
+
+涉及文件：
+  src/renderer/pages/AskAI/components/AskAINotePreview.tsx
+  src/renderer/pages/AskAI/AskAIPage.css
+
+
+------------------------------------------------------------------------
+6. 【窄屏】当前笔记面板保持在对话区右侧，不与聊天区重叠
+------------------------------------------------------------------------
+
+问题：
+  正常横屏下三列布局没有问题；窗口变窄后，双击笔记虽然能打开右侧详情，
+  但详情面板直接盖在“新对话”区域上。
+
+修复：
+  - 按断点同步缩小主导航侧边栏、Ask AI 笔记栏、对话区和当前笔记栏。
+  - 详情打开时仍参与网格 / flex 空间分配，不再用覆盖层压住对话。
+  - 主导航展开宽度后来调整到可以完整容纳“SpeakSpace Local”和收起按钮，
+    避免品牌名变长后按钮一半跑出侧边栏。
+  - 对话区设置正确的 min-width: 0 和内部滚动归属，内容可以收缩而不是
+    把兄弟面板推到同一位置。
+
+涉及文件：
+  src/renderer/App.css
+  src/renderer/layout/Sidebar.jsx
+  src/renderer/pages/AskAI/AskAIPage.css
+
+
+------------------------------------------------------------------------
+7. 【竖屏】对话输入框、操作按钮和关联笔记标签压缩
+------------------------------------------------------------------------
+
+问题：
+  竖屏下导航已经能适配，但聊天输入区域被录音、上传、Agent 和发送按钮
+  挤到几乎没有宽度；一个关联笔记标签也会独占整行。
+
+修复：
+  - 竖屏 / 窄屏断点下减小录音、上传、Agent、发送按钮的外框和间距。
+  - 输入框获得剩余宽度并保持可输入的最小尺寸。
+  - linked note chip 改成紧凑的内容宽度，允许多个标签在一行排列并换行。
+  - 长标题在 chip 内省略，不让单个标签撑满容器。
+  - 按钮仍保留足够点击面积和可访问名称。
+
+涉及文件：
+  src/renderer/pages/Studio/StudioPage.css
+  src/renderer/pages/Studio/StudioPage.tsx
+  src/renderer/pages/AskAI/AskAIPage.css
+
+
+========================================================================
+第四段  Scenario Knowledge 与自定义模板
+========================================================================
+
+------------------------------------------------------------------------
+8. 【概念统一】Scenario Knowledge 作为场景提取模板
+------------------------------------------------------------------------
+
+界定：
+  Scenario Knowledge 与“skill”有相似处：它们都给模型一套针对场景的
+  提取规则。但这里的模板只控制笔记结构化提取，不拥有任意工具调用、
+  文件操作或跨任务执行能力，因此它是受限的知识 / 输出模板，不是通用
+  Agent Skill。
+
+旧的“前置知识模板”页面与 Scenario Knowledge 能力重复。本次把模板
+创建、规范化、选择和管理收拢到工作空间笔记详情，不再保留一套独立
+Workflow 页面。
+
+删除：
+  src/renderer/pages/Workflow/WorkflowPage.tsx / .css
+  src/renderer/pages/Workflow/components/KnowledgeTemplateCard.tsx
+  src/renderer/pages/Workflow/components/KnowledgeTemplateFormPage.tsx
+  src/renderer/pages/Workspace/WorkspaceWorkflowController.ts
+
+
+------------------------------------------------------------------------
+9. 【内置模板】优化场景结构
+------------------------------------------------------------------------
+
+保留并规范化的内置场景：
+  Meeting       决策、共识、风险、未决问题和行动项
+  Lecture       概念、定义、解释、示例与注意事项
+  Consultation  现状、顾虑、评估、建议、选项与约束
+  Interview     观点、需求、动机、行为模式与可引用表述
+  Brainstorm    想法、备选项、评价标准、方向与下一步
+  General       上下文、事实、推理、细节和开放问题
+
+内置模板由应用维护，用户可以直接选择，但不能误删或覆盖为另一套结构。
+
+涉及文件：
+  src/main/knowledge/KnowledgeScenarios.ts
+  src/main/knowledge/KnowledgeGenerationService.ts
+  src/shared/types/KnowledgeGenerationTypes.ts
+
+
+------------------------------------------------------------------------
+10. 【自定义模板】用户需求先由本地模型规范化
+------------------------------------------------------------------------
+
+问题：
+  用户输入的模板需求可能口语化、重复、含糊，直接当提示词保存会导致
+  输出结构不稳定；但要求用户自己学习 prompt engineering 也不合理。
+
+实现：
+  - 用户填写名称、用途和希望保留的信息。
+  - 保存前调用当前本地 LLM，把需求整理成稳定的 Scenario Knowledge：
+    清楚描述提取目标、输出分区、边界和不应编造的内容。
+  - 保存原始需求和规范化结果，方便后续编辑与审计。
+  - 模型不可用或输出无法解析时返回明确错误，不静默保存半成品。
+  - 自定义模板带「自定义」标记，与 SpeakSpace 维护的内置模板区分。
+  - AI 规范化所用语言跟随系统语言，不再随机中英文混用。
+
+涉及文件：
+  src/main/workflow/KnowledgeTemplateNormalizer.ts
+  src/main/workflow/WorkflowService.ts
+  src/main/database/repositories/KnowledgeTemplateRepository.ts
+  src/shared/entities/KnowledgeTemplate.ts
+  src/shared/types/WorkflowTypes.ts
+  src/renderer/pages/Workspace/components/ScenarioTemplateForm.tsx
+
+测试：
+  src/main/workflow/__tests__/KnowledgeTemplateNormalizer.test.ts
+  src/main/workflow/__tests__/WorkflowService.test.ts
+
+
+------------------------------------------------------------------------
+11. 【管理弹窗】模板管理不再跳转到独立页面
+------------------------------------------------------------------------
+
+现在：
+  - 点击「管理模板」在当前页面最上层打开模态弹窗。
+  - 弹窗不再嵌在 Note 列表滚动容器里，也不会跟着列表滚走。
+  - 打开时锁定背景滚动；关闭后恢复。
+  - 模板以清楚的卡片 / 列表展示名称、来源、更新时间和操作。
+  - 新建、编辑、删除均在同一个弹窗完成。
+  - 原页面上的第二个「创建自定义模板」入口删除，避免入口冲突。
+
+涉及文件：
+  src/renderer/pages/Workspace/components/ScenarioTemplateManagerDialog.tsx
+  src/renderer/pages/Workspace/components/ScenarioTemplateForm.tsx
+  src/renderer/pages/Workspace/WorkspacePage.tsx
+  src/renderer/pages/Workspace/WorkspacePage.css
+
+
+------------------------------------------------------------------------
+12. 【空间控制】内置模板和我的模板可折叠，展开后内部滚动
+------------------------------------------------------------------------
+
+问题：
+  自定义模板一多，Scenario Knowledge 区域会无限向下增长，占满整个
+  笔记页面。
+
+修复：
+  - 「内置模板」和「我的模板」分成两个可折叠区。
+  - 默认只展示必要概览，由用户决定展开哪一组。
+  - 展开内容设置最大高度，超出后在模板区内部滚动。
+  - 当前选中的模板仍在折叠标题处给出来源与名称反馈。
+  - 删除多余的「生成场景知识」前置按钮，直接进入模板选择与结果展示。
+
+
+------------------------------------------------------------------------
+13. 【国际化】结构化笔记、场景模板和规范化流程跟随系统语言
+------------------------------------------------------------------------
+
+修复范围：
+  - Structured Note / Copy Structured Note 等固定英文改为 i18n 文案。
+  - Scenario Knowledge、内置 / 自定义标记、模板管理按钮、空状态、
+    规范化进度和错误提示统一使用语言文件。
+  - SpeakSpace Local 作为品牌名保持不翻译。
+  - 中文系统不再出现一半中文、一半英文的模板结果界面；英文系统反之。
+
+涉及文件：
+  src/i18n/locales/zh.json
+  src/i18n/locales/en.json
+  src/renderer/pages/Workspace/components/KnowledgeOutputPanel.tsx
+  src/renderer/pages/Workspace/components/NoteInsightsPanel.tsx
+  src/renderer/pages/Workspace/components/ScenarioTemplateManagerDialog.tsx
+
+
+========================================================================
+第五段  删除与回收站
+========================================================================
+
+------------------------------------------------------------------------
+14. 【软删除】自定义模板删除进入回收站
+------------------------------------------------------------------------
+
+问题：
+  模板管理中的删除原先是直接物理删除，与笔记 / 会话回收站体验不一致。
+
+修复：
+  - 自定义模板删除改为软删除，记录删除时间。
+  - 回收站可显示模板类型、名称和来源。
+  - 支持恢复模板；只有回收站中的永久删除才真正移除记录。
+  - 内置模板不可删除。
+
+
+------------------------------------------------------------------------
+15. 【统一审计】所有普通删除先进入回收站
+------------------------------------------------------------------------
+
+检查并统一的对象：
+  - 笔记；
+  - 工作空间；
+  - AI 会话；
+  - 自定义知识模板；
+  - 对象之间的关联数据。
+
+原则：
+  业务页面只发起“移入回收站”；恢复和永久删除统一由 TrashService
+  管理。永久删除时才级联清理关联关系和本地文件。
+
+涉及文件：
+  src/main/trash/TrashService.ts
+  src/main/ipc/trash-ipc.ts
+  src/main/database/DatabaseManager.ts
+  src/main/database/repositories/AIConversationRepository.ts
+  src/main/database/repositories/KnowledgeTemplateRepository.ts
+  src/main/database/repositories/NoteRepository.ts
+  src/main/database/repositories/WorkspaceRepository.ts
+  src/shared/types/TrashTypes.ts
+  src/renderer/pages/Settings/components/TrashSettingsPanel.tsx / .css
+
+测试：
+  src/main/trash/__tests__/TrashService.test.ts
+  src/renderer/pages/Settings/components/TrashSettingsPanel.test.tsx
+
+
+========================================================================
+第六段  工作空间全文搜索与完整导出
+========================================================================
+
+------------------------------------------------------------------------
+16. 【搜索】笔记里的所有内容进入统一搜索输入
+------------------------------------------------------------------------
+
+旧问题：
+  工作空间搜索主要覆盖标题和部分正文，用户无法确定 Structured Note、
+  Scenario Knowledge 或任务文本能否命中。
+
+实现：
+  新增 SemanticNoteContentRepository，按笔记聚合：
+  - 标题与概览；
+  - 原始转写；
+  - 结构化摘要；
+  - 关键要点；
+  - 任务标题、描述与完成状态；
+  - 提醒和日程安排；
+  - Scenario Knowledge 标题、分区和条目；
+  - 其他可见笔记文本。
+
+关键词查找和语义索引使用同一份内容输入，避免一边搜得到、一边搜不到。
+更新笔记、结构化输出或场景知识后，语义索引会按笔记刷新。
+
+涉及文件：
+  src/main/semantic/SemanticNoteContentRepository.ts
+  src/main/semantic/SemanticNoteInput.ts
+  src/main/semantic/SemanticNoteService.ts
+  src/main/database/repositories/NoteRepository.ts
+
+测试：
+  src/main/semantic/__tests__/SemanticNoteSearch.test.ts
+  src/__tests__/NoteSearch.test.ts
+
+
+------------------------------------------------------------------------
+17. 【导出】Word / PDF 包含完整 Note
+------------------------------------------------------------------------
+
+旧问题：
+  下载后的 Word / PDF 只有标题、转写或少量摘要，和工作空间实际展示的
+  笔记内容不一致。
+
+实现：
+  导出先构造统一 NoteExportData，再分别渲染 Word 与 HTML/PDF。
+  导出内容包括：
+  - 标题、工作空间、创建 / 更新时间等元数据；
+  - 原始转写；
+  - Structured Note 的全部分区；
+  - Scenario Knowledge 的全部分区与模板来源；
+  - 任务完成状态、提醒和日程；
+  - AI 输出中属于当前笔记的持久化内容。
+
+排版：
+  - 使用清楚的一级 / 二级标题、列表、任务复选状态和分隔；
+  - 空分区不生成大块占位；
+  - HTML 内容统一转义，避免笔记文本破坏 PDF DOM；
+  - Word 与 PDF 读取相同数据源，减少格式间漏字段。
+
+新增：
+  src/main/export/NoteExportContent.ts
+  src/main/export/NoteExportData.ts
+  src/main/export/NoteExportHtml.ts
+  src/main/export/NoteExportRepository.ts
+  src/main/export/NoteExportWord.ts
+
+修改：
+  src/main/export/ExportService.ts
+  src/main/ipc/export-ipc.ts
+
+测试：
+  src/main/export/__tests__/NoteExport.test.ts
+  src/main/export/__tests__/NoteExportRepository.electron.test.ts
+
+
+========================================================================
+第七段  Agent 关联笔记与 TTS 加速
+========================================================================
+
+------------------------------------------------------------------------
+18. 【Agent】明确 link 的笔记必须成为优先上下文
+------------------------------------------------------------------------
+
+问题：
+  用户已经拖入两篇关联笔记，再问「说了什么」时，Agent 仍把问题当成
+  没有上下文的普通问句，要求用户补充信息。Agent 模式虽然可以主动搜索，
+  但这里用户已经明确规定资料范围，不应该再从整个工作空间猜查询词。
+
+修复：
+  - Composer 中的 linked note id 进入 AgentInput，不再只停留在 UI chip。
+  - Prompt 明确：存在关联笔记时，先读取这些笔记并在其范围内回答。
+  - 关联笔记短标题或代词问题不再要求先生成搜索关键词。
+  - 工具只接受真实 note id，并复用已加载的关联笔记内容。
+  - 如果用户明确要求扩展搜索，才继续调用全工作空间 search_notes。
+  - 找不到答案时说明关联笔记中缺少什么，不编造内容。
+
+涉及文件：
+  src/main/agent/AgentInput.ts
+  src/main/agent/AgentNoteToolSupport.ts
+  src/main/agent/AgentOrchestrator.ts
+  src/main/agent/AgentPrompt.ts
+  src/main/agent/AgentReadNoteTool.ts
+  src/main/agent/AgentSearchNotesTool.ts
+  src/main/agent/AgentExtractTodosTool.ts
+  src/main/ask-ai/AskAIPromptBuilder.ts
+  src/main/ask-ai/AskAIService.ts
+  src/renderer/pages/Studio/useStudioAgent.ts
+  src/shared/types/AgentTypes.ts
+
+测试：
+  src/main/agent/__tests__/AgentAllWorkspaceScope.test.ts
+  src/main/agent/__tests__/AgentOrchestratorLoop.test.ts
+  src/main/agent/__tests__/AgentPrompt.test.ts
+  src/main/agent/__tests__/AgentSearchNotesTool.test.ts
+
+
+------------------------------------------------------------------------
+19. 【TTS】短句切分 + 播放时预生成下一段
+------------------------------------------------------------------------
+
+问题：
+  LLM 回答已经很快，但整段文本一次送给本地语音模型时，首段音频要等
+  全文推理结束后才播放，主观等待明显。
+
+实现：
+  - 长文本按自然标点切成约 24–40 个字符的短句。
+  - 优先使用句号、问号、感叹号和分号作为强边界；找不到时再用逗号、
+    冒号或空格；最后才按最大长度硬切。
+  - 第一段生成后立即播放，不等待后续全文。
+  - 播放当前片段时并行合成下一片，把大部分推理时间藏在播放时间里。
+  - 保留取消检查；停止播放后，不继续播放已经在后台完成的下一段。
+  - 第一段音频 ready 时就更新 UI 状态，用户更早得到反馈。
+
+这不会改变语音模型本身的算力需求，但显著缩短“点播放到第一次出声”的
+体感时间，并降低长文本推理时间非线性增长带来的卡顿。
+
+新增：
+  src/renderer/tts/TTSPlaybackPipeline.ts
+  src/renderer/tts/TTSPlaybackPipeline.test.ts
+
+修改：
+  src/renderer/tts/TTSAudioPlayer.ts
+  src/renderer/tts/useTTSPlayback.ts
+  scripts/benchmark/tts-benchmark-inputs.json
+  scripts/smoke/tts-model-smoke.ts
+
+
+========================================================================
+第八段  品牌、图标和桌面外壳
+========================================================================
+
+------------------------------------------------------------------------
+20. 【品牌】SpeakSpace → SpeakSpace Local
+------------------------------------------------------------------------
+
+统一范围：
+  - Electron productName、窗口标题和包描述；
+  - 主侧边栏品牌文字；
+  - HTML title；
+  - 后台标签、测试和本地数据目录迁移；
+  - release/app/package.json 和 electron-builder 配置。
+
+旧 userData 目录仍列在 UserDataMigration 的兼容来源中，品牌改名不能让
+老用户的数据库、模型或设置凭空消失。
+
+涉及文件：
+  package.json
+  release/app/package.json
+  electron-builder.js
+  src/main/main.ts
+  src/main/startup/UserDataMigration.ts
+  src/main/background/BackgroundLabels.ts
+  src/renderer/index.ejs
+  src/renderer/layout/Sidebar.jsx
+  src/i18n/locales/zh.json / en.json
+
+
+------------------------------------------------------------------------
+21. 【系统菜单】移除 Electron 默认 File / View / Help
+------------------------------------------------------------------------
+
+桌面端没有使用默认应用菜单的业务功能，Windows 顶部出现的
+File / View / Help 只占空间且暴露模板感。本次在主进程关闭 application
+menu，并删除已经没有调用方的 src/main/menu.ts。
+
+涉及文件：
+  src/main/main.ts
+  src/main/menu.ts（删除）
+
+
+------------------------------------------------------------------------
+22. 【图标】使用新的亮色 Logo
+------------------------------------------------------------------------
+
+处理：
+  - 原始 PNG 居中裁成正方形并生成 1024×1024 主图。
+  - 保留原图透明圆角，不补黑底或白底。
+  - 生成 16 / 24 / 32 / 48 / 64 / 96 / 128 / 256 / 512 / 1024 PNG。
+  - Windows ICO 内含 8 帧：16、24、32、48、64、96、128、256。
+  - 同步生成 macOS ICNS。
+  - 删除旧 icon.svg，Electron 窗口、托盘和安装包均使用新资源。
+
+校验：
+  主 PNG 为 1024×1024 RGBA；32px 小图仍可辨识；ICO 可由 Windows
+  System.Drawing 正常加载。
+
+涉及文件：
+  assets/icon.png
+  assets/icon.ico
+  assets/icon.icns
+  assets/icons/*.png
+  assets/icon.svg（删除）
+
+
+------------------------------------------------------------------------
+23. 【侧边栏】品牌变长后完整容纳收起按钮
+------------------------------------------------------------------------
+
+问题：
+  “SpeakSpace Local”比原品牌名更长，收起侧边栏按钮被挤到栏外一部分。
+
+修复：
+  桌面展开态侧边栏宽度调整为可容纳 Logo、完整品牌名、间距和收起按钮
+  的尺寸；窄屏断点仍可以缩小，避免修一个尺寸又破坏竖屏。
+
+涉及文件：
+  src/renderer/App.css
+  src/renderer/layout/Sidebar.jsx
+
+
+========================================================================
+第九段  Windows 安装包
+========================================================================
+
+------------------------------------------------------------------------
+24. 【产物】Windows x64 NSIS 单击安装器
+------------------------------------------------------------------------
+
+目标：
+  像普通桌面应用一样，一个 .exe 安装基本程序；STT / LLM / TTS / Embedding
+  模型不塞进安装包，由用户进入模型管理后联网按需下载。
+
+配置：
+  productName    SpeakSpace Local
+  version        4.6.0
+  appId          com.speakspace.app
+  platform       win32 x64
+  target         NSIS
+  oneClick       true
+  perMachine     false（按当前用户安装，通常不需要管理员权限）
+  asar           true
+
+打包清单只包含应用代码、运行所需原生依赖、package.json 和 assets。
+验收时扫描安装器与 win-unpacked，未发现 .onnx / .gguf / .safetensors /
+.pt / .pth / ggml-*.bin 等模型文件。
+
+产物：
+  release/installers/4.6.0/windows-x64/
+  SpeakSpace-Local-Setup-4.6.0-x64.exe
+
+安装包目录加入 .gitignore，本地保留用于交付，不把 167 MB 二进制提交进
+源码仓库。
+
+
+------------------------------------------------------------------------
+25. 【排查】winCodeSign 解压被 Windows 符号链接权限阻断
+------------------------------------------------------------------------
+
+第一次显式运行 electron-builder 时失败：winCodeSign-2.6.0.7z 内含两个
+macOS dylib 符号链接，本机没有创建符号链接的权限，7-Zip 在 Windows
+打包阶段也因此退出 2。
+
+处理：
+  - 确认失败文件只属于 darwin/10.12/lib，Windows 需要的 rcedit 和
+    signtool 已完整解出。
+  - 在 electron-builder 缓存中预置该版本 Windows 工具。
+  - 重新运行 NSIS 打包，主程序、卸载器和安装器均成功生成。
+  - 没有为了解包问题修改应用代码，也没有要求把模型塞进安装包。
+
+当前安装包未配置商业代码签名证书，Get-AuthenticodeSignature 为
+NotSigned。首次安装可能看到 Windows SmartScreen「未知发布者」，不影响
+内容完整性；正式公开分发前仍应配置 CSC_LINK / CSC_NAME。
+
+
+------------------------------------------------------------------------
+26. 【脚本】打包命令显式读取 electron-builder.js
+------------------------------------------------------------------------
+
+排查中发现组合脚本一度返回 0，却没有留下 release/build。为避免 CLI
+配置发现行为不明确，package 和 package:release 现在都显式传入：
+
+  --config electron-builder.js
+
+新增 npm run clean，package / package:release 统一执行：
+  clean → build → electron-builder → signing check → rebuild dll
+
+涉及文件：
+  package.json
+  electron-builder.js
+  .erb/scripts/clean.js（复用既有实现）
+
+
+========================================================================
+第十段  项目整理与工程规范
+========================================================================
+
+------------------------------------------------------------------------
+27. 【文档】整合产品说明与 Electron 工程文档
+------------------------------------------------------------------------
+
+发现：
+  根 README 原本完全沿用上游 Electron React Boilerplate 模板，其中包含
+  Banner、Discord、OpenCollective 和赞助商内容，但它同时承载了有价值的
+  Electron 技术栈、开发启动与打包说明；根 CHANGELOG 则仍是上游 0.x–2.x
+  历史，与 SpeakSpace Local 的产品版本无关。
+
+处理：
+  - README 以 SpeakSpace Local 为产品主体，同时保留并更新 Electron React
+    Boilerplate、Electron、React、React Router、Webpack 和 React Fast
+    Refresh 的工程说明。
+  - 对照 Ask AI 等旧分支恢复 README 顶部的视觉化徽章区域；徽章改为本仓库
+    Tests、CodeQL、MIT License，以及当前 Electron、React、TypeScript、
+    Webpack、Node.js、Windows NSIS 和 Local-first 信息，不再引用上游状态。
+  - 合并当前产品能力、本地模型策略、仓库安装、开发启动、验证、桌面端打包、
+    签名检查、项目目录和上游 Electron 文档入口。
+  - CHANGELOG 改为 SpeakSpace Local 4.6.0 的正式摘要，并链接详细日志。
+  - LICENSE 增加 SpeakSpace Local contributors，同时保留上游 MIT 版权。
+  - 删除 .github/FUNDING.yml 中错误的上游赞助账号。
+  - 重写三个 Issue 模板为 SpeakSpace Local 的问题 / 使用 / 功能模板。
+  - 删除永远被 electron-react-boilerplate owner 条件拦住的旧 publish workflow；
+    在正式签名和发布策略确定前，不保留一个看似存在、实际不运行的流程。
+  - 删除 README 不再引用的三张 .erb/img 上游宣传图片；保留上游技术文档、
+    GitHub 仓库和 MIT 许可归属链接。
+
+
+------------------------------------------------------------------------
+28. 【规范】新增 AGENTS.md
+------------------------------------------------------------------------
+
+按 karpathy-guidelines 的思路，把项目约定写成可执行规则：
+  - 修改前定义可观察完成条件，不顺手重构邻近代码；
+  - 先查 Git 状态、全仓引用、入口和测试，再决定删除；
+  - main / renderer / shared 的依赖边界；
+  - Service / Repository → IPC → preload → Renderer 的接入顺序；
+  - 数据库必须兼容迁移，普通删除必须进回收站；
+  - 模型只进 userData，不进仓库和安装包；
+  - 用户可见文本必须走 i18n，品牌名例外；
+  - 窄屏布局不得依赖面板重叠；
+  - 清理后先 build:main，再运行 Jest；
+  - 最后执行 tsc、lint、build、git diff --check 和依赖审计。
+
+新增：
+  AGENTS.md
+
+
+------------------------------------------------------------------------
+29. 【目录】历史文件归档、测试文件改名、生成物忽略
+------------------------------------------------------------------------
+
+处理：
+  - docs/legacy-merge-inventory.md 移入 docs/archive/，并明确标记为历史
+    迁移审计，不代表当前功能状态。
+  - docs/testing/test_promt.txt 修正拼写并改名为
+    docs/testing/task-extraction-cases.md。
+  - docs/project-structure.md 补充 archive、release/app、release/build 和
+    release/installers 的职责。
+  - .gitignore 增加 .claude、.impeccable、本地 electron-builder cache 和
+    installer 交付目录。
+  - release/build、release/app/dist、.erb/dll、临时 builder cache 和空的
+    .impeccable 状态均清理；最终 installer 不在 clean 范围内。
+
+
+------------------------------------------------------------------------
+30. 【Git worktree】只删除已合并且干净的旧工作区
+------------------------------------------------------------------------
+
+盘点到三个 .claude/worktrees：
+  dashboard-chinese-settings-6077a3
+      detached、工作区干净、HEAD 已在 main 中 → 删除。
+
+  simplify-text-use-icons-542fef
+      含多处修改和未跟踪文件 → 保留。
+
+  voice-recording-issues-343864
+      含录音 / Whisper / GPU 相关修改和未跟踪文件 → 保留。
+
+清理 dashboard worktree 时发现其 node_modules 是指向主项目 node_modules
+的 Windows Junction。git worktree remove 沿 Junction 清掉了一部分可生成
+依赖，随后因为长文件名停止。处理过程：
+
+  1. Git worktree 元数据已经安全移除；
+  2. 单独解除 Junction，避免再次沿链接删除主目录；
+  3. 使用根 package-lock.json 执行 npm ci，恢复 1540 个包；
+  4. 使用 release/app/package-lock.json 执行 npm ci --prefix release/app，
+     恢复 better-sqlite3、onnxruntime、sherpa 等原生打包依赖；
+  5. 重新运行类型、构建和全量测试。
+
+源码、用户数据和安装包均未受影响。此经历也解释了为什么工程清理必须
+识别 Junction / symlink，不能把目录大小当成可以直接递归删除的证据。
+
+
+------------------------------------------------------------------------
+31. 【验证顺序】清理后的两次环境失败与恢复
+------------------------------------------------------------------------
+
+第一次 npm test：
+  67 个 suite 全部在 setup 阶段停止，提示 main process is not built。
+  原因是刚执行 clean，Jest 的 check-build-exists 要求先有 main bundle。
+  没有任何测试断言失败。修正规范为清理后先 npm run build:main / build。
+
+第二次 npm test：
+  60 个 suite 通过，6 个 suite 报 Cannot find module better-sqlite3。
+  原因是 release/app 原生依赖同样受旧 Junction 清理影响。执行
+  npm ci --prefix release/app 后，6 组数据库相关测试重跑通过 / 按环境
+  正常跳过，随后全量测试通过。
+
+最终：
+  - TypeScript 通过；
+  - Lint 0 error；
+  - main / renderer build 通过；
+  - 535 tests passed；
+  - production npm audit 0 vulnerabilities；
+  - git diff --check 通过；
+  - installer SHA-256 与生成时一致。
+
+
+========================================================================
+第十一段  文档归整与 README 工程报告
+========================================================================
+
+------------------------------------------------------------------------
+32. 【审计】根目录和 docs 先证明用途，再移动或删除
+------------------------------------------------------------------------
+
+盘点结果：
+  - 根目录 README、CHANGELOG、AGENTS、LICENSE 都是标准项目入口，保留。
+  - CODE_OF_CONDUCT 移至 GitHub 同样识别的 .github/，减少根目录噪音；
+    移动前后正文逐行一致。
+  - TTS 基准报告从 docs 根目录归入 docs/testing/，正文保持不变，并修正
+    因目录层级变化产生的 8 个相对链接。
+  - 新增 docs/README.md，集中说明当前文档、历史资料和以后新增文件的
+    归类规则。
+  - 删除未被任何文件引用、且与当前 Electron 产品完全不符的旧蓝色 Web
+    管理台草图 docs/design/custom-actions-mockup.png。
+  - 删除孤立、繁体且已被详细开发日志覆盖的短版
+    docs/changelog/changelog-20260812.md。
+  - docs/design 清空后移除空目录；docs/project-structure.md 同步更新。
+
+明确保留：
+  - src/node_modules 是指向 release/app/node_modules 的 Junction，是打包侧
+    原生依赖入口，不是重复安装目录。
+  - .claude 下两个 worktree 共约 812 MiB，但都含大量未提交代码；没有
+    用户确认合并或放弃前不得删除。
+  - release/installers 中的最终安装包不属于本次清理范围。
+
+
+------------------------------------------------------------------------
+33. 【README】从产品简介扩展为工程入口与技术报告
+------------------------------------------------------------------------
+
+README 保留产品 Logo、Tests、CodeQL、MIT、版本和技术栈徽章，并新增：
+  - 功能版图与主要实现模块对照表；
+  - Renderer → preload → 18 个 IPC 模块 → 领域服务 / Repository →
+    userData 的进程架构图；
+  - 转写 → Structured Note Draft → 复核 → notes / structured_notes →
+    Scenario Knowledge / 搜索的单一流水线图；
+  - 12 张 SQLite 表的 ER 关系图和 userData 目录树；
+  - Agent 显式关联笔记、有界 6 步工具循环、重复调用短路和最终收尾的
+    时序图；
+  - 搜索与 Word/PDF 导出覆盖矩阵；
+  - 本地 STT / LLM / Embedding / TTS 技术栈；
+  - Apple M4 TTS 基准摘要、源码规模和最近质量门禁指标；
+  - 项目结构、开发命令、打包流程和完整文档导航。
+
+图表使用 GitHub 原生 Mermaid：2 个 flowchart、1 个 erDiagram、
+1 个 sequenceDiagram。这样图随 Markdown 版本管理，不引入额外二进制图稿。
+
+
+------------------------------------------------------------------------
+34. 【验证】文档清理后的完整门禁
+------------------------------------------------------------------------
+
+结果：
+  - 全仓 14 个 Markdown 文件的本地链接全部可解析；
+  - README 16 个代码围栏闭合，4 个 Mermaid 块均能识别到合法图类型；
+  - git diff --check 通过；
+  - npm exec tsc -- --noEmit 通过；
+  - npm run lint 通过：0 error、29 个既有 no-console warning；
+  - npm run build 通过；
+  - npm run check:audit：0 vulnerabilities；
+  - Jest：64 suites passed、3 skipped；535 tests passed、42 skipped。
+
+
+------------------------------------------------------------------------
+35. 【README 国际化】英文主版 + 完整简体中文版
+------------------------------------------------------------------------
+
+处理：
+  - 根 README.md 改为默认英文版，产品说明、功能矩阵、架构边界、4 张
+    Mermaid 图、数据模型、Agent 流程、指标和开发命令均完整翻译。
+  - 新增 README.zh-CN.md，保留完整中文版，不做内容删减。
+  - 两份 README 顶部加入 English / 简体中文双向切换入口；当前语言使用
+    粗体标识，另一语言使用相对链接，GitHub 仓库内可直接切换。
+  - docs/README.md 增加双语项目总览入口。
+  - 本轮开始前 CHANGELOG.md 已处于用户删除状态；不恢复、不覆盖该变更，
+    只从两份 README 和 docs 索引移除对应断链。
+
+
+========================================================================
+遗留问题 / 后续注意
+========================================================================
+
+1. 【发布】Windows 安装包尚未代码签名
+   当前可正常安装，但 SmartScreen 可能提示未知发布者。公开分发前需要
+   购买 / 配置受信任的 Windows code signing certificate，并在 CI 中设置
+   CSC_LINK（或 CSC_NAME）与密码。
+
+2. 【测试噪音】React act(...) warning
+   全量测试通过，但 App.test.tsx 仍会输出若干异步 state update 未包在
+   act(...) 中的 warning。它们没有造成失败，本次未顺手重写既有测试。
+
+3. 【Lint 噪音】29 条 no-console warning
+   主要位于 Dashboard、KnowledgeGeneration、Studio 和开发 seed 脚本。
+   Lint 为 0 error。后续如要清理，应逐处判断是调试输出还是必要运行日志，
+   不应直接全局删除 console。
+
+4. 【开发依赖】npm ci 会报告上游弃用 / dev dependency audit 警告
+   npm audit --omit=dev 的生产依赖结果为 0 vulnerabilities。本次没有运行
+   npm audit fix --force，避免为了开发工具链警告引入破坏性大版本升级。
+
+5. 【保留工作区】两个 .claude worktree 仍有未提交代码
+   simplify-text-use-icons-542fef 与 voice-recording-issues-343864 被明确保留。
+   在各自改动合并、备份或确认放弃前，不应将其当缓存删除。
+
+6. 【TTS】优化的是首段等待和流水线，不是模型本身算力
+   极慢硬件或很大的 TTS 模型仍受推理速度限制。后续应继续用 smoke / benchmark
+   对首段 ready 时间、实时率和连续播放间隙做量化，而不是只看总耗时。
+
+
+========================================================================
+变更文件清单
+========================================================================
+
+新增 —— 工程规范与文档：
+    AGENTS.md
+    README.zh-CN.md
+    docs/README.md
+    docs/changelog/2026-08-23-01.txt（本文件）
+    docs/archive/legacy-merge-inventory.md（由原路径归档）
+    docs/testing/task-extraction-cases.md（由 test_promt.txt 改名）
+    docs/testing/tts-model-benchmark-2026-08-13.md（由 docs 根目录归档）
+    .github/CODE_OF_CONDUCT.md（由根目录移动）
+
+新增 —— 结构化笔记 / 模板：
+    src/main/workflow/KnowledgeTemplateNormalizer.ts
+    src/main/workflow/__tests__/KnowledgeTemplateNormalizer.test.ts
+    src/main/workflow/__tests__/WorkflowService.test.ts
+    src/main/ipc/__tests__/WorkspaceStructuredNoteGeneration.test.ts
+    src/renderer/pages/Workspace/components/ScenarioTemplateForm.tsx
+    src/renderer/pages/Workspace/components/ScenarioTemplateManagerDialog.tsx
+    src/__tests__/NoteInsightsPanel.test.tsx
+    src/__tests__/RecordingReviewDialog.test.tsx
+    src/__tests__/AskAINotePreview.test.tsx
+
+新增 —— 搜索与导出：
+    src/main/semantic/SemanticNoteContentRepository.ts
+    src/main/semantic/__tests__/SemanticNoteSearch.test.ts
+    src/main/export/NoteExportContent.ts
+    src/main/export/NoteExportData.ts
+    src/main/export/NoteExportHtml.ts
+    src/main/export/NoteExportRepository.ts
+    src/main/export/NoteExportWord.ts
+    src/main/export/__tests__/NoteExport.test.ts
+    src/main/export/__tests__/NoteExportRepository.electron.test.ts
+
+新增 —— TTS：
+    src/renderer/tts/TTSPlaybackPipeline.ts
+    src/renderer/tts/TTSPlaybackPipeline.test.ts
+
+主要修改 —— 主进程：
+    src/main/main.ts
+    src/main/preload.ts
+    src/main/database/DatabaseManager.ts
+    src/main/database/repositories/AIConversationRepository.ts
+    src/main/database/repositories/KnowledgeTemplateRepository.ts
+    src/main/database/repositories/NoteRepository.ts
+    src/main/database/repositories/WorkspaceRepository.ts
+    src/main/knowledge/CoreOutputParser.ts
+    src/main/knowledge/KnowledgeGenerationService.ts
+    src/main/knowledge/KnowledgeRepository.ts
+    src/main/knowledge/KnowledgeScenarios.ts
+    src/main/workflow/WorkflowService.ts
+    src/main/trash/TrashService.ts
+    src/main/semantic/SemanticNoteInput.ts
+    src/main/semantic/SemanticNoteService.ts
+    src/main/export/ExportService.ts
+    src/main/ask-ai/AskAIPromptBuilder.ts
+    src/main/ask-ai/AskAIService.ts
+    src/main/agent/AgentInput.ts
+    src/main/agent/AgentNoteToolSupport.ts
+    src/main/agent/AgentOrchestrator.ts
+    src/main/agent/AgentPrompt.ts
+    src/main/agent/AgentReadNoteTool.ts
+    src/main/agent/AgentSearchNotesTool.ts
+    src/main/agent/AgentExtractTodosTool.ts
+    src/main/startup/UserDataMigration.ts
+    src/main/ipc/export-ipc.ts
+    src/main/ipc/knowledge-generation-ipc.ts
+    src/main/ipc/trash-ipc.ts
+    src/main/ipc/workflow-ipc.ts
+    src/main/ipc/workspace-ipc.ts
+
+主要修改 —— 渲染进程：
+    src/renderer/App.css
+    src/renderer/AppRoute.jsx
+    src/renderer/index.ejs
+    src/renderer/layout/Sidebar.jsx
+    src/renderer/pages/AskAI/AskAIPage.css
+    src/renderer/pages/AskAI/components/AskAINotePreview.tsx
+    src/renderer/pages/Dashboard/DashboardPage.css
+    src/renderer/pages/Recording/RecordingPage.css
+    src/renderer/pages/Recording/TranscriptionController.ts
+    src/renderer/pages/Recording/components/RecordControlBar.tsx
+    src/renderer/pages/Recording/components/TranscriptionPanel.tsx
+    src/renderer/pages/Studio/StudioPage.css
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Studio/components/RecordingReviewDialog.tsx
+    src/renderer/pages/Studio/useStudioAgent.ts
+    src/renderer/pages/Workspace/WorkspacePage.css
+    src/renderer/pages/Workspace/WorkspacePage.tsx
+    src/renderer/pages/Workspace/components/KnowledgeOutputPanel.tsx
+    src/renderer/pages/Workspace/components/NoteInsightsPanel.tsx
+    src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+    src/renderer/pages/Workspace/useWorkspaceDetail.ts
+    src/renderer/pages/Settings/components/TrashSettingsPanel.tsx / .css
+    src/renderer/tts/TTSAudioPlayer.ts
+    src/renderer/tts/useTTSPlayback.ts
+
+主要修改 —— 共享类型 / 文案：
+    src/shared/entities/KnowledgeTemplate.ts
+    src/shared/types/AgentTypes.ts
+    src/shared/types/KnowledgeGenerationTypes.ts
+    src/shared/types/TrashTypes.ts
+    src/shared/types/WorkflowTypes.ts
+    src/i18n/locales/zh.json
+    src/i18n/locales/en.json
+
+品牌与构建：
+    assets/icon.png / icon.ico / icon.icns
+    assets/icons/*.png
+    electron-builder.js
+    package.json
+    package-lock.json
+    release/app/package.json
+    .gitignore
+    README.md
+    CHANGELOG.md
+    LICENSE
+    .github/ISSUE_TEMPLATE/*.md
+    .github/config.yml
+
+删除：
+    CODE_OF_CONDUCT.md（移动到 .github/）
+    docs/2026-08-13-tts-model-benchmark.md（移动到 docs/testing/）
+    docs/changelog/changelog-20260812.md
+    docs/design/custom-actions-mockup.png
+    assets/icon.svg
+    src/main/menu.ts
+    src/renderer/pages/Workflow/WorkflowPage.tsx / .css
+    src/renderer/pages/Workflow/components/KnowledgeTemplateCard.tsx
+    src/renderer/pages/Workflow/components/KnowledgeTemplateFormPage.tsx
+    src/renderer/pages/Workspace/WorkspaceWorkflowController.ts
+    .github/FUNDING.yml
+    .github/workflows/publish.yml
+    .erb/img/erb-banner.svg
+    .erb/img/erb-logo.png
+    .erb/img/palette-sponsor-banner.svg
+
+本地生成但不进入 Git：
+    release/installers/4.6.0/windows-x64/
+    SpeakSpace-Local-Setup-4.6.0-x64.exe
+
+README 修复：
+    删除英文版标题区残留的中文副标题
+    修复 Agent 时序图注释分号导致的 GitHub Mermaid 解析错误
+    补充 GitHub Releases 同时提供 macOS 与 Windows 安装器的说明
+    同步中文版 README 的发布说明与 Mermaid 安全写法
+========================================================================

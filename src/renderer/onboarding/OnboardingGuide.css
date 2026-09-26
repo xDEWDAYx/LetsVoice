@@ -1,0 +1,868 @@
+/* =========================================================
+   手把手引导（Tour）
+   ---------------------------------------------------------
+   核心是「聚光灯」：一个定位到目标元素上的空盒子，靠一圈超大的
+   box-shadow 把周围全压暗，盒子内部天然就是透光的洞。
+   这样做的好处是位置和圆角都是普通 CSS 属性，可以直接过渡 ——
+   换步骤时那束光会自己「走」到下一个控件上，这正是手把手的关键：
+   用户的视线被带着走，而不是读一段文字自己去找。
+   ========================================================= */
+
+.tour {
+  position: fixed;
+  inset: 0;
+  /* 故意不往上抬。日历那个悬停弹窗是 9999，比这里高 —— 联动演示要的就是
+     它浮在遮罩上面看得见。代价是弹窗可能压住说明卡，所以那一步的卡片钉在
+     右下角（placement: 'corner'），跟弹窗的落点错开。 */
+  z-index: 2000;
+  pointer-events: none;
+}
+
+/* 引导期间吃掉所有点击，避免用户点到底下的界面走丢。
+   卡片自己会把 pointer-events 收回来。 */
+.tour__blocker {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+/* 没有具体目标时（开场 / 结束）整屏压暗 */
+.tour__dim {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-veil);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: anim-fade var(--dur-slow) var(--ease-out) backwards;
+}
+
+/* ---------------------------------------------------------
+   聚光灯
+   --------------------------------------------------------- */
+.tour__spotlight {
+  position: absolute;
+  /* 这一圈巨大的阴影就是遮罩本体 */
+  box-shadow:
+    0 0 0 100vmax var(--bg-veil),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 0 40px -6px color-mix(in srgb, var(--accent) 60%, transparent);
+  /* 位置、大小、圆角全部过渡：光束会从上一个控件滑到下一个 */
+  transition:
+    top var(--dur-slower) var(--ease-out),
+    left var(--dur-slower) var(--ease-out),
+    width var(--dur-slower) var(--ease-out),
+    height var(--dur-slower) var(--ease-out),
+    border-radius var(--dur-slower) var(--ease-out);
+}
+
+/* 目标外扩散的两圈涟漪，错开半个周期，像声呐在指位置 */
+.tour__ring {
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--accent-strong);
+  border-radius: inherit;
+  opacity: 0;
+  animation: tour-ring 2.4s var(--ease-out) infinite;
+}
+
+.tour__ring--delayed {
+  animation-delay: 1.2s;
+}
+
+@keyframes tour-ring {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.14);
+  }
+}
+
+/* ---------------------------------------------------------
+   飞向下一个目标的光点
+   位置由组件写进 --from-* / --to-*。它只是「视线引导」，
+   动画播一次就停在终点并淡出。
+   --------------------------------------------------------- */
+.tour__comet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  box-shadow:
+    0 0 12px 3px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 30px 8px color-mix(in srgb, var(--accent) 35%, transparent);
+  animation: tour-comet var(--dur-slower) var(--ease-out) backwards;
+  pointer-events: none;
+}
+
+@keyframes tour-comet {
+  0% {
+    transform: translate3d(var(--from-x), var(--from-y), 0) scale(0.4);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--to-x), var(--to-y), 0) scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------
+   说明卡片
+   --------------------------------------------------------- */
+.tour__card {
+  position: absolute;
+  pointer-events: auto;
+  padding: 1rem 1.1rem 0.85rem;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.4)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.4)) saturate(var(--glass-saturate));
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--highlight);
+  /* 卡片跟着聚光灯一起滑过去，不要闪现 */
+  transition:
+    top var(--dur-slower) var(--ease-out),
+    left var(--dur-slower) var(--ease-out);
+  animation: anim-pop var(--dur-base) var(--ease-spring) backwards;
+}
+
+/* 指向目标的小三角 */
+.tour__arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  transform: rotate(45deg);
+}
+
+.tour__card--up .tour__arrow {
+  top: -7px;
+  left: 50%;
+  margin-left: -6px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.tour__card--down .tour__arrow {
+  bottom: -7px;
+  left: 50%;
+  margin-left: -6px;
+  border-top: 0;
+  border-left: 0;
+}
+
+.tour__card--left .tour__arrow {
+  top: 50%;
+  left: -7px;
+  margin-top: -6px;
+  border-top: 0;
+  border-right: 0;
+}
+
+.tour__card--right .tour__arrow {
+  top: 50%;
+  right: -7px;
+  margin-top: -6px;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+.tour__card--none .tour__arrow {
+  display: none;
+}
+
+.tour__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tour__counter {
+  color: var(--accent-strong);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.tour__counter i {
+  margin: 0 0.15rem;
+  color: var(--faint);
+  font-style: normal;
+}
+
+.tour__skip {
+  padding: 0.2rem 0.4rem;
+  color: var(--faint);
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  box-shadow: none;
+  font-size: var(--fs-xs);
+}
+
+.tour__skip:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-soft);
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+
+/* 换步骤时整块重放进场 —— 「这是新的一条信息」要被看见 */
+.tour__body {
+  animation: tour-body-in var(--dur-base) var(--ease-out) backwards;
+}
+
+@keyframes tour-body-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.tour__title {
+  margin: 0.55rem 0 0;
+  font-size: var(--fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.tour__desc {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+}
+
+/* 「去点点看」这类操作提示：左边一个反复推的箭头 */
+.tour__hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0;
+  padding: 0.45rem 0.6rem;
+  color: var(--accent-strong);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  font-size: var(--fs-xs);
+  line-height: 1.55;
+}
+
+.tour__hint-arrow {
+  flex: 0 0 auto;
+  animation: tour-nudge 1.5s var(--ease-smooth) infinite;
+}
+
+@keyframes tour-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+.tour__settling {
+  margin: 0.5rem 0 0;
+  font-size: var(--fs-xs);
+}
+
+/* ---------------------------------------------------------
+   进度条
+   走过的点是实心主色，当前的点拉长，没到的点是空心。
+   --------------------------------------------------------- */
+.tour__rail {
+  display: flex;
+  align-items: center;
+  /* 步骤变多之后一行排不下，允许换行，别把卡片顶宽 */
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0.9rem 0 0.7rem;
+}
+
+.tour__rail-dot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: var(--border-strong);
+  box-shadow: none;
+  transition:
+    width var(--dur-base) var(--ease-spring),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.tour__rail-dot:hover:not(:disabled) {
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+
+.tour__rail-dot.is-done {
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.tour__rail-dot.is-current {
+  width: 20px;
+  background: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* ---------------------------------------------------------
+   底部按钮
+   --------------------------------------------------------- */
+.tour__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.tour__btn {
+  min-width: 84px;
+  padding: 0.45rem 0.8rem;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  box-shadow: none;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.tour__btn--primary {
+  color: var(--accent-contrast);
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.tour__btn:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+/* ---------------------------------------------------------
+   降级
+   关掉的是「一直在播」的循环动画（涟漪、光点、箭头推动），
+   位置过渡保留 —— 那不是装饰，是引导本身：光如果瞬移，
+   用户就不知道注意力该从哪儿挪到哪儿。
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .tour__ring,
+  .tour__comet,
+  .tour__hint-arrow {
+    animation: none;
+  }
+
+  .tour__ring {
+    opacity: 0.7;
+  }
+
+  .tour__comet {
+    display: none;
+  }
+
+  .tour__spotlight,
+  .tour__card {
+    transition-duration: var(--dur-fast);
+  }
+
+  .tour__body {
+    animation-duration: 1ms;
+  }
+}
+
+/* ---------------------------------------------------------
+   实物浮窗（讲三个快捷键的那几步）
+
+   三个浮窗是独立窗口，聚光灯照不到真身，光用文字讲「右下角会弹出一张
+   卡片」用户还是不知道会冒出什么。所以引导直接把真的浮窗组件摆到它真正
+   会出现的位置上：右下角（统计 / 待办）和下方居中（录音）。
+
+   这里只管「摆在哪、多大」，卡片长什么样全部来自 hud/Hud.css —— 浮窗改了
+   样式，引导里演示的会跟着变，不会各说各话。
+   --------------------------------------------------------- */
+.tour-hud-stage {
+  position: fixed;
+  /* 尺寸和边距由 TourHudStage 按 HUD_SIZES 内联给出，和真窗口同一份常量 */
+
+  /* 演示归演示：引导里点一下就把某条待办真勾掉，那是意外不是教学。
+     整块不收点击，底下的拦截层照常吃掉所有操作。 */
+  pointer-events: none;
+
+  /* 聚光灯的洞是按元素外框 + 8px 算的，这里给个圆角，
+     光斑才会顺着卡片的形状收边，而不是套一个方框 */
+  border-radius: 22px;
+}
+
+.tour-hud-stage--record {
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+}
+
+/* 两个图标按钮轮流「点」一下：浮窗上这俩平时压得很淡，
+   不提示一下，用户不会知道它们是能按的。
+
+   选第一组的第一条。用的是 :first-of-type 而不是 :first-child ——
+   每组里排在最前面的是那个「今天 / 明天」的 span 标签，
+   待办行没有一个是 :first-child，写成那样等于整段规则不生效。 */
+.tour-hud-stage--todos .hud-todo-section:first-child .hud-todo-item:first-of-type .hud-todo-check {
+  animation: tour-hud-poke 2.4s ease-in-out infinite;
+}
+
+/* 已经置顶的那条图钉本来就常亮，再去闪只会把它按回灰色，所以跳过 */
+.tour-hud-stage--todos .hud-todo-section:first-child .hud-todo-item:first-of-type:not(.is-pinned) .hud-todo-pin {
+  animation: tour-hud-poke-pin 2.4s ease-in-out 1.2s infinite;
+}
+
+@keyframes tour-hud-poke {
+  0%, 55%, 100% {
+    color: var(--faint);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  25% {
+    color: var(--accent);
+    transform: scale(1.22);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+}
+
+@keyframes tour-hud-poke-pin {
+  0%, 55%, 100% {
+    color: var(--faint);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  25% {
+    color: var(--accent-star, var(--accent));
+    transform: scale(1.22);
+    box-shadow:
+      0 0 0 5px
+      color-mix(in srgb, var(--accent-star, var(--accent)) 20%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-hud-stage--todos .hud-todo-check,
+  .tour-hud-stage--todos .hud-todo-pin {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   拖拽演示（把笔记拖进对话那一步）
+
+   说「拖到右边的对话框」，用户既不知道终点是哪一块，也不知道拖过去会
+   发生什么。这里让一张虚拟卡片自己飞一趟：从笔记上抬起 → 移动 → 落进
+   对话区，落点用的是对话区真的那层拖拽提示。
+
+   两段动画共用一个 2.8s 周期、统一 linear，靠关键帧百分比对齐 ——
+   卡片飞到的那一刻，落点正好亮起来。任何一边改了时长都会错拍。
+   --------------------------------------------------------- */
+.tour-drag {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* 自成一个层叠上下文。里面那层 .studio-drop-hint 自带 z-index: 15，
+     不圈起来的话它会盖到后面的说明卡上面去 —— 卡片没写 z-index，
+     按层叠规则排在所有正 z-index 的兄弟下面。 */
+  isolation: isolate;
+}
+
+/* 罩在对话区上的落点框。里面那层 .studio-drop-hint 是真拖拽时的同一个
+   组件样式（inset: 0.6rem 的虚线框），这里只负责把它摆到对话区的位置上。 */
+.tour-drag__drop {
+  position: fixed;
+  z-index: 1;
+  animation: tour-drag-zone 2800ms linear infinite;
+}
+
+@keyframes tour-drag-zone {
+  /* 卡片还在路上：落点先按住不亮，免得一上来就抢注意力 */
+  0%, 46% {
+    opacity: 0;
+  }
+
+  56%, 88% {
+    opacity: 1;
+  }
+
+  /* 卡片放下之后一起收，回到「什么都没发生」再重来 */
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 被拖着走的那张小卡片 */
+.tour-drag__ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* 压在落点框上面：卡片是被拖的那个，不该被落点罩住 */
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.7rem;
+  box-sizing: border-box;
+  color: var(--text);
+  background: var(--surface-raised);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, var(--border));
+  border-radius: 10px;
+  box-shadow: 0 14px 28px -12px rgb(0 0 0 / 55%);
+  animation: tour-drag-fly 2800ms linear infinite;
+}
+
+/* 左边那道竖杠，暗示「这里可以抓」 */
+.tour-drag__grip {
+  flex: none;
+  width: 3px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.tour-drag__label {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@keyframes tour-drag-fly {
+  /* 出现 */
+  0% {
+    opacity: 0;
+    transform: translate(var(--from-x), var(--from-y)) scale(0.92);
+  }
+
+  8% {
+    opacity: 1;
+    transform: translate(var(--from-x), var(--from-y)) scale(1);
+  }
+
+  /* 抬起来：稍微放大并歪一点，像被手拎住 */
+  18% {
+    opacity: 1;
+    transform: translate(var(--from-x), var(--from-y)) scale(1.05)
+      rotate(-2.5deg);
+    /* 出发这一段用缓动，中间飞得快、两头慢，才像手在拖 */
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* 飞到了 */
+  70% {
+    opacity: 1;
+    transform: translate(var(--to-x), var(--to-y)) scale(1.05) rotate(-2.5deg);
+  }
+
+  /* 放下 */
+  84% {
+    opacity: 1;
+    transform: translate(var(--to-x), var(--to-y)) scale(0.96) rotate(0deg);
+  }
+
+  92%, 100% {
+    opacity: 0;
+    transform: translate(var(--to-x), var(--to-y)) scale(0.9);
+  }
+}
+
+/* 开了「减少动态效果」就不飞了：直接停在终点，落点常亮，
+   靠位置本身说明「拖到这儿」 */
+@media (prefers-reduced-motion: reduce) {
+  .tour-drag__ghost {
+    animation: none;
+    transform: translate(var(--to-x), var(--to-y));
+  }
+
+  .tour-drag__drop {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   双击演示（双击笔记看全文那一步）
+
+   双击是个隐藏动作，界面上没有任何东西提示这张卡片还能双击。这里画一个
+   鼠标指针摸过去连点两下，右边随即滑出详情面板，位置和宽度照真的那一栏来。
+
+   四段动画（指针 / 两圈水波 / 面板）共用 3000ms 周期、统一 linear，
+   全靠关键帧百分比对齐：指针按下的那一刻水波才扩，第二下之后面板才滑出。
+   任何一段改了时长都会错拍。
+   --------------------------------------------------------- */
+.tour-click {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* 同 .tour-drag：里面借用了页面上带 z-index 的真样式，
+     圈起来才不会盖到后面的说明卡上去 */
+  isolation: isolate;
+}
+
+/* ---- 右边滑出来的详情面板 ---- */
+.tour-click__panel {
+  position: fixed;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 0 16px 16px 0;
+  box-shadow: -18px 0 36px -24px rgb(0 0 0 / 70%);
+  animation: tour-click-panel 3000ms linear infinite;
+}
+
+/* 借用真面板的底色和左边框；它在真页面里是网格的一列，这里得自己撑满 */
+.tour-click__panel .studio-source {
+  height: 100%;
+  padding: 0.9rem 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 骨架条：示意「这儿会有内容」，不编一段像真摘要的假文字 */
+.tour-click__line {
+  display: block;
+  height: 8px;
+  margin: 0.42rem 0;
+  background: color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 4px;
+}
+
+@keyframes tour-click-panel {
+  /* 第二下点完之前，右边什么都没有 */
+  0%, 44% {
+    opacity: 0;
+    transform: translateX(16px);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  56%, 88% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+}
+
+/* ---- 指针 ---- */
+.tour-click__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: block;
+  /* 箭头尖在图形的左上角，缩放时才不会离开落点 */
+  transform-origin: top left;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 45%));
+  animation: tour-click-cursor 3000ms linear infinite;
+}
+
+@keyframes tour-click-cursor {
+  0% {
+    opacity: 0;
+    transform: translate(var(--from-x), var(--from-y)) scale(1);
+  }
+
+  8% {
+    opacity: 1;
+    transform: translate(var(--from-x), var(--from-y)) scale(1);
+    /* 移过去这一段用缓动，才像手在动 */
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 到位 */
+  28%,
+  32% {
+    opacity: 1;
+    transform: translate(var(--click-x), var(--click-y)) scale(1);
+  }
+
+  /* 第一下 */
+  34% {
+    transform: translate(var(--click-x), var(--click-y)) scale(0.8);
+  }
+
+  38% {
+    transform: translate(var(--click-x), var(--click-y)) scale(1);
+  }
+
+  /* 第二下 */
+  42% {
+    transform: translate(var(--click-x), var(--click-y)) scale(0.8);
+  }
+
+  46%,
+  88% {
+    opacity: 1;
+    transform: translate(var(--click-x), var(--click-y)) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--click-x), var(--click-y)) scale(1);
+  }
+}
+
+/* ---- 两下点击的水波 ---- */
+.tour-click__ripple {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  /* 起手就得是透明的。第二圈要等 240ms 才开始，这段延迟里元素显示的是
+     基础样式 —— 不写这句的话，刚进这一步时会有一个实心圆环钉在屏幕
+     左上角闪一下（transform 还没生效，位置是 0,0）。 */
+  opacity: 0;
+  animation: tour-click-ripple 3000ms linear infinite backwards;
+}
+
+/* 第二下：同周期错开 240ms，正好落在指针第二次按下的那一帧 */
+.tour-click__ripple--second {
+  animation-delay: 240ms;
+}
+
+@keyframes tour-click-ripple {
+  0%,
+  33% {
+    opacity: 0;
+    /* 两段 translate 叠加：先移到落点，再用自身尺寸的 -50% 居中 */
+    transform: translate(var(--click-x), var(--click-y)) translate(-50%, -50%)
+      scale(0.25);
+  }
+
+  35% {
+    opacity: 0.65;
+    transform: translate(var(--click-x), var(--click-y)) translate(-50%, -50%)
+      scale(0.3);
+  }
+
+  48%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--click-x), var(--click-y)) translate(-50%, -50%)
+      scale(1.5);
+  }
+}
+
+/* 开了「减少动态效果」就不演了：指针停在落点，面板直接摊开，
+   静态地把「点这儿 → 开在那儿」这层关系摆出来 */
+@media (prefers-reduced-motion: reduce) {
+  .tour-click__cursor {
+    animation: none;
+    transform: translate(var(--click-x), var(--click-y));
+  }
+
+  .tour-click__panel {
+    animation: none;
+  }
+
+  .tour-click__ripple {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   联动演示（日历悬停 → 弹窗 → 笔记列表跟着滚那一步）
+
+   这里没有假动画：弹窗、列表滚动、行高亮全是应用被真的 mouseover 触发后
+   自己做出来的。引导只画两样东西 —— 一个指针，和一圈套住「鼠标此刻停在
+   哪儿」的光环。位置用 transition 过渡，指针和光环会一站站滑过去。
+   --------------------------------------------------------- */
+.tour-hover {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tour-hover__ring {
+  position: fixed;
+  z-index: 1;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+  opacity: 0;
+  /* 位置也过渡：光环是「跟着鼠标走」的，瞬移就看不出是同一个东西了 */
+  transition:
+    top var(--dur-slow, 320ms) var(--ease-out, ease-out),
+    left var(--dur-slow, 320ms) var(--ease-out, ease-out),
+    width var(--dur-slow, 320ms) var(--ease-out, ease-out),
+    height var(--dur-slow, 320ms) var(--ease-out, ease-out),
+    opacity 200ms ease;
+}
+
+.tour-hover__ring.is-on {
+  opacity: 1;
+  animation: tour-hover-pulse 1400ms ease-in-out infinite;
+}
+
+@keyframes tour-hover-pulse {
+  50% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+}
+
+.tour-hover__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: block;
+  opacity: 0;
+  filter: drop-shadow(0 3px 6px rgb(0 0 0 / 45%));
+  /* 时长要和 TourHoverDemo 里的 TRAVEL_MS 对上：
+     那边等这段走完才派发 mouseover，快了就成了指针没到、界面先动。 */
+  transition:
+    transform 520ms var(--ease-out, ease-out),
+    opacity 220ms ease;
+}
+
+.tour-hover__cursor.is-on {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-hover__ring,
+  .tour-hover__cursor {
+    transition: opacity 120ms ease;
+  }
+
+  .tour-hover__ring.is-on {
+    animation: none;
+  }
+}

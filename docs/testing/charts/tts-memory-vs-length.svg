@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="440" viewBox="0 0 860 440" role="img">
+<rect width="860" height="440" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="439" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Peak memory by input length</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Host RAM 39.8 GiB · CPU inference · 50 ms sampling · CPU model not recorded</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Kokoro Multi-Lang v1.0</text><rect x="207.2" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="223.19999999999993" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">MeloTTS Chinese-English</text><rect x="397.0" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="412.9999999999999" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">MOSS-TTS-Nano 100M</text>
+<line x1="72" y1="326.05902618431713" x2="832" y2="326.05902618431713" stroke="#E3E8EF"/>
+<text x="64" y="330.05902618431713" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">500 MiB</text>
+<line x1="72" y1="285.0843691403751" x2="832" y2="285.0843691403751" stroke="#E3E8EF"/>
+<text x="64" y="289.0843691403751" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">1000 MiB</text>
+<line x1="72" y1="244.10971209643301" x2="832" y2="244.10971209643301" stroke="#E3E8EF"/>
+<text x="64" y="248.10971209643301" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">2 GiB</text>
+<line x1="72" y1="189.94416177167167" x2="832" y2="189.94416177167167" stroke="#E3E8EF"/>
+<text x="64" y="193.94416177167167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">5 GiB</text>
+<line x1="72" y1="148.96950472772963" x2="832" y2="148.96950472772963" stroke="#E3E8EF"/>
+<text x="64" y="152.96950472772963" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">10 GiB</text>
+<line x1="72" y1="107.99484768378755" x2="832" y2="107.99484768378755" stroke="#E3E8EF"/>
+<text x="64" y="111.99484768378755" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">20 GiB</text>
+<text x="86.592" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">24</text>
+<text x="137.664" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">108</text>
+<text x="263.52" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">315</text>
+<text x="380.25600000000003" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">507</text>
+<text x="799.168" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">1196</text>
+<text x="18" y="227" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 227)">Peak RSS (log scale)</text>
+<text x="452" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400">Input length (characters)</text>
+<line x1="72" y1="119.78376376312278" x2="832" y2="119.78376376312278" stroke="#D64545" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="78" y="113.78376376312278" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#D64545" text-anchor="start" font-weight="400">Physical memory limit of a 16 GiB machine</text>
+<path d="M86.6 305.2 L95.7 305.0 L103.6 304.8 L137.7 304.7 L263.5 304.6 L380.3 304.4 L799.2 290.2" fill="none" stroke="#2E86AB" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="86.6" cy="305.2" r="3.4" fill="#2E86AB"/>
+<circle cx="95.7" cy="305.0" r="3.4" fill="#2E86AB"/>
+<circle cx="103.6" cy="304.8" r="3.4" fill="#2E86AB"/>
+<circle cx="137.7" cy="304.7" r="3.4" fill="#2E86AB"/>
+<circle cx="263.5" cy="304.6" r="3.4" fill="#2E86AB"/>
+<circle cx="380.3" cy="304.4" r="3.4" fill="#2E86AB"/>
+<circle cx="799.2" cy="290.2" r="3.4" fill="#2E86AB"/>
+<path d="M86.6 321.0 L95.7 320.2 L103.6 320.0 L137.7 318.6 L263.5 317.9 L380.3 316.8 L799.2 306.6" fill="none" stroke="#E8871A" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="86.6" cy="321.0" r="3.4" fill="#E8871A"/>
+<circle cx="95.7" cy="320.2" r="3.4" fill="#E8871A"/>
+<circle cx="103.6" cy="320.0" r="3.4" fill="#E8871A"/>
+<circle cx="137.7" cy="318.6" r="3.4" fill="#E8871A"/>
+<circle cx="263.5" cy="317.9" r="3.4" fill="#E8871A"/>
+<circle cx="380.3" cy="316.8" r="3.4" fill="#E8871A"/>
+<circle cx="799.2" cy="306.6" r="3.4" fill="#E8871A"/>
+<path d="M86.6 267.4 L95.7 263.5 L103.6 257.5 L137.7 226.8 L263.5 201.1 L380.3 148.7 L799.2 146.6" fill="none" stroke="#B5446E" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="86.6" cy="267.4" r="3.4" fill="#B5446E"/>
+<circle cx="95.7" cy="263.5" r="3.4" fill="#B5446E"/>
+<circle cx="103.6" cy="257.5" r="3.4" fill="#B5446E"/>
+<circle cx="137.7" cy="226.8" r="3.4" fill="#B5446E"/>
+<circle cx="263.5" cy="201.1" r="3.4" fill="#B5446E"/>
+<circle cx="380.3" cy="148.7" r="3.4" fill="#B5446E"/>
+<circle cx="799.2" cy="146.6" r="3.4" fill="#B5446E"/>
+<line x1="72" y1="362" x2="832" y2="362" stroke="#6B7280"/>
+<text x="24" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">The two sherpa models remain nearly flat, while MOSS requires about 10 GiB for the 1,196-character input.</text>
+</svg>

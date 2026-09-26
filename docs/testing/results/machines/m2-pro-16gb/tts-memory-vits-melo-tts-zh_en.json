@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-01T16:01:06.949Z",
+  "model_id": "vits-melo-tts-zh_en",
+  "model_name": "MeloTTS Chinese-English",
+  "engine": "sherpa-vits",
+  "gc_exposed": true,
+  "iterations_per_phase": 8,
+  "baseline_rss_bytes": 182124544,
+  "final_rss_bytes": 710803456,
+  "after_dispose_rss_bytes": 710819840,
+  "growth_per_iteration_bytes": 7768200.533333333,
+  "second_half_growth_per_iteration_bytes": 2030445.7142857143,
+  "per_phase_analysis": [
+    {
+      "phase": "short",
+      "slope": -2928054.8571428573,
+      "range": 18579456,
+      "drift": 17568329.14285714,
+      "oscillating": false
+    },
+    {
+      "phase": "long",
+      "slope": 2030445.7142857143,
+      "range": 18382848,
+      "drift": 12182674.285714285,
+      "oscillating": false
+    }
+  ],
+  "verdict": "slow-growth",
+  "verdict_note": "趋势在同一段文本内部用最小二乘斜率计算，并丢弃每段第一次；震荡幅度超过整体漂移两倍时判为 oscillating。",
+  "phases": [
+    {
+      "phase": "short",
+      "case_id": "zh_short",
+      "text_length": 24,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 594280448,
+          "synthesis_ms": 4564
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 672301056,
+          "synthesis_ms": 3098
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 674627584,
+          "synthesis_ms": 3131
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 656048128,
+          "synthesis_ms": 3096
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 656064512,
+          "synthesis_ms": 3099
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 656097280,
+          "synthesis_ms": 3124
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 656834560,
+          "synthesis_ms": 3101
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 656818176,
+          "synthesis_ms": 3109
+        }
+      ]
+    },
+    {
+      "phase": "long",
+      "case_id": "zh_long_01",
+      "text_length": 315,
+      "samples": [
+        {
+          "iteration": 1,
+          "rss_bytes": 702824448,
+          "synthesis_ms": 41381
+        },
+        {
+          "iteration": 2,
+          "rss_bytes": 692420608,
+          "synthesis_ms": 41153
+        },
+        {
+          "iteration": 3,
+          "rss_bytes": 710230016,
+          "synthesis_ms": 41237
+        },
+        {
+          "iteration": 4,
+          "rss_bytes": 710230016,
+          "synthesis_ms": 41329
+        },
+        {
+          "iteration": 5,
+          "rss_bytes": 710230016,
+          "synthesis_ms": 41296
+        },
+        {
+          "iteration": 6,
+          "rss_bytes": 710787072,
+          "synthesis_ms": 41279
+        },
+        {
+          "iteration": 7,
+          "rss_bytes": 710803456,
+          "synthesis_ms": 41263
+        },
+        {
+          "iteration": 8,
+          "rss_bytes": 710803456,
+          "synthesis_ms": 41529
+        }
+      ]
+    }
+  ]
+}

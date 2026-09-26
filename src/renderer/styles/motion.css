@@ -1,0 +1,287 @@
+/* =========================================================
+   SpeakSpace · 动效层（Motion）
+   ---------------------------------------------------------
+   所有关键帧和入场工具类集中在这里。页面里需要动效时优先
+   套用 .anim-* 类，不要在页面 CSS 里重复定义同名 keyframes
+   （重名会互相覆盖，且改一处不会全局生效）。
+
+   时长与缓动一律引用 tokens.css 的 --dur-* / --ease-*。
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. 入场
+   位移 + 透明度 + 一点点缩放。柔和感靠 --ease-out 那条曲线
+   和 scale 拿，不要用 filter: blur() —— 逐帧模糊会强制合成器
+   重新栅格化整个子树，一组卡片同时进场时很容易掉帧。
+   opacity / transform 是纯合成属性，走 GPU，代价低得多。
+   --------------------------------------------------------- */
+@keyframes anim-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes anim-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes anim-slide-left {
+  from { opacity: 0; transform: translate3d(-18px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes anim-slide-right {
+  from { opacity: 0; transform: translate3d(18px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes anim-pop {
+  0% { opacity: 0; transform: scale(0.86); }
+  60% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* 弹层从锚点方向展开，比单纯淡入更能说明「它从哪来」 */
+@keyframes anim-unfold {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0) scaleY(0.92);
+    transform-origin: top center;
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scaleY(1);
+    transform-origin: top center;
+  }
+}
+
+/* fill-mode 一律用 backwards，不要用 both。
+   both 会把终态的 transform/filter 永久留在元素上，而任何非
+   none 的 transform 或 filter 都会成为 position:fixed 后代的
+   包含块 —— 抽屉、模态会被钉在这个容器里而不是视口。
+   入场动画的终态本来就等于元素的自然状态，backwards 足够。 */
+.anim-rise { animation: anim-rise var(--dur-slow) var(--ease-out) backwards; }
+.anim-fade { animation: anim-fade var(--dur-base) var(--ease-out) backwards; }
+.anim-slide-left { animation: anim-slide-left var(--dur-base) var(--ease-out) backwards; }
+.anim-slide-right { animation: anim-slide-right var(--dur-base) var(--ease-out) backwards; }
+.anim-pop { animation: anim-pop var(--dur-base) var(--ease-spring) backwards; }
+.anim-unfold { animation: anim-unfold var(--dur-fast) var(--ease-out) backwards; }
+
+/* ---------------------------------------------------------
+   2. 错位延迟
+   列表/卡片组用。父级加 .anim-stagger，子项自动按顺序进场，
+   不必给每一项手写 animation-delay。最多铺 12 项，
+   再多的话延迟会长到让人觉得卡。
+   --------------------------------------------------------- */
+.anim-stagger > * {
+  animation: anim-rise var(--dur-slow) var(--ease-out) backwards;
+}
+
+.anim-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.anim-stagger > *:nth-child(2) { animation-delay: 45ms; }
+.anim-stagger > *:nth-child(3) { animation-delay: 90ms; }
+.anim-stagger > *:nth-child(4) { animation-delay: 135ms; }
+.anim-stagger > *:nth-child(5) { animation-delay: 180ms; }
+.anim-stagger > *:nth-child(6) { animation-delay: 225ms; }
+.anim-stagger > *:nth-child(7) { animation-delay: 265ms; }
+.anim-stagger > *:nth-child(8) { animation-delay: 300ms; }
+.anim-stagger > *:nth-child(9) { animation-delay: 330ms; }
+.anim-stagger > *:nth-child(10) { animation-delay: 355ms; }
+.anim-stagger > *:nth-child(n + 11) { animation-delay: 375ms; }
+
+/* 需要手动指定序号时用 --i（例如虚拟列表自己算下标） */
+.anim-stagger-i {
+  animation: anim-rise var(--dur-slow) var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* ---------------------------------------------------------
+   3. 路由切换
+   只用 opacity + transform，绝对不要在这里加 filter: blur()。
+   这个类套的是整个页面子树，逐帧模糊一大片内容会强制合成器
+   每帧重新栅格化整层 —— 页面越重越卡，模型管理页那种几十个
+   控件的页面切过去会明显掉帧。opacity 和 transform 是纯合成
+   属性，走 GPU，不碰布局也不重新栅格化。
+   --------------------------------------------------------- */
+@keyframes anim-page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.anim-page {
+  animation: anim-page-in var(--dur-slow) var(--ease-out) backwards;
+}
+
+/* ---------------------------------------------------------
+   4. 呼吸 / 脉冲
+   在线状态点、等待中的容器用。scale 幅度要小，
+   超过 1.12 就会从「呼吸」变成「跳动」。
+   --------------------------------------------------------- */
+@keyframes anim-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.anim-breathe { animation: anim-breathe 2.4s var(--ease-smooth) infinite; }
+
+/* 向外扩散的涟漪环：录音中、监听中 */
+@keyframes anim-ripple {
+  0% { opacity: 0.55; transform: scale(0.72); }
+  100% { opacity: 0; transform: scale(2.4); }
+}
+
+.anim-ripple {
+  animation: anim-ripple 2s var(--ease-out) infinite;
+}
+
+/* ---------------------------------------------------------
+   5. 声波
+   本产品的主题动效：一排随语音起伏的竖条。
+   每根条的相位不同，靠 nth-child 错开 delay，
+   看起来像真实波形而不是整齐的跑马灯。
+   --------------------------------------------------------- */
+@keyframes anim-wave {
+  0%, 100% { transform: scaleY(0.22); }
+  50% { transform: scaleY(1); }
+}
+
+.anim-wave-bar {
+  transform-origin: center;
+  animation: anim-wave 1.1s var(--ease-smooth) infinite;
+}
+
+.anim-wave-bar:nth-child(1) { animation-delay: 0ms; animation-duration: 1.05s; }
+.anim-wave-bar:nth-child(2) { animation-delay: 120ms; animation-duration: 0.82s; }
+.anim-wave-bar:nth-child(3) { animation-delay: 60ms; animation-duration: 1.28s; }
+.anim-wave-bar:nth-child(4) { animation-delay: 220ms; animation-duration: 0.94s; }
+.anim-wave-bar:nth-child(5) { animation-delay: 30ms; animation-duration: 1.16s; }
+.anim-wave-bar:nth-child(6) { animation-delay: 180ms; animation-duration: 0.88s; }
+.anim-wave-bar:nth-child(7) { animation-delay: 90ms; animation-duration: 1.32s; }
+
+/* ---------------------------------------------------------
+   6. 思考中的三点
+   AI 回复前的等待态。上下浮动 + 透明度，比原地闪烁耐看。
+   --------------------------------------------------------- */
+@keyframes anim-think-dot {
+  0%, 60%, 100% { opacity: 0.28; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.anim-think-dot {
+  animation: anim-think-dot 1.3s var(--ease-smooth) infinite;
+}
+
+.anim-think-dot:nth-child(2) { animation-delay: 160ms; }
+.anim-think-dot:nth-child(3) { animation-delay: 320ms; }
+
+/* ---------------------------------------------------------
+   7. 描边勾选
+   保存成功 / 任务完成时把对勾「画」出来。
+   需要在 SVG path 上配 stroke-dasharray。
+   --------------------------------------------------------- */
+@keyframes anim-draw {
+  from { stroke-dashoffset: var(--draw-length, 48); }
+  to { stroke-dashoffset: 0; }
+}
+
+.anim-draw {
+  stroke-dasharray: var(--draw-length, 48);
+  animation: anim-draw var(--dur-slow) var(--ease-out) backwards;
+}
+
+/* ---------------------------------------------------------
+   8. 骨架屏
+   加载占位。高光扫过的方向和 fx-text-shimmer 保持一致。
+   --------------------------------------------------------- */
+@keyframes anim-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.anim-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-soft) 0%,
+    color-mix(in srgb, var(--accent) 10%, var(--surface-soft)) 50%,
+    var(--surface-soft) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-sm);
+  animation: anim-skeleton 1.5s linear infinite;
+}
+
+/* ---------------------------------------------------------
+   9. 状态反馈
+   报错抖动、数值变化时的高亮闪一下。
+   --------------------------------------------------------- */
+@keyframes anim-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+.anim-shake { animation: anim-shake var(--dur-slow) var(--ease-smooth); }
+
+@keyframes anim-flash {
+  0% { background-color: var(--accent-soft); }
+  100% { background-color: transparent; }
+}
+
+.anim-flash { animation: anim-flash 1.1s var(--ease-out); }
+
+/* ---------------------------------------------------------
+   10. 旋转
+   加载指示器。
+   --------------------------------------------------------- */
+@keyframes anim-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------
+   11. 降级
+   减弱动态效果时，入场类把时长压到 1ms 直接落到终态，
+   循环类放慢。注意不能整片写 animation:none —— 那样带
+   backwards 的入场动画会停在 opacity:0，页面会一片空白。
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .anim-rise,
+  .anim-fade,
+  .anim-slide-left,
+  .anim-slide-right,
+  .anim-pop,
+  .anim-unfold,
+  .anim-page,
+  .anim-stagger > *,
+  .anim-stagger-i,
+  .anim-draw {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .anim-breathe,
+  .anim-ripple,
+  .anim-wave-bar,
+  .anim-think-dot,
+  .anim-skeleton {
+    animation-duration: 3.6s !important;
+  }
+
+  .anim-shake,
+  .anim-flash {
+    animation: none !important;
+  }
+}

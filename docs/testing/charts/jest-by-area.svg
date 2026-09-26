@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="382" viewBox="0 0 860 382" role="img">
+<rect width="860" height="382" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="381" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Jest regression tests by functional area</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Rendered directly from the machine-readable jest --json report</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Passed</text><rect x="101.6" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="117.6" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Skipped (external dependencies such as Ollama or Electron)</text>
+<text x="173" y="109" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Agent and retrieval</text>
+<rect x="183.0" y="96" width="280.4" height="20" fill="#2E86AB" rx="2"/>
+<text x="323.21907216494844" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">93</text>
+<rect x="463.4" y="96" width="3.0" height="20" fill="#E8871A" rx="2"/>
+<text x="474.4536082474227" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 94</text>
+<text x="173" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Tasks and scheduling</text>
+<rect x="183.0" y="130" width="404.1" height="20" fill="#2E86AB" rx="2"/>
+<text x="385.03608247422676" y="144" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">134</text>
+<rect x="587.1" y="130" width="162.8" height="20" fill="#E8871A" rx="2"/>
+<text x="668.4896907216494" y="144" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">54</text>
+<text x="757.9072164948452" y="144" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 188</text>
+<text x="173" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Models and speech</text>
+<rect x="183.0" y="164" width="96.5" height="20" fill="#2E86AB" rx="2"/>
+<text x="231.24742268041237" y="178" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">32</text>
+<text x="287.49484536082474" y="178" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 32</text>
+<text x="173" y="211" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Data and reliability</text>
+<rect x="183.0" y="198" width="129.7" height="20" fill="#2E86AB" rx="2"/>
+<text x="247.83247422680412" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">43</text>
+<rect x="312.7" y="198" width="57.3" height="20" fill="#E8871A" rx="2"/>
+<text x="341.3118556701031" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">19</text>
+<text x="377.9587628865979" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 62</text>
+<text x="173" y="245" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Interface and interaction</text>
+<rect x="183.0" y="232" width="585.0" height="20" fill="#2E86AB" rx="2"/>
+<text x="475.5" y="246" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">194</text>
+<text x="776" y="246" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 194</text>
+<text x="173" y="279" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Main process and system</text>
+<rect x="183.0" y="266" width="51.3" height="20" fill="#2E86AB" rx="2"/>
+<text x="208.63144329896906" y="280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">17</text>
+<text x="242.26288659793815" y="280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 17</text>
+<text x="173" y="313" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Other</text>
+<rect x="183.0" y="300" width="141.7" height="20" fill="#2E86AB" rx="2"/>
+<text x="253.86340206185565" y="314" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="10.5" fill="#FFFFFF" text-anchor="middle" font-weight="600">47</text>
+<text x="332.7268041237113" y="314" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">Total 47</text>
+<text x="24" y="368" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">These regression tests show that existing behaviour remains intact after changes; they do not measure model accuracy.</text>
+</svg>

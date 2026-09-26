@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "machine": {
+    "machine_id": "desktop-qg1ej01",
+    "label": "desktop-qg1ej01",
+    "captured_at": "2026-09-02T16:20:22.519Z",
+    "hostname_hash": "c5e428253ef0",
+    "os": "Windows_NT 10.0.26200",
+    "arch": "x64",
+    "cpu_model": "12th Gen Intel(R) Core(TM) i9-12900H",
+    "cpu_physical_cores": 14,
+    "cpu_logical_cores": 20,
+    "total_memory_bytes": 42732085248,
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "memory_total_mib": 6144,
+      "driver_version": "591.86"
+    },
+    "node_version": "v24.14.0",
+    "accelerator_class": "nvidia-gpu"
+  },
+  "ran_at": "2026-09-02T20:26:53.627Z",
+  "with_accuracy": false,
+  "steps": [
+    {
+      "id": "stt",
+      "status": "ok",
+      "elapsed_ms": 14266035
+    }
+  ],
+  "files": [
+    "stt-human-speed.json"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-31T07:27:19.136Z",
+  "dataset_hash": "eba5f282bb64c4556af748923dedf007a0e95d82aac5230c8c9a3954a07fefc8",
+  "review_provenance": {
+    "reviewer_type": "model-simulated",
+    "reviewer_label": "Codex independent blind reviewer",
+    "blind_to_judge": true,
+    "reviewed_at": "2026-08-31T07:26:24.342Z"
+  },
+  "status": "complete",
+  "labelled_count": 28,
+  "requested_count": 28,
+  "blind_review_pass_rate": 0.8214285714285714,
+  "blind_review_groundedness_mean": 0.8928571428571429,
+  "raw_pass_agreement": 0.6071428571428571,
+  "cohen_kappa": 0.2142857142857142,
+  "groundedness_weighted_kappa": -0.06521739130434767,
+  "disagreements": [
+    {
+      "task_id": "single-01",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "发布日期和预算正确；附带的负责人信息也有笔记依据。"
+    },
+    {
+      "task_id": "cross-01",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "三个必答事实均正确；把 go/no-go review 额外表述为延期审查不够准确。"
+    },
+    {
+      "task_id": "cross-02",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "续约金额、Sev-1 编号和技术负责人均准确。"
+    },
+    {
+      "task_id": "cross-03",
+      "human_pass": false,
+      "judge_pass": true,
+      "human_notes": "关键数值都出现，但把 16:03 从品川出发的新干线误述为到达东京的时间，行程含义错误。"
+    },
+    {
+      "task_id": "cross-05",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "opening 与 Priya 结论正确；关于 Evan 需去别处查看的附加建议与现有证据不一致。"
+    },
+    {
+      "task_id": "scope-02",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "允许范围内无答案，回答明确说明未找到且未泄露其他工作区信息。"
+    },
+    {
+      "task_id": "scope-04",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "明确说明挂载笔记没有 Phoenix 预算；提到的 Atlas 数值也来自同一允许笔记。"
+    },
+    {
+      "task_id": "unknown-01",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "证据不足时正确拒答，没有编造密码。"
+    },
+    {
+      "task_id": "unknown-02",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "正确说明未找到；声称会继续搜索属于未实际执行的附加承诺。"
+    },
+    {
+      "task_id": "unknown-03",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "正确说明笔记中没有仓库 B 湿度限制。"
+    },
+    {
+      "task_id": "unknown-04",
+      "human_pass": true,
+      "judge_pass": false,
+      "human_notes": "正确说明没有获批的 Q4 汇率证据，并请求更多线索。"
+    }
+  ]
+}

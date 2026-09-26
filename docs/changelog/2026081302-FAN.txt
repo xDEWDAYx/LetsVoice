@@ -1,0 +1,371 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081302
+日期：2026-08-13
+分支：claude/app-startup-test-9647c9（已合并进 main）
+========================================================================
+
+本次会话从「启动应用看一眼」开始，先解决了两套实例并存导致的版本混淆，
+按用户决定放弃 babb771 并以 UI 整合版为唯一基线，随后重做模型管理页、
+补齐硬件检测（显卡与 CUDA），并对对话工作台做了五项功能优化。
+下面按「问题 / 原来 / 现在」记录。
+
+
+------------------------------------------------------------------------
+1. 【环境】机器上同时跑着两套实例，样式看起来「有两个版本」
+------------------------------------------------------------------------
+问题：
+  - 启动后用户发现界面样式与之前测试时不同，怀疑存在两个版本。
+
+原来：
+  - 进程列表里同时存在两组 webpack/electronmon：
+      · simplify-text-use-icons-542fef worktree（代码为 017a1e4）
+      · app-startup-test-9647c9 worktree（代码为 babb771）
+    两者相差一个 commit，界面自然不同；端口 1212 被后启动的那个占用。
+  - 本 worktree 没有 node_modules，无法直接启动。
+
+现在：
+  - 用目录联接（mklink /J）把主仓库的 node_modules 指过来，省掉一次
+    十余分钟的 npm install（两边代码同为 babb771，依赖完全一致）。
+  - 统一清理所有 speakspace 相关的 node/electron 进程后再启动，
+    保证任意时刻只有一个实例在跑。
+
+  说明：
+    后续每次改动主进程或 preload 都需完整重启 npm start——preload 的
+    webpack 配置是一次性构建，不在 watch 列表里；只改 renderer 时
+    dev server 会自动热更新，无需重启。
+
+
+------------------------------------------------------------------------
+2. 【版本决策】放弃 babb771，以 017a1e4 + 未提交 UI 整合工作为唯一版本
+------------------------------------------------------------------------
+问题：
+  - 用户确认想要的是另一个 worktree 的样式，要求「之前那个版本不要再渲染」。
+
+原来：
+  - main 最新为 babb771（"fix bugs from fan"），它重写了 App.css（+479 行）、
+    新增 SystemPolish.css（887 行）、改写 Sidebar，样式即由此而来。
+  - 用户想要的版本 = 017a1e4 + simplify-text-use-icons worktree 中
+    未提交的改动（24 个文件、6 个新文件、约 +2000 行）。
+  - 两者改动的是同一批文件（App.css、Sidebar、Studio、AskAI、Agent 重叠）。
+
+现在：
+  - 先把未提交改动备份为 patch + 新增文件压缩包，再用
+      git read-tree -u --reset 017a1e4
+    把工作区整体退回 017a1e4，然后打上备份 patch 与新增文件。
+  - 校验：src/ 与目标 worktree 逐字节一致，.erb 仅构建产物 dll/ 有差异。
+
+  代价（已向用户明确说明后由用户拍板）：
+    babb771 中的 i18n 补充（中英各 240 行）、TTS runtime 安装修复、
+    ModelManager 重做一并放弃。该 commit 仍在 main 的祖先链上，
+    随时可用 git show babb771 -- <路径> 取回。
+
+  副作用（本次未处理，见文末）：
+    log/2026081202.txt 与 log/2026081301.txt 是 babb771 引入的，
+    随回退一并被删除。
+
+
+------------------------------------------------------------------------
+3. 【模型管理】页面收敛为四个模块 + 统一下拉
+------------------------------------------------------------------------
+问题：
+  - 页面内容过载：7 个纵向堆叠的面板（Whisper / Parakeet / Ollama / TTS /
+    Embedding / 推荐 / 两个模型卡片网格），文字过多，选模型困难。
+
+原来：
+  - 每个模型一张卡片，卡片内含描述、大小、语言、引擎四项文字与两个文字按钮；
+    各运行时各占一整个面板，缺依赖时显示大段说明文字与整行按钮。
+
+现在：
+  - 收敛为 STT / TTS / Embedding / LLM 四个模块，每模块一行下拉。
+  - 选择、下载、删除全部收进下拉：行内左侧状态图标（未下载 / 已下载 /
+    使用中），悬停出现下载或删除图标；点行本身 = 已下载则切换为当前，
+    未下载则直接开始下载；使用中的模型删除按钮自动禁用。
+  - 就绪状态由「可转写 / 尚未就绪」等文字改为一个绿色小圆点，
+    完整说明移入悬停提示。
+  - 安装进度由大段文字改为模块底部细进度条 + 百分比。
+  - 硬件推荐面板整块删除，推荐结果仅保留下拉里一个「推荐」标签。
+
+  文件数：21 -> 9。
+  涉及文件：
+    新增 src/renderer/pages/ModelManager/useModelManager.ts
+         src/renderer/pages/ModelManager/components/ModelSelect.tsx / .css
+         src/renderer/pages/ModelManager/components/ModelModule.tsx / .css
+         src/renderer/pages/ModelManager/components/ModelIcons.tsx
+    删除 ModelCard / ModelSection / WhisperRuntimePanel / ParakeetRuntimePanel /
+         OllamaRuntimePanel / TTSRuntimePanel / EmbeddingModelPanel /
+         ModelRecommendationPanel / TTSVoicePreview 及其 CSS
+
+
+------------------------------------------------------------------------
+4. 【模型管理】2×2 排版与下拉短标签
+------------------------------------------------------------------------
+问题：
+  - 四个模块全部纵向排列，右侧空间浪费。
+  - 下拉里只有模型名和体积，无法判断该选哪个。
+
+原来：
+  - 模块为单行网格；下拉选项一行文字。
+
+现在：
+  - 模块改 2×2 网格（窄于 860px 退回单列），模块内部改为「上头部、下控件」
+    卡片结构，避免在半宽列里被挤扁；页面宽度 760px -> 980px。
+  - 下拉选项改为两行：上行模型名 + 体积，下行标签。
+  - 标签由 id / 名称 / language / size / 量化标记推导，每项不超过三个字、
+    最多三个（ModelTags.ts）：
+      Whisper Tiny            最快 · 极小 · 多语言
+      Whisper Small English   均衡 · 英文
+      Whisper Large V3 Turbo  快且准 · 多语言
+      Parakeet TDT 0.6B INT8  标点好 · 省内存 · 英文
+      Qwen2.5-1.5B-Instruct   中文强 · 小巧 · 省内存
+      Qwen2.5-3B-Instruct     中文强 · 中等 · 省内存
+  - 两条规则值得记：
+      · STT 的速度取舍已由能力标签表达，尺寸标签只在特别小/特别大时出现；
+        LLM 的能力标签讲的是语种侧重，尺寸才是主要取舍，故每个都给——
+        否则两个 Qwen 标签完全相同，无法区分。
+      · 能力标签已点明语种时（英文强）不再重复加「英文」标签。
+
+  涉及文件：
+    src/renderer/pages/ModelManager/ModelTags.ts（新增）
+    ModelManagerPage.css / ModelModule.css / ModelSelect.tsx / .css
+
+
+------------------------------------------------------------------------
+5. 【模型管理】模块下展示运行时，并新增卸载能力
+------------------------------------------------------------------------
+问题：
+  - 页面只展示模型，但每个模块背后的运行时同样需要安装和卸载。
+
+原来：
+  - 运行时状态散落在各自面板；只有安装接口，没有任何卸载接口。
+
+现在：
+  - 每个模块下方增加运行时行，以胶囊展示：绿点已就绪、灰点未安装，
+    右侧图标即操作（未装显示下载，已装且为本应用安装显示卸载），
+    悬停给出来源说明。
+      STT       whisper.cpp、ffmpeg、sherpa-onnx
+      TTS       sherpa-onnx（Kokoro 模型改为可从下拉删除）
+      Embedding Ollama（与 LLM 共用同一服务）
+      LLM       Ollama、本地服务
+  - 原先 header 上的琥珀色「缺依赖」按钮删除，安装入口统一收进运行时行。
+  - 新增 RuntimeUninstallService + Runtime:uninstall IPC。
+
+  安全边界（重要）：
+    只删应用自己下载到 userData 的目录——runtimes/stt/whisper、
+    runtimes/ffmpeg、runtimes/llm、Kokoro 模型目录；删除前一律再过一次
+    ManagedPaths.isManagedPath 校验。若 whisper / ollama 来自系统 PATH
+    或用户自行安装，卸载按钮不显示，即便调到接口也会被主进程拒绝并回报
+    原因，不触碰用户系统里的安装。随应用打包的 sherpa-onnx-node 只读展示。
+
+  涉及文件：
+    src/main/runtime/RuntimeUninstallService.ts（新增）
+    src/main/ipc/runtime-ipc.ts、src/main/preload.ts
+    src/renderer/pages/ModelManager/ModelRuntimes.ts（新增）
+    ModelModule.tsx / .css、useModelManager.ts
+
+
+------------------------------------------------------------------------
+6. 【硬件检测】显卡识别失败与 CUDA 展示
+------------------------------------------------------------------------
+问题：
+  - 设置页硬件面板显示「显卡：未检测到」，但机器上确有独立显卡。
+  - 本地推理很依赖 CUDA，需要显示其可用性。
+
+原来：
+  - 仅使用 Electron 的 app.getGPUInfo('basic')。该接口在 Windows 上返回的
+    deviceString 常为空字符串（只有 vendorId / deviceId），取到空即判为
+    未检测到。这不是硬件问题，是检测手段单一。
+
+现在：
+  - 新增 GpuProbeService，多路探测后合并取信息最全的一条：
+      1) nvidia-smi     —— 优先级最高，给出真实显存、驱动版本、CUDA 版本
+      2) WMI（Win32_VideoController）—— Windows 通用路径，覆盖 A 卡与核显
+      3) system_profiler / lspci —— macOS 与 Linux
+      4) Electron getGPUInfo('complete') —— 兜底，名称为空则丢弃
+    每路各自 try/catch，单条命令 5 秒超时，任一路失败不影响其余。
+  - 关键坑：WMI 的 AdapterRAM 是 32 位字段，超过 4 GiB 一律返回
+    4293918720（4 GiB 上限）。本机实际 6144 MiB，若直接采信会显示成错的
+    4 GB，故撞上限值时判为未知，显存优先取 nvidia-smi。
+  - 虚拟显示适配器（GameViewer / 远程桌面 / 虚拟机一类）会被识别并标注
+    「虚拟显示器」，排在真实显卡之后，且不作为主显卡参与推荐判断。
+  - 新增 CUDA 行：从 nvidia-smi 表头解析版本，无 N 卡或无驱动显示「不可用」。
+  - 新增存储检测：用 fs.statfs 统计模型与运行时所在分区（不扫其他盘）。
+  - 设置页新增「硬件」分类：处理器、内存、显卡（多卡逐行）、CUDA、存储、
+    系统，底部给出推荐档位，并有「重新检测」按钮；中英文案均已补齐。
+
+  本机实测合并结果：
+      NVIDIA GeForce RTX 3060 Laptop GPU  6 GB  驱动 591.86  来源 nvidia-smi
+      GameViewer Virtual Display Adapter   —              来源 wmi（虚拟）
+      CUDA 13.1 · 1 卡
+      存储 474.7 GB 总量 / 27.1 GB 可用
+
+  涉及文件：
+    src/main/recommendation/GpuProbeService.ts（新增）
+    src/main/recommendation/SystemProfileService.ts
+    src/main/recommendation/ModelRecommendationTypes.ts
+    src/main/ipc/recommendation-ipc.ts、src/main/preload.ts
+    src/renderer/pages/Settings/components/HardwareSettingsPanel.tsx（新增）
+    src/renderer/pages/Settings/SettingsPage.tsx / .css
+    src/i18n/locales/zh.json、en.json
+
+
+------------------------------------------------------------------------
+7. 【对话工作台】笔记详情缺少摘要
+------------------------------------------------------------------------
+问题：
+  - 双击笔记打开右侧详情时，只显示原文转录，没有摘要。
+
+原来：
+  - 预览组件只渲染 note.transcript || note.transcriptPreview。
+    摘要并不在笔记列表接口里——它保存在 subnotes 表，contentType 形如
+    「AI 语义总结 1 / Semantic summary 1」，列表接口不返回。
+
+现在：
+  - 新增 AskAI:getNoteDetail(noteId) IPC，返回笔记连同其 subnotes。
+  - 预览面板分成两段：「摘要」（每条整理结果一张小卡，带自身类型标题）
+    与「原文转录」。摘要置于原文之前——原文可能很长，摘要放下面会被埋掉。
+  - 没有摘要时显示「这条笔记还没有摘要」（语义整理依赖 Ollama，
+    老笔记可能本就没有存）。
+
+  涉及文件：
+    src/main/ask-ai/AskAIService.ts、AskAITypes.ts
+    src/main/ipc/ask-ai-ipc.ts、src/main/preload.ts
+    src/renderer/pages/AskAI/components/AskAINotePreview.tsx
+    src/renderer/pages/AskAI/AskAITypes.ts、AskAIPage.css
+
+
+------------------------------------------------------------------------
+8. 【对话工作台】关闭按钮不可见，且遮挡日期
+------------------------------------------------------------------------
+问题：
+  - 详情面板右上角的关闭按钮只看得到一个白色圆角边框，看不到叉叉图案。
+  - 该按钮同时压住了下方的笔记日期。
+
+原来：
+  - 不是配色问题。`.studio-page button` 这条规则设了
+    padding: 0.5rem 0.8rem，选择器优先级 (0,1,1) 压过了
+    `.studio-source__close` 自身的 padding: 0（0,1,0）。按钮固定 28×28
+    且全局 box-sizing: border-box，左右各被吃掉 12.8px，内容区仅剩约 2px，
+    16px 的 SVG 被压成不可见，只留边框。
+  - 标题行 header 未预留按钮位置，右上角的 time 与按钮重叠。
+
+现在：
+  - 关闭按钮规则改写为 `.studio-page .studio-source__close`（0,2,0）以压过
+    页面级规则，并给其 svg 加 flex: none 兜底。
+  - 给 `.studio-source .ask-ai-note-preview header` 加 padding-right: 2.2rem，
+    日期左移到按钮旁边，无需移动按钮位置。
+
+  备注：这是同一类问题的第二次出现（2026081301 第 11 条记录过三例），
+  代码里 .ask-ai-group-add 处已有针对该陷阱的注释，本次按同一约定书写。
+
+  涉及文件：
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+9. 【对话工作台】新建会话去掉弹窗
+------------------------------------------------------------------------
+问题：
+  - 在「最近会话」点加号会弹出配置窗口（选笔记、选 Agent 模式），
+    但这些应该在输入框里现场决定，弹窗多余。
+    （工作区那一行的加号用于新增笔记，行为正确，保持不动。）
+
+原来：
+  - onNewConversation 打开 NewConversationDialog，用户需先在弹窗里
+    勾选工作区 / 笔记 / 模式，确认后才创建会话。
+
+现在：
+  - 加号直接开空白会话：清空对话、关联笔记、关联工作区、助理模式，
+    并收起右侧预览，光标可直接使用。
+  - NewConversationDialog 组件及其 CSS（.studio-new-chat*）已无任何引用，
+    一并删除。
+
+  涉及文件：
+    src/renderer/pages/Studio/StudioPage.tsx
+    删除 src/renderer/pages/Studio/components/NewConversationDialog.tsx
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+10. 【对话工作台】新增拖拽关联笔记
+------------------------------------------------------------------------
+问题：
+  - 关联笔记此前只能靠输入 # 触发菜单，希望支持拖拽。
+
+原来：
+  - 仅 # 菜单一种方式。
+
+现在：
+  - 拖单条笔记到输入框 = 挂这一篇；拖工作区名称 = 挂该工作区全部笔记
+    （与 # 菜单里选工作区等价）。
+  - 落点限定在输入框内；拖拽进入时输入框变虚线高亮并覆盖
+    「拖到此处关联笔记」提示。
+  - 使用自定义 MIME application/x-speakspace-ref 承载载荷，
+    从外部拖文件进来不会误触发。
+  - 两个实现细节：
+      · dragover 阶段浏览器禁止读取数据，只能通过 dataTransfer.types
+        判断是否为自家拖拽；
+      · 提示层必须 pointer-events: none，否则它自身会不断触发 dragleave
+        导致提示闪烁。
+
+  涉及文件：
+    src/renderer/pages/AskAI/AskAIDragPayload.ts（新增）
+    src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+    src/renderer/pages/AskAI/AskAIPage.css
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+11. 【交付】提交与合并
+------------------------------------------------------------------------
+  - 用户在主仓库目录执行 git status 显示 clean，原因是所有工作都在
+    worktree 目录 .claude/worktrees/app-startup-test-9647c9 及其分支上，
+    与主目录 main 是两个不同的工作区。
+  - 按用户决定：先在分支提交（7f2e9cc，130 个文件），再以 --no-ff 合并
+    进 main（e29f694）。目前 main 领先 origin/main 两个提交，尚未 push。
+  - babb771 并未从历史中消失，它仍是 7f2e9cc 的父提交，被放弃的内容
+    随时可以取回。
+
+
+------------------------------------------------------------------------
+验证结果
+------------------------------------------------------------------------
+- npx tsc --noEmit 通过（仅余两处既有报错，见下）。
+- ESLint 本次可正常运行（与 2026081301 记录的环境限制不同，本 worktree
+  下未再出现插件重复问题）：本次新增与改动的文件全部干净；
+  StudioPage.tsx、StudioChatPanel.tsx、AskAIService.ts、ask-ai-ipc.ts、
+  preload.ts、AskAINotesPanel.tsx 等文件中仍有报错，均位于本次未触碰的
+  行上（prettier 格式与 StudioPage <-> StudioChatPanel 的循环依赖），
+  属该版本既有问题。
+- webpack dev server 全程 0 编译错误；每次改动主进程或 preload 后
+  均完整重启并确认窗口正常拉起。
+- 显卡探测的命令与解析逻辑用真实输出单独跑过校验脚本，结果与
+  nvidia-smi / WMI 原始输出一致；存储换算在真实分区上核对过。
+- 模型标签规则对完整模型目录（17 个 STT + 5 个 LLM）逐条跑过，
+  确认无两个模型标签完全相同。
+- 模型管理页与设置页硬件面板由用户在实际 Electron 窗口中确认。
+
+未执行/受限项（如实记录）：
+- 未执行 npm run build，也未执行 npm test（本次仅 dev 构建 + 类型检查
+  + 定向脚本校验）。
+- 第 7、9、10 三项（笔记摘要展示、新建空白会话、拖拽关联）仅完成
+  类型检查与 bundle 重建确认，未在窗口中实际操作验证，需人工确认。
+- 无法直接读取应用数据库核对是否已有摘要数据：better-sqlite3 按 Electron
+  ABI 构建，普通 node 进程加载失败。若老笔记本就没有摘要，
+  摘要区会显示「这条笔记还没有摘要」，属预期降级。
+
+已知项目既有问题（不由本次修改引入，与 2026081202 / 2026081301 记录一致）：
+- src/main/Recording/TranscriptionService.ts 仍有两处接口不匹配：
+  STTModelManager 缺少 getModelPath，以及一次调用参数数量不匹配。
+
+遗留待办：
+- Parakeet 模型目前与 Whisper 模型混在同一个 STT 下拉里，仅靠模型名区分，
+  是否按引擎分组尚未决定。
+- log/2026081202.txt 与 log/2026081301.txt 因回退 babb771 被删除，
+  是否恢复尚未决定；如需恢复：
+      git checkout babb771 -- log/2026081202.txt log/2026081301.txt
+
+========================================================================
+以上。
+========================================================================

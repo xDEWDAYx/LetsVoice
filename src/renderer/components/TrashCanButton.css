@@ -1,0 +1,60 @@
+.trash-can-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  flex: none;
+  padding: 0;
+  color: var(--muted);
+  line-height: 0;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.trash-can-button:hover:not(:disabled),
+.trash-can-button:focus-visible {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 34%, transparent);
+  background: color-mix(in srgb, var(--danger) 11%, transparent);
+}
+
+.trash-can-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.trash-can-button svg {
+  display: block;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  overflow: visible;
+  color: inherit;
+  pointer-events: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trash-can-lid {
+  transform-box: fill-box;
+  transform-origin: 88% 100%;
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.trash-can-button:hover .trash-can-lid,
+.trash-can-button:focus-visible .trash-can-lid {
+  transform: translateY(-2px) rotate(-12deg);
+}

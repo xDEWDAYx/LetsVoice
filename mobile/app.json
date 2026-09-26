@@ -1,0 +1,82 @@
+{
+  "expo": {
+    "name": "LetsVoice",
+    "slug": "speakspace-local-mobile",
+    "version": "1.6.2",
+    "backgroundColor": "#F3F7F5",
+    "primaryColor": "#356F68",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "speakspacelocalmobile",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "supportsTablet": false,
+      "deploymentTarget": "16.4",
+      "buildNumber": "9",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "LetsVoice uses the microphone to create local transcripts and recordings.",
+        "UIViewControllerBasedStatusBarAppearance": true
+      },
+      "bundleIdentifier": "com.dhebhxh.speakspacelocalmobile"
+    },
+    "android": {
+      "backgroundColor": "#F3F7F5",
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "backgroundColor": "#E8F1EE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.dhebhxh.speakspacelocalmobile",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F3F7F5",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76,
+          "dark": {
+            "backgroundColor": "#0B1714",
+            "image": "./assets/images/splash-icon.png"
+          }
+        }
+      ],
+      "expo-sqlite",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "LetsVoice uses the microphone to create local transcripts and recordings.",
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
+      ],
+      [
+        "llama.rn",
+        {
+          "enableEntitlements": false,
+          "forceCxx20": true,
+          "enableOpenCLAndHexagon": true
+        }
+      ],
+      "expo-image",
+      "expo-asset"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

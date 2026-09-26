@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1840" role="img" aria-labelledby="title desc">
+  <title id="title">SpeakSpace Local SQLite relationship model</title>
+  <desc id="desc">A vertical relationship diagram for workspaces, notes, note-owned records, knowledge templates, and AI conversations.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .canvas { fill: #ffffff; }
+      .group { fill: #fffef0; stroke: #c1a92f; stroke-width: 2; }
+      .group-tag { fill: #fff7cc; stroke: #d6bd3f; stroke-width: 1.5; }
+      .relation-tag { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.25; }
+      .entity { fill: #f8f7ff; stroke: #7657d5; stroke-width: 2; }
+      .header { fill: #e8e2ff; stroke: #7657d5; stroke-width: 2; }
+      .heading { fill: #172033; font: 700 28px Arial, sans-serif; text-anchor: middle; }
+      .group-title { fill: #4b3b00; font: 700 21px Arial, sans-serif; text-anchor: middle; }
+      .entity-title { fill: #2f225f; font: 700 20px "Courier New", monospace; text-anchor: middle; }
+      .field { fill: #172033; font: 18px "Courier New", monospace; }
+      .relation { fill: #475569; font: 16px Arial, sans-serif; }
+      .link { fill: none; stroke: #475569; stroke-width: 2.5; }
+      .arrow { fill: none; stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="canvas" width="1100" height="1840"/>
+  <text class="heading" x="550" y="40">SQLite relationship model</text>
+
+  <g transform="translate(335 70)">
+    <rect class="entity" width="430" height="160" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">WORKSPACES</text>
+    <text class="field" x="18" y="74">INTEGER  id              PK</text>
+    <text class="field" x="18" y="101">TEXT     name</text>
+    <text class="field" x="18" y="128">TEXT     last_opened_at</text>
+    <text class="field" x="18" y="151">TEXT     trashed_at</text>
+  </g>
+
+  <path class="arrow" d="M 550 230 L 550 300"/>
+  <text class="relation" x="568" y="271">contains</text>
+
+  <g transform="translate(335 300)">
+    <rect class="entity" width="430" height="225" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">NOTES</text>
+    <text class="field" x="18" y="74">INTEGER  id                  PK</text>
+    <text class="field" x="18" y="101">INTEGER  workspace_id        FK</text>
+    <text class="field" x="18" y="128">TEXT     transcript</text>
+    <text class="field" x="18" y="155">TEXT     audio_relative_path</text>
+    <text class="field" x="18" y="182">TEXT     type_category</text>
+    <text class="field" x="18" y="209">TEXT     trashed_at</text>
+  </g>
+
+  <rect class="group" x="25" y="575" width="1050" height="760" rx="18"/>
+  <rect class="group-tag" x="45" y="590" width="480" height="43" rx="10"/>
+  <text class="group-title" x="285" y="619">Records owned by or derived from a note</text>
+  <path class="link" d="M 550 525 L 550 1245"/>
+
+  <g transform="translate(50 650)">
+    <rect class="entity" width="430" height="180" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">SUBNOTES</text>
+    <text class="field" x="18" y="74">INTEGER  id            PK</text>
+    <text class="field" x="18" y="101">INTEGER  note_id       FK</text>
+    <text class="field" x="18" y="128">TEXT     content_type</text>
+    <text class="field" x="18" y="155">TEXT     content</text>
+  </g>
+  <g transform="translate(620 650)">
+    <rect class="entity" width="430" height="155" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">STRUCTURED_NOTES</text>
+    <text class="field" x="18" y="74">INTEGER  note_id       PK,FK</text>
+    <text class="field" x="18" y="101">TEXT     payload</text>
+    <text class="field" x="18" y="128">TEXT     model_id</text>
+  </g>
+  <path class="arrow" d="M 550 735 L 480 735"/>
+  <path class="arrow" d="M 550 735 L 620 735"/>
+
+  <g transform="translate(50 880)">
+    <rect class="entity" width="430" height="180" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">SCENARIO_KNOWLEDGE</text>
+    <text class="field" x="18" y="74">INTEGER  note_id       PK,FK</text>
+    <text class="field" x="18" y="101">TEXT     scenario</text>
+    <text class="field" x="18" y="128">TEXT     payload</text>
+    <text class="field" x="18" y="155">TEXT     model_id</text>
+  </g>
+  <g transform="translate(620 880)">
+    <rect class="entity" width="430" height="205" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">TODOS</text>
+    <text class="field" x="18" y="74">INTEGER  id              PK</text>
+    <text class="field" x="18" y="101">INTEGER  note_id         FK</text>
+    <text class="field" x="18" y="128">TEXT     title</text>
+    <text class="field" x="18" y="155">TEXT     date_string</text>
+    <text class="field" x="18" y="182">INTEGER  is_completed</text>
+  </g>
+  <path class="arrow" d="M 550 975 L 480 975"/>
+  <path class="arrow" d="M 550 975 L 620 975"/>
+
+  <g transform="translate(50 1120)">
+    <rect class="entity" width="430" height="180" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">NOTE_EMBEDDINGS</text>
+    <text class="field" x="18" y="74">INTEGER  note_id       PK,FK</text>
+    <text class="field" x="18" y="101">TEXT     model_name    PK</text>
+    <text class="field" x="18" y="128">TEXT     embedding</text>
+    <text class="field" x="18" y="155">TEXT     content_hash</text>
+  </g>
+  <g transform="translate(620 1120)">
+    <rect class="entity" width="430" height="180" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">KNOWLEDGE_OUTPUTS</text>
+    <text class="field" x="18" y="74">INTEGER  id            PK</text>
+    <text class="field" x="18" y="101">INTEGER  note_id       FK</text>
+    <text class="field" x="18" y="128">INTEGER  template_id   FK</text>
+    <text class="field" x="18" y="155">TEXT     content</text>
+  </g>
+  <path class="arrow" d="M 550 1210 L 480 1210"/>
+  <path class="arrow" d="M 550 1210 L 620 1210"/>
+
+  <g transform="translate(50 1410)">
+    <rect class="entity" width="430" height="155" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">AI_CONVERSATIONS</text>
+    <text class="field" x="18" y="74">INTEGER  id            PK</text>
+    <text class="field" x="18" y="101">TEXT     name</text>
+    <text class="field" x="18" y="128">TEXT     trashed_at</text>
+  </g>
+  <g transform="translate(620 1385)">
+    <rect class="entity" width="430" height="205" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">KNOWLEDGE_TEMPLATES</text>
+    <text class="field" x="18" y="74">INTEGER  id                    PK</text>
+    <text class="field" x="18" y="101">TEXT     prompt</text>
+    <text class="field" x="18" y="128">TEXT     scenario_definition</text>
+    <text class="field" x="18" y="155">TEXT     normalized_at</text>
+    <text class="field" x="18" y="182">TEXT     trashed_at</text>
+  </g>
+  <path class="arrow" d="M 835 1385 L 835 1300"/>
+  <rect class="relation-tag" x="850" y="1328" width="90" height="34" rx="9"/>
+  <text class="relation" x="865" y="1351">defines</text>
+
+  <g transform="translate(50 1660)">
+    <rect class="entity" width="430" height="130" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">CONVERSATION_CONTEXTS</text>
+    <text class="field" x="18" y="76">INTEGER  conversation_id   PK,FK</text>
+    <text class="field" x="18" y="105">INTEGER  note_id           PK,FK</text>
+  </g>
+  <g transform="translate(620 1640)">
+    <rect class="entity" width="430" height="155" rx="12"/>
+    <path class="header" d="M 12 0 H 418 Q 430 0 430 12 V 44 H 0 V 12 Q 0 0 12 0 Z"/>
+    <text class="entity-title" x="215" y="29">AI_MESSAGES</text>
+    <text class="field" x="18" y="74">INTEGER  id                PK</text>
+    <text class="field" x="18" y="101">INTEGER  conversation_id   FK</text>
+    <text class="field" x="18" y="128">TEXT     role / content</text>
+  </g>
+  <path class="arrow" d="M 265 1565 L 265 1660"/>
+  <path class="arrow" d="M 430 1565 L 430 1615 L 835 1615 L 835 1640"/>
+  <rect class="relation-tag" x="280" y="1594" width="110" height="34" rx="9"/>
+  <text class="relation" x="295" y="1617">links notes</text>
+  <rect class="relation-tag" x="515" y="1594" width="205" height="34" rx="9"/>
+  <text class="relation" x="530" y="1617">contains messages</text>
+  <path class="arrow" d="M 335 420 H 18 V 1725 H 50"/>
+</svg>

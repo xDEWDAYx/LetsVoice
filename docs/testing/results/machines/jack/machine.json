@@ -1,0 +1,19 @@
+{
+  "machine_id": "jack",
+  "label": "jack",
+  "captured_at": "2026-09-02T01:28:21.617Z",
+  "hostname_hash": "58e0cb625165",
+  "os": "Windows_NT 10.0.26200",
+  "arch": "x64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i7-12700H",
+  "cpu_physical_cores": 14,
+  "cpu_logical_cores": 20,
+  "total_memory_bytes": 16782102528,
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "memory_total_mib": 4096,
+    "driver_version": "591.74"
+  },
+  "node_version": "v24.16.0",
+  "accelerator_class": "nvidia-gpu"
+}

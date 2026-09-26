@@ -1,0 +1,701 @@
+/*
+ * SpeakSpace · 应用外壳样式
+ * 颜色令牌在 styles/tokens.css，材质在 styles/effects.css，
+ * 动效关键帧在 styles/motion.css。这里只写外壳布局与基础控件。
+ *
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+@import './styles/tokens.css';
+@import './styles/effects.css';
+@import './styles/motion.css';
+@import './styles/components.css';
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: var(--fs-lg);
+  line-height: 1.55;
+  /* 数字用等宽字形，表格和计时器才不会随数字跳动 */
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  /* 底色保持素净：光斑交给 AmbientBackground 那一层，
+     背景图和动画混在 body 上会让整页重绘。 */
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* 选中文字沿用主色，别留浏览器默认的蓝 */
+::selection {
+  color: var(--accent-contrast);
+  background: var(--accent);
+}
+
+/* =========================================================
+   基础控件
+   ========================================================= */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 全局按钮外观整体跳过 .btn-plain。用 :where() 包住否定条件，
+   选择器权重不变（还是 0-0-1），页面里各处用 class 覆写按钮样式的写法照旧生效。 */
+button:where(:not(.btn-plain)) {
+  position: relative;
+  color: var(--accent-contrast);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: 0.9rem 1.6rem;
+  cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 52%),
+    linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    filter var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 悬停时一道高光扫过按钮。用伪元素而不是改背景，
+   这样页面里各种改了 background 的按钮也照样有扫光。 */
+button:where(:not(.btn-plain))::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    var(--sheen) 50%,
+    transparent 60%
+  );
+  transform: translateX(-130%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+button:where(:not(.btn-plain)):hover:not(:disabled)::after {
+  animation: fx-sheen-sweep var(--dur-slower) var(--ease-out);
+}
+
+button:where(:not(.btn-plain)):hover:not(:disabled) {
+  transform: translateY(-1.5px);
+  filter: brightness(1.06);
+  box-shadow:
+    var(--shadow-md),
+    0 10px 30px -10px color-mix(in srgb, var(--accent) 55%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+/* 按下去要「陷进去」：位移归零 + 轻微缩小 + 阴影收紧 */
+button:where(:not(.btn-plain)):active:not(:disabled) {
+  transform: translateY(0) scale(0.975);
+  filter: brightness(0.97);
+  box-shadow: var(--shadow-xs);
+  transition-duration: var(--dur-instant);
+}
+
+button:where(:not(.btn-plain)):disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  filter: saturate(0.5);
+  box-shadow: none;
+}
+
+/* 焦点框对所有按钮都保留，包括 .btn-plain —— 这些元素改成 button 就是为了键盘可达。 */
+button:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+/* 语义上是按钮、外观上不是：日历格、指标卡、右键菜单这些本来是 div，
+   为了键盘和读屏可达才换成 button，不该被上面那套 accent 胶囊样式接管。
+   这里只清掉浏览器默认按钮样式，最终长相仍由元素自己的 class 决定
+   （本规则在 App.css 里靠前，页面 CSS 后加载，覆写不受影响）。 */
+.btn-plain {
+  appearance: none;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--faint);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.92;
+}
+
+/* AI 回答下方的操作图标行（朗读 / 复制） */
+.message-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-top: 0.35rem;
+  opacity: 0.55;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.message-actions:hover,
+*:hover > .message-actions {
+  opacity: 1;
+}
+
+/* =========================================================
+   外壳布局
+   环境光那一层是 position:fixed / z-index:0，
+   外壳必须建立自己的层叠上下文压在它上面。
+   ========================================================= */
+.main-layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 100vh;
+  min-height: 0;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   侧边栏
+   --------------------------------------------------------- */
+.sidebar {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 300px;
+  width: 300px;
+  padding: 1.75rem 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg-deep) 62%, transparent);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
+  backdrop-filter: blur(26px) saturate(1.4);
+  border-right: 1px solid var(--border-hairline);
+  transition:
+    width var(--dur-base) var(--ease-out),
+    padding var(--dur-base) var(--ease-out);
+}
+
+/* 侧栏与内容区之间的一道竖向渐变亮边，代替生硬的 1px 分隔线 */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -1px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 34%, transparent) 22%,
+    var(--border) 60%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* 收起后的窄栏：只留图标 */
+.sidebar.is-collapsed {
+  flex-basis: 78px;
+  width: 78px;
+  padding: 1.75rem 0.75rem 1.25rem;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.35rem;
+}
+
+.sidebar.is-collapsed .sidebar-brand {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  color: var(--text-strong);
+}
+
+/* 品牌旁的声波小标：常态静止，鼠标移到品牌上才起伏，
+   一直动会分散注意力。 */
+.sidebar-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  color: var(--accent-contrast);
+  background: linear-gradient(140deg, var(--accent), var(--accent-strong));
+  box-shadow:
+    0 6px 16px -6px color-mix(in srgb, var(--accent) 70%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.sidebar h2 {
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.sidebar.is-collapsed .sidebar-wordmark-text {
+  display: none;
+}
+
+.sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  box-shadow: none;
+}
+
+.sidebar-toggle:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--surface-soft);
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+
+.sidebar-toggle:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.sidebar.is-collapsed .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
+.sidebar-toggle svg {
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.sidebar nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 选中块的定位基准。offsetTop 是相对最近的定位祖先算的，
+   所以基准必须是这一层，不能是 ul（ul 里塞 div 也不合法）。 */
+.sidebar-nav-track {
+  position: relative;
+}
+
+.sidebar nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav li {
+  margin-bottom: 0.25rem;
+}
+
+/* 跟随当前页滑动的选中块。位置和高度由 Sidebar.jsx 量出实际
+   DOM 尺寸后写进 --nav-y / --nav-h，因此字号档位变化也不会错位。 */
+.sidebar-nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h, 0px);
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent);
+  transform: translateY(var(--nav-y, 0px));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-nav-indicator.is-ready {
+  opacity: 1;
+  transition:
+    transform var(--dur-base) var(--ease-spring),
+    height var(--dur-base) var(--ease-spring),
+    opacity var(--dur-base) var(--ease-out);
+}
+
+/* 选中块左侧的一小段主色竖条，跟着一起滑 */
+.sidebar-nav-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 3px;
+  height: 46%;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 80%, transparent);
+  transform: translateY(-50%);
+}
+
+.sidebar nav a {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.72rem 0.9rem;
+  border-radius: var(--radius-md);
+  color: var(--muted);
+  background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: var(--fs-md);
+  font-weight: 550;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.sidebar nav a:hover {
+  color: var(--text);
+  background: var(--surface-soft);
+  opacity: 1;
+}
+
+.sidebar nav a.active {
+  color: var(--text-strong);
+  background: transparent;
+}
+
+.nav-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform var(--dur-base) var(--ease-spring),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.sidebar nav a:hover .nav-icon {
+  transform: translateY(-1px) scale(1.08);
+}
+
+.sidebar nav a.active .nav-icon {
+  color: var(--accent-strong);
+  transform: scale(1.06);
+}
+
+.nav-label {
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.sidebar.is-collapsed nav a {
+  justify-content: center;
+  gap: 0;
+  padding: 0.72rem 0;
+}
+
+.sidebar.is-collapsed .nav-label {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   内容区
+   --------------------------------------------------------- */
+.content-area {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding: 2.25rem 2.5rem;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  background: transparent;
+}
+
+/* 这里曾经想用一个 sticky 的 ::before 做顶部渐隐遮罩，但它会占据
+   14px 行高并被负 margin 拽上去，把整页内容顶偏；换成 mask-image
+   又可能让 Chromium 把 .content-area 变成固定定位的包含块，
+   录音页那个 position:fixed 的抽屉会被钉死在内容区里。
+   收益太小、代价太大，所以不做。 */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 99px;
+  background: var(--border-strong);
+  background-clip: content-box;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent) 60%, var(--border-strong));
+  background-clip: content-box;
+}
+
+.content-area h1,
+.content-area h2,
+.content-area h3 {
+  margin-top: 0;
+  color: var(--text-strong);
+  letter-spacing: -0.015em;
+}
+
+.content-area h1 {
+  font-weight: 650;
+}
+
+.content-area p {
+  color: var(--muted);
+  max-width: 720px;
+}
+
+/* 页面根容器统一的玻璃面板 */
+.main-view,
+.ask-ai,
+.transcription-page,
+.workspace-page {
+  position: relative;
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--border);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--highlight);
+  min-height: calc(100vh - 5rem);
+}
+
+.main-view h1,
+.transcription-page h1,
+.workspace-page h1 {
+  margin-bottom: 1rem;
+}
+
+.input-bar,
+.ask-ai {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1280px) {
+  .main-layout {
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  .sidebar,
+  .sidebar.is-collapsed {
+    flex: 0 0 68px;
+    width: 68px;
+    height: 100vh;
+    padding: 1rem 0.55rem;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 1.15rem;
+  }
+
+  .sidebar::after {
+    display: block;
+  }
+
+  .sidebar-brand,
+  .sidebar.is-collapsed .sidebar-brand {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-wordmark {
+    justify-content: center;
+  }
+
+  .sidebar-wordmark-text,
+  .sidebar-toggle,
+  .nav-label {
+    display: none;
+  }
+
+  .sidebar nav,
+  .sidebar-nav-track,
+  .sidebar nav ul {
+    width: 100%;
+  }
+
+  .sidebar nav a,
+  .sidebar.is-collapsed nav a {
+    justify-content: center;
+    gap: 0;
+    min-height: 44px;
+    padding: 0.7rem 0;
+  }
+
+  .sidebar nav a.active {
+    background: transparent;
+  }
+
+  .content-area {
+    height: 100%;
+    min-height: 0;
+    padding: clamp(0.75rem, 2.5vw, 1.5rem);
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar,
+  .sidebar.is-collapsed {
+    flex-basis: 56px;
+    width: 56px;
+    padding: 0.75rem 0.4rem;
+  }
+
+  .sidebar nav a,
+  .sidebar.is-collapsed nav a {
+    min-height: 40px;
+  }
+
+  .content-area {
+    padding: 0.5rem;
+  }
+}
+
+/* =========================================================
+   通用加载态
+   本地模型/运行时启动动辄几秒，页面在等的时候必须有反馈，
+   否则用户只会看到一片空白，以为界面卡死了。
+   ========================================================= */
+.app-spinner {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  /* 锥形渐变描边比 border-top-color 那种断口更干净 */
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--accent) 22%, transparent) 130deg,
+    var(--accent) 330deg,
+    transparent 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  animation: anim-spin 900ms linear infinite;
+}
+
+.app-loading-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 320px;
+  color: var(--muted);
+  font-size: var(--fs-md);
+  animation: anim-fade var(--dur-slow) var(--ease-out) both;
+}
+
+/* 加载文案配微光扫过，等待时有「在动」的感觉 */
+.app-loading-panel > p,
+.app-loading-panel > span {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-spinner {
+    animation-duration: 2.4s;
+  }
+}

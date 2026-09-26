@@ -1,0 +1,58 @@
+.trash-undo-toast {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 2200;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(420px, calc(100vw - 2.5rem));
+  padding: 0.75rem 0.8rem 0.75rem 1rem;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--shadow-lg);
+  animation: anim-rise var(--dur-base) var(--ease-out) backwards;
+}
+
+.trash-undo-toast > span {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--fs-sm);
+}
+
+.trash-undo-toast > button:not(.trash-undo-dismiss) {
+  flex: none;
+  min-height: 32px;
+  padding: 0.35rem 0.75rem;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  box-shadow: none;
+  font-size: var(--fs-sm);
+}
+
+.trash-undo-toast > button:not(.trash-undo-dismiss):hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+}
+
+.trash-undo-dismiss {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  color: var(--muted);
+  border-radius: var(--radius-xs);
+  text-align: center;
+}
+
+.trash-undo-dismiss:hover {
+  color: var(--text);
+  background: var(--surface-soft);
+}

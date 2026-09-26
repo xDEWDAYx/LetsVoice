@@ -1,0 +1,705 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026082101
+日期：2026-08-21
+分支：main
+========================================================================
+
+本次改动分七段：
+
+  一、仪表板笔记列表：定高、AI 类型分类、表头交互重做；
+  二、日历与笔记列表的双向联动（悬停日期 → 列表闪烁 / 反向亦然）；
+  三、笔记详情与工作空间工具栏（播放按钮、批量删除、笔记问答跳转）；
+  四、后台常驻：托盘、关窗策略、三个全局快捷键、可自定义；
+  五、三个轻量浮窗（统计环 / 今明待办 / 快捷录音胶囊）；
+  六、若干缺陷修复（复核弹窗中止转录、会话删除、应用内关窗确认）；
+  七、新手引导从 19 步扩到 28 步，并为四类隐藏交互做了真机演示动画。
+     （合并 feature/knowledge 后为 27 步——对方那条分支下线了
+      「知识模板」页，连带删掉了 templates 那一步。）
+
+四个质量门禁全绿：
+  npx jest           498 项通过 / 36 项按需跳过（53 suite 通过，2 跳过）
+  npm run lint       exit 0（剩 26 条 no-console warning，不阻断）
+  npx tsc --noEmit   无输出
+  npm run build      exit 0（main 与 renderer 均 exit 0）
+
+已跟踪文件 57 个变更，约 +4037 / -1007 行；
+另新增 47 个未跟踪条目（含 5 个新目录），合计约 8200 行。
+
+贯穿全篇的两条经验：
+
+  1. **看不见的样式改动等于没改**。本次有近十处「按推理写完、
+     自认为对」的样式最后都是错的：类名撞车、层叠上下文没圈住、
+     选择器压根选不中、滚动条占位造成的视觉偏移。后来固定成一套
+     流程——把真实 CSS 内联进临时 HTML、在浏览器里渲染、用脚本量
+     偏移和计算样式、截图确认、删掉临时目录——才一个个揪出来。
+     文中凡标「实测发现」的，都是这套流程抓到的，靠读代码看不出来。
+
+  2. **能跑真的就别演假的**。引导里四个演示动画，前三个是自己画的
+     （拖拽、双击、浮窗），最后一个（日历联动）改成往真实元素派发
+     鼠标事件、让应用自己反应。后者代码更少、永远不会和真实行为
+     对不上，而且 React 改了事件合成方式测试会先红。
+
+文末「遗留问题」一节列了 4 项本次未闭环的事情。
+
+
+========================================================================
+第一段  仪表板笔记列表
+========================================================================
+
+------------------------------------------------------------------------
+1. 【布局】列表不再无限向下伸，底边和日历对齐
+------------------------------------------------------------------------
+问题：
+  笔记多了之后右侧列表会把整页越撑越长，左边日历早就到底了，
+  右边还在往下走。
+
+修复：
+  右列改成绝对定位填满 grid 行，行高由左列（指标卡 + 日历）决定，
+  多出来的笔记走列表内部滚动。如果右列是普通流内元素，grid 行高
+  会取两列的较大值，列表照样无限伸长——这一条写进了注释。
+
+  同时整块面板上下压缩：模块内文字精简，左列收窄到 272–320px，
+  日历格子才不会被拉成长方形（格宽 =（列宽 - 内边距 - 列间隙）/ 7）。
+
+涉及文件：
+  src/renderer/pages/Dashboard/DashboardPage.css
+  src/renderer/pages/Dashboard/components/NoteListTable.tsx
+
+
+------------------------------------------------------------------------
+2. 【AI 分类】笔记不再全是「未分类」
+------------------------------------------------------------------------
+现在：
+  转写完成后，本地模型（qwen2.5:3b-instruct）除了抽待办，再单独跑
+  一次分类，落到 notes.category 字段。五个类型：
+    meeting 会议 / personal 私事 / idea 想法 / learning 学习 / general 日常
+  分类失败不算错误，退回「未分类」照常显示，下次还能补。
+
+为什么单独一次调用：
+  让小模型在一次回答里既抽日期又判类型，实测两边准确率都会掉。
+  分类只送转写开头 1200 字——说话人往往一上来就点明场合，
+  截断既省推理时间，也避免长转录把小模型带偏。
+
+自测：
+  按要求拿本地已有的 13 篇真实笔记跑了一遍准确率。
+  首轮 0/13 全部落到「未分类」，排查后是解析函数的一个字面量 bug
+  （见下），修完后 13/13 全部命中人工判断。
+  评测脚本留下可复跑：scripts/dev/classify-eval.js
+                     scripts/dev/classify-notes-check.js
+
+  【实测发现】首轮 0/13 的原因：
+    new RegExp(`\b${key}\b`) —— 模板字符串里的 \b 是退格符（U+0008），
+    不是正则的单词边界。改成 String.raw 后正常。
+    这个 bug 读代码时完全看不出来，正则也不报错，只是永远匹配不上。
+
+涉及文件：
+  src/main/dashboard/NoteCategoryPrompt.ts（新增，纯模块，可离线测）
+  src/main/dashboard/NoteClassificationService.ts（新增）
+  src/main/database/DatabaseManager.ts（ensureNoteCategoryColumn 迁移）
+  src/main/database/repositories/NoteRepository.ts
+  src/renderer/pages/Dashboard/models/DashboardCategory.ts
+测试：src/__tests__/NoteCategory.test.ts（8 项）
+
+
+------------------------------------------------------------------------
+3. 【表头】搜索、类型筛选并入表头，排序下拉删除
+------------------------------------------------------------------------
+现在：
+  - 排序下拉整个删掉。默认顺序固定为「置顶优先，其次最近更新」，
+    这本来就是九成场景要的，多一个控件只是多一次选择。
+  - 搜索收进表头，点「笔记名称」旁的放大镜就地展开输入框，
+    点外部区域自动收起（原来那个大叉号删掉）。
+  - 类型筛选做成表头上的下拉菜单。
+  - 表头三个触发器弱化成纯文字质感，保留按钮功能。
+
+  【实测发现】三处靠推理改不出来的问题：
+    a. 表头是 sticky 的，但内容会从它下面透出来——补了不透明底色。
+    b. 类型下拉点开后什么都看不见：.notes-table th { overflow: hidden }
+       特异度 (0,1,1) 压过 .th-type 的 (0,1,0)。先提到
+       .notes-table th.th-type，后来干脆把菜单改成 position: fixed
+       （表格有自己的滚动容器，absolute 会被裁掉），坐标由
+       computeHeaderMenuPosition 在打开时算好。
+    c. 表头触发器仍然像按钮：全局 button:where(:not(.btn-plain))
+       给了阴影、内高光和一层扫光。补上 btn-plain 才干净。
+
+涉及文件：
+  src/renderer/pages/Dashboard/components/NoteListTable.tsx
+  src/renderer/pages/Dashboard/models/NoteSearch.ts（新增）
+  src/renderer/pages/Dashboard/models/HeaderMenuPosition.ts（新增）
+  src/renderer/pages/Dashboard/DashboardPage.css
+测试：src/__tests__/NoteSearch.test.ts（15 项）
+      src/__tests__/NoteListHeaderControls.test.tsx（18 项）
+      src/__tests__/HeaderMenuPosition.test.ts（6 项）
+
+
+========================================================================
+第二段  日历 ⇄ 笔记列表 双向联动
+========================================================================
+
+------------------------------------------------------------------------
+4. 【正向】悬停日历日期 → 右边对应笔记整行闪烁
+------------------------------------------------------------------------
+现在：
+  - 鼠标停在有圆点的日期上直接展开当天待办（不必再点一次），
+    弹窗右上角那个关闭按钮删掉——移开就收，钉住时 Esc / 点别处
+    / 再点当天都能关。
+  - 展开的同时，右边列表里当天有待办的那些笔记整行闪烁。
+  - 命中的行滚出可视区时，列表上／下边缘给一条发光提示线。
+  - 再把鼠标停到弹窗里某一条待办上，闪烁收窄成只闪那一条对应的
+    笔记，并自动滚过去（这时不出边缘提示线——已经滚到了，再提示
+    就是噪音）。
+  - 弹窗设了最大高度 min(360px, 100vh - 24px)，一天十几条也不会
+    捅出屏幕；这个值和 CalendarWidget 里定位用的常量是同一个。
+  - 月份选择器在水平方向收窄。
+
+  【实测发现】闪烁效果分段：
+    列与列之间有一条更亮的竖线，整行断成一节一节。原因是那条 3px
+    的内嵌高亮条写在了应用于每个 td 的关键帧里，于是每格都画一条。
+    拆成两条动画——背景色动画给所有 td，高亮条动画只给 td:first-child。
+
+------------------------------------------------------------------------
+5. 【反向】悬停笔记的「待办日期」→ 左边日历对应日子闪烁
+------------------------------------------------------------------------
+现在：
+  停在列表「待办日期」那一格，左边日历里对应的那些天闪烁。
+  一条笔记里说了好几个日期会一起闪；日期落在别的月份时，月份箭头
+  也跟着提示，免得用户以为悬停没生效。
+
+涉及文件：
+  src/renderer/pages/Dashboard/components/CalendarWidget.tsx
+  src/renderer/pages/Dashboard/components/NoteListTable.tsx
+  src/renderer/pages/Dashboard/DashboardPage.tsx / .css
+测试：src/__tests__/NoteListFlash.test.tsx（10 项）
+
+
+========================================================================
+第三段  笔记详情与工作空间工具栏
+========================================================================
+
+------------------------------------------------------------------------
+6. 【笔记详情】标题行重排，录音改成一个播放按钮
+------------------------------------------------------------------------
+现在：
+  原来那一整块「录音」面板收成标题行里的一个播放按钮。
+  标题行顺序固定为：播放 · 转 Word · 转 PDF · 日期 · 删除。
+  顺手修掉「AI 输出」左侧空出一大段的缩进问题。
+
+涉及文件：
+  src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+  src/renderer/pages/Workspace/components/WorkspaceAudioPlayer.tsx
+  src/renderer/pages/Workspace/WorkspacePage.css
+测试：src/__tests__/WorkspaceNoteCard.test.tsx（7 项）
+
+------------------------------------------------------------------------
+7. 【工作空间】查找 / 批量删除 / 笔记问答
+------------------------------------------------------------------------
+现在：
+  - 「按语义查找」改名「查找」。
+  - 「批量删除」默认隐藏，勾选笔记后才出现，点击弹应用内确认框。
+  - 「对选中笔记」改名「笔记问答」，带数量角标，和批量删除同一行。
+    点击后跳到对话工作台，自动挂上这些笔记、新开一个会话，
+    并自动发出第一问「这些笔记都说了些什么？」。
+  - 侧边栏「本地运行 · 数据不出机」那条角标删除。
+  - 搜索与批量操作收进一个圆角卡片式顶栏。
+
+  【实测发现】内容从顶栏下面穿过去：
+    先试了负 margin-top —— 直接把 sticky 弄坏了（吸顶位置跟着
+    margin box 走）。又加了一层不透明「幕布」伪元素，被指出是
+    掩耳盗铃。最终按建议改成两个容器：顶栏一个，笔记区一个、
+    自带 overflow-y。改完滚动整个失灵，因为 MainLayout 中间插了
+    一层 <div class="anim-page">（高度 auto）把 height:100% 的链
+    打断了——用 :has() 补了一条 flex 链才通。
+
+  - 「最近会话」列表高亮当前会话（active + aria-current）。
+  - 「最近会话」每项加删除图标，逻辑同笔记库（移入回收站），
+    样式一致，且常亮不是悬停才出现——浮窗停留短、图标不常亮
+    很容易点错。
+
+涉及文件：
+  src/renderer/pages/Workspace/WorkspacePage.tsx / .css
+  src/renderer/pages/Workspace/components/WorkspaceDetailHeader.tsx
+  src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+  src/renderer/pages/Studio/useRoutedNoteChat.ts（新增）
+  src/main/trash/TrashService.ts（新增会话分支）
+  src/shared/types/TrashTypes.ts（TrashItemType 增加 conversation）
+  src/main/database/DatabaseManager.ts（ensureConversationTrashColumn）
+测试：src/__tests__/useRoutedNoteChat.test.ts（5 项）
+      src/__tests__/AskAIRecentsActive.test.tsx（3 项）
+
+------------------------------------------------------------------------
+8. 【导航】返回按钮「从哪来回哪去」
+------------------------------------------------------------------------
+问题：
+  从仪表板列表点开某篇笔记，左上角返回却固定回到对话工作台。
+
+修复：
+  路由 state 带上来源，返回时按来源回跳；没有来源信息（比如刷新后
+  直接落在详情页）才退回默认页。
+
+涉及文件：
+  src/renderer/router/BackNavigation.ts（新增，纯函数）
+  src/renderer/router/RouteManager.ts
+测试：src/__tests__/BackNavigation.test.tsx（15 项）
+
+
+========================================================================
+第四段  后台常驻
+========================================================================
+
+------------------------------------------------------------------------
+9. 【托盘与关窗】关掉窗口不等于退出
+------------------------------------------------------------------------
+现在：
+  - 关窗行为三选一：每次询问 / 最小化到托盘 / 直接退出。
+    默认「每次询问」——不问一声就常驻后台，对不知情的用户不友好；
+    询问框里勾一次「记住选择」就不再打扰。
+  - 托盘常驻可开关，托盘菜单含「显示主窗口 / 退出 SpeakSpace」。
+  - 单实例锁：第二次启动直接唤回已有窗口。
+  - backgroundThrottling: false —— 否则窗口隐藏后渲染层被节流，
+    快捷键录音会卡。
+
+------------------------------------------------------------------------
+10. 【全局快捷键】三个，且可自定义
+------------------------------------------------------------------------
+现在：
+  Ctrl+Alt+D  统计浮窗
+  Ctrl+Alt+T  今明待办浮窗
+  Ctrl+Alt+R  快捷录音
+  三个都在设置里可改：点方框再按组合即可，Esc 取消、Backspace 解绑；
+  组合至少要带一个 Ctrl / Alt / Shift；被别的软件占用会当场标出来。
+
+  注意 globalShortcut.register 冲突时是静默返回 false，不抛异常，
+  所以「已占用」状态要主动回查再报给界面。
+
+  【实测发现】录制器把空格键录成了空字符串：
+    键名 ' ' 被 trim 成空，加了一条 rawKey === ' ' 的早退返回 'Space'。
+
+涉及文件：
+  src/main/background/BackgroundController.ts（新增）
+  src/main/background/TrayController.ts（新增）
+  src/main/background/ShortcutManager.ts（新增）
+  src/main/background/CloseBehavior.ts（新增，纯函数）
+  src/main/background/BackgroundLabels.ts（新增）
+  src/main/ipc/background-ipc.ts（新增）
+  src/shared/types/BackgroundTypes.ts（新增）
+  src/shared/shortcuts/Accelerator.ts（新增，纯函数）
+  src/renderer/pages/Settings/components/BackgroundSettingsPanel.tsx（新增）
+  src/renderer/pages/Settings/components/ShortcutRecorder.tsx（新增）
+  src/main/main.ts、src/main/preload.ts、src/main/settings/SettingsService.ts
+测试：src/__tests__/Accelerator.test.ts（12 项）
+      src/__tests__/BackgroundShortcuts.test.ts（18 项）
+      src/__tests__/BackgroundSettingsSchema.test.ts（6 项）
+      src/__tests__/BackgroundRequests.test.tsx（5 项）
+      src/__tests__/ShortcutRecorder.test.tsx（7 项）
+
+
+========================================================================
+第五段  三个轻量浮窗
+========================================================================
+
+核心原则：按快捷键不打开主界面。主界面一弹出来就打断了手上的活，
+而这三件事都是「瞥一眼就走」。
+
+  统计浮窗   360×190   右下角   四个环：笔记数 / 置顶 / 待办 / 转录字数
+  待办浮窗   360×300   右下角   只列今天和明天
+  录音胶囊   150×52    下方居中  取消 · 波纹 · 完成
+
+实现要点：
+  - 无边框、透明、置顶（screen-saver 级）、不进任务栏，
+    hash 路由 #/hud/{stats|todos|record}，与主界面共用同一个渲染包。
+  - 预热常驻、关闭只是 hide 不 destroy——否则每次按快捷键要等
+    将近一秒才出来。窗口重新显示时发 Hud:shown 事件，渲染层据此
+    重新取数、重置淡出计时。
+  - 落点是纯函数 computeHudBounds，多屏 / 缩放边界可直接测。
+
+交互细节：
+  - 待办只列今天和明天，逾期与下周不占地方；同一天同一件事去重。
+  - 每条待办左边勾掉、右边置顶，都是先本地生效再落库——浮窗就那么
+    几秒，等 IPC 回来再消失会让人以为点了没反应。
+  - 鼠标停在浮窗上暂停自动消失，移开后重新从头计时。
+  - 录音胶囊只有三件东西，不显示时长。完成后主界面自动打开，
+    走平时那套转写、复核、存成笔记的流程；取消则直接丢掉。
+
+  【实测发现】三个靠推理改不出来的样式问题：
+    a. 胶囊被两个圆按钮撑得死死的，上下一点缝都没有。
+       原因是类名撞车：外层窗口壳的 class 是 "hud hud-record"，
+       内层那一行也叫 hud-record，于是行上的 align-items: center
+       连外壳一起套上，卡片不再撑满窗口（量出来 23.6px，应为 42px）。
+       内层改名 hud-record-bar 后正常。
+    b. 快捷录音按停止没反应：startQuickRecord 的监听器挂在 StudioPage
+       上，切到别的路由就卸载了。改成走 app 级桥接 + 路由 state。
+    c. 复核弹窗的 ✕ 看着偏右：量出来偏移 0.00/0.00，真正的不对称来自
+       scrollbar-gutter: stable both-edges 和原生 select 的下拉箭头。
+       前者按两侧留位、后者用 appearance: none + 自绘 chevron 解决。
+
+涉及文件：
+  src/main/background/HudWindow.ts（新增）
+  src/shared/hud/HudLayout.ts（新增，尺寸与落点，主/渲染共用）
+  src/renderer/hud/*（新增 8 个文件）
+  src/renderer/background/useBackgroundRequests.ts（新增）
+测试：src/__tests__/HudLayout.test.ts（19 项）
+      src/__tests__/HudWindows.test.tsx（21 项）
+
+
+========================================================================
+第六段  缺陷修复
+========================================================================
+
+------------------------------------------------------------------------
+11. 【P1】关掉复核弹窗后，转录和上传按钮一直点不动
+------------------------------------------------------------------------
+问题：
+  录音结束点关闭，界面回到初始态，但「转录」「上传音频」仍是禁用。
+  后台的转写和总结还在跑，没人去停它。
+
+修复：
+  TranscriptionController 增加 abort()：取消当前任务并清空实时状态。
+  StudioPage 的 closeReview 和 cancelRecording 都先 abort 再 reset。
+
+  同时修掉一个「认领别人任务」的问题：转录状态事件是全局广播的，
+  而 receiveStatus 在 this.job 为 null 时也照单全收。加了 job id 比对，
+  只认自己发起的那一个。
+
+涉及文件：
+  src/renderer/pages/Recording/TranscriptionController.ts
+  src/renderer/pages/Studio/StudioPage.tsx
+测试：src/__tests__/TranscriptionAbort.test.ts（8 项）
+
+------------------------------------------------------------------------
+12. 【体验】原生弹窗换成应用内弹窗
+------------------------------------------------------------------------
+现在：
+  关窗询问不再用系统 messageBox，改成和应用风格一致的模态框
+  （6 秒内渲染层没响应才退回原生，避免渲染层挂了就关不掉窗）。
+  复核弹窗右上角的 ✕ 用 SVG 重画。
+
+  统一用画的、不要用「×」这个字符：字形自带左右不对称的边距、
+  基线又比几何中心低，放进方框里怎么调都会偏一点点，
+  而且偏多少还随字体和字号变。
+
+涉及文件：
+  src/renderer/background/CloseConfirmDialog.tsx / .css（新增）
+  src/renderer/components/CloseIcon.tsx（新增）
+测试：src/__tests__/CloseConfirmDialog.test.tsx（8 项）
+
+
+========================================================================
+第七段  新手引导（19 步 → 28 步）
+========================================================================
+
+------------------------------------------------------------------------
+13. 【顺序】按「少跳页」重排，新步骤插在同页的相关位置
+------------------------------------------------------------------------
+本次提交时的 28 步：
+
+  对话工作台（1–11）
+    welcome → nav → composer → record → upload → agent → library
+    → libraryDrag → notePreview → recents → splitter
+  工作空间（12）
+  仪表板（13–17）
+    newNote → dashboard → calendar → calendarTodos → todoDateHover
+  模型 / 知识模板（18–19）
+  设置（20–27）
+    settings → settingsAgent → background → shortcuts
+    → hudStats → hudTodos → hudRecord → trash
+  收尾（28）done
+
+  随后合并 feature/knowledge 时，对方下线了「知识模板」页（侧边栏
+  入口和 templates 那一步一起删掉），实际变成 27 步。路由 /Workflow
+  本身还在，只是不再从侧边栏进、引导也不再讲。
+
+新增的九步：
+  notePreview     双击笔记 → 右边展开全文
+  calendarTodos   日历悬停 → 弹出待办 → 笔记列表联动
+  todoDateHover   反向：从笔记的待办日期找回日历上的那几天
+  background      关窗行为与托盘常驻
+  shortcuts       三个全局快捷键与自定义
+  hudStats/hudTodos/hudRecord   三个浮窗各一步
+  trash           回收站
+
+------------------------------------------------------------------------
+14. 【定位】设置页的几步现在会真的把那一栏打开
+------------------------------------------------------------------------
+问题：
+  「关掉窗口不等于退出」和「三个全局快捷键」原本都指着左边导航里
+  同一个「后台与快捷键」条目——同一个按钮，而且面板还没打开，
+  讲的内容跟指的地方对不上。
+
+修复：
+  - 设置页加地址栏参数 ?section=，打开哪一栏记在 URL 上，
+    别处（引导）就能把人直接送进具体某一栏。顺带让设置页可深链接。
+  - background 指面板上半块（关窗三选一 + 托盘开关），
+    shortcuts 指下半块（三个录制框），两者不再是同一个元素。
+  - 同页的其余几步跟着走：三个浮窗演示停在 ?section=background
+    （否则面板会在背后跳回「外观」）；回收站与智能助理也改成
+    打开对应栏、指面板本身。
+  - 分类表从 SettingsPage 搬到 SettingsOptions.ts（纯模块），
+    这样测试校验「引导指的那一栏真的存在」时不必把整个设置页
+    连同七个面板和 CSS 一起拖进来。
+
+涉及文件：
+  src/renderer/pages/Settings/SettingsPage.tsx
+  src/renderer/pages/Settings/SettingsOptions.ts
+  src/renderer/pages/Settings/components/BackgroundSettingsPanel.tsx
+  src/renderer/pages/Settings/components/AgentSettingsPanel.tsx
+  src/renderer/pages/Settings/components/TrashSettingsPanel.tsx
+测试：src/__tests__/SettingsTourAnchors.test.tsx（2 项）
+      TrashSettingsPanel.test.tsx 增加锚点断言
+
+------------------------------------------------------------------------
+15. 【动画一】实物浮窗：把真的浮窗摆到它真正会出现的位置
+------------------------------------------------------------------------
+第一版做的是卡片里的抽象缩略图，被指出不够直观。改成：
+
+  讲三个快捷键时，直接在**真实落点**（右下角 / 下方居中）渲染一个
+  真的浮窗——同一套组件、同一份 CSS、同样的尺寸。为此把三个浮窗
+  拆成「外壳 + 内容」：HudFrame / StatsHudView / TodoHudView /
+  RecordHudView，真浮窗和引导各自往里灌数据。尺寸和落点搬进
+  @shared/hud/HudLayout，主进程开窗和引导摆位用同一份常量。
+
+  数据也用真的：显示用户自己的笔记数和待办；取到之前什么都不画
+  （跟真浮窗一样），库是空的才退回一组示例——不然新用户看到的是
+  四个空环加一句「暂无待办」，什么也没讲明白。
+
+  整块 pointer-events: none：引导里点一下就把某条待办真勾掉，
+  那是意外，不是教学。
+
+  【实测发现】两个问题：
+    a. 环形图只画出灰色底圈，彩色弧不出来。对照实验（写死
+       stroke="red" 的表现属性能画、CSS 类上色的不能）定位到
+       CSS 设 stroke 在这条渲染管线里会被丢掉。改成
+       stroke="currentColor" 表现属性 + CSS 只给 color。
+    b. 待办缩略图里的进度条看不见：--surface-soft 在深色下只有
+       5% 白。换成 24% 的文字色。
+    c. 呼吸提示的选择器 .hud-todo-item:first-child 整段不生效——
+       每组里排第一的是「今天 / 明天」那个 span 标签，待办行没有
+       一个是 :first-child。改 :first-of-type。
+
+文件：src/renderer/onboarding/TourHudStage.tsx（新增）
+测试：src/__tests__/TourHudStage.test.tsx（7 项）
+
+------------------------------------------------------------------------
+16. 【动画二】拖拽演示：笔记飞进对话区
+------------------------------------------------------------------------
+一张带真实笔记标题的虚拟卡片从列表第一张笔记上抬起、倾斜着飞过
+两个面板之间、落进对话区。落点不是另画的框，是对话区**真的那层**
+拖拽提示（.studio-drop-hint）。落点框在卡片飞到一半才淡入，
+和真拖拽时 dragover 的触发时机一致。
+
+  【实测发现】三个问题：
+    a. 卡片正好压在「拖到此处关联笔记」那行字上，两行字都读不出来。
+       落点往下让 44px，量出来上下留 13px。
+    b. 笔记栏拖窄后卡片会飞出屏幕左边（负坐标）。宽度改成跟着起点
+       卡片走（130–220），并夹在视口内。
+    c. .studio-drop-hint 自带 z-index: 15，会盖到引导的说明卡上面
+       ——卡片没写 z-index，按层叠规则排在所有正 z-index 的兄弟
+       下面。给演示层加 isolation: isolate 圈起来。
+
+文件：src/renderer/onboarding/TourDragDemo.tsx（新增）
+测试：src/__tests__/TourDragDemo.test.tsx（6 项）
+
+------------------------------------------------------------------------
+17. 【动画三】双击演示：指针连点两下，右边滑出详情
+------------------------------------------------------------------------
+指针从卡片左下方摸过来、连点两下（每下有下压和一圈水波）、右边
+滑出详情面板。面板借用真预览那套结构（.studio-source /
+.ask-ai-note-preview），位置贴着 .studio-page 右边缘、宽度按真那
+一栏的 minmax(250px, 330px) 算。内容用骨架条——这是「会开出一块
+面板」的示意，不该编一段看起来像真摘要的假文字。
+
+  在浏览器里造了一个真的第三栏比对：位置差 1px（页面边框），
+  宽度一致，指针尖端落在卡片正中心偏移 0/0。
+
+  【实测发现】第二圈水波靠 animation-delay 错开，但延迟还没走完的
+  那 240ms 里元素显示的是基础样式——一个 44px 实心圆环、transform
+  还没生效，钉在屏幕左上角闪一下。加了基础态 opacity: 0 和
+  backwards 填充。
+
+  顺带：第 8 步的提示原本是「双击笔记可以直接打开看全文」，
+  双击单独成一步后重复了，换成「工作区的名字也能拖」。
+
+文件：src/renderer/onboarding/TourClickDemo.tsx（新增）
+      src/renderer/onboarding/TourPointer.tsx（新增，两个演示共用）
+测试：src/__tests__/TourClickDemo.test.tsx（8 项）
+
+------------------------------------------------------------------------
+18. 【动画四】联动演示：不演假的，直接跑真的
+------------------------------------------------------------------------
+这一个和前三个不同：它**往真实元素上派发 mouseover / mouseout**，
+弹窗、列表滚动、行高亮全是应用自己被触发后做出的反应。引导只画
+一个指针和一圈套住「鼠标此刻停在哪儿」的光环。
+
+  正向（calendarTodos）：指针飞到日历带圆点的那天 → 弹出当天待办、
+    右边整片相关笔记闪起来 → 移进弹窗停到第一条 → 列表滚到那篇
+    笔记、收窄成只闪那一行 → 第二条 → 收手重来。
+  反向（todoDateHover）：指针依次停到列表里三颗日期药丸上，
+    左边日历对应的那些天闪起来。
+
+  同一个组件，openSelector 可选：正向需要先「展开」才有条目可走，
+  反向不需要，直接一格一格走。
+
+  关键机制：React 的 onMouseEnter 不是原生事件，是根节点上
+  mouseover / mouseout 配对推算的。而且如果 mouseover 的
+  relatedTarget 是 React 树里的元素，React 会直接跳过，改由
+  mouseout 那侧算出 leave+enter 这一对。所以从日期格挪进弹窗时
+  必须先在旧目标上派 mouseout（带上新目标），日历那边取消关闭
+  定时器的逻辑才走得通——否则弹窗会在指针刚进去时被收掉。
+
+  指针飞行 520ms 之后才派事件，顺序反了就成了「指针没到、界面先动」。
+  这个时长在 CSS 的 transition 和组件的 TRAVEL_MS 两处，注释互指。
+
+  布局取舍：联动两头都要看得见，所以聚光灯罩住装着日历和笔记列表
+  的整块（.dashboard-main-content）。但这样卡片没地方放——
+  placeCard 的兜底是「贴着某条边居中」，正好压在弹窗上。加了第三种
+  摆位 corner：钉右下角，和弹窗（贴着日历右侧展开）错开。
+
+  z-index 故意没动：日历弹窗是 9999，比引导层的 2000 高，联动演示
+  要的就是它浮在遮罩上面看得见。代价是可能压住说明卡，靠 corner 规避。
+
+  原来 NoteListTable 上那两个 data-tour 锚点（dashboard-notes /
+  dashboard-todo-column）没人引用了，一并删掉——留着会让人以为
+  「这里被引导指着，别乱改」。
+
+文件：src/renderer/onboarding/TourHoverDemo.tsx（新增）
+测试：src/__tests__/TourHoverDemo.test.tsx（8 项）
+
+  【测试里抓到的一个真问题】
+    原本写「卸载时松手」，测的是 unmount() 整棵树——但那样弹窗本来
+    就随页面一起没了，断言等于没测。改成只卸载演示、页面留着
+    （翻页时真实发生的就是这个）之后，反向那条立刻红了：
+    onHoverTodoDates 停在 ['2026-08-22']，没收到 null。
+    原因是同级卸载顺序：演示排在列表后面，列表的清理先跑，
+    等演示派 mouseout 时表格已经脱离文档了。真实场景不会踩到，
+    但按原样写就永远发现不了松手逻辑坏掉。
+
+  另一个坑（写给以后调这类测试的人）：
+    fake timer 不能一次拨到位。每一站的定时器是上一站的 effect 提交
+    之后才挂上的，而 effect 要等 act 结束才 flush——一次性 advance
+    只会跑掉已经挂着的那些，后面新挂的通通不响。
+
+
+========================================================================
+遗留问题
+========================================================================
+
+1. 【未闭环】复核弹窗 ✕ 的对齐，用户未确认
+   代码量出来是 0.00 / 0.00 偏移，且已消除 scrollbar-gutter 与
+   原生 select 箭头两处真实的不对称来源。需要用户强制刷新渲染层
+   （Ctrl+Shift+R）后再看一眼。
+
+2. 【已知取舍】日历弹窗 z-index 9999 高于引导层 2000
+   靠「说明卡钉右下角」规避重叠。窗口宽度小于 1200px 时仪表板会
+   变成单列，弹窗落点范围变大，仍有极小概率短暂盖住说明卡。
+   彻底解法是把弹窗降到 2000 以下，但那会让它在引导遮罩下变暗，
+   需要连同聚光灯范围一起重新设计，本次未做。
+
+3. 【未做】待办到期提醒
+   后台方案原计划的第四阶段（到期通知）本次未实现。
+   现在只有主动按 Ctrl+Alt+T 才能看到待办。
+
+4. 【未做】待办浮窗点标题只能打开主界面
+   还不能直接跳到那条待办所属的笔记，需要主窗口路由接手。
+
+
+========================================================================
+文件清单
+========================================================================
+
+新增 —— 主进程：
+    src/main/background/BackgroundController.ts
+    src/main/background/BackgroundLabels.ts
+    src/main/background/CloseBehavior.ts
+    src/main/background/HudWindow.ts
+    src/main/background/ShortcutManager.ts
+    src/main/background/TrayController.ts
+    src/main/ipc/background-ipc.ts
+    src/main/dashboard/NoteCategoryPrompt.ts
+    src/main/dashboard/NoteClassificationService.ts
+
+新增 —— 共享层：
+    src/shared/hud/HudLayout.ts
+    src/shared/shortcuts/Accelerator.ts
+    src/shared/types/BackgroundTypes.ts
+
+新增 —— 渲染进程：
+    src/renderer/hud/Hud.css
+    src/renderer/hud/HudMetrics.ts
+    src/renderer/hud/HudShell.tsx
+    src/renderer/hud/HudTodoSelection.ts
+    src/renderer/hud/RecordHud.tsx
+    src/renderer/hud/StatsHud.tsx
+    src/renderer/hud/TodoHud.tsx
+    src/renderer/hud/useHudVisibility.ts
+    src/renderer/background/CloseConfirmDialog.tsx / .css
+    src/renderer/background/useBackgroundRequests.ts
+    src/renderer/components/CloseIcon.tsx
+    src/renderer/onboarding/TourClickDemo.tsx
+    src/renderer/onboarding/TourDragDemo.tsx
+    src/renderer/onboarding/TourHoverDemo.tsx
+    src/renderer/onboarding/TourHudStage.tsx
+    src/renderer/onboarding/TourPointer.tsx
+    src/renderer/pages/Dashboard/models/HeaderMenuPosition.ts
+    src/renderer/pages/Dashboard/models/NoteSearch.ts
+    src/renderer/pages/Settings/components/BackgroundSettingsPanel.tsx
+    src/renderer/pages/Settings/components/ShortcutRecorder.tsx
+    src/renderer/pages/Studio/useRoutedNoteChat.ts
+    src/renderer/router/BackNavigation.ts
+
+新增 —— 测试（24 个 suite，约 250 项）：
+    Accelerator 12 / AskAIRecentsActive 3 / BackNavigation 15
+    BackgroundRequests 5 / BackgroundSettingsSchema 6
+    BackgroundShortcuts 18 / CloseConfirmDialog 8
+    HeaderMenuPosition 6 / HudLayout 19 / HudWindows 21
+    NoteCategory 8 / NoteListFlash 10 / NoteListHeaderControls 18
+    NoteSearch 15 / OnboardingSteps 11 / SettingsTourAnchors 2
+    ShortcutRecorder 7 / TourClickDemo 8 / TourDragDemo 6
+    TourHoverDemo 8 / TourHudStage 7 / TranscriptionAbort 8
+    WorkspaceNoteCard 7 / useRoutedNoteChat 5
+
+新增 —— 脚本：
+    scripts/dev/classify-eval.js
+    scripts/dev/classify-notes-check.js
+
+删除：
+    src/renderer/pages/Workspace/components/WorkspaceMultiNoteModal.tsx
+
+主要修改：
+    src/main/main.ts、preload.ts、settings/SettingsService.ts
+    src/main/database/DatabaseManager.ts
+    src/main/database/repositories/NoteRepository.ts
+    src/main/dashboard/DashboardService.ts、TodoExtractionService.ts
+    src/main/ipc/dashboard-ipc.ts
+    src/renderer/App.tsx、App.css、AppRoute.jsx
+    src/renderer/layout/Sidebar.jsx
+    src/renderer/router/RouteManager.ts
+    src/renderer/settings/AppSettingsProvider.tsx、SettingsController.ts
+    src/renderer/onboarding/OnboardingSteps.ts、OnboardingGuide.tsx / .css
+    src/renderer/pages/AskAI/AskAIPage.css
+    src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+    src/renderer/pages/Dashboard/DashboardPage.tsx / .css
+    src/renderer/pages/Dashboard/components/CalendarWidget.tsx
+    src/renderer/pages/Dashboard/components/NoteListTable.tsx
+    src/renderer/pages/Dashboard/models/DashboardCategory.ts
+                                        DashboardNoteItem.ts
+    src/renderer/pages/Settings/SettingsPage.tsx / .css
+                                SettingsOptions.ts
+    src/renderer/pages/Settings/components/TrashSettingsPanel.tsx
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Recording/TranscriptionController.ts
+    src/renderer/pages/Workspace/WorkspacePage.tsx / .css
+                                 WorkspaceHomePage.tsx
+    src/renderer/pages/Workspace/components/*.tsx
+
+文案：
+    src/i18n/locales/zh.json、en.json
+    两个语言文件各 +118 / -25 行，净增约 93 个键：
+      onboarding.tour.*（九个新步骤 + 示例文案）
+      hud.*（三个浮窗）
+      settings.background.*（关窗策略与快捷键）
+      dashboard.notes.*（类型筛选、表头、待办日期列）
+      trash.*（会话类型）
+
+其他：
+    docs/changelog/2026082101.txt（本文件）
+========================================================================

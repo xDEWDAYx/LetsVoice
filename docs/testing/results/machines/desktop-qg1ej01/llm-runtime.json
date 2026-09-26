@@ -1,0 +1,1523 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-09-02T10:29:05.421Z",
+  "ollama_host": "http://127.0.0.1:11434",
+  "platform": {
+    "os": "Windows_NT 10.0.26200",
+    "arch": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i9-12900H",
+    "cpu_threads": 20,
+    "total_memory_bytes": 42732085248,
+    "node": "v24.14.0"
+  },
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU, 6144 MiB, 591.86",
+  "probes": [
+    {
+      "id": "short",
+      "max_tokens": 128,
+      "prompt_characters": 29
+    },
+    {
+      "id": "medium",
+      "max_tokens": 384,
+      "prompt_characters": 142
+    },
+    {
+      "id": "long",
+      "max_tokens": 768,
+      "prompt_characters": 398
+    }
+  ],
+  "models": [
+    {
+      "model": "ministral-3:3b-instruct-2512-q4_K_M",
+      "repeats": 3,
+      "median_tokens_per_second": 48.57826369327834,
+      "median_prompt_tokens_per_second": 43408.97017530546,
+      "median_first_token_latency_ms": 917.4028000000001,
+      "resident_size_bytes": 2721337834,
+      "resident_vram_bytes": 2721337834,
+      "gpu_offload_ratio": 1,
+      "peak_gpu_memory_mib": 4676,
+      "by_probe": {
+        "short": {
+          "median_tokens_per_second": 51.26990676201242,
+          "median_first_token_latency_ms": 909.1936999999999,
+          "median_wall_ms": 2403,
+          "median_output_tokens": 66
+        },
+        "medium": {
+          "median_tokens_per_second": 48.57826369327834,
+          "median_first_token_latency_ms": 917.9746,
+          "median_wall_ms": 5312,
+          "median_output_tokens": 212
+        },
+        "long": {
+          "median_tokens_per_second": 47.47998965727559,
+          "median_first_token_latency_ms": 917.4028000000001,
+          "median_wall_ms": 5841,
+          "median_output_tokens": 232
+        }
+      },
+      "runs": [
+        {
+          "probe": "short",
+          "repeat": 1,
+          "wall_ms": 7106,
+          "load_ms": 5483.4837,
+          "prompt_tokens": 572,
+          "prompt_eval_ms": 311.863,
+          "first_token_latency_ms": 5795.3467,
+          "output_tokens": 66,
+          "eval_ms": 1290.723,
+          "tokens_per_second": 51.13413180054899,
+          "prompt_tokens_per_second": 1834.1387083430866,
+          "gpu_before": {
+            "memory_used_mib": 1169,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 5
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 2,
+          "wall_ms": 2403,
+          "load_ms": 897.5387,
+          "prompt_tokens": 572,
+          "prompt_eval_ms": 11.655,
+          "first_token_latency_ms": 909.1936999999999,
+          "output_tokens": 76,
+          "eval_ms": 1477.729,
+          "tokens_per_second": 51.430269014142645,
+          "prompt_tokens_per_second": 49077.64907764908,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 3,
+          "wall_ms": 2143,
+          "load_ms": 878.3579,
+          "prompt_tokens": 572,
+          "prompt_eval_ms": 13.177,
+          "first_token_latency_ms": 891.5349,
+          "output_tokens": 63,
+          "eval_ms": 1228.791,
+          "tokens_per_second": 51.26990676201242,
+          "prompt_tokens_per_second": 43408.97017530546,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 1,
+          "wall_ms": 6308,
+          "load_ms": 874.7499,
+          "prompt_tokens": 664,
+          "prompt_eval_ms": 51.801,
+          "first_token_latency_ms": 926.5509000000001,
+          "output_tokens": 260,
+          "eval_ms": 5352.188,
+          "tokens_per_second": 48.57826369327834,
+          "prompt_tokens_per_second": 12818.285361286462,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 2,
+          "wall_ms": 4935,
+          "load_ms": 904.6816,
+          "prompt_tokens": 664,
+          "prompt_eval_ms": 13.293,
+          "first_token_latency_ms": 917.9746,
+          "output_tokens": 194,
+          "eval_ms": 3987.081,
+          "tokens_per_second": 48.657150431606475,
+          "prompt_tokens_per_second": 49951.10208380351,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 68
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 3,
+          "wall_ms": 5312,
+          "load_ms": 882.4365,
+          "prompt_tokens": 664,
+          "prompt_eval_ms": 17.546,
+          "first_token_latency_ms": 899.9825000000001,
+          "output_tokens": 212,
+          "eval_ms": 4374.335,
+          "tokens_per_second": 48.46450946258117,
+          "prompt_tokens_per_second": 37843.38310726092,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 1,
+          "wall_ms": 6155,
+          "load_ms": 889.0903,
+          "prompt_tokens": 941,
+          "prompt_eval_ms": 188.381,
+          "first_token_latency_ms": 1077.4713,
+          "output_tokens": 240,
+          "eval_ms": 5054.761,
+          "tokens_per_second": 47.47998965727559,
+          "prompt_tokens_per_second": 4995.195906168881,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 2,
+          "wall_ms": 5786,
+          "load_ms": 860.9884,
+          "prompt_tokens": 941,
+          "prompt_eval_ms": 14.519,
+          "first_token_latency_ms": 875.5074,
+          "output_tokens": 232,
+          "eval_ms": 4885.622,
+          "tokens_per_second": 47.48627707997057,
+          "prompt_tokens_per_second": 64811.62614505131,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 3,
+          "wall_ms": 5841,
+          "load_ms": 903.2358,
+          "prompt_tokens": 941,
+          "prompt_eval_ms": 14.167,
+          "first_token_latency_ms": 917.4028000000001,
+          "output_tokens": 232,
+          "eval_ms": 4899.002,
+          "tokens_per_second": 47.35658405528309,
+          "prompt_tokens_per_second": 66421.96654196372,
+          "gpu_before": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 4676,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2721337834,
+            "size_vram_bytes": 2721337834,
+            "gpu_offload_ratio": 1
+          }
+        }
+      ],
+      "disk_size_bytes": 2953840808,
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "mistral3",
+        "families": [
+          "mistral3"
+        ],
+        "parameter_size": "3.8B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 262144,
+        "embedding_length": 3072
+      }
+    },
+    {
+      "model": "phi4-mini:latest",
+      "repeats": 3,
+      "median_tokens_per_second": 39.893370719120746,
+      "median_prompt_tokens_per_second": 2233.7139984198807,
+      "median_first_token_latency_ms": 891.1244,
+      "resident_size_bytes": 3087615917,
+      "resident_vram_bytes": 3087615917,
+      "gpu_offload_ratio": 1,
+      "peak_gpu_memory_mib": 4235,
+      "by_probe": {
+        "short": {
+          "median_tokens_per_second": 42.529902438642225,
+          "median_first_token_latency_ms": 911.2722,
+          "median_wall_ms": 2134,
+          "median_output_tokens": 38
+        },
+        "medium": {
+          "median_tokens_per_second": 39.893370719120746,
+          "median_first_token_latency_ms": 882.3102,
+          "median_wall_ms": 3718,
+          "median_output_tokens": 112
+        },
+        "long": {
+          "median_tokens_per_second": 39.16774721548239,
+          "median_first_token_latency_ms": 873.7345,
+          "median_wall_ms": 5287,
+          "median_output_tokens": 172
+        }
+      },
+      "runs": [
+        {
+          "probe": "short",
+          "repeat": 1,
+          "wall_ms": 5172,
+          "load_ms": 4358.5649,
+          "prompt_tokens": 19,
+          "prompt_eval_ms": 98.731,
+          "first_token_latency_ms": 4457.2959,
+          "output_tokens": 32,
+          "eval_ms": 703.791,
+          "tokens_per_second": 45.46804378004265,
+          "prompt_tokens_per_second": 192.44209012366937,
+          "gpu_before": {
+            "memory_used_mib": 1169,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 2,
+          "wall_ms": 1831,
+          "load_ms": 898.3712,
+          "prompt_tokens": 19,
+          "prompt_eval_ms": 12.901,
+          "first_token_latency_ms": 911.2722,
+          "output_tokens": 38,
+          "eval_ms": 893.489,
+          "tokens_per_second": 42.529902438642225,
+          "prompt_tokens_per_second": 1472.7540500736377,
+          "gpu_before": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "gpu_during": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 3,
+          "wall_ms": 2134,
+          "load_ms": 878.3374,
+          "prompt_tokens": 19,
+          "prompt_eval_ms": 12.787,
+          "first_token_latency_ms": 891.1244,
+          "output_tokens": 51,
+          "eval_ms": 1221.247,
+          "tokens_per_second": 41.760593884775155,
+          "prompt_tokens_per_second": 1485.8841010401186,
+          "gpu_before": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 74
+          },
+          "gpu_during": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 1,
+          "wall_ms": 3763,
+          "load_ms": 855.7761,
+          "prompt_tokens": 95,
+          "prompt_eval_ms": 47.323,
+          "first_token_latency_ms": 903.0991,
+          "output_tokens": 112,
+          "eval_ms": 2821.911,
+          "tokens_per_second": 39.68941614388264,
+          "prompt_tokens_per_second": 2007.4805063077151,
+          "gpu_before": {
+            "memory_used_mib": 4231,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 2,
+          "wall_ms": 3718,
+          "load_ms": 865.6273,
+          "prompt_tokens": 95,
+          "prompt_eval_ms": 13.233,
+          "first_token_latency_ms": 878.8602999999999,
+          "output_tokens": 112,
+          "eval_ms": 2807.484,
+          "tokens_per_second": 39.893370719120746,
+          "prompt_tokens_per_second": 7179.022141615658,
+          "gpu_before": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 3,
+          "wall_ms": 3666,
+          "load_ms": 869.5202,
+          "prompt_tokens": 95,
+          "prompt_eval_ms": 12.79,
+          "first_token_latency_ms": 882.3102,
+          "output_tokens": 111,
+          "eval_ms": 2771.105,
+          "tokens_per_second": 40.05622305903241,
+          "prompt_tokens_per_second": 7427.677873338546,
+          "gpu_before": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 1,
+          "wall_ms": 5459,
+          "load_ms": 853.4701,
+          "prompt_tokens": 311,
+          "prompt_eval_ms": 139.23,
+          "first_token_latency_ms": 992.7001,
+          "output_tokens": 174,
+          "eval_ms": 4438.576,
+          "tokens_per_second": 39.20176200655345,
+          "prompt_tokens_per_second": 2233.7139984198807,
+          "gpu_before": {
+            "memory_used_mib": 4233,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 4235,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 2,
+          "wall_ms": 5287,
+          "load_ms": 852.2392,
+          "prompt_tokens": 311,
+          "prompt_eval_ms": 13.839,
+          "first_token_latency_ms": 866.0782,
+          "output_tokens": 172,
+          "eval_ms": 4404.487,
+          "tokens_per_second": 39.05108585858012,
+          "prompt_tokens_per_second": 22472.722017486813,
+          "gpu_before": {
+            "memory_used_mib": 4235,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 4235,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 3,
+          "wall_ms": 4781,
+          "load_ms": 859.6335,
+          "prompt_tokens": 311,
+          "prompt_eval_ms": 14.101,
+          "first_token_latency_ms": 873.7345,
+          "output_tokens": 152,
+          "eval_ms": 3880.744,
+          "tokens_per_second": 39.16774721548239,
+          "prompt_tokens_per_second": 22055.173391958015,
+          "gpu_before": {
+            "memory_used_mib": 4235,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 4235,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 3087615917,
+            "size_vram_bytes": 3087615917,
+            "gpu_offload_ratio": 1
+          }
+        }
+      ],
+      "disk_size_bytes": 2491876774,
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "phi3",
+        "families": [
+          "phi3"
+        ],
+        "parameter_size": "3.8B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 131072,
+        "embedding_length": 3072
+      }
+    },
+    {
+      "model": "granite4:micro-h",
+      "repeats": 3,
+      "median_tokens_per_second": 50.854666609134114,
+      "median_prompt_tokens_per_second": 1516.8947365038148,
+      "median_first_token_latency_ms": 498.3249,
+      "resident_size_bytes": 2117085429,
+      "resident_vram_bytes": 2117085429,
+      "gpu_offload_ratio": 1,
+      "peak_gpu_memory_mib": 3345,
+      "by_probe": {
+        "short": {
+          "median_tokens_per_second": 53.324135865359956,
+          "median_first_token_latency_ms": 498.3249,
+          "median_wall_ms": 1509,
+          "median_output_tokens": 47
+        },
+        "medium": {
+          "median_tokens_per_second": 50.854666609134114,
+          "median_first_token_latency_ms": 500.2201,
+          "median_wall_ms": 3110,
+          "median_output_tokens": 132
+        },
+        "long": {
+          "median_tokens_per_second": 49.888183053496576,
+          "median_first_token_latency_ms": 486.1919,
+          "median_wall_ms": 4144,
+          "median_output_tokens": 167
+        }
+      },
+      "runs": [
+        {
+          "probe": "short",
+          "repeat": 1,
+          "wall_ms": 4477,
+          "load_ms": 3602.1216,
+          "prompt_tokens": 51,
+          "prompt_eval_ms": 137.164,
+          "first_token_latency_ms": 3739.2856,
+          "output_tokens": 41,
+          "eval_ms": 725.494,
+          "tokens_per_second": 56.513217200969265,
+          "prompt_tokens_per_second": 371.8176781079584,
+          "gpu_before": {
+            "memory_used_mib": 1154,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 2,
+          "wall_ms": 1509,
+          "load_ms": 442.1259,
+          "prompt_tokens": 51,
+          "prompt_eval_ms": 56.199,
+          "first_token_latency_ms": 498.3249,
+          "output_tokens": 51,
+          "eval_ms": 998.62,
+          "tokens_per_second": 51.0704772586169,
+          "prompt_tokens_per_second": 907.4894571077778,
+          "gpu_before": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 3,
+          "wall_ms": 1378,
+          "load_ms": 420.5813,
+          "prompt_tokens": 51,
+          "prompt_eval_ms": 60.644,
+          "first_token_latency_ms": 481.2253,
+          "output_tokens": 47,
+          "eval_ms": 881.402,
+          "tokens_per_second": 53.324135865359956,
+          "prompt_tokens_per_second": 840.9735505573511,
+          "gpu_before": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 40
+          },
+          "gpu_during": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 1,
+          "wall_ms": 3335,
+          "load_ms": 431.9547,
+          "prompt_tokens": 164,
+          "prompt_eval_ms": 229.473,
+          "first_token_latency_ms": 661.4277,
+          "output_tokens": 132,
+          "eval_ms": 2604.447,
+          "tokens_per_second": 50.68254412548998,
+          "prompt_tokens_per_second": 714.6810300122454,
+          "gpu_before": {
+            "memory_used_mib": 3309,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 24
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 2,
+          "wall_ms": 3075,
+          "load_ms": 405.2611,
+          "prompt_tokens": 164,
+          "prompt_eval_ms": 63.897,
+          "first_token_latency_ms": 469.1581,
+          "output_tokens": 132,
+          "eval_ms": 2595.248,
+          "tokens_per_second": 50.862191204848244,
+          "prompt_tokens_per_second": 2566.6306712365213,
+          "gpu_before": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 2
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 3,
+          "wall_ms": 3110,
+          "load_ms": 434.6461,
+          "prompt_tokens": 164,
+          "prompt_eval_ms": 65.574,
+          "first_token_latency_ms": 500.2201,
+          "output_tokens": 132,
+          "eval_ms": 2595.632,
+          "tokens_per_second": 50.854666609134114,
+          "prompt_tokens_per_second": 2500.9912465306375,
+          "gpu_before": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 1,
+          "wall_ms": 4144,
+          "load_ms": 417.9325,
+          "prompt_tokens": 472,
+          "prompt_eval_ms": 311.162,
+          "first_token_latency_ms": 729.0944999999999,
+          "output_tokens": 167,
+          "eval_ms": 3347.656,
+          "tokens_per_second": 49.885651333350864,
+          "prompt_tokens_per_second": 1516.8947365038148,
+          "gpu_before": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 2,
+          "wall_ms": 3811,
+          "load_ms": 424.9389,
+          "prompt_tokens": 472,
+          "prompt_eval_ms": 61.253,
+          "first_token_latency_ms": 486.1919,
+          "output_tokens": 166,
+          "eval_ms": 3311.237,
+          "tokens_per_second": 50.13232215030214,
+          "prompt_tokens_per_second": 7705.745024733482,
+          "gpu_before": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 47
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 3,
+          "wall_ms": 4207,
+          "load_ms": 426.0438,
+          "prompt_tokens": 472,
+          "prompt_eval_ms": 57.87,
+          "first_token_latency_ms": 483.9138,
+          "output_tokens": 185,
+          "eval_ms": 3708.293,
+          "tokens_per_second": 49.888183053496576,
+          "prompt_tokens_per_second": 8156.212199758079,
+          "gpu_before": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 47
+          },
+          "gpu_during": {
+            "memory_used_mib": 3345,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2117085429,
+            "size_vram_bytes": 2117085429,
+            "gpu_offload_ratio": 1
+          }
+        }
+      ],
+      "disk_size_bytes": 1942583381,
+      "details": {
+        "parent_model": "models/blobs/sha256-c698c78e895740f0e707eb7f8e92894f83f6d5b3f2f2f0b446dfe9635fa0063e",
+        "format": "gguf",
+        "family": "granitehybrid",
+        "families": [
+          "granitehybrid"
+        ],
+        "parameter_size": "3.2B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 1048576,
+        "embedding_length": 2048
+      }
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct",
+      "repeats": 3,
+      "median_tokens_per_second": 117.88232817598147,
+      "median_prompt_tokens_per_second": 5918.013856812933,
+      "median_first_token_latency_ms": 663.4070999999999,
+      "resident_size_bytes": 1166236712,
+      "resident_vram_bytes": 1166236712,
+      "gpu_offload_ratio": 1,
+      "peak_gpu_memory_mib": 2399,
+      "by_probe": {
+        "short": {
+          "median_tokens_per_second": 128.5668106614946,
+          "median_first_token_latency_ms": 666.7362,
+          "median_wall_ms": 948,
+          "median_output_tokens": 35
+        },
+        "medium": {
+          "median_tokens_per_second": 112.72686281140797,
+          "median_first_token_latency_ms": 646.1913,
+          "median_wall_ms": 1533,
+          "median_output_tokens": 100
+        },
+        "long": {
+          "median_tokens_per_second": 117.36535730939919,
+          "median_first_token_latency_ms": 661.4599000000001,
+          "median_wall_ms": 1666,
+          "median_output_tokens": 112
+        }
+      },
+      "runs": [
+        {
+          "probe": "short",
+          "repeat": 1,
+          "wall_ms": 3686,
+          "load_ms": 3201.6481,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 74.344,
+          "first_token_latency_ms": 3275.9921,
+          "output_tokens": 48,
+          "eval_ms": 402.37,
+          "tokens_per_second": 119.29318786191813,
+          "prompt_tokens_per_second": 551.4903690950179,
+          "gpu_before": {
+            "memory_used_mib": 1154,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 88
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 2,
+          "wall_ms": 941,
+          "load_ms": 659.8082,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 6.928,
+          "first_token_latency_ms": 666.7362,
+          "output_tokens": 34,
+          "eval_ms": 262.136,
+          "tokens_per_second": 129.70366527298805,
+          "prompt_tokens_per_second": 5918.013856812933,
+          "gpu_before": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 88
+          },
+          "gpu_during": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 29
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 3,
+          "wall_ms": 948,
+          "load_ms": 656.3231,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 7.084,
+          "first_token_latency_ms": 663.4070999999999,
+          "output_tokens": 35,
+          "eval_ms": 272.232,
+          "tokens_per_second": 128.5668106614946,
+          "prompt_tokens_per_second": 5787.690570299266,
+          "gpu_before": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 29
+          },
+          "gpu_during": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 1
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 1,
+          "wall_ms": 1533,
+          "load_ms": 589.0879,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 22.499,
+          "first_token_latency_ms": 611.5869,
+          "output_tokens": 100,
+          "eval_ms": 907.484,
+          "tokens_per_second": 110.19478029364704,
+          "prompt_tokens_per_second": 5200.231121383173,
+          "gpu_before": {
+            "memory_used_mib": 2397,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 1
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 90
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 2,
+          "wall_ms": 1487,
+          "load_ms": 664.7466,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 7.807,
+          "first_token_latency_ms": 672.5536,
+          "output_tokens": 100,
+          "eval_ms": 804.466,
+          "tokens_per_second": 124.30606141216657,
+          "prompt_tokens_per_second": 14986.550531574227,
+          "gpu_before": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 42
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 90
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 3,
+          "wall_ms": 1550,
+          "load_ms": 639.4063,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 6.785,
+          "first_token_latency_ms": 646.1913,
+          "output_tokens": 101,
+          "eval_ms": 895.971,
+          "tokens_per_second": 112.72686281140797,
+          "prompt_tokens_per_second": 17243.92041267502,
+          "gpu_before": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 90
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 89
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 1,
+          "wall_ms": 1695,
+          "load_ms": 658.1027,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 58.742,
+          "first_token_latency_ms": 716.8447,
+          "output_tokens": 112,
+          "eval_ms": 954.285,
+          "tokens_per_second": 117.36535730939919,
+          "prompt_tokens_per_second": 4783.63011133431,
+          "gpu_before": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 89
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 92
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 2,
+          "wall_ms": 1629,
+          "load_ms": 653.7879,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 7.672,
+          "first_token_latency_ms": 661.4599000000001,
+          "output_tokens": 112,
+          "eval_ms": 950.1,
+          "tokens_per_second": 117.88232817598147,
+          "prompt_tokens_per_second": 36626.6944734098,
+          "gpu_before": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 92
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 89
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 3,
+          "wall_ms": 1666,
+          "load_ms": 633.3344,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 7.14,
+          "first_token_latency_ms": 640.4744,
+          "output_tokens": 112,
+          "eval_ms": 1007.849,
+          "tokens_per_second": 111.12775822568659,
+          "prompt_tokens_per_second": 39355.74229691877,
+          "gpu_before": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 89
+          },
+          "gpu_during": {
+            "memory_used_mib": 2399,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 92
+          },
+          "residency": {
+            "size_bytes": 1166236712,
+            "size_vram_bytes": 1166236712,
+            "gpu_offload_ratio": 1
+          }
+        }
+      ],
+      "disk_size_bytes": 986061892,
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "1.5B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 32768,
+        "embedding_length": 1536
+      }
+    },
+    {
+      "model": "qwen2.5:3b-instruct",
+      "repeats": 3,
+      "median_tokens_per_second": 53.534677592454635,
+      "median_prompt_tokens_per_second": 3734.7422116961197,
+      "median_first_token_latency_ms": 662.1544,
+      "resident_size_bytes": 2159374499,
+      "resident_vram_bytes": 2159374499,
+      "gpu_offload_ratio": 1,
+      "peak_gpu_memory_mib": 3351,
+      "by_probe": {
+        "short": {
+          "median_tokens_per_second": 61.272257147408794,
+          "median_first_token_latency_ms": 668.1053,
+          "median_wall_ms": 1166,
+          "median_output_tokens": 30
+        },
+        "medium": {
+          "median_tokens_per_second": 53.534677592454635,
+          "median_first_token_latency_ms": 655.4038,
+          "median_wall_ms": 2641,
+          "median_output_tokens": 106
+        },
+        "long": {
+          "median_tokens_per_second": 53.267667693860425,
+          "median_first_token_latency_ms": 662.1544,
+          "median_wall_ms": 2835,
+          "median_output_tokens": 115
+        }
+      },
+      "runs": [
+        {
+          "probe": "short",
+          "repeat": 1,
+          "wall_ms": 3976,
+          "load_ms": 3389.3552,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 77.578,
+          "first_token_latency_ms": 3466.9332,
+          "output_tokens": 30,
+          "eval_ms": 496.632,
+          "tokens_per_second": 60.40690088435703,
+          "prompt_tokens_per_second": 528.5003480368146,
+          "gpu_before": {
+            "memory_used_mib": 1154,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 92
+          },
+          "gpu_during": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 2,
+          "wall_ms": 1166,
+          "load_ms": 655.6163,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 12.489,
+          "first_token_latency_ms": 668.1053,
+          "output_tokens": 30,
+          "eval_ms": 486.768,
+          "tokens_per_second": 61.63100285967854,
+          "prompt_tokens_per_second": 3282.888942269197,
+          "gpu_before": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "short",
+          "repeat": 3,
+          "wall_ms": 1128,
+          "load_ms": 611.39,
+          "prompt_tokens": 41,
+          "prompt_eval_ms": 10.978,
+          "first_token_latency_ms": 622.3679999999999,
+          "output_tokens": 30,
+          "eval_ms": 489.618,
+          "tokens_per_second": 61.272257147408794,
+          "prompt_tokens_per_second": 3734.7422116961197,
+          "gpu_before": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 94
+          },
+          "gpu_during": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 1,
+          "wall_ms": 2675,
+          "load_ms": 632.3313,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 39.441,
+          "first_token_latency_ms": 671.7723000000001,
+          "output_tokens": 106,
+          "eval_ms": 1988.861,
+          "tokens_per_second": 53.29683673217987,
+          "prompt_tokens_per_second": 2966.4562257549246,
+          "gpu_before": {
+            "memory_used_mib": 3347,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 93
+          },
+          "gpu_during": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 2,
+          "wall_ms": 2639,
+          "load_ms": 642.6968,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 12.707,
+          "first_token_latency_ms": 655.4038,
+          "output_tokens": 106,
+          "eval_ms": 1970.238,
+          "tokens_per_second": 53.80060683024081,
+          "prompt_tokens_per_second": 9207.523412292436,
+          "gpu_before": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "gpu_during": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "medium",
+          "repeat": 3,
+          "wall_ms": 2641,
+          "load_ms": 637.3824,
+          "prompt_tokens": 117,
+          "prompt_eval_ms": 12.631,
+          "first_token_latency_ms": 650.0133999999999,
+          "output_tokens": 106,
+          "eval_ms": 1980.025,
+          "tokens_per_second": 53.534677592454635,
+          "prompt_tokens_per_second": 9262.924550708574,
+          "gpu_before": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 95
+          },
+          "gpu_during": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 1,
+          "wall_ms": 3152,
+          "load_ms": 607.3007,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 106.779,
+          "first_token_latency_ms": 714.0797,
+          "output_tokens": 128,
+          "eval_ms": 2407.9,
+          "tokens_per_second": 53.15835375223223,
+          "prompt_tokens_per_second": 2631.6035924666835,
+          "gpu_before": {
+            "memory_used_mib": 3349,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 97
+          },
+          "gpu_during": {
+            "memory_used_mib": 3351,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 2,
+          "wall_ms": 2819,
+          "load_ms": 651.1204,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 11.034,
+          "first_token_latency_ms": 662.1544,
+          "output_tokens": 114,
+          "eval_ms": 2140.135,
+          "tokens_per_second": 53.267667693860425,
+          "prompt_tokens_per_second": 25466.73916983868,
+          "gpu_before": {
+            "memory_used_mib": 3351,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 3351,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        },
+        {
+          "probe": "long",
+          "repeat": 3,
+          "wall_ms": 2835,
+          "load_ms": 647.365,
+          "prompt_tokens": 281,
+          "prompt_eval_ms": 14.266,
+          "first_token_latency_ms": 661.631,
+          "output_tokens": 115,
+          "eval_ms": 2158.349,
+          "tokens_per_second": 53.28146652835106,
+          "prompt_tokens_per_second": 19697.182111313614,
+          "gpu_before": {
+            "memory_used_mib": 3351,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "gpu_during": {
+            "memory_used_mib": 3351,
+            "memory_total_mib": 6144,
+            "utilisation_percent": 96
+          },
+          "residency": {
+            "size_bytes": 2159374499,
+            "size_vram_bytes": 2159374499,
+            "gpu_offload_ratio": 1
+          }
+        }
+      ],
+      "disk_size_bytes": 1929912432,
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "3.1B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 32768,
+        "embedding_length": 2048
+      }
+    }
+  ]
+}

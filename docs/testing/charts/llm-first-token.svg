@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="331" viewBox="0 0 860 331" role="img">
+<rect width="860" height="331" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="330" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">First-token latency (model load + prompt evaluation)</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">RTX 3060 Laptop 6 GiB VRAM · i9-12900H · 40 GiB RAM · Ollama</text>
+<text x="166" y="91" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Qwen2.5 3B (3.1B)</text>
+<rect x="176" y="78" width="416.3" height="18" fill="#2E86AB" rx="2"/>
+<text x="600.2719371306175" y="91" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">620 ms</text>
+<text x="166" y="129" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Qwen2.5 1.5B (1.5B)</text>
+<rect x="176" y="116" width="441.7" height="18" fill="#2E86AB" rx="2"/>
+<text x="625.744098846617" y="129" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">658 ms</text>
+<text x="166" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Phi-4 Mini (3.8B)</text>
+<rect x="176" y="154" width="592.0" height="18" fill="#2E86AB" rx="2"/>
+<text x="776" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">881 ms</text>
+<text x="166" y="205" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Ministral-3 3B (3.8B)</text>
+<rect x="176" y="192" width="586.8" height="18" fill="#2E86AB" rx="2"/>
+<text x="770.7664597981727" y="205" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">873 ms</text>
+<text x="166" y="243" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="end" font-weight="400">Granite-4 Micro-H (3.2B)</text>
+<rect x="176" y="230" width="338.7" height="18" fill="#2E86AB" rx="2"/>
+<text x="522.7305914974371" y="243" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="start" font-weight="400">504 ms</text>
+<text x="24" y="302" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">This measures the delay between user action and the first visible token, which affects responsiveness more directly than total</text><text x="24" y="317" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">throughput.</text>
+</svg>

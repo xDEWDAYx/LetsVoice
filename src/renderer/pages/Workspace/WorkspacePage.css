@@ -1,0 +1,1655 @@
+/* =========================================================
+   Workspace 详情页
+   排版原则：一屏内先看到笔记，而不是先看到装饰。
+   - 一套间距/圆角刻度，不再每个盒子各写各的
+   - 少一层嵌套：区块用标题 + 细线分隔，不再是卡中卡中卡
+   - 控件一律小号，按钮不继承全局的大号渐变胶囊
+   ========================================================= */
+
+/* 页面 = 顶栏 + 笔记容器两块，撑满内容区高度。
+   笔记在自己的容器里滚，被它裁掉，所以永远不可能盖到顶栏上去
+   （之前用 sticky 顶栏 + 整页滚动，内容是能从上面穿过去的）。 */
+.workspace-detail-page {
+  --ws-gap: 0.9rem;
+  --ws-radius: 14px;
+  --ws-radius-sm: 9px;
+  --ws-label: var(--fs-sm);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--ws-gap);
+  min-width: 0;
+  /* 高度由上面那条 flex 链给，不用 height: 100% —— 中间任何一层没有
+     确定高度，百分比就会退化成 auto。 */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 这个页面自己管滚动：外层不再滚，高度一路交给页面。
+   中间还隔着 MainLayout 的 .anim-page 包装层，它默认是 auto 高度，
+   height: 100% 的百分比链会在这里断掉（页面被内容撑高，笔记容器
+   永远拿不到确定高度，也就滚不起来）。所以两层都改成 flex 竖排传高度。
+   :has() 在 Electron 35（Chromium 134）上没问题。 */
+.content-area:has(.workspace-detail-page) {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.content-area:has(.workspace-detail-page) > .anim-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 笔记容器：拿走剩下的高度，自己滚。
+   min-height: 0 不能省——flex 子项默认不肯收缩到内容以下，少了它
+   容器会被笔记撑高，滚动条又跑回外面那层去了。 */
+.workspace-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ws-gap);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* 给滚动条留一点空隙，别压在卡片描边上 */
+  padding-right: 0.35rem;
+  padding-bottom: 0.5rem;
+}
+
+/* ---------- 通用小控件（不依赖其它页面的 CSS） ---------- */
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay) .ws-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.42rem 0.8rem;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+  box-shadow: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface-strong));
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-primary {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: transparent;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: transparent;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay) .ws-btn-quiet {
+  padding: 0.3rem 0.55rem;
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+  font-weight: 500;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-quiet:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--surface-soft);
+  border-color: transparent;
+}
+
+/* 纯图标按钮：正方形，文字含义放在 title / aria-label 里 */
+:is(.workspace-detail-page, .workspace-template-manager-overlay) .ws-btn-icon {
+  justify-content: center;
+  width: 2rem;
+  padding: 0.35rem 0;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-danger:hover:not(:disabled) {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 38%, transparent);
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-danger-solid {
+  color: var(--danger-contrast);
+  border-color: transparent;
+  background: var(--danger);
+}
+
+:is(.workspace-detail-page, .workspace-template-manager-overlay)
+  .ws-btn-danger-solid:hover:not(:disabled) {
+  color: var(--danger-contrast);
+  border-color: transparent;
+  background: color-mix(in srgb, var(--danger) 88%, var(--text));
+}
+
+.workspace-detail-page .ws-link {
+  color: var(--accent);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* 区块统一的小标题 */
+.workspace-detail-page .ws-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--ws-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- 顶部：返回 + 标题行 + 元信息/工具条 ---------- */
+
+/* 顶栏是一张卡片，和下面的笔记卡片同一套外观（圆角 / 描边 / 内边距），
+   固定在页面顶部：它不参与滚动，笔记在下面那个容器里滚。 */
+.workspace-detail-topbar {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1.1rem 0.8rem;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius);
+  box-shadow: 0 10px 22px -18px rgb(0 0 0 / 70%);
+}
+
+/* 工具条里的控件统一高度，参差不齐是这一行最显乱的地方 */
+.workspace-detail-page .workspace-detail-tools .ws-btn,
+.workspace-detail-page .workspace-detail-tools input {
+  height: 2rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* 搜索框做成内凹的，和旁边凸起的按钮区分开 */
+.workspace-detail-tools .workspace-search-field input {
+  background: var(--surface-sunken);
+}
+
+.workspace-detail-tools .workspace-search-field input:focus {
+  background: var(--surface-strong);
+}
+
+.workspace-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+.workspace-back-link:hover {
+  color: var(--accent);
+}
+
+/* 原来是一整块渐变大 hero，标题最大能到 3.2rem，
+   一屏先被标题吃掉。改成一行：左标题右操作。 */
+.workspace-detail-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.workspace-detail-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 吸顶栏要矮，标题从 2xl 收到 xl；名字太长就省略，别把操作挤走。 */
+.workspace-detail-identity h1 {
+  margin: 0;
+  font-size: var(--fs-xl);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 返回和标题之间一道竖线，两者是不同层级的东西 */
+.workspace-detail-sep {
+  flex: none;
+  width: 1px;
+  height: 1.1em;
+  background: var(--border);
+}
+
+/* 左边概况、右边操作。窄了就换行，工具条整段掉到下一行。 */
+.workspace-detail-subrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.workspace-detail-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: 1 1 420px;
+  min-width: 0;
+}
+
+.workspace-note-selection-toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.workspace-note-selection-toggle[aria-pressed='true'],
+.workspace-note-selection-toggle[aria-pressed='mixed'] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-strong));
+}
+
+/* 元信息压成一行，用 · 分隔，不再是一排圆角胶囊 */
+.workspace-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.55rem;
+  margin: 0.3rem 0 0;
+  max-width: none;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.workspace-detail-meta span + span::before {
+  content: '·';
+  margin-right: 0.55rem;
+  opacity: 0.55;
+}
+
+.workspace-detail-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex: none;
+}
+
+/* ---------- 工具条：关键词搜索 + 语义查找 ---------- */
+
+/* 搜索框不再占满整行——它只是个搜索框。 */
+.workspace-search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 200px;
+  max-width: 320px;
+}
+
+.workspace-search-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.5rem 0.8rem 0.5rem 2rem;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+  outline: none;
+  font-size: var(--fs-md);
+}
+
+.workspace-search-field input:focus {
+  border-color: var(--accent);
+}
+
+.workspace-search-icon {
+  position: absolute;
+  left: 0.65rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+.workspace-semantic-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.workspace-semantic-error {
+  flex: 1 0 100%;
+  margin: 0;
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+/* 语义结果整行铺开，作为工具条的下一行 */
+.workspace-semantic-results {
+  flex: 1 0 100%;
+  display: grid;
+  gap: 0.35rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  /* 结果现在长在吸顶栏里，不限高的话命中一多顶栏能占满整屏。 */
+  max-height: 32vh;
+  overflow-y: auto;
+}
+
+.workspace-semantic-results > span {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.workspace-semantic-results > button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.15rem 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  color: var(--text);
+  text-align: left;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+  box-shadow: none;
+  font-size: var(--fs-md);
+}
+
+.workspace-semantic-results > button:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--accent);
+}
+
+.workspace-semantic-results > button small {
+  color: var(--accent);
+  font-size: var(--fs-sm);
+}
+
+.workspace-semantic-results > button span {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- 笔记卡片 ---------- */
+
+.workspace-detail-notes {
+  display: grid;
+  gap: var(--ws-gap);
+  min-width: 0;
+}
+
+.workspace-detail-note {
+  min-width: 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius);
+}
+
+.workspace-detail-note.selected {
+  border-color: var(--accent);
+}
+
+.workspace-note-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+/* 标题占满剩余宽度，工具区才会真的贴到右边 */
+.workspace-note-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.workspace-note-pick {
+  display: flex;
+  align-items: center;
+  padding-top: 0.45rem;
+  cursor: pointer;
+}
+
+.workspace-note-pick input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.workspace-note-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.workspace-note-kind {
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.workspace-note-identity h2 {
+  margin: 0.15rem 0 0;
+  font-size: var(--fs-lg);
+  overflow-wrap: anywhere;
+}
+
+/* 播放 / 转 Word / 转 PDF / 日期 / 删除 —— 笔记级操作全在这一行 */
+.workspace-note-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: none;
+}
+
+/* 正在播放时按钮点亮，一眼看出声音是从哪条笔记出来的 */
+.workspace-detail-page .workspace-note-tools .ws-btn.is-active {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-strong));
+}
+
+.workspace-note-tools .trash-can-button {
+  margin-left: 0.15rem;
+}
+
+.workspace-note-tools time {
+  margin-left: 0.35rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+/* 录音条只在点了标题行的「播放」之后出现，平时一点地方都不占 */
+.workspace-note-audio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  margin-top: 0.6rem;
+  padding: 0.35rem 0.6rem;
+  background: var(--surface-soft);
+  border-radius: var(--ws-radius-sm);
+}
+
+.workspace-audio {
+  width: 100%;
+  height: 34px;
+}
+
+.workspace-audio-error {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--danger);
+  font-size: var(--fs-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- 卡片内容区块 ---------- */
+
+/* 单列堆叠：转写 / AI 输出 / AI 对话 从上到下依次排，左边缘对齐。
+   原来是两列，sub-note 那一格空着时「AI 输出」被推到右半栏，
+   看起来像凭空缩进了一大段。 */
+.workspace-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin-top: 0.4rem;
+}
+
+/* 区块之间只用细线隔开，不再各自套一层背景+边框+圆角 */
+.workspace-content-grid > section {
+  min-width: 0;
+  padding: 0.9rem 0 0;
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+/* 第一块紧跟录音行，不需要再来一条分隔线 */
+.workspace-content-grid > section:first-child {
+  padding-top: 0;
+  margin-top: 0.9rem;
+  border-top: none;
+}
+
+.workspace-content-grid h3 {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: var(--ws-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.workspace-content-grid > section,
+.workspace-content-grid > * {
+  /* 单列了，谁都不再需要显式跨列 */
+  grid-column: 1;
+}
+
+.workspace-transcript {
+  max-width: none !important;
+  margin: 0;
+  color: var(--text) !important;
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.workspace-content-empty {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.workspace-content-stack {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.workspace-content-item {
+  min-width: 0;
+  padding: 0.6rem 0.7rem;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+}
+
+.workspace-content-item small {
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.workspace-content-item p {
+  max-width: none;
+  margin: 0.3rem 0 0;
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* AI 知识输出：标题与「模板 + 生成」控件同一行 */
+.workspace-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.workspace-section-heading h3 {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.workspace-generate-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.workspace-generate-controls select {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 160px;
+  padding: 0.35rem 0.5rem;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+  font-size: var(--fs-sm);
+}
+
+.workspace-conversation {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius-sm);
+}
+
+.workspace-conversation summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.workspace-conversation-count {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.workspace-conversation > div {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0 0.7rem 0.7rem;
+}
+
+/* 角色标签一列、内容一列。回答改成富文本后内容不再是单个 <p>，
+   所以栅格挂在消息容器上，而不是挂在段落上。 */
+.workspace-conversation-message {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 0.5rem;
+  max-width: none;
+  margin: 0;
+  padding-top: 0.4rem;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+
+/* 用户那一侧仍是纯文本，保留原来的换行行为。 */
+.workspace-conversation-message > p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.workspace-conversation strong {
+  color: var(--accent);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- 状态 / 空态 ---------- */
+
+.workspace-detail-empty,
+.workspace-detail-status,
+.workspace-detail-error {
+  margin: 0;
+  padding: 1.6rem;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--ws-radius);
+  font-size: var(--fs-md);
+}
+
+.workspace-detail-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: var(--muted);
+}
+
+.workspace-detail-empty strong {
+  color: var(--text);
+  font-size: var(--fs-lg);
+}
+
+.workspace-detail-error {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 38%, transparent);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.workspace-detail-success {
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+  border-radius: var(--ws-radius-sm);
+  font-size: var(--fs-md);
+}
+
+/* ---------- 多笔记分析弹窗 ---------- */
+
+.workspace-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-veil);
+}
+
+.workspace-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 100%);
+  height: min(70vh, 640px);
+  overflow: hidden;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  /* 带兜底值：弹窗若将来被 portal 到 .workspace-detail-page 之外，
+     变量继承链会断掉。 */
+  border-radius: var(--ws-radius, 14px);
+  box-shadow: var(--shadow);
+}
+
+/* 确认操作只有一段说明和两个按钮，不继承多笔记弹窗的固定高度。 */
+.workspace-modal.workspace-confirm-modal {
+  width: min(400px, 100%);
+  height: auto;
+  max-height: calc(100vh - 4rem);
+}
+
+.workspace-confirm-modal .workspace-modal-body {
+  flex: 0 1 auto;
+}
+
+.workspace-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.workspace-modal-head h2 {
+  margin: 0;
+  font-size: var(--fs-lg);
+}
+
+.workspace-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.workspace-modal-pending {
+  opacity: 0.6;
+}
+
+/* ---------- 知识生成：结构化笔记 / 场景化输出 ---------- */
+
+.workspace-insights-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.workspace-insights-column {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius, 14px);
+  background: var(--surface);
+}
+.workspace-insights-column > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+.workspace-insights-column h3,
+.workspace-insights-column h4 {
+  margin: 0;
+}
+.workspace-insights-column h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.workspace-structured-note-result,
+.workspace-scenario-result {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+.workspace-structured-note-result section,
+.workspace-scenario-result section {
+  display: grid;
+  gap: 0.35rem;
+}
+.workspace-structured-note-result ul,
+.workspace-scenario-result ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1.35rem;
+  color: var(--text);
+}
+
+.workspace-structured-note-result ul > li,
+.workspace-scenario-result ul > li {
+  display: list-item;
+  list-style: disc outside;
+  margin: 0.3rem 0;
+  color: var(--text);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.workspace-structured-note-result ul > li::marker,
+.workspace-scenario-result ul > li::marker {
+  color: var(--accent);
+}
+.workspace-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.55rem 0;
+}
+.workspace-task > span {
+  display: grid;
+  gap: 0.2rem;
+}
+.workspace-task .done {
+  opacity: 0.65;
+  text-decoration: line-through;
+}
+.workspace-task ol {
+  margin: 0.2rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.workspace-task ol > li {
+  display: list-item;
+  list-style: decimal outside;
+  margin: 0.25rem 0;
+  color: var(--text);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.workspace-task ol > li::marker {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.workspace-scenario-picker {
+  display: grid;
+  gap: 0.75rem;
+}
+.workspace-scenario-groups {
+  display: grid;
+  gap: 0.5rem;
+}
+.workspace-scenario-group {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.workspace-scenario-group > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.75rem 0.8rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.workspace-scenario-group > summary::-webkit-details-marker {
+  display: none;
+}
+.workspace-scenario-group > summary:hover {
+  background: var(--surface-soft);
+}
+.workspace-scenario-group > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.workspace-scenario-group-copy {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
+}
+.workspace-scenario-group-copy > strong {
+  font-size: var(--fs-sm);
+}
+.workspace-scenario-group-copy > span {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-scenario-group-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+}
+.workspace-scenario-group-meta > svg {
+  flex: none;
+  transition: transform 160ms ease-out;
+}
+.workspace-scenario-group[open] > summary .workspace-scenario-group-meta > svg {
+  transform: rotate(180deg);
+}
+.workspace-scenario-group-count {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.workspace-scenario-group-content {
+  max-height: min(42vh, 360px);
+  overflow-y: auto;
+  padding: 0.6rem;
+  border-block-start: 1px solid var(--border);
+  overscroll-behavior: contain;
+  scrollbar-color: color-mix(in srgb, var(--accent) 35%, var(--border))
+    transparent;
+  scrollbar-width: thin;
+}
+.workspace-scenario-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  gap: 0.5rem;
+}
+.workspace-scenario-options > button {
+  position: relative;
+  text-align: left;
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+}
+.workspace-scenario-options > button:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+.workspace-scenario-options > button.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.workspace-scenario-options > button > span:not(.workspace-template-source) {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.workspace-scenario-options > button > small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-template-source {
+  justify-self: start;
+  width: max-content;
+  padding: 0.14rem 0.42rem;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  opacity: 1 !important;
+  text-transform: uppercase;
+}
+.workspace-template-source.is-custom {
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--accent);
+}
+.workspace-scenario-empty {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+.workspace-scenario-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+.workspace-scenario-actions > :first-child {
+  margin-right: auto;
+}
+.scenario-template-form {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--ws-radius, 14px);
+  background: var(--surface);
+}
+.scenario-template-form label {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+  font-weight: 700;
+}
+.scenario-template-form input,
+.scenario-template-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.72rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+}
+.scenario-template-form textarea {
+  min-height: 180px;
+  resize: vertical;
+  line-height: 1.55;
+}
+.scenario-template-form-hint {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  line-height: 1.45;
+}
+.scenario-template-form-error,
+.workspace-template-manager-error,
+.workspace-template-manager-message {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.scenario-template-form-error,
+.workspace-template-manager-error {
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, var(--border));
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  color: var(--danger);
+}
+.workspace-template-manager-message {
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.scenario-template-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* 模板管理通过 Portal 挂在 body：它不属于笔记滚动区，滚轮也不会再冒泡给列表。 */
+body.workspace-template-manager-open {
+  overflow: hidden;
+}
+
+body.workspace-template-manager-open .workspace-detail-body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.workspace-template-manager-overlay {
+  --ws-radius: 14px;
+  --ws-radius-sm: 9px;
+
+  z-index: 1200;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  overscroll-behavior: contain;
+}
+.workspace-modal.workspace-template-manager {
+  width: min(960px, 100%);
+  height: min(82dvh, 760px);
+  max-height: calc(100dvh - 1.5rem);
+  overflow: hidden;
+}
+.workspace-template-manager-head {
+  align-items: flex-start;
+  padding: 1rem 1.1rem;
+}
+.workspace-template-manager-head > div:first-child {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.workspace-template-manager-head p {
+  max-width: 70ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.workspace-template-manager-head-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+.workspace-template-manager-close {
+  width: 2.35rem;
+  padding-inline: 0;
+}
+.workspace-template-manager-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.85rem;
+}
+
+.workspace-template-manager-body > .scenario-template-form {
+  overflow-y: auto;
+}
+
+.workspace-template-manager-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.workspace-template-library {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-inline-end: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+
+.workspace-template-library-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 0.9rem 0.65rem;
+  border-block-end: 1px solid var(--border);
+}
+
+.workspace-template-library-heading strong {
+  font-size: var(--fs-sm);
+}
+
+.workspace-template-library-heading span {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.workspace-template-library-list {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.45rem;
+}
+
+.workspace-template-library-list > button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0.7rem 0.65rem;
+  color: var(--text);
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.workspace-template-library-list > button:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  background: var(--surface);
+  transform: none;
+  box-shadow: none;
+}
+
+.workspace-template-library-list > button.is-selected {
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--border));
+  background: var(--surface);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.workspace-template-library-list > button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.workspace-template-library-list > button > svg {
+  color: var(--muted);
+}
+
+.workspace-template-library-item-copy {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.workspace-template-library-item-copy strong {
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-template-library-item-copy > span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.workspace-template-detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.workspace-template-detail-head {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.workspace-template-detail-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.workspace-template-detail-status > span:last-child {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+.workspace-template-detail h3,
+.workspace-template-detail h4,
+.workspace-template-detail p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.workspace-template-detail h3 {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.2;
+}
+
+.workspace-template-detail-head > p {
+  max-width: 70ch;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.workspace-template-detail time {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.workspace-template-detail-sections {
+  display: grid;
+  gap: 0;
+  margin-top: 1.25rem;
+  border-block-start: 1px solid var(--border);
+}
+
+.workspace-template-detail-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0 0.55rem;
+}
+
+.workspace-template-detail-section-heading h4 {
+  font-size: var(--fs-sm);
+}
+
+.workspace-template-detail-section-heading span {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+.workspace-template-detail-section-list {
+  display: grid;
+}
+
+.workspace-template-detail-section-list > div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.7rem 0;
+  border-block-end: 1px solid var(--border);
+}
+
+.workspace-template-detail-section-list strong {
+  font-size: var(--fs-sm);
+}
+
+.workspace-template-detail-section-list p {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.workspace-template-legacy-note {
+  margin-top: 1rem !important;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.workspace-template-original-request {
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.workspace-template-original-request summary {
+  width: max-content;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.workspace-template-original-request p {
+  margin-top: 0.55rem;
+  padding: 0.7rem 0.8rem;
+  border-inline-start: 1px solid var(--border);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.workspace-template-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.workspace-template-delete-confirm {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto auto;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 500px;
+}
+.workspace-template-delete-confirm > span {
+  color: var(--danger);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+.workspace-template-manager-empty {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  margin: auto;
+  padding: 2rem;
+  color: var(--muted);
+  text-align: left;
+}
+.workspace-template-manager-empty > strong {
+  color: var(--text);
+  font-size: var(--fs-lg);
+}
+.workspace-scenario-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: min(65%, 260px);
+  overflow: hidden;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-scenario-badge > span {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.workspace-scenario-badge.is-custom {
+  background: var(--accent-soft);
+}
+.workspace-generation-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem;
+  border-radius: 10px;
+  background: var(--accent-soft);
+}
+
+.workspace-generation-spinner {
+  flex: none;
+  animation: anim-spin 900ms linear infinite;
+}
+.workspace-insight-error {
+  color: var(--danger, #b42318);
+}
+.workspace-insight-wide {
+  grid-column: 1/-1;
+}
+
+/* ---------- 窄屏 ---------- */
+
+@media (max-width: 820px) {
+  .workspace-modal.workspace-template-manager {
+    height: min(92dvh, 820px);
+  }
+
+  .workspace-template-manager-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(145px, 32%) minmax(0, 1fr);
+  }
+
+  .workspace-template-library {
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--border);
+  }
+
+  .workspace-template-detail {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .workspace-insights-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-detail-tools {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+
+  .workspace-search-field {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .workspace-note-selection-toggle {
+    flex: 1 1 auto;
+  }
+
+  .workspace-note-head {
+    flex-wrap: wrap;
+  }
+
+  .workspace-note-tools {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .workspace-section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workspace-scenario-group > summary {
+    gap: 0.5rem;
+    padding-inline: 0.65rem;
+  }
+
+  .workspace-scenario-group-count {
+    display: none;
+  }
+
+  .workspace-scenario-group-content {
+    max-height: min(46vh, 320px);
+  }
+
+  .workspace-scenario-actions > * {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .workspace-scenario-actions > :first-child {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
+
+  .workspace-template-manager-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workspace-template-manager-head-actions {
+    width: 100%;
+  }
+
+  .workspace-template-manager-head-actions > :first-child:not(:last-child) {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .workspace-template-delete-confirm {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: none;
+  }
+
+  .workspace-template-delete-confirm > span {
+    grid-column: 1 / -1;
+  }
+
+  .scenario-template-form-actions > button {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+.workspace-create-note-button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.workspace-create-note-modal {
+  width: min(620px, 100%);
+  height: auto;
+  max-height: calc(100vh - 4rem);
+}
+
+.workspace-create-note-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.workspace-create-note-body label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+.workspace-create-note-body input,
+.workspace-create-note-body textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+}
+
+.workspace-create-note-body textarea {
+  resize: vertical;
+  min-height: 180px;
+  line-height: 1.55;
+}
+
+.workspace-create-note-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}

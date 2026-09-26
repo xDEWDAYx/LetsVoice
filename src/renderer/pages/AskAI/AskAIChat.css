@@ -1,0 +1,224 @@
+.ask-ai-chat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.9rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-strong);
+}
+
+.ask-ai-chat-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ask-ai-chat-header span {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ask-ai-chat-header h2,
+.ask-ai-chat-header p {
+  margin: 0;
+}
+
+.ask-ai-chat-header h2 {
+  margin-top: 0.1rem;
+  font-size: var(--fs-lg);
+}
+
+.ask-ai-chat-header p {
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.ask-ai-scope {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-soft);
+}
+
+.ask-ai-scope button {
+  min-height: 30px;
+  padding: 0.35rem 0.55rem;
+  background: transparent;
+  color: var(--muted);
+}
+
+.ask-ai-scope button.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.ask-ai-sources {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: 0.55rem;
+}
+
+.ask-ai-sources > span {
+  max-width: 160px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.18rem 0.48rem;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-ai-sources > span:first-child {
+  border: 0;
+  padding-left: 0;
+  font-weight: 800;
+}
+
+.ask-ai-messages {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+  padding: 0.65rem 0.15rem;
+  overflow-y: auto;
+}
+
+.ask-ai-messages article {
+  display: grid;
+  gap: 0.25rem;
+  max-width: 92%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.ask-ai-messages article.user {
+  align-self: flex-end;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.ask-ai-messages article > span {
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ask-ai-messages article p {
+  max-width: none;
+  margin: 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.ask-ai-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  flex: 0 0 auto;
+  align-items: end;
+  gap: 0.55rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+.ask-ai-composer textarea {
+  min-height: 48px;
+  max-height: 100px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.65rem 0.75rem;
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.ask-ai-status {
+  min-height: 1rem;
+  padding-top: 0.25rem;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+@media (max-width: 620px) {
+  .ask-ai-chat-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ask-ai-scope button {
+    flex: 1;
+  }
+}
+
+/* =========================================================
+   对话动效
+   ========================================================= */
+
+/* 新消息从各自那一侧滑入：用户的从右边来，AI 的从左边来。
+   方向对应气泡的对齐方式，读起来才像「谁在说话」。 */
+.ask-ai-messages article {
+  animation: anim-slide-left var(--dur-base) var(--ease-out) backwards;
+}
+
+.ask-ai-messages article.user {
+  animation-name: anim-slide-right;
+}
+
+/* 角色标签跟在气泡后面一点点进来，是一个很小但很显眼的层次 */
+.ask-ai-messages article > span {
+  animation: anim-fade var(--dur-base) var(--ease-out) 80ms backwards;
+}
+
+/* 消息底部的朗读/复制图标平时压暗，指到消息上才浮出来 */
+.ask-ai-messages article .message-actions {
+  opacity: 0;
+  transform: translateY(2px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.ask-ai-messages article:hover .message-actions,
+.ask-ai-messages article:focus-within .message-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 空状态：整块轻轻浮起，避免一进来是一片死板的灰字 */
+.ask-ai-empty {
+  animation: anim-rise var(--dur-slow) var(--ease-out) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-ai-messages article,
+  .ask-ai-messages article > span,
+  .ask-ai-empty {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .ask-ai-messages article .message-actions {
+    opacity: 1;
+    transform: none;
+  }
+}

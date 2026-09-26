@@ -1,0 +1,141 @@
+/* =========================================================
+   关窗询问弹窗
+
+   取代 Electron 的系统消息框：同一套令牌、同一套圆角和玻璃面，
+   看起来才像这个应用自己的东西。
+   ========================================================= */
+
+.close-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-veil);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: anim-fade var(--dur-base) var(--ease-out) both;
+}
+
+.close-confirm {
+  width: min(440px, 100%);
+  padding: 1.4rem 1.5rem 1.2rem;
+  color: var(--text);
+  /* 不透明：底下是应用界面，半透明会让文字糊在一起 */
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: 0 28px 60px -24px rgb(0 0 0 / 70%);
+  animation: close-confirm-in var(--dur-base) var(--ease-spring, ease-out) both;
+}
+
+@keyframes close-confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.close-confirm-title {
+  margin: 0 0 0.5rem;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.close-confirm-detail {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.close-confirm-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.close-confirm-remember input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+}
+
+.close-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.close-confirm-btn {
+  padding: 0.5rem 1.05rem;
+  /* 按钮文字不折行：中文按钮一折行整排就散了 */
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+/* 取消最轻：纯文字 */
+.close-confirm-btn.is-ghost {
+  color: var(--muted);
+  background: transparent;
+}
+
+.close-confirm-btn.is-ghost:hover {
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+/* 退出是有后果的操作，但不是主选项：描边而不是实心 */
+.close-confirm-btn.is-quiet {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--border);
+}
+
+.close-confirm-btn.is-quiet:hover {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 45%, transparent);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+/* 推荐项：实心强调色 */
+.close-confirm-btn.is-primary {
+  color: var(--accent-contrast);
+  background: var(--accent);
+}
+
+.close-confirm-btn.is-primary:hover {
+  background: var(--accent-strong, var(--accent));
+}
+
+.close-confirm-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .close-confirm-overlay,
+  .close-confirm {
+    animation: none;
+  }
+}

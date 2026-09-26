@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "ran_at": "2026-09-03T01:06:27.949Z",
+  "with_accuracy": false,
+  "note": "这台机器的结果来自两次运行：TTS 三步来自 2026-09-02T03:27:33.273Z 那次；LLM 与 STT 来自 2026-09-03T01:06:27.949Z 那次（用 --only llm,stt 补跑，刻意跳过已经测好的 TTS）。后一次误用了机器标签 jackpot，硬件指纹与 jack 完全一致（同一 hostname_hash），已合并回 jack。",
+  "steps": [
+    {
+      "id": "tts",
+      "status": "ok",
+      "elapsed_ms": 3126764,
+      "ran_at": "2026-09-02T03:27:33.273Z"
+    },
+    {
+      "id": "tts-memory",
+      "status": "ok",
+      "elapsed_ms": 1241175,
+      "ran_at": "2026-09-02T03:27:33.273Z"
+    },
+    {
+      "id": "tts-length",
+      "status": "ok",
+      "elapsed_ms": 569127,
+      "ran_at": "2026-09-02T03:27:33.273Z"
+    },
+    {
+      "id": "llm",
+      "status": "ok",
+      "elapsed_ms": 280333,
+      "ran_at": "2026-09-03T01:06:27.949Z"
+    },
+    {
+      "id": "stt",
+      "status": "ok",
+      "elapsed_ms": 14274340,
+      "ran_at": "2026-09-03T01:06:27.949Z"
+    }
+  ],
+  "files": [
+    "llm-runtime.json",
+    "stt-human-speed.json",
+    "tts-kokoro-multi-lang-v1_0.json",
+    "tts-length-kokoro-multi-lang-v1_0.json",
+    "tts-length-moss-tts-nano-100m-onnx.json",
+    "tts-length-vits-melo-tts-zh_en.json",
+    "tts-memory-kokoro-multi-lang-v1_0.json",
+    "tts-memory-moss-tts-nano-100m-onnx.json",
+    "tts-memory-vits-melo-tts-zh_en.json",
+    "tts-moss-tts-nano-100m-onnx.json",
+    "tts-vits-melo-tts-zh_en.json"
+  ]
+}

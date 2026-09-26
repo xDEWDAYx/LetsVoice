@@ -1,0 +1,615 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081803
+日期：2026-08-18
+分支：main
+========================================================================
+
+本次改动分三段：
+
+  一、按外部测试报告（测试日期 2026-08-12，commit 1755e6f）逐条核对
+      BUG-001 ~ BUG-007，未修复的全部修完；
+  二、修复第一段改动引入的一处 UI 回归（日历格变成绿色胶囊按钮）；
+  三、修复维护者本次实测发现的三个问题：模型不自动选中、新手引导被
+      开工前检查挡住、模型管理页下拉被后面的卡片遮挡。
+
+三个质量门禁现在全绿：
+  npm test           exit 0（11 个 suite / 37 项）
+  npm run lint       exit 0（剩 23 条 no-console warning，不阻断）
+  npx tsc --noEmit   无输出
+
+共 124 个文件变更（含本文件），约 +3613 / -2059 行。其中约 80 个文件
+只是 prettier 重排，是 BUG-002 的副产物，与逻辑无关。
+
+文末「遗留问题」一节列了 3 项本次未能闭环的事情，其中第 1 项涉及
+维护者本机的既有笔记数据，请优先处理。
+
+
+========================================================================
+第一段  外部测试报告逐条核对
+========================================================================
+
+核对结论先行：
+
+  BUG-001  Jest 启动即失败      未修复，且比报告时更糟（5 个 suite 失败）
+  BUG-002  Lint 161 项          未修复，且已恶化到 1901 项
+  BUG-003  Electron binary 不全  未修复，根因与报告的猜测不同
+  BUG-004  ElectronReact 品牌    完全未动
+  BUG-005  macOS 显示 Windows    报告点名的文案已随旧组件删除而消失，
+                                但底层问题仍在
+  BUG-007  产物未正式签名        未修复，且签名脚本本身带一个必崩的 bug
+
+
+------------------------------------------------------------------------
+1. 【BUG-001 / P2】Jest 测试启动即失败
+------------------------------------------------------------------------
+问题：
+  - npm test 直接失败，无法作为 CI 质量门。
+  - 报告记录的是 1 个 suite 失败；实测为 5 个。
+
+原因（共四条，报告只覆盖了第一条）：
+
+  a. window.electron 缺失
+     Jest 跑在 jsdom 里，没有 Electron preload 注入的 window.electron。
+     ModelRecommendationController 的构造函数默认参数直接读
+     window.electron.recommendation，在 import 阶段就抛
+     "Cannot read properties of undefined"。
+     注意报告里的定位已经过时：顶层 singleton 已从 ModelManagerPage.tsx
+     迁到 useModelManager.ts:20，但问题性质不变。
+
+  b. WorkspaceDetailHeader 的 props 类型与实参不符
+     onRename / onDelete 声明为 (): Promise<void>，而 WorkspacePage 传的
+     是同步的 setShowRenameModal(true)，ts-jest 编译期即报 TS2322。
+     这两个回调只是开弹窗，本来就不该是异步的。
+
+  c. WorkspaceNoteCard 读了一个契约里没有的字段
+     渲染子笔记徽标时用了 subnote.template_name，而 WorkspaceService 里
+     subnotes 的查询只 SELECT 了 id / content_type / content / created_at，
+     该字段从来就不存在。运行时永远走 fallback 显示 'Sub-note'，
+     类型检查则直接报错。
+
+  d. jest 把其他会话的工作树也收了进来
+     .claude/worktrees/ 下有三份旧副本，其中的 App.test.tsx 各自因为
+     自己那份代码的编译错误而失败，与主仓库无关。
+
+修复：
+  - 新增 .erb/scripts/jest-setup-electron.ts，作为 setupFiles 统一提供
+    window.electron 替身：用 Proxy 兜住任意命名空间与方法，普通方法返回
+    Promise，onXxx / offXxx 同步返回取消订阅函数（与 preload 真实签名一致），
+    少数会被解构或遍历的接口在 defaultResults 里登记结构完整的默认值。
+    同时补上 jsdom 没实现的 matchMedia、ResizeObserver、IntersectionObserver。
+  - useModelManager.ts 里的模块顶层 new 改为组件内部 useMemo，
+    preload 未注入的环境不会再在 import 阶段崩溃。
+  - WorkspaceDetailHeader 的两个回调类型改为 (): void。
+  - WorkspaceNoteCard 去掉 template_name，直接渲染 'Sub-note'。
+    这与修改前的实际显示完全一致，没有行为变化。
+  - package.json 的 jest 配置加 testPathIgnorePatterns / modulePathIgnorePatterns
+    排除 <rootDir>/.claude/。
+
+结果：
+  npm test 从 5 failed / 11 passed 变为全部通过，exit code 0。
+
+涉及文件：
+  .erb/scripts/jest-setup-electron.ts（新增）
+  package.json（jest 配置）
+  src/renderer/pages/ModelManager/useModelManager.ts
+  src/renderer/pages/Workspace/components/WorkspaceDetailHeader.tsx
+  src/renderer/pages/Workspace/components/WorkspaceNoteCard.tsx
+
+
+------------------------------------------------------------------------
+2. 【BUG-002 / P3】Lint 失败
+------------------------------------------------------------------------
+问题：
+  - 报告记录 161 项；实测已恶化到 1901 项（1874 error + 27 warning）。
+
+处理分三步。
+
+  第一步：npm run lint:fix
+    1901 → 180。绝大多数是 prettier 格式。
+
+    此处有一个必须记住的坑：eslint 的 import/no-relative-packages 规则会
+    把 .erb/configs/webpack.config.base.ts 和 .erb/scripts/electron-rebuild.js
+    里的 '../../release/app/package.json' 自动改写成包名形式
+    'speakspace-app/package.json'。release/app 并不是已安装的依赖，改完
+    直接把 lint 自己跑崩（TS2307）。已改回相对路径并加定向 disable 注释。
+    今后再跑 lint:fix 要留意这两处。
+
+  第二步：规则层面关掉 5 条，每条都在 .eslintrc.js 里写了理由
+    - no-undef 对 *.ts / *.tsx 关闭
+      这是报告里 "NodeRequire is not defined" 的根因。TypeScript 自己会
+      检查未定义标识符，而 no-undef 认不出 NodeJS / NodeRequire / globalThis
+      这类 ambient 类型，在 TS 文件里必然误报。这也是 typescript-eslint
+      官方的建议做法。
+    - import/prefer-default-export 关闭
+      本项目统一用具名导出，仓库里原本散着 14 处 inline disable 专门压它。
+      关掉规则后这些 disable 一并删除，是净收益。
+    - react/require-default-props 关闭
+      React 19 已不再在运行时读取 propTypes，可选属性由 TS 类型表达。
+    - react/jsx-props-no-spreading、react/function-component-definition 关闭
+      纯风格，与本项目既有写法冲突。
+    另外两条按规则自带的选项调整而非关闭：
+    - promise/catch-or-return 加 { allowFinally: true }
+      本项目习惯 .catch(...).finally(...) 收尾。
+    - jsx-a11y/no-noninteractive-tabindex 加 { roles: ['separator'] }
+      可拖动分隔条是 ARIA 的 window splitter，本来就必须可聚焦。
+
+  第三步：其余 86 条逐条改代码，包括
+    - 9 处 button 缺 type
+    - 9 处未使用的变量 / 导入
+    - 16 处 a11y（div + onClick 改成语义 button，见下方回归说明）
+    - 11 处 hooks 依赖缺 t
+    - 2 处 import 循环（StudioPage ⇄ StudioChatPanel，
+      新增 StudioTypes.ts 承载共享类型打断）
+    - class-methods-use-this、no-plusplus、prefer-destructuring、
+      no-useless-escape、no-return-await、default-param-last、
+      no-nested-ternary、no-template-curly-in-string 等
+
+顺带删除两处确认无人引用的死代码（报告 BUG-002 建议里点名了第一处）：
+  - src/main/ipc/recording-ipc.ts
+  - src/main/Recording/TranscriptionService.ts
+    这个文件除了无人引用，里面还有一句
+    require('../database/entities/Note') —— 该目录根本不存在
+    （实体在 src/main/entities/），真跑到那行必然抛错。
+    现役实现是 src/main/transcription/ 下那一套。
+
+结果：
+  npm run lint exit code 0。剩 23 条 no-console warning，都是主进程与
+  错误分支里的有意日志，warning 不阻断退出码，本次未动。
+
+涉及文件：
+  .eslintrc.js 及约 80 个源文件（多数仅格式）
+
+
+------------------------------------------------------------------------
+3. 【BUG-003 / P1】Fresh install 后 Electron binary 不完整
+------------------------------------------------------------------------
+报告的猜测是「下载或解压在 postinstall 阶段失败」。实测根因不同，
+而且已在本机完整复现：
+
+  Windows 上只要还有进程在跑 node_modules/electron/dist/electron.exe
+  （典型情况：上一次 npm start 的开发实例没关），该进程就锁住了 dist 里的
+  resources.pak、locales 等文件。此时 Electron 的 install.js 往已存在的
+  dist 上覆盖解压，会**静默失败**——extract-zip 的 promise 既不 resolve
+  也不 reject，进程直接以 0 退出；fs.rmSync(dist) 则报 EPERM，并且
+  已经删掉的文件不会回滚。
+
+  于是留下一个「缺可执行文件的半成品 dist」，而 npm install 照样 exit 0。
+  用户要到 npm start 才发现应用起不来，报错看上去和依赖毫无关系，
+  重跑 npm install 也修不好——这正是报告里「需要手动解压 Electron zip」
+  的成因。
+
+修复：
+  - 新增 .erb/scripts/check-electron-binary.js，挂在 postinstall（在
+    electron-builder install-app-deps 之后）和 prestart 上，另提供
+    npm run check:electron 手动调用。
+  - 完整性判据：path.txt、dist/version、当前平台可执行文件三者齐备，
+    且可执行文件大小非 0（解压中断会留下 0 字节占位文件）。
+  - 检测到不完整时先探测是否有 Electron 进程占用（win32 走 tasklist，
+    其余走 pgrep）：
+      有占用 → 不做任何破坏性操作，直接报告是谁占着，并给出
+               taskkill /F /IM electron.exe /T && npm install
+      无占用 → 清空 dist 后重跑官方 install.js，仍不完整则给出
+               rm -rf node_modules/electron && npm install
+               以及镜像设置命令，并以非零码退出。
+
+验收：
+  报告给的验收命令（rm -rf node_modules && npm install && npm start）
+  需要重装全部依赖，本次未执行。已验证的是：脚本在正常环境下 exit 0；
+  在人为删除 electron.exe 且有进程占用的情况下，能正确识别占用者、
+  拒绝执行破坏性删除、并以非零码退出。
+
+
+------------------------------------------------------------------------
+4. 【BUG-004 / P3】打包产物仍是 ElectronReact 品牌
+------------------------------------------------------------------------
+报告列的六项全部处理，另外补了三处报告没提到的可见品牌残留。
+
+  package.json
+    name          electron-react-boilerplate → speakspace
+    productName   新增 "SpeakSpace"
+                  （加在根 package.json 是关键：开发模式下
+                   app.getName() 取的是这里，productName 优先于 name，
+                   这样 dev 与打包后的 userData 路径才一致）
+    description / keywords / homepage / bugs / repository / author 全部改写
+    删除 boilerplate 的 contributors 与 collective 字段
+
+  release/app/package.json
+    name          → speakspace-app（与根包区分，顺带消掉 jest 的
+                  haste module naming collision 警告）
+    productName   新增 "SpeakSpace"
+
+  构建配置
+    productName   ElectronReact       → SpeakSpace
+    appId         org.erb.ElectronReact → com.speakspace.app
+    publish       electron-react-boilerplate → dhebhxh/speakspace-local-electron
+    copyright     新增
+
+  报告未提及、但同样会被用户看到的三处：
+    - src/main/menu.ts 里 macOS 菜单的 "About ElectronReact" /
+      "Hide ElectronReact" / 顶层 "Electron"，改为跟随 app.getName()
+    - src/renderer/index.ejs 的窗口标题 "Hello Electron React!" → SpeakSpace
+      （.erb/scripts/start-dev.js 里用这句话识别「是不是自己的开发服务器」，
+       APP_MARKER 同步更新）
+    - seed.js 里写死的 %APPDATA%/electron-react-boilerplate 路径
+
+  userData 迁移
+    改产品名会改变 app.getPath('userData')。新增
+    src/main/startup/UserDataMigration.ts，从旧目录复制数据到新目录，
+    只复制不删除，写 .userdata-migrated 标记避免重复执行。
+    通过 src/main/startup/migrate-userdata.ts 这个副作用入口、由 main.ts
+    第一个 import 引入——ES import 会被提升，写在 main.ts 语句位置的调用
+    其实晚于所有 import，抢不到 IPC 模块前面。
+    ※ 这个迁移有缺陷，见文末遗留问题第 1 条。
+
+  构建配置搬家
+    产物文件名要区分「内部未签名包」和「正式发布包」，而 package.json 里
+    只能写 ${env.X} 模板；一旦有人直接跑 electron-builder 而没带环境变量，
+    构建会以 ERR_ELECTRON_BUILDER_ENV_NOT_DEFINED 直接失败。
+    因此把整份构建配置从 package.json 的 build 字段搬到根目录
+    electron-builder.js，在 JS 里按 SPEAKSPACE_RELEASE 计算后缀，
+    没显式声明是 release 就按内部包命名——安全默认值。
+
+    ※ 文件名必须是 electron-builder.js。electron-builder v25 的自动发现
+      列表是 electron-builder.{yml,yaml,json,json5,toml,js,cjs,ts}，
+      **不认 electron-builder.config.js**。此处踩过一次，配置文件不被加载时
+      的表现是 "Please specify 'version' in the package.json"，
+      极具误导性。
+
+验收：
+  已在本机实跑 electron-builder（--dir）：
+    • loaded configuration file=...\electron-builder.js
+    • executablePath=release\build\win-unpacked\SpeakSpace.exe
+  产物已不再是 ElectronReact。完整打包未能跑通，见遗留问题第 2 条。
+
+
+------------------------------------------------------------------------
+5. 【BUG-005 / P3】macOS 显示「安装 Windows Ollama 运行时」
+------------------------------------------------------------------------
+现状核对：
+  报告点名的 OllamaRuntimePanel.tsx 已经不存在，那句硬编码文案随之消失，
+  改由 ModelRuntimes.ts 统一生成运行时提示，文案里已无 Windows 字样。
+  报告的前两条验收标准事实上已经满足。
+
+但底层问题仍在：
+  Ollama、whisper、ffmpeg 三个 installer 的自动安装全是 Windows-only
+  （OllamaReleaseClient / WhisperReleaseClient 的 getAssetName 与
+   FfmpegInstaller.install 里各写了一次平台判断），而 ModelRuntimes.ts
+  在所有平台都照给安装按钮。macOS / Linux 用户点下去，要等到请求发出前
+  才撞见「仅支持 Windows」的报错。报告的第三条验收标准
+  「不支持自动安装的平台有清晰说明」并未满足。
+
+修复：
+  - 新增 src/main/runtime/RuntimeInstallSupport.ts 集中平台判断，
+    对三个目标各给出 { supported, manualHint }，非 Windows 平台按
+    darwin / linux / 其它分别给手动安装说明。
+  - 三个 installer 统一调用 assertAutoInstallSupported() 抛错，
+    保证错误文案与界面提示同源，不会各说各话。
+  - 经 RuntimeStatusSummary.installSupport 暴露给 renderer；
+    ModelRuntimes.ts 在 !supported 时不再给 onInstall，
+    改为把手动安装方式直接写进该项的提示里。
+  - 补 4 条单元测试，其中一条专门断言非 Windows 平台的提示里
+    不出现 "Windows" 字样。
+
+
+------------------------------------------------------------------------
+6. 【BUG-007 / P2】打包产物未正式签名
+------------------------------------------------------------------------
+先修一个报告没发现、但会让公证必然失败的 bug：
+
+  .erb/scripts/notarize.js 第一行原本是
+      const { notarize } = import('@electron/notarize');
+  动态 import 返回的是 Promise，对它解构拿到的永远是 undefined，
+  调用时必然 TypeError。也就是说即使凭据齐备，公证也跑不起来。
+  已改为在函数内 await import(...)。
+
+按报告建议拆三个构建目标：
+  npm start            dev
+  npm run package      内部包，产物带 -internal-unsigned 后缀
+  npm run package:release
+                       前置校验 Developer ID 证书与公证凭据，
+                       缺任何一项直接非零退出；打完再跑签名校验
+
+新增两个脚本：
+  .erb/scripts/check-release-signing.js
+      macOS：检查钥匙串里的 Developer ID Application，或 CI 注入的
+             CSC_LINK / CSC_NAME，以及 APPLE_ID / APPLE_ID_PASS /
+             APPLE_TEAM_ID 三个环境变量，缺则报清楚缺什么并退出
+      Windows：没有代码签名证书时给出 SmartScreen 警告（不阻断）
+  .erb/scripts/verify-signing.js
+      打包后对 release/build 下的 .app 跑 codesign -dv --verbose=2，
+      要求出现 Authority=Developer ID Application 且
+      TeamIdentifier 不为 not set。release 构建不通过即非零退出，
+      内部构建只提示。
+
+notarize.js 同时增加硬失败模式：SPEAKSPACE_RELEASE=true 时，
+凭据缺失从「warn 后跳过」变成直接抛错。
+
+验收：
+  报告的三条验收标准（codesign 通过、公证通过、用户可直接打开 DMG）
+  全部需要 Mac + Apple Developer ID，本机是 Windows，无法验证。
+  本次交付的是「配置正确 + 缺凭据时硬失败」，见遗留问题第 3 条。
+
+
+========================================================================
+第二段  修复第一段引入的 UI 回归
+========================================================================
+
+------------------------------------------------------------------------
+7. 【回归】日历日期格变成绿色胶囊按钮
+------------------------------------------------------------------------
+现象：
+  仪表盘日历里每个日期格都变成一颗实心绿色胶囊，整块整块的，
+  与页面完全不搭。
+
+原因：
+  App.css 有一条全局规则 `button { ... }`，给所有 button 上了主色渐变、
+  胶囊圆角、1.6rem 内边距和白色文字。第 2 节修 a11y 时，把
+  div + onClick 改成了语义 button，这些元素立刻被该规则接管。
+  .calendar-day 自己只设了 border-radius 和 padding-top，没有背景色，
+  原设计是透明格 + 悬停浅色 + 今天蓝底 + 有待办时下方两个小圆点。
+
+  同一次改动共有 6 处中招，只是日历最显眼：
+    - 日历日期格、日历弹层里的待办条目
+    - 仪表盘「置顶笔记」「待办」两张指标卡
+      （文字变白、左对齐变居中、悬停动效被按钮的顶掉）
+    - Dashboard / Studio / Workspace 三处右键删除菜单
+
+修复：
+  没有逐个打补丁，而是让全局按钮样式支持退出：
+    button:where(:not(.btn-plain)) { ... }
+  用 :where() 包住否定条件，选择器权重保持 0-0-1 不变——这点是关键，
+  否则页面里几十处用 class 覆写按钮样式的写法会集体错位。
+  再加一个 .btn-plain，只清掉浏览器默认按钮外观，最终长相仍由元素
+  自己的 class 决定。button:focus-visible 对所有按钮保留，包括
+  .btn-plain——这些元素改成 button 本来就是为了键盘可达。
+
+  另外顺手把日历网格的 key 从数组下标改成了「年-月-日期」结构：
+  原先用 weekIdx / dayIdx 做 key，换月时会跨月复用节点。
+  改成在构建网格时就给每个单元格算好稳定 key。
+
+涉及文件：
+  src/renderer/App.css
+  src/renderer/pages/Dashboard/components/CalendarWidget.tsx
+  src/renderer/pages/Dashboard/components/MetricCardsGrid.tsx
+  src/renderer/pages/Dashboard/DashboardPage.tsx
+  src/renderer/pages/Studio/StudioPage.tsx
+  src/renderer/pages/Workspace/WorkspacePage.tsx
+
+
+========================================================================
+第三段  维护者实测发现的三个问题
+========================================================================
+
+------------------------------------------------------------------------
+8. 已下载的模型不会被自动选中
+------------------------------------------------------------------------
+问题：
+  首次进入页面时，模型明明已经下载好，系统却不会自动选中它。
+  因为没选中，对话工作台的开工前检查一开始就报「未安装或未选择模型」。
+
+原因：
+  「已下载」和「已选中」是两件独立的事。模型文件在硬盘上，但
+  userData/model-state/*.json 里没记 id 时，三个 ModelManager 的
+  getModelList() 一个都不标 activated。
+
+修复：
+  - ActiveModelStateStore 新增 resolveActiveModelId(downloadedIds)：
+    已保存的选择仍在已下载列表里就沿用，否则挑目录里第一个已下载的
+    并落盘。STT / TTS / LLM 三个 manager 的 getModelList() 统一走它。
+  - 顺带修好「删掉当前模型后剩下的那个不会被自动接上」。
+
+  一处必须留意的陷阱：
+    LLMModelManager.getInstalledModelNames() 在 Ollama 没起来时会
+    catch 掉错误并返回空集合。如果照直处理，Ollama 一掉线就会把用户
+    选好的 LLM 清空。所以 resolveActiveModelId 在列表为空时保持已保存的
+    值不变——「查不到」不等于「用户删了模型」。此条单独有测试覆盖。
+
+  测试契约变更（需要维护者知晓）：
+    src/main/tts/__tests__/TTSModelManager.test.ts 原有一条
+      "does not auto-activate downloaded models and persists explicit activation"
+    明确断言不许自动选中，与本次需求正好相反。已改写为断言新契约，
+    并补一条「显式选择不会被自动选中覆盖」。
+    如果当初保留该行为另有原因，请回退本节改动。
+
+  另新增 src/main/AI-module/__tests__/ActiveModelStateStore.test.ts，
+  5 条覆盖：自动选中并落盘、沿用已有选择、原模型被删后改选、
+  空列表不清空、从未选过且无已下载模型时返回 null 且不写文件。
+
+涉及文件：
+  src/main/AI-module/ActiveModelStateStore.ts
+  src/main/AI-module/STTModelManager.ts
+  src/main/AI-module/TTSModelManager.ts
+  src/main/AI-module/LLMModelManager.ts
+  src/main/AI-module/__tests__/ActiveModelStateStore.test.ts（新增）
+  src/main/tts/__tests__/TTSModelManager.test.ts
+
+
+------------------------------------------------------------------------
+9. 新用户引导被开工前检查挡住
+------------------------------------------------------------------------
+问题：
+  新用户首次进入时必然一个模型都没装，通不过开工前检查。
+  StudioPage 在 !readiness.ready 时直接 return 门禁页替换掉整个工作台，
+  而引导中段有 8 步（输入框、录音按钮、上传、Agent 开关、笔记库、
+  拖拽、最近对话、分隔条）指的全是工作台内部的元素——页面根本没渲染，
+  useOnboardingTour 等 2.6 秒超时后只能降级成居中卡片，
+  聚光灯位置随之错乱。
+
+修复：
+  - OnboardingController 增加 setTourActive / isTourActive /
+    subscribeTourActive，用模块级状态 + window 事件广播。
+    不走 React context，是因为引导组件和工作台分处两棵子树，
+    走 context 得把 Provider 提到 App 顶层再层层传下去。
+  - OnboardingGuide 在 open 变化时广播。
+  - 新增 src/renderer/onboarding/useOnboardingActive.ts，
+    用 useSyncExternalStore 订阅。
+  - StudioPage 的判断改为 if (!readiness.ready && !onboardingActive)。
+
+  注意这只解决「看得见」，不解决「能用」：引导期间点录音该失败还是会
+  失败，引导结束后门禁页照常回来。
+
+涉及文件：
+  src/renderer/onboarding/OnboardingController.ts
+  src/renderer/onboarding/OnboardingGuide.tsx
+  src/renderer/onboarding/useOnboardingActive.ts（新增）
+  src/renderer/pages/Studio/StudioPage.tsx
+
+
+------------------------------------------------------------------------
+10. 模型管理页下拉被后面的卡片遮挡
+------------------------------------------------------------------------
+问题：
+  点开左上角 STT 的下拉，列表会被下面 Embedding 整个模块盖住。
+
+原因：
+  不是 z-index 不够大。.model-module 上有 backdrop-filter，
+  **该属性会创建层叠上下文**，卡片内部 .model-select-list 的
+  z-index: 20 只在自己这张卡片里排序，跨卡片比较时完全不参与，
+  于是后面的卡片按 DOM 顺序整块盖上去。
+
+修复：
+  - .model-module 补 position: relative + z-index: 0，
+    给卡片之间一个可比的层级基准。
+  - .model-module:has(.model-select-list) { z-index: 10 }，
+    在下拉真正展开的那一刻把整张卡片抬起来，收起立刻回落。
+    列表是条件渲染的（{open && <ul>}），所以这个选择器天然精确，
+    不需要改任何 JS。
+
+  页面上所有下拉（STT / TTS 模型 / TTS 音色 / Embedding / LLM）用的都是
+  同一个 ModelSelect 组件、装在同一种 .model-module 卡片里，一处修完
+  全部生效。已搜过整个 renderer，绝对定位的下拉列表只有这一个组件。
+
+涉及文件：
+  src/renderer/pages/ModelManager/components/ModelModule.css
+
+
+========================================================================
+遗留问题
+========================================================================
+
+1. 【重要】维护者本机的旧笔记数据没有被迁移过来
+
+   第 4 节的 userData 迁移在本机执行得不完整。
+   %APPDATA%/SpeakSpace/.userdata-migrated 记录的 copied 列表是：
+       app-settings.json / blobs / runtimes / models / output
+   **speakspace.db 不在其中**，model-state 也不在其中。
+
+   现状：
+       %APPDATA%/electron-react-boilerplate/speakspace.db   114688 字节（旧数据）
+       %APPDATA%/SpeakSpace/speakspace.db                    65536 字节（空库）
+
+   成因有两条，都是迁移实现本身的问题：
+     a. 改名和迁移不是同一次落地的。改名后 electronmon 自动重启了一次
+        应用，DatabaseManager 先建出了一个空库；等迁移代码加进来时，
+        copyIfMissing 看到目标已存在就跳过了——而数据库恰恰是最该迁的
+        那一个。
+     b. MIGRATED_ENTRIES 是写死的白名单，漏了 model-state，
+        今后应用新增任何 userData 目录也都会被漏掉。
+        正确做法应该是「排除 Chromium 自己的缓存目录，其余全拷」。
+
+   模型和运行时目录是完整的（已逐字节比对：388 个模型文件 6.58 GB、
+   108 个运行时文件 2.17 GB，两边文件数与总字节数完全一致），
+   所以功能可用；缺的是笔记、工作空间、对话这些库内数据。
+
+   建议：修正迁移逻辑（改为排除式 + 目标已存在时先备份再覆盖），
+   并把本机旧库手工接回。本次未擅自改动 userData 下的任何文件。
+
+2. Windows 完整打包未跑通
+
+   npm run package 在两处受阻，都与本机环境有关，与配置无关：
+     - clean 步骤 rimraf release/app/dist/renderer 报 EBUSY，
+       因为开发实例正开着；关掉再跑即可。
+     - electron-builder 解压 winCodeSign-2.6.0.7z 需要创建符号链接，
+       报「客户端没有所需的特权」，需要开 Windows 开发者模式
+       或以管理员身份运行。
+   因为卡在这一步，exe 内嵌的版本资源（ProductName 仍是 Electron、
+   CompanyName 仍是 GitHub, Inc.）没有被 rcedit 改写，这部分未验证。
+   --dir 阶段产出的 SpeakSpace.exe 文件名是正确的。
+
+3. macOS 签名与公证无法在本机验证
+
+   BUG-007 的三条验收标准都需要 Mac + Apple Developer ID。
+   本次只能保证配置正确、脚本在缺凭据时硬失败。
+   首次在 Mac 上发布前，请实跑一次 npm run package:release 验证。
+
+4. 次要观察（本次未动）
+
+   - src/renderer/AppRoute.jsx 里的中文注释是乱码
+     （"首�??�為實�?轉�?" 之类），像是某次编码事故留下的，不影响运行。
+   - 根 package.json 与 release/app/package.json 的 version 仍是
+     boilerplate 的 4.6.0，正式发布前建议重置。
+   - lint 剩余 23 条 no-console warning 未处理。
+
+
+========================================================================
+文件范围汇总
+========================================================================
+共 124 个文件（含本文件），约 +3613 / -2059 行。
+其中约 80 个文件仅为 prettier 重排。
+
+  新增：
+      .erb/scripts/check-electron-binary.js
+      .erb/scripts/check-release-signing.js
+      .erb/scripts/verify-signing.js
+      .erb/scripts/jest-setup-electron.ts
+      electron-builder.js
+      src/main/runtime/RuntimeInstallSupport.ts
+      src/main/runtime/__tests__/RuntimeInstallSupport.test.ts
+      src/main/startup/UserDataMigration.ts
+      src/main/startup/migrate-userdata.ts
+      src/main/AI-module/__tests__/ActiveModelStateStore.test.ts
+      src/renderer/onboarding/useOnboardingActive.ts
+      src/renderer/pages/Studio/StudioTypes.ts
+      log/2026081803.txt
+
+  删除：
+      src/main/ipc/recording-ipc.ts
+      src/main/Recording/TranscriptionService.ts
+
+  构建与配置：
+      package.json、release/app/package.json、.eslintrc.js
+      .erb/configs/webpack.config.base.ts
+      .erb/scripts/electron-rebuild.js、notarize.js、start-dev.js
+
+  主进程：
+      src/main/main.ts、menu.ts、preload.ts
+      src/main/AI-module/ActiveModelStateStore.ts、STTModelManager.ts、
+      TTSModelManager.ts、LLMModelManager.ts
+      src/main/llm/OllamaReleaseClient.ts
+      src/main/transcription/WhisperReleaseClient.ts
+      src/main/runtime/FfmpegInstaller.ts、RuntimeStatusService.ts、
+      ArchiveExtractor.ts、RuntimeRequire.ts
+      src/main/export/ExportService.ts、src/main/ipc/export-ipc.ts、
+      dashboard-ipc.ts
+      src/main/dashboard/TodoExtractionService.ts
+      src/main/database/repositories/TodoRepository.ts
+      src/main/workspace/WorkspaceService.ts
+      src/main/ask-ai/AskAIService.ts、src/main/util.ts
+      （以及约 20 个仅格式变更的文件）
+
+  渲染进程：
+      src/renderer/App.css、index.ejs
+      src/renderer/onboarding/OnboardingController.ts、OnboardingGuide.tsx
+      src/renderer/pages/Studio/StudioPage.tsx、
+      components/StudioChatPanel.tsx、RecordingReviewDialog.tsx
+      src/renderer/pages/ModelManager/useModelManager.ts、
+      ModelManagerPage.tsx、ModelRuntimes.ts、components/ModelModule.css
+      src/renderer/pages/Dashboard/DashboardPage.tsx、
+      components/CalendarWidget.tsx、MetricCardsGrid.tsx、
+      HeaderBar.tsx、NoteListTable.tsx
+      src/renderer/pages/Workspace/WorkspacePage.tsx、
+      components/WorkspaceDetailHeader.tsx、WorkspaceNoteCard.tsx、
+      WorkspaceMultiNoteModal.tsx
+      src/renderer/pages/Dashboard/models/TodoItem.ts
+      src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+      src/renderer/pages/Recording/components/SaveToWorkspaceDialog.tsx
+      （以及约 40 个仅格式变更的文件）
+
+  文案：
+      src/i18n/locales/zh.json、en.json
+      （workspace.multi.error 的占位符从手写 ${} 改为 i18next 插值 {{}}）
+
+  其他：
+      seed.js（userData 路径跟随新产品名）
+========================================================================

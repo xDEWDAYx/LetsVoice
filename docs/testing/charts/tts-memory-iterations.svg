@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="440" viewBox="0 0 860 440" role="img">
+<rect width="860" height="440" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="859" height="439" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Resident memory across repeated synthesis calls</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Hardware not recorded · CPU inference · forced GC before each sample</text>
+<rect x="24.0" y="63" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">Kokoro Multi-Lang v1.0</text><rect x="207.2" y="63" width="11" height="11" rx="2" fill="#E8871A"/><text x="223.19999999999993" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">MeloTTS Chinese-English</text><rect x="397.0" y="63" width="11" height="11" rx="2" fill="#B5446E"/><text x="412.9999999999999" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">MOSS-TTS-Nano 100M</text>
+<line x1="72" y1="307.61000358633993" x2="832" y2="307.61000358633993" stroke="#E3E8EF"/>
+<text x="64" y="311.61000358633993" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">500M</text>
+<line x1="72" y1="257.4961174523628" x2="832" y2="257.4961174523628" stroke="#E3E8EF"/>
+<text x="64" y="261.4961174523628" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">1000M</text>
+<line x1="72" y1="207.38223131838572" x2="832" y2="207.38223131838572" stroke="#E3E8EF"/>
+<text x="64" y="211.38223131838572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">2.0G</text>
+<line x1="72" y1="141.13527729389523" x2="832" y2="141.13527729389523" stroke="#E3E8EF"/>
+<text x="64" y="145.13527729389523" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">4.9G</text>
+<text x="72" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">0</text>
+<text x="262" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">5</text>
+<text x="452" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">10</text>
+<text x="642" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">15</text>
+<text x="832" y="380" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="middle" font-weight="400">20</text>
+<text x="18" y="227" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 227)">RSS after forced GC (MiB)</text>
+<text x="452" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400">Synthesis call (1–8 short, 9–16 long)</text>
+<path d="M110.0 292.6 L148.0 282.3 L186.0 282.3 L224.0 282.3 L262.0 282.3 L300.0 282.3 L338.0 282.3 L376.0 282.2 L414.0 282.4 L452.0 277.5 L490.0 277.5 L528.0 277.5 L566.0 277.4 L604.0 277.3 L642.0 277.4 L680.0 277.4" fill="none" stroke="#2E86AB" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="110.0" cy="292.6" r="3.4" fill="#2E86AB"/>
+<circle cx="148.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="186.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="224.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="262.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="300.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="338.0" cy="282.3" r="3.4" fill="#2E86AB"/>
+<circle cx="376.0" cy="282.2" r="3.4" fill="#2E86AB"/>
+<circle cx="414.0" cy="282.4" r="3.4" fill="#2E86AB"/>
+<circle cx="452.0" cy="277.5" r="3.4" fill="#2E86AB"/>
+<circle cx="490.0" cy="277.5" r="3.4" fill="#2E86AB"/>
+<circle cx="528.0" cy="277.5" r="3.4" fill="#2E86AB"/>
+<circle cx="566.0" cy="277.4" r="3.4" fill="#2E86AB"/>
+<circle cx="604.0" cy="277.3" r="3.4" fill="#2E86AB"/>
+<circle cx="642.0" cy="277.4" r="3.4" fill="#2E86AB"/>
+<circle cx="680.0" cy="277.4" r="3.4" fill="#2E86AB"/>
+<path d="M110.0 311.9 L148.0 301.3 L186.0 301.3 L224.0 301.3 L262.0 301.2 L300.0 301.2 L338.0 301.2 L376.0 301.2 L414.0 299.6 L452.0 299.5 L490.0 299.9 L528.0 299.7 L566.0 299.7 L604.0 299.5 L642.0 299.6 L680.0 299.6" fill="none" stroke="#E8871A" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="110.0" cy="311.9" r="3.4" fill="#E8871A"/>
+<circle cx="148.0" cy="301.3" r="3.4" fill="#E8871A"/>
+<circle cx="186.0" cy="301.3" r="3.4" fill="#E8871A"/>
+<circle cx="224.0" cy="301.3" r="3.4" fill="#E8871A"/>
+<circle cx="262.0" cy="301.2" r="3.4" fill="#E8871A"/>
+<circle cx="300.0" cy="301.2" r="3.4" fill="#E8871A"/>
+<circle cx="338.0" cy="301.2" r="3.4" fill="#E8871A"/>
+<circle cx="376.0" cy="301.2" r="3.4" fill="#E8871A"/>
+<circle cx="414.0" cy="299.6" r="3.4" fill="#E8871A"/>
+<circle cx="452.0" cy="299.5" r="3.4" fill="#E8871A"/>
+<circle cx="490.0" cy="299.9" r="3.4" fill="#E8871A"/>
+<circle cx="528.0" cy="299.7" r="3.4" fill="#E8871A"/>
+<circle cx="566.0" cy="299.7" r="3.4" fill="#E8871A"/>
+<circle cx="604.0" cy="299.5" r="3.4" fill="#E8871A"/>
+<circle cx="642.0" cy="299.6" r="3.4" fill="#E8871A"/>
+<circle cx="680.0" cy="299.6" r="3.4" fill="#E8871A"/>
+<path d="M110.0 244.7 L148.0 239.0 L186.0 239.1 L224.0 238.9 L262.0 239.1 L300.0 238.8 L338.0 238.8 L376.0 239.0 L414.0 160.9 L452.0 129.8 L490.0 126.5 L528.0 129.8 L566.0 129.9 L604.0 129.8 L642.0 126.0 L680.0 129.8" fill="none" stroke="#B5446E" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="110.0" cy="244.7" r="3.4" fill="#B5446E"/>
+<circle cx="148.0" cy="239.0" r="3.4" fill="#B5446E"/>
+<circle cx="186.0" cy="239.1" r="3.4" fill="#B5446E"/>
+<circle cx="224.0" cy="238.9" r="3.4" fill="#B5446E"/>
+<circle cx="262.0" cy="239.1" r="3.4" fill="#B5446E"/>
+<circle cx="300.0" cy="238.8" r="3.4" fill="#B5446E"/>
+<circle cx="338.0" cy="238.8" r="3.4" fill="#B5446E"/>
+<circle cx="376.0" cy="239.0" r="3.4" fill="#B5446E"/>
+<circle cx="414.0" cy="160.9" r="3.4" fill="#B5446E"/>
+<circle cx="452.0" cy="129.8" r="3.4" fill="#B5446E"/>
+<circle cx="490.0" cy="126.5" r="3.4" fill="#B5446E"/>
+<circle cx="528.0" cy="129.8" r="3.4" fill="#B5446E"/>
+<circle cx="566.0" cy="129.9" r="3.4" fill="#B5446E"/>
+<circle cx="604.0" cy="129.8" r="3.4" fill="#B5446E"/>
+<circle cx="642.0" cy="126.0" r="3.4" fill="#B5446E"/>
+<circle cx="680.0" cy="129.8" r="3.4" fill="#B5446E"/>
+<line x1="72" y1="362" x2="832" y2="362" stroke="#6B7280"/>
+<text x="24" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">All three series plateau. The step at call 9 is a one-off change caused by the longer text, not a memory leak.</text>
+</svg>

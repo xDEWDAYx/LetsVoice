@@ -1,0 +1,40 @@
+name: Test
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: npm install
+        run: |
+          npm install
+
+      - name: npm test
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run package
+          npm run lint
+          npm exec tsc
+          npm run test:trash:electron
+          npm test
+
+      # 生产依赖树里的 high/critical 直接拦下：自动更新和路由都是
+      # Electron 应用的高敏感组件，不能靠发布前人工回想。
+      - name: production audit
+        run: npm run check:audit

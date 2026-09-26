@@ -1,0 +1,344 @@
+========================================================================
+SpeakSpace 修改日志
+版本号：2026081301
+日期：2026-08-13
+分支：claude/simplify-text-use-icons-542fef
+========================================================================
+
+本次会话围绕「减少文字、改用图标、统一上下文模型」展开，并顺带修复了
+开发环境的两个基础设施问题与若干 CSS 优先级引发的显示 Bug。
+下面按「问题 / 原来 / 现在」记录。
+
+
+------------------------------------------------------------------------
+1. 【基础设施】样式改动不热更新 / 窗口白屏
+------------------------------------------------------------------------
+问题：
+  - 改了 CSS 后 npm start 仍显示旧样式，需反复重启才生效。
+  - 修复上述问题后，Electron 窗口打开即白屏，标题停留在
+    electron-react-boilerplate。
+
+原来：
+  - 两个 dev webpack 配置均未设置 watchOptions，完全依赖 Windows 原生文件
+    监听事件；外部工具/编辑器的原子重命名写入经常被漏掉，webpack 不重编译。
+
+现在：
+  - renderer 与 main 的 dev 配置均加入轮询监听：
+      watchOptions: { poll: 1000, aggregateTimeout: 300, ignored: ... }
+  - 关键点：main 配置的 ignored 必须排除构建产物目录
+      ignored: /node_modules|[\\/]dll[\\/]/
+    否则轮询会把 webpack 自己写出的 .erb/dll/tsconfig.tsbuildinfo 误判为源码
+    变化，形成「重编译 → 写产物 → 再次触发」的死循环，electronmon 不断重启
+    Electron，窗口在 bundle 就绪前被反复加载，表现为永久白屏。
+  - renderer 侧无此问题（产物在内存中，不落盘）。
+  - 修复后日志验证：renderer file change 与 app exited 均归零。
+
+  涉及文件：
+    .erb/configs/webpack.config.renderer.dev.ts
+    .erb/configs/webpack.config.main.dev.ts
+
+
+------------------------------------------------------------------------
+2. 【优先修复】录音停止后弹窗被推理阻塞
+------------------------------------------------------------------------
+问题：
+  - 点击停止录音后，需等全部转录与语义整理跑完，复核弹窗才出现。
+
+原来：
+  - stopRecording() 中依次 await session.stop() 与
+    transcription.finalizeLiveSummary()，弹窗调用排在这一整串之后。
+    finalizeLiveSummary 内部还要依次等待转录队列、总结队列，并再跑一次
+    evaluateSemanticBuffer（真正的 LLM 推理）。
+
+现在：
+  - 顺序调整为：stop() 之后立即开窗，finalizeLiveSummary() 放到后台执行。
+  - 配套把弹窗内容从「打开瞬间的冻结快照」改为实时快照 transcriptionSnapshot，
+    转录与总结结果陆续回填。仅调顺序不改数据源的话，弹窗会秒开但内容永远为空。
+  - 新增进度反馈：标题下方转圈「正在整理…」，内容区显示「正在转录…」
+    「正在生成…」，替代原先误导性的「未生成语义总结」。
+  - 数据安全：saveAsNote 内部本就会先 await finalizeLiveSummary 再读快照，
+    因此整理未完成时点保存也不会丢内容。
+
+  涉及文件：
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Studio/components/RecordingReviewDialog.tsx
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+3. 文字精简与图标化
+------------------------------------------------------------------------
+问题：
+  - 页面常识性、说明性文字过多，形成阅读干扰。
+
+现在（对话工作台）：
+  - 删除「询问当前笔记」标题、「还没有对话，点击下方麦克风…」整段说明、
+    输入框「Enter 发送，Shift+Enter 换行」等常识提示。
+  - 录音 / 上传 / 发送全部改为纯图标按钮（内联 SVG，项目无图标库），
+    保留 aria-label 与 title 悬停提示。
+  - 空状态图标按用户要求移除，仅留一行短提示。
+
+现在（智能助理页）：
+  - 移除 BOUNDED LOCAL AUTOMATION 眉头、只读权限徽章、LOCAL AGENT 标签。
+  - 「工作空间范围」→「工作空间」，「交给助理的任务」→「任务」，
+    执行步骤说明由两句压缩为一句。
+
+现在（朗读 / 复制）：
+  - TTSPlayButton 改为图标：喇叭 / 停止方块 / 生成中转圈。
+  - 新增可复用 CopyButton：复制图标，成功后变绿色对勾 1.5 秒。
+  - 两者并排放入 .message-actions，在对话工作台、Ask AI、知识输出三处生效。
+
+  涉及文件：
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/renderer/pages/Agent/AgentPage.tsx
+    src/renderer/pages/Agent/components/AgentTaskPanel.tsx
+    src/renderer/pages/Agent/components/AgentTimeline.tsx
+    src/renderer/pages/Agent/components/AgentConversation.tsx
+    src/renderer/tts/TTSPlayButton.tsx / .css
+    src/renderer/components/CopyButton.tsx / .css（新增）
+    src/renderer/App.css
+
+
+------------------------------------------------------------------------
+4. 侧边栏可折叠 + 图标化
+------------------------------------------------------------------------
+现在：
+  - SpeakSpace 标志旁新增折叠按钮，收起为 76px 纯图标窄栏，展开恢复图标+文字。
+  - 每个导航项配内联 SVG 图标；折叠态悬停显示文字提示。
+  - 折叠状态写入 localStorage，跨会话保持；带宽度过渡动画。
+  - 「智能助理」入口已移除（功能并入对话工作台），页面代码与路由保留。
+
+  涉及文件：
+    src/renderer/layout/Sidebar.jsx
+    src/renderer/layout/MainLayout.jsx
+    src/renderer/App.css
+
+
+------------------------------------------------------------------------
+5. 输入框重做为 OpenAI 风格
+------------------------------------------------------------------------
+现在：
+  - 录音 / 上传 / 智能体 / 发送全部内嵌进同一个圆角输入框；聚焦时整框高亮。
+  - textarea 禁止手动拉伸（resize: none），改为自动增高：内容变多撑大，
+    达到 160px 上限后固定高度并出现滚动条。
+  - 单行高度与图标按钮严格对齐（line-height 20px + padding 8px = 36px）。
+    空内容时不测量 scrollHeight——空状态测量值偏大会把框撑成两行，导致占位
+    文字与左侧图标不在同一水平线；改为直接使用单行高度常量。
+  - 多行时输入框向上生长，按钮保持贴底。
+
+  涉及文件：
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+6. 复核弹窗：工作空间流程简化 + AI 自动标题
+------------------------------------------------------------------------
+问题：
+  - 「新建工作空间」与「新工作空间名称」两行语义重复。
+  - 笔记标题固定为 Recording 2026/08/13 00:42 形式，无信息量。
+
+现在：
+  - 下拉默认选中已有工作空间；仅在主动选择「+ 新建工作空间」时才出现名称
+    输入框并自动聚焦，去掉重复的标签行，改用占位符提示。
+  - 转录与语义整理完成后，调用本地 llm.chat 依据内容自动生成标题。
+    标题做清洗：取首行、去包裹引号与结尾标点、限长 80 字。
+  - 降级安全：未装 Ollama / 调用失败 / 返回空，静默保留时间戳默认名。
+  - 用户手动改过标题后不再被覆盖（titleDirty 标记）。
+  - 顺带修复：原弹窗把「加载工作空间列表」与「重置标题」耦合在同一个
+    useEffect 且依赖 defaultNoteName；标题变为动态后，AI 标题一到达就会重新
+    拉取工作空间列表并清空用户正在输入的新工作空间名。已拆分为两个 effect。
+
+  涉及文件：
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Studio/components/RecordingReviewDialog.tsx
+
+
+------------------------------------------------------------------------
+7. 上下文模型统一：删除范围切换，改为「挂载即上下文」
+------------------------------------------------------------------------
+问题：
+  - 右上角「当前笔记 / 工作区」切换与输入框里的关联标签，构成两个互相打架的
+    上下文来源，语义含糊。
+
+原来：
+  - scope 状态决定检索范围；关联笔记只能是刚转录的那一条。
+
+现在：
+  - 切换按钮整个删除。规则统一为一条：输入框里挂着什么，上下文就是什么。
+  - 输入 # 弹出候选菜单：工作区在前、笔记在后，支持关键词实时过滤
+    （匹配名称与摘要，最多 8 条），方向键选择、Enter/Tab 确认、Esc 关闭；
+    菜单打开时 Enter 不会误发送。
+  - 选中后以标签形式挂进输入框内部：笔记为实线标签，工作区为虚线标签
+    并标注「· 全部」，可单独移除。
+  - 支持同时挂多个工作区，以及「工作区 + 单条笔记」混搭、跨工作区混搭。
+    实现方式为在渲染层把工作区展开成其全部笔记，与单独挂的笔记合并去重后
+    统一按 multi-note 提交，上限 24 条（与后端整工作区检索上限一致）。
+    后端本就支持 multi-note + noteIds，无需改动服务层。
+  - 顶部标题不再显示工作区名，改为显示会话名称（会话不属于任何工作区）。
+  - 顺带修复：linkedNotes 原先依赖派生对象 selectedNote，笔记列表刷新导致
+    对象身份变化时会误清空用户手动挂上的关联；改为只依赖笔记 id。
+
+  涉及文件：
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/AskAI/useAskAIPage.ts
+    src/renderer/pages/AskAI/AskAITypes.ts
+    src/renderer/pages/Studio/StudioPage.css
+
+
+------------------------------------------------------------------------
+8. 智能助理并入对话工作台
+------------------------------------------------------------------------
+问题：
+  - 独立的「智能助理」页面与对话工作台做的是同一件事（找笔记并回答），
+    只是上下文由谁决定的差别。
+
+现在：
+  - 输入框新增 ✨ 智能体开关：
+      关闭 = 普通问答，只看你挂上的笔记；
+      开启 = Agent 自行调用工具（搜索 / 读取笔记）分步执行。
+  - 运行中实时显示步骤流与取消按钮；完成后答案以普通气泡呈现，
+    上方带可折叠的「N 个步骤」，同样支持朗读与复制。
+  - 检索范围自动推导：挂了工作区用该工作区，否则用挂着笔记所属工作区，
+    都没有则不限定（检索全部工作区）。多轮追问会带上历史。
+  - 步骤描述细化：由「准备搜索笔记 / 完成：搜索笔记」改为解析工具返回值，
+    显示搜索词、命中的笔记名、命中方式（关键词 / 语义 / 两者）与相似度，
+    以及读取到的笔记摘要。
+
+  放开「不限定工作区」时修复的连带 Bug：
+  - AgentInput 原先在 workspaceId 为 null 时直接抛错；已改为允许，
+    两个笔记工具本就支持 null（退化为检索全部笔记）。非法 ID 仍然拒绝。
+  - AgentReadNoteTool 的越权校验写作
+      note.getWorkspaceId() !== context.workspaceId
+    在 workspaceId 为 null 时恒为真，导致「能搜到却永远读不了」。
+    已改为：未限定工作区时可读任意笔记，限定时仍拒绝跨区读取（边界未放宽）。
+
+  涉及文件：
+    src/renderer/pages/Studio/useStudioAgent.ts（新增）
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/Studio/components/StudioChatPanel.tsx
+    src/main/agent/AgentInput.ts
+    src/main/agent/AgentReadNoteTool.ts
+
+
+------------------------------------------------------------------------
+9. 检索改为关键词 + 向量混合（RRF 融合）
+------------------------------------------------------------------------
+问题：
+  - 原实现是串行降级：只要关键词命中一条，语义检索就永远不会执行。
+    字面命中但语义更相关的笔记因此没有出场机会。
+
+原来：
+  - keyword 命中 → 直接返回 match: 'keyword'；
+    完全没命中才调用 embedding，返回 match: 'semantic'。
+
+现在：
+  - 两路都执行，再用 RRF（Reciprocal Rank Fusion）融合排序：
+      score = Σ 1 / (60 + 该路名次)
+    选择 RRF 是因为关键词匹配只有「命中/未命中」没有分数，与余弦相似度
+    不可比；RRF 只依赖名次，且同时被两路命中的笔记会累加得分自然排到前面。
+  - 返回结果附带 match 字段（keyword / semantic / keyword+semantic）与
+    similarity 余弦分数，便于模型判断可信度。
+  - 语义检索失败时静默降级为纯关键词，并附带 semanticUnavailable 说明，
+    不会因为向量模型缺失导致整体报错。
+
+  代价（已知）：
+  - 每次搜索都会调用一次 Ollama 做查询向量化，首次还需批量 embed 笔记
+    （之后按内容 sha256 缓存）。当前为全量线性扫描 + 200 条索引上限，
+    笔记量大幅增长后需要考虑向量索引。
+
+  涉及文件：
+    src/main/agent/AgentSearchNotesTool.ts
+    src/main/agent/__tests__/AgentSearchNotesTool.test.ts（新增）
+    src/main/agent/__tests__/AgentAllWorkspaceScope.test.ts（新增）
+
+
+------------------------------------------------------------------------
+10. 笔记库与会话列表交互
+------------------------------------------------------------------------
+现在：
+  - 右侧笔记原文默认收起，双击左侧笔记才打开，面板右上角有 × 关闭按钮；
+    关闭后主区自动占满剩余宽度（带过渡动画）。
+  - 笔记按所属工作区分组显示，空工作区也会列出。
+  - 顶部全局「＋」移除，改为每个工作区标题行右侧一个＋，默认隐藏、
+    悬停该行才出现；从哪个工作区点击就在哪个工作区新建笔记。
+  - 「最近会话」新增＋：打开新建会话配置对话框，可选普通问答（多选要挂的
+    工作区与笔记）或智能助理（自行检索全部工作区）。
+
+  涉及文件：
+    src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+    src/renderer/pages/AskAI/useAskAIPage.ts
+    src/renderer/pages/Studio/components/NewConversationDialog.tsx（新增）
+    src/renderer/pages/Studio/StudioPage.tsx
+    src/renderer/pages/AskAI/AskAIPage.css
+
+
+------------------------------------------------------------------------
+11. CSS 优先级引发的三个显示 Bug
+------------------------------------------------------------------------
+这三个 Bug 同源：页面级/容器级存在 `.类名 元素` 形式的宽泛规则
+（优先级 0,1,1），会压过单类名的小图标按钮规则（0,1,0）。
+
+(1) 复制图标不显示
+  - `.studio-page button` 强加 padding: 0.5rem 0.8rem，而 `.copy-button`
+    仅设 width: 28px；border-box 下左右内边距吃掉 25.6px，内容区仅剩约 2px，
+    16px 图标被挤到不可见。朗读按钮因用两级类名 `.tts-play-control
+    .tts-play-button`（0,2,0）而幸免。
+  - 改法：CopyButton 外层加 .copy-control，样式改用两级类名。
+
+(2) 「最近会话」文字消失、加号异常
+  - `.ask-ai-recents button` 是后代选择器，把标题行里的＋也匹配进去，
+    强加 width: 100% 使其独占整行，把标题文字挤成零宽。
+    工作区那几行因使用子选择器 `.ask-ai-note-group > button` 而幸免。
+  - 改法：改为 `.ask-ai-recents-list > button` 精确作用域；
+    ＋按钮统一改用两级类名书写以防复发。
+  - 同时将 details/summary 结构换为普通 h3 标题行（去掉 ::marker 干扰），
+    标题与＋置于同一容器。
+
+(3) 中文标题竖排
+  - 中文无词边界，可收缩的 flex 项 min-content 宽度等于一个字宽，被压缩时
+    会逐字换行成竖排。
+  - 改法：标题 span 加 flex: 1 1 auto; min-width: 0; white-space: nowrap;
+    text-overflow: ellipsis，空间不足时截断而非竖排。
+
+(4) 笔记库列被压扁（同批修复）
+  - `.ask-ai-note-list` 缺少 flex-grow（默认 0 1 auto，只收缩不伸展），
+    撑不满剩余高度；而「最近会话」用 flex: 0 0 auto + max-height 34% 死占位。
+  - 改法：笔记列表 flex: 1 1 auto 吃掉剩余高度并内部滚动；最近会话改为
+    flex: 0 1 auto、上限 32%；笔记行内边距收紧，小窗口可多显示条目。
+
+  涉及文件：
+    src/renderer/components/CopyButton.tsx / .css
+    src/renderer/pages/AskAI/AskAIPage.css
+    src/renderer/pages/AskAI/components/AskAINotesPanel.tsx
+
+
+------------------------------------------------------------------------
+验证结果
+------------------------------------------------------------------------
+- npx tsc --noEmit 通过（仅余两处既有报错，见下）。
+- npx jest src/main/agent 通过：2 个测试套件、8 个测试全部通过，
+  覆盖混合检索融合排序、两路命中优先、语义不可用降级、无结果分支，
+  以及不限定工作区时的入参校验与跨区读取边界。
+- webpack dev server 全程 0 编译错误；轮询修复后无重启循环
+  （renderer file change 与 app exited 计数均为 0）。
+- 各项改动均在实际 Electron 窗口中人工确认。
+
+未执行/受限项（如实记录）：
+- 未执行 npm run build（本次仅验证 dev 构建与类型检查）。
+- ESLint 无法在本 worktree 运行：worktree 嵌套于主仓库内，两处
+  node_modules 各有一份 @typescript-eslint 插件，ESLint 报
+  "couldn't determine the plugin @typescript-eslint uniquely"。属环境问题，
+  与本次改动无关。
+- 项目 jest 配置带有「必须先构建主进程」的守卫（.erb/scripts/
+  check-build-exists.ts）；本次测试通过临时配置跳过该 setupFiles 运行。
+  正常执行 npm test 前需先 npm run build:main。
+
+已知项目既有问题（不由本次修改引入，与 2026081202 记录一致）：
+- src/main/Recording/TranscriptionService.ts 仍有两处接口不匹配：
+  STTModelManager 缺少 getModelPath，以及一次调用参数数量不匹配。
+
+========================================================================
+以上。
+========================================================================

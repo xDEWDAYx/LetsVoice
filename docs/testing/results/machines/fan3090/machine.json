@@ -1,0 +1,19 @@
+{
+  "machine_id": "fan3090",
+  "label": "fan3090",
+  "captured_at": "2026-09-02T16:21:12.486Z",
+  "hostname_hash": "2774ace6a120",
+  "os": "Windows_NT 10.0.26200",
+  "arch": "x64",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i5-12600",
+  "cpu_physical_cores": 6,
+  "cpu_logical_cores": 12,
+  "total_memory_bytes": 68475236352,
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 3090",
+    "memory_total_mib": 24576,
+    "driver_version": "591.86"
+  },
+  "node_version": "v24.19.0",
+  "accelerator_class": "nvidia-gpu"
+}

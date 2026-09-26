@@ -1,0 +1,63 @@
+/* =========================================================
+   SpeakSpace · 主题微调
+   ---------------------------------------------------------
+   明暗两套颜色令牌和字号锚点都已经收进 styles/tokens.css，
+   这里只放「令牌表达不了」的差异：混合模式、材质强度、
+   以及切换主题时的过渡。
+
+   注意：不要再往这里加 html[data-theme='light'] .某个组件 {...}
+   这类逐个组件的覆盖。那是旧写法，等于把同一个组件的颜色写两遍，
+   漏一处就会出现「深色能看清、浅色看不清」。组件请直接引用令牌。
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   切换主题时的交叉淡入
+   常驻的全局 transition 会拖慢所有交互，也会和各组件自己的
+   hover 过渡打架。所以只在切换那一瞬间由 JS 挂上 .theme-transition，
+   过渡结束后立刻摘掉。
+   --------------------------------------------------------- */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color var(--dur-slow) var(--ease-smooth),
+    border-color var(--dur-slow) var(--ease-smooth),
+    color var(--dur-slow) var(--ease-smooth),
+    fill var(--dur-slow) var(--ease-smooth),
+    box-shadow var(--dur-slow) var(--ease-smooth) !important;
+  transition-delay: 0ms !important;
+}
+
+/* ---------------------------------------------------------
+   浅色下的材质调整
+   噪点在深色上用 overlay 提颗粒感，在浅色上会把画面洗白，
+   要换成 multiply 才是「纸纹」而不是「雾」。
+   --------------------------------------------------------- */
+html[data-theme='light'] .fx-grain::after,
+html[data-theme='light'] .fx-ambient__grain {
+  mix-blend-mode: multiply;
+}
+
+/* 浅色的玻璃面板需要更明确的一道底边，否则白底叠白卡片会糊在一起 */
+html[data-theme='light'] .main-view,
+html[data-theme='light'] .ask-ai,
+html[data-theme='light'] .transcription-page,
+html[data-theme='light'] .workspace-page,
+html[data-theme='light'] .fx-glass,
+html[data-theme='light'] .fx-glass-strong {
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 rgba(24, 40, 36, 0.06);
+}
+
+/* 浅色下的极光要收敛一些：同样的透明度在白底上会显得脏 */
+html[data-theme='light'] .fx-ambient__blob {
+  filter: blur(110px);
+}
+
+/* 浅色的侧栏保持接近纯白，靠右侧那道渐变亮边和内容区分层 */
+html[data-theme='light'] .sidebar {
+  background: color-mix(in srgb, #ffffff 72%, transparent);
+}

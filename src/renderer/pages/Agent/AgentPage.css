@@ -1,0 +1,33 @@
+.agent-page { display: grid; gap: 1rem; min-height: calc(100vh - 5rem); }
+.agent-page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 22px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, var(--surface)), var(--surface)); box-shadow: var(--shadow); }
+.agent-page-header span, .agent-conversation header span, .agent-timeline header div > span { color: var(--muted); font-size: var(--fs-xs); font-weight: 800; letter-spacing: 0.1em; }
+.agent-page-header h1 { margin: 0.2rem 0; }
+.agent-page-header p { margin: 0; }
+.agent-page-header > strong { padding: 0.4rem 0.65rem; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border)); border-radius: 999px; font-size: var(--fs-xs); white-space: nowrap; }
+.agent-page-grid { display: grid; grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr); align-items: start; gap: 1rem; }
+.agent-page-grid > aside { position: sticky; top: 1rem; display: grid; gap: 1rem; align-self: start; }
+.agent-task-panel, .agent-timeline, .agent-conversation { padding: 1.1rem; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)); backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)); box-shadow: var(--shadow); }
+.agent-task-panel { display: grid; gap: 0.85rem; }
+.agent-task-panel label { display: grid; gap: 0.35rem; color: var(--muted); font-size: var(--fs-sm); font-weight: 700; }
+.agent-task-panel select, .agent-task-panel textarea { width: 100%; padding: 0.7rem; color: var(--text); border: 1px solid var(--border); border-radius: 10px; outline: none; background: var(--surface-strong); resize: vertical; }
+.agent-task-panel textarea:focus, .agent-task-panel select:focus { border-color: var(--accent); }
+.agent-task-panel > div { display: flex; justify-content: flex-end; }
+.agent-page button { min-height: 36px; padding: 0.55rem 0.85rem; border-radius: 9px; box-shadow: none; font-size: var(--fs-sm); font-weight: 750; }
+.agent-page button.secondary { border: 1px solid var(--border); background: var(--surface-soft); }
+.agent-page button:disabled { cursor: not-allowed; opacity: 0.5; transform: none; }
+.agent-timeline header, .agent-conversation header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.7rem; }
+.agent-timeline h2, .agent-conversation h2 { margin: 0.18rem 0 0; font-size: var(--fs-lg); }
+.agent-timeline header > span { padding: 0.3rem 0.5rem; color: var(--muted); border-radius: 999px; background: var(--surface-soft); font-size: var(--fs-xs); }
+.agent-timeline header > span.is-running { color: var(--accent); }
+.agent-timeline > p { margin-bottom: 0; font-size: var(--fs-sm); }
+.agent-timeline ol { display: grid; gap: 0.4rem; margin: 0.8rem 0 0; padding-left: 1.2rem; color: var(--muted); font-size: var(--fs-sm); }
+.agent-timeline li { list-style: decimal; }
+.agent-conversation { display: flex; flex-direction: column; min-height: 430px; max-height: calc(100vh - 11rem); }
+.agent-conversation-empty { display: grid; place-content: center; gap: 0.3rem; flex: 1; min-height: 330px; color: var(--muted); text-align: center; }
+.agent-message-list { display: grid; align-content: start; gap: 0.7rem; flex: 1; margin-top: 1rem; min-height: 0; overflow-y: auto; padding-right: 0.25rem; }
+.agent-message-list article { max-width: 88%; padding: 0.8rem 0.9rem; border: 1px solid var(--border); border-radius: 13px; background: var(--surface-soft); }
+.agent-message-list article.user { justify-self: end; background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.agent-message-list article span { color: var(--muted); font-size: var(--fs-xs); font-weight: 800; }
+.agent-message-list article p { margin: 0.25rem 0 0; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.agent-error { padding: 0.7rem; color: var(--danger) !important; border: 1px solid color-mix(in srgb, var(--danger) 38%, transparent); border-radius: 10px; background: color-mix(in srgb, var(--danger) 12%, transparent); }
+@media (max-width: 800px) { .agent-page-grid { grid-template-columns: 1fr; } .agent-page-header { flex-direction: column; } }

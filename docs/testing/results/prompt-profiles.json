@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-08-31T15:33:14.792Z",
+  "tuned_on": "dev split only (22 cases)；保留集 32 条在调优期间未被读取",
+  "rounds": 2,
+  "selection_rule": "score = dev F1 − 0.5 × zero_task_false_positive_rate；相对 baseline 提升需大于 0.01 才采纳",
+  "variants": [
+    {
+      "id": "baseline",
+      "describe": "不追加任何规则，与线上提示词完全一致",
+      "targets": "对照组"
+    },
+    {
+      "id": "strict-empty",
+      "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+      "targets": "零任务假阳性率高的模型 —— 在纯陈述、寒暄、数字干扰的文本上凭空造出任务"
+    },
+    {
+      "id": "recall-boost",
+      "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+      "targets": "召回率低的模型 —— 整条漏掉，或把多个并列承诺压成一条"
+    },
+    {
+      "id": "json-only",
+      "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+      "targets": "输出里夹带解释文字、markdown 代码块，导致解析失败的模型"
+    },
+    {
+      "id": "strict-empty+json-only",
+      "describe": "同时收紧空数组与输出格式",
+      "targets": "既会凭空造任务、输出格式又不稳的模型"
+    },
+    {
+      "id": "recall+json-only",
+      "describe": "同时强化召回与输出格式",
+      "targets": "漏抽严重、输出格式又不稳的模型"
+    }
+  ],
+  "chosen": {
+    "ministral-3:3b-instruct-2512-q4_K_M": "strict-empty",
+    "phi4-mini:latest": "recall-boost",
+    "granite4:micro-h": "strict-empty",
+    "qwen2.5:1.5b-instruct": "json-only",
+    "qwen2.5:3b-instruct": "baseline"
+  },
+  "per_model": [
+    {
+      "model": "ministral-3:3b-instruct-2512-q4_K_M",
+      "trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.9166666666666666,
+          "dev_precision": 0.9166666666666666,
+          "dev_recall": 0.9166666666666666,
+          "dev_case_pass_rate": 0.8409090909090909,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8333333333333333
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.9246068455134134,
+          "dev_precision": 0.9555335968379447,
+          "dev_recall": 0.8958333333333333,
+          "dev_case_pass_rate": 0.8863636363636364,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.9246068455134134
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.9387755102040817,
+          "dev_precision": 0.92,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8863636363636364,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8554421768707483
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.8811285846438482,
+          "dev_precision": 0.9100790513833992,
+          "dev_recall": 0.8541666666666666,
+          "dev_case_pass_rate": 0.8181818181818181,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.08333333333333333,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.8394619179771816
+        }
+      ],
+      "chosen": "strict-empty",
+      "baseline_score": 0.8333333333333333,
+      "best_score": 0.9246068455134134,
+      "improvement": 0.09127351218008017,
+      "reason": "相对 baseline 提升 0.0913"
+    },
+    {
+      "model": "phi4-mini:latest",
+      "trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.6292929292929293,
+          "dev_precision": 0.6833333333333333,
+          "dev_recall": 0.5833333333333334,
+          "dev_case_pass_rate": 0.34090909090909094,
+          "date_accuracy": 0.5727272727272728,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.6292929292929293
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.5071301247771837,
+          "dev_precision": 0.8944444444444444,
+          "dev_recall": 0.35416666666666663,
+          "dev_case_pass_rate": 0.2727272727272727,
+          "date_accuracy": 0.6333333333333333,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.5071301247771837
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.8006535947712419,
+          "dev_precision": 0.7388888888888889,
+          "dev_recall": 0.875,
+          "dev_case_pass_rate": 0.4545454545454546,
+          "date_accuracy": 0.7647058823529411,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.8006535947712419
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.6742424242424242,
+          "dev_precision": 0.7321428571428572,
+          "dev_recall": 0.625,
+          "dev_case_pass_rate": 0.38636363636363635,
+          "date_accuracy": 0.6666666666666666,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0.045454545454545456,
+          "score": 0.6742424242424242
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.6897463002114165,
+          "dev_precision": 0.7697368421052632,
+          "dev_recall": 0.625,
+          "dev_case_pass_rate": 0.38636363636363635,
+          "date_accuracy": 0.6666666666666666,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.6897463002114165
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.7375565610859729,
+          "dev_precision": 0.6904761904761905,
+          "dev_recall": 0.7916666666666667,
+          "dev_case_pass_rate": 0.40909090909090906,
+          "date_accuracy": 0.717948717948718,
+          "zero_task_false_positive_rate": 0.25,
+          "parse_failure_rate": 0.022727272727272728,
+          "score": 0.6125565610859729
+        }
+      ],
+      "chosen": "recall-boost",
+      "baseline_score": 0.6292929292929293,
+      "best_score": 0.8006535947712419,
+      "improvement": 0.17136066547831252,
+      "reason": "相对 baseline 提升 0.1714"
+    },
+    {
+      "model": "granite4:micro-h",
+      "trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.8067796610169492,
+          "dev_precision": 0.6761904761904762,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7727272727272727,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.5,
+          "parse_failure_rate": 0,
+          "score": 0.5567796610169492
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.9505882352941177,
+          "dev_precision": 0.905982905982906,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.9090909090909091,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8672549019607844
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.8278322925958965,
+          "dev_precision": 0.7064935064935065,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.41666666666666663,
+          "parse_failure_rate": 0,
+          "score": 0.6194989592625633
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.9411764705882353,
+          "dev_precision": 0.8888888888888888,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8578431372549019
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.923076923076923,
+          "dev_precision": 0.8571428571428571,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.8636363636363636,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.16666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.8397435897435896
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.820572764465225,
+          "dev_precision": 0.6957983193277311,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 0.9444444444444444,
+          "zero_task_false_positive_rate": 0.5,
+          "parse_failure_rate": 0,
+          "score": 0.570572764465225
+        }
+      ],
+      "chosen": "strict-empty",
+      "baseline_score": 0.5567796610169492,
+      "best_score": 0.8672549019607844,
+      "improvement": 0.31047524094383516,
+      "reason": "相对 baseline 提升 0.3105"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct",
+      "trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.7719298245614035,
+          "dev_precision": 0.6666666666666666,
+          "dev_recall": 0.9166666666666666,
+          "dev_case_pass_rate": 0.5681818181818181,
+          "date_accuracy": 0.78125,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.43859649122807015
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.8135593220338984,
+          "dev_precision": 0.6857142857142857,
+          "dev_recall": 1,
+          "dev_case_pass_rate": 0.6590909090909091,
+          "date_accuracy": 0.9722222222222222,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.48022598870056504
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.7666666666666666,
+          "dev_precision": 0.6388888888888888,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.4318181818181818,
+          "date_accuracy": 0.9117647058823529,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.4333333333333333
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.834841628959276,
+          "dev_precision": 0.7817460317460317,
+          "dev_recall": 0.8958333333333333,
+          "dev_case_pass_rate": 0.6590909090909091,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.5015082956259427
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.7863822326125073,
+          "dev_precision": 0.6668067226890757,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.5681818181818181,
+          "date_accuracy": 0.8529411764705882,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.45304889927917397
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.8070175438596493,
+          "dev_precision": 0.696969696969697,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.6590909090909092,
+          "date_accuracy": 0.8823529411764706,
+          "zero_task_false_positive_rate": 0.6666666666666666,
+          "parse_failure_rate": 0,
+          "score": 0.473684210526316
+        }
+      ],
+      "chosen": "json-only",
+      "baseline_score": 0.43859649122807015,
+      "best_score": 0.5015082956259427,
+      "improvement": 0.06291180439787253,
+      "reason": "相对 baseline 提升 0.0629"
+    },
+    {
+      "model": "qwen2.5:3b-instruct",
+      "trials": [
+        {
+          "variant": "baseline",
+          "describe": "不追加任何规则，与线上提示词完全一致",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.9090909090909091,
+          "date_accuracy": 0.9705882352941176,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        },
+        {
+          "variant": "strict-empty",
+          "describe": "强化「没有待办就返回空数组」，并给出一个反例",
+          "dev_f1": 0.888888888888889,
+          "dev_precision": 0.9523809523809523,
+          "dev_recall": 0.8333333333333334,
+          "dev_case_pass_rate": 0.7954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.888888888888889
+        },
+        {
+          "variant": "recall-boost",
+          "describe": "强化「每个独立承诺都要单独抽出」，并点名易漏的软性表述",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8181818181818182,
+          "date_accuracy": 0.8823529411764706,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        },
+        {
+          "variant": "json-only",
+          "describe": "收紧输出格式，禁止任何 JSON 以外的内容",
+          "dev_f1": 0.547979797979798,
+          "dev_precision": 0.9027777777777777,
+          "dev_recall": 0.3958333333333333,
+          "dev_case_pass_rate": 0.5,
+          "date_accuracy": 0.7375,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.547979797979798
+        },
+        {
+          "variant": "strict-empty+json-only",
+          "describe": "同时收紧空数组与输出格式",
+          "dev_f1": 0.15384615384615385,
+          "dev_precision": 1,
+          "dev_recall": 0.041666666666666664,
+          "dev_case_pass_rate": 0.2954545454545454,
+          "date_accuracy": 1,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.15384615384615385
+        },
+        {
+          "variant": "recall+json-only",
+          "describe": "同时强化召回与输出格式",
+          "dev_f1": 0.9583333333333334,
+          "dev_precision": 0.9583333333333334,
+          "dev_recall": 0.9583333333333334,
+          "dev_case_pass_rate": 0.8181818181818181,
+          "date_accuracy": 0.8235294117647058,
+          "zero_task_false_positive_rate": 0,
+          "parse_failure_rate": 0,
+          "score": 0.9583333333333334
+        }
+      ],
+      "chosen": "baseline",
+      "baseline_score": 0.9583333333333334,
+      "best_score": 0.9583333333333334,
+      "improvement": 0,
+      "reason": "最佳变体相对 baseline 提升不足 0.01，保持不变"
+    }
+  ]
+}

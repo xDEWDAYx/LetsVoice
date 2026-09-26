@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="491" viewBox="0 0 1180 491" role="img">
+<rect width="1180" height="491" fill="#FFFFFF" rx="8"/>
+<rect x="0.5" y="0.5" width="1179" height="490" fill="none" stroke="#E3E8EF" rx="8"/>
+<text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2933" text-anchor="start" font-weight="600">Cross-machine STT transcription speed</text>
+<text x="24" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">4 machines · identical human recordings · whisper.cpp · 8 threads · accuracy excluded</text>
+<text x="24" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="start" font-weight="600">Test hardware (C = CPU cores; T = threads; memory rounded)</text>
+<text x="24" y="85" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">desktop-qg1ej01 - i9-12900H · 14C/20T · RTX 3060 Laptop 6 GiB VRAM · 40 GiB RAM · Windows</text>
+<text x="590" y="85" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">fan3090 - i5-12600 · 6C/12T · RTX 3090 24 GiB VRAM · 64 GiB RAM · Windows</text>
+<text x="24" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">jack - i7-12700H · 14C/20T · RTX 3050 Laptop 4 GiB VRAM · 16 GiB RAM · Windows</text>
+<text x="590" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">m2-pro-16gb - M2 Pro · 10C/10T · 16 GiB unified memory · macOS</text>
+<rect x="24.0" y="116" width="11" height="11" rx="2" fill="#2E86AB"/><text x="40" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base</text><rect x="88.4" y="116" width="11" height="11" rx="2" fill="#E8871A"/><text x="104.4" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">base.en</text><rect x="172.6" y="116" width="11" height="11" rx="2" fill="#B5446E"/><text x="188.60000000000002" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v1</text><rect x="263.4" y="116" width="11" height="11" rx="2" fill="#4C9F70"/><text x="279.40000000000003" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v2</text><rect x="354.2" y="116" width="11" height="11" rx="2" fill="#6C5CE7"/><text x="370.20000000000005" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v2-q5_0</text><rect x="478.0" y="116" width="11" height="11" rx="2" fill="#8C8C8C"/><text x="494" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v3</text><rect x="568.8" y="116" width="11" height="11" rx="2" fill="#2E86AB"/><text x="584.8" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v3-q5_0</text><rect x="692.6" y="116" width="11" height="11" rx="2" fill="#E8871A"/><text x="708.5999999999999" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v3-turbo</text><rect x="823.0" y="116" width="11" height="11" rx="2" fill="#B5446E"/><text x="838.9999999999999" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">large-v3-turbo-q5_0</text><rect x="986.4" y="116" width="11" height="11" rx="2" fill="#4C9F70"/><text x="1002.3999999999999" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">medium</text><rect x="24.0" y="134" width="11" height="11" rx="2" fill="#6C5CE7"/><text x="40" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">medium.en</text><rect x="121.4" y="134" width="11" height="11" rx="2" fill="#8C8C8C"/><text x="137.4" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small</text><rect x="192.4" y="134" width="11" height="11" rx="2" fill="#2E86AB"/><text x="208.4" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small.en</text><rect x="283.2" y="134" width="11" height="11" rx="2" fill="#E8871A"/><text x="299.20000000000005" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">small.en-tdrz</text><rect x="407.0" y="134" width="11" height="11" rx="2" fill="#B5446E"/><text x="423" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny</text><rect x="471.4" y="134" width="11" height="11" rx="2" fill="#4C9F70"/><text x="487.4" y="143" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280" text-anchor="start" font-weight="400">tiny.en</text>
+<line x1="64" y1="402" x2="1156" y2="402" stroke="#E3E8EF"/>
+<text x="56" y="406" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">0.00</text>
+<line x1="64" y1="322.33333333333337" x2="1156" y2="322.33333333333337" stroke="#E3E8EF"/>
+<text x="56" y="326.33333333333337" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">1.00</text>
+<line x1="64" y1="242.66666666666669" x2="1156" y2="242.66666666666669" stroke="#E3E8EF"/>
+<text x="56" y="246.66666666666669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">2.00</text>
+<line x1="64" y1="163" x2="1156" y2="163" stroke="#E3E8EF"/>
+<text x="56" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#6B7280" text-anchor="end" font-weight="400">3.00</text>
+<text x="18" y="282.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="middle" font-weight="400" transform="rotate(-90 18 282.5)">RTF</text>
+<rect x="102.2" y="391.7" width="9.3" height="10.3" fill="#2E86AB" rx="2"/>
+<rect x="114.5" y="387.2" width="9.3" height="14.8" fill="#E8871A" rx="2"/>
+<rect x="126.8" y="188.2" width="9.3" height="213.8" fill="#B5446E" rx="2"/>
+<rect x="139.1" y="186.9" width="9.3" height="215.1" fill="#4C9F70" rx="2"/>
+<rect x="151.4" y="203.9" width="9.3" height="198.1" fill="#6C5CE7" rx="2"/>
+<rect x="163.6" y="187.6" width="9.3" height="214.4" fill="#8C8C8C" rx="2"/>
+<rect x="175.9" y="205.9" width="9.3" height="196.1" fill="#2E86AB" rx="2"/>
+<rect x="188.2" y="239.7" width="9.3" height="162.3" fill="#E8871A" rx="2"/>
+<rect x="200.5" y="248.9" width="9.3" height="153.1" fill="#B5446E" rx="2"/>
+<rect x="212.8" y="293.1" width="9.3" height="108.9" fill="#4C9F70" rx="2"/>
+<rect x="225.1" y="307.6" width="9.3" height="94.4" fill="#6C5CE7" rx="2"/>
+<rect x="237.4" y="366.3" width="9.3" height="35.7" fill="#8C8C8C" rx="2"/>
+<rect x="249.6" y="364.0" width="9.3" height="38.0" fill="#2E86AB" rx="2"/>
+<rect x="261.9" y="369.2" width="9.3" height="32.8" fill="#E8871A" rx="2"/>
+<rect x="274.2" y="394.6" width="9.3" height="7.4" fill="#B5446E" rx="2"/>
+<rect x="286.5" y="390.2" width="9.3" height="11.8" fill="#4C9F70" rx="2"/>
+<text x="200.5" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">desktop-qg1ej01</text>
+<rect x="375.2" y="391.4" width="9.3" height="10.6" fill="#2E86AB" rx="2"/>
+<rect x="387.5" y="387.2" width="9.3" height="14.8" fill="#E8871A" rx="2"/>
+<rect x="399.8" y="201.5" width="9.3" height="200.5" fill="#B5446E" rx="2"/>
+<rect x="412.1" y="211.3" width="9.3" height="190.7" fill="#4C9F70" rx="2"/>
+<rect x="424.4" y="225.3" width="9.3" height="176.7" fill="#6C5CE7" rx="2"/>
+<rect x="436.6" y="199.7" width="9.3" height="202.3" fill="#8C8C8C" rx="2"/>
+<rect x="448.9" y="227.4" width="9.3" height="174.6" fill="#2E86AB" rx="2"/>
+<rect x="461.2" y="255.6" width="9.3" height="146.4" fill="#E8871A" rx="2"/>
+<rect x="473.5" y="266.1" width="9.3" height="135.9" fill="#B5446E" rx="2"/>
+<rect x="485.8" y="308.5" width="9.3" height="93.5" fill="#4C9F70" rx="2"/>
+<rect x="498.1" y="311.6" width="9.3" height="90.4" fill="#6C5CE7" rx="2"/>
+<rect x="510.4" y="368.5" width="9.3" height="33.5" fill="#8C8C8C" rx="2"/>
+<rect x="522.6" y="365.4" width="9.3" height="36.6" fill="#2E86AB" rx="2"/>
+<rect x="534.9" y="370.5" width="9.3" height="31.5" fill="#E8871A" rx="2"/>
+<rect x="547.2" y="395.2" width="9.3" height="6.8" fill="#B5446E" rx="2"/>
+<rect x="559.5" y="391.3" width="9.3" height="10.7" fill="#4C9F70" rx="2"/>
+<text x="473.5" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">fan3090</text>
+<rect x="648.2" y="390.8" width="9.3" height="11.2" fill="#2E86AB" rx="2"/>
+<rect x="660.5" y="384.7" width="9.3" height="17.3" fill="#E8871A" rx="2"/>
+<rect x="672.8" y="195.3" width="9.3" height="206.7" fill="#B5446E" rx="2"/>
+<rect x="685.1" y="194.9" width="9.3" height="207.1" fill="#4C9F70" rx="2"/>
+<rect x="697.4" y="219.3" width="9.3" height="182.7" fill="#6C5CE7" rx="2"/>
+<rect x="709.6" y="186.7" width="9.3" height="215.3" fill="#8C8C8C" rx="2"/>
+<rect x="721.9" y="209.2" width="9.3" height="192.8" fill="#2E86AB" rx="2"/>
+<rect x="734.2" y="245.1" width="9.3" height="156.9" fill="#E8871A" rx="2"/>
+<rect x="746.5" y="250.4" width="9.3" height="151.6" fill="#B5446E" rx="2"/>
+<rect x="758.8" y="292.6" width="9.3" height="109.4" fill="#4C9F70" rx="2"/>
+<rect x="771.1" y="300.4" width="9.3" height="101.6" fill="#6C5CE7" rx="2"/>
+<rect x="783.4" y="364.5" width="9.3" height="37.5" fill="#8C8C8C" rx="2"/>
+<rect x="795.6" y="356.8" width="9.3" height="45.2" fill="#2E86AB" rx="2"/>
+<rect x="807.9" y="366.6" width="9.3" height="35.4" fill="#E8871A" rx="2"/>
+<rect x="820.2" y="393.0" width="9.3" height="9.0" fill="#B5446E" rx="2"/>
+<rect x="832.5" y="387.4" width="9.3" height="14.6" fill="#4C9F70" rx="2"/>
+<text x="746.5" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">jack</text>
+<rect x="921.2" y="398.7" width="9.3" height="3.3" fill="#2E86AB" rx="2"/>
+<rect x="933.5" y="396.1" width="9.3" height="5.9" fill="#E8871A" rx="2"/>
+<rect x="945.8" y="370.6" width="9.3" height="31.4" fill="#B5446E" rx="2"/>
+<rect x="958.1" y="369.2" width="9.3" height="32.8" fill="#4C9F70" rx="2"/>
+<rect x="970.4" y="375.8" width="9.3" height="26.2" fill="#6C5CE7" rx="2"/>
+<rect x="982.6" y="367.0" width="9.3" height="35.0" fill="#8C8C8C" rx="2"/>
+<rect x="994.9" y="372.0" width="9.3" height="30.0" fill="#2E86AB" rx="2"/>
+<rect x="1007.2" y="383.1" width="9.3" height="18.9" fill="#E8871A" rx="2"/>
+<rect x="1019.5" y="384.0" width="9.3" height="18.0" fill="#B5446E" rx="2"/>
+<rect x="1031.8" y="383.5" width="9.3" height="18.5" fill="#4C9F70" rx="2"/>
+<rect x="1044.1" y="382.5" width="9.3" height="19.5" fill="#6C5CE7" rx="2"/>
+<rect x="1056.4" y="395.0" width="9.3" height="7.0" fill="#8C8C8C" rx="2"/>
+<rect x="1068.6" y="391.0" width="9.3" height="11.0" fill="#2E86AB" rx="2"/>
+<rect x="1080.9" y="393.2" width="9.3" height="8.8" fill="#E8871A" rx="2"/>
+<rect x="1093.2" y="398.5" width="9.3" height="3.5" fill="#B5446E" rx="2"/>
+<rect x="1105.5" y="396.0" width="9.3" height="6.0" fill="#4C9F70" rx="2"/>
+<text x="1019.5" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#1F2933" text-anchor="middle" font-weight="400">m2-pro-16gb</text>
+<line x1="64" y1="322.33333333333337" x2="1156" y2="322.33333333333337" stroke="#D64545" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="1152" y="316.33333333333337" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11" fill="#D64545" text-anchor="end" font-weight="400">RTF = 1 (transcription equals audio duration)</text>
+<line x1="64" y1="402.0" x2="1156" y2="402.0" stroke="#6B7280"/>
+<text x="24" y="462" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">Faster-than-real-time models: desktop-qg1ej01 7/16, fan3090 7/16, jack 7/16, m2-pro-16gb 16/16. Backend/GPU activity was not recorded; the speed differences do not isolate CPU,</text><text x="24" y="477" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280" text-anchor="start" font-weight="400">GPU or runtime effects.</text>
+</svg>
